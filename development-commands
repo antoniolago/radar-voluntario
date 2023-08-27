@@ -1,0 +1,10 @@
+docker run gcr.io/k8s-skaffold/skaffold:latest skaffold <command>
+
+#START MINIKUBE
+minikube start
+
+#STARTS DEVELOPMENT ENVIRONMENT
+skaffold dev --port-forward
+
+#GETS SERVICE URL
+minikube service <artifactory-service> -n <namespace> --url

@@ -1,0 +1,38 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+metadata:
+  name: radar-voluntario
+build:
+  artifacts:
+  - image: radar-voluntario-front
+    context: ./front
+    docker:
+      dockerfile: Dockerfile
+    sync:
+      infer:
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.css'
+
+  # - image: radar-voluntario-back
+  #   context: ./back
+  #   docker:
+  #     dockerfile: Dockerfile
+  #     target: debug               # deploy the debug image
+  - image: radar-voluntario-db
+    context: ./database
+    docker:
+      dockerfile: Dockerfile
+
+manifests:
+  rawYaml:
+    # - k8s/back-service.yml
+    - k8s/database-deployment.yml
+    # - k8s/front-service-deployment.yml
+    - k8s/front-deployment.yml
+
+portForward:
+- resourceType: deployment
+  resourceName: radar-voluntario-front
+  port: 3000
+

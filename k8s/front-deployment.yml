@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radar-voluntario-front-database
+spec:
+  selector:
+    matchLabels:
+      app: radar-voluntario-front
+  template:
+    metadata:
+      labels:
+        app: radar-voluntario-front
+    spec:
+      containers:
+      - name: radar-voluntario-front
+        image: radar-voluntario-front
+        ports:
+        - containerPort: 3000

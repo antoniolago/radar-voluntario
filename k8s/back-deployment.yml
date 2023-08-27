@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: radar-voluntario-back
+  name: radar-voluntario-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radar-voluntario-back
+  template:
+    metadata:
+      labels:
+        app: radar-voluntario-back
+    spec:
+      containers:
+      - image: radar-voluntario-back
+        name: radar-voluntario-back
+        ports:
+          - containerPort: 8080
+            name: http
+configMapGenerator:
+  - name: example
+    env: dev.env
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: radar-voluntario-back
+spec:
+  selector:
+    app: radar-voluntario-back
+  ports:
+    - port: 8080
+      name: http
