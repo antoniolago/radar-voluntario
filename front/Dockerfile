@@ -1,6 +1,6 @@
 FROM node:20-alpine
 
-WORKDIR /radar-voluntario
+WORKDIR /app
 
 EXPOSE 3000
 
