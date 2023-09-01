@@ -1,10 +1,21 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import path from "path"
+import dotenv from 'dotenv'
+
+dotenv.config({ path: '../.env' })
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  envDir: '../',
+  resolve: {
+    alias: [
+      { find: '@', replacement: path.resolve(__dirname, 'src') },
+    ],
+  },
   server: {
-    port: 80
+    host: true,
+    port: +process.env.PORTA_FRONT
   }
 })
