@@ -3,7 +3,7 @@ import './App.css'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 function App() {
-  const position: number[] = [-30.01 -51.13];
+  const position: any = [-30.03306, -51.23];
   return (
     <div id="map">
       <MapContainer center={position as LatLngExpression} zoom={13} scrollWheelZoom={false}>
@@ -11,7 +11,7 @@ function App() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={position as LatLngExpression}>
+        <Marker position={position}>
           <Popup>
             A pretty CSS3 popusp. <br /> Easily customizable.
           </Popup>
