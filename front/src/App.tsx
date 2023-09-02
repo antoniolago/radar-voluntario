@@ -1,27 +1,23 @@
-import { useState } from 'react'
+import { LatLngExpression } from 'leaflet';
 import './App.css'
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 function App() {
-  const [count, setCount] = useState(0)
-  const position = [51.505, -0.09];
-
+  const position: number[] = [-30.01 -51.13];
   return (
-    <>
-    {/* @ts-ignore */}
-      <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
+    <div id="map">
+      <MapContainer center={position as LatLngExpression} zoom={13} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {/* @ts-ignore */}
-        <Marker position={position}>
+        <Marker position={position as LatLngExpression}>
           <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
+            A pretty CSS3 popusp. <br /> Easily customizable.
           </Popup>
         </Marker>
       </MapContainer>
-    </>
+    </div>
   )
 }
 
