@@ -13,7 +13,11 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
-#map { height: 180px; }
+#map {   height: 800px; }
+.leaflet-container {   
+  height: 800px;
+  width: 100%; 
+}
 a {
   font-weight: 500;
   color: #646cff;
