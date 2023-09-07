@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebApi.Helpers;
+using RadarVoluntario.Domain.Helpers;
 
 #nullable disable
 
-namespace WebApi.Migrations
+namespace RadarVoluntario.Domain.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20220224040327_InitialCreate")]

@@ -2,6 +2,7 @@ namespace RadarVoluntario.API.Authorization;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using RadarVoluntario.Domain.Authorization;
 using RadarVoluntario.Domain.Entities;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]

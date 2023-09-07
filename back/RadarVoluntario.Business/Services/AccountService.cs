@@ -8,10 +8,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using RadarVoluntario.API.Authorization;
+using RadarVoluntario.Domain.Authorization;
 using RadarVoluntario.Domain.Entities;
 using RadarVoluntario.Domain.Helpers;
 using RadarVoluntario.Domain.Models.Accounts;
+using RadarVoluntario.API.Services;
 
 public interface IAccountService
 {

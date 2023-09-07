@@ -1,7 +1,7 @@
-﻿namespace WebApi.Controllers;
+﻿namespace RadarVoluntario.API.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Entities;
+using RadarVoluntario.Domain.Entities;
 
 [Controller]
 public abstract class BaseController : ControllerBase

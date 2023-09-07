@@ -1,4 +1,4 @@
-namespace WebApi.Authorization;
+namespace RadarVoluntario.Domain.Authorization;
 
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

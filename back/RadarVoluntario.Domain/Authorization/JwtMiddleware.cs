@@ -1,7 +1,9 @@
-namespace RadarVoluntario.API.Authorization;
+namespace RadarVoluntario.Domain.Authorization;
 
 using Microsoft.Extensions.Options;
 using RadarVoluntario.Domain.Helpers;
+using RadarVoluntario.Domain.Authorization;
+using Microsoft.AspNetCore.Http;
 
 public class JwtMiddleware
 {

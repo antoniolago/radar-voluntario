@@ -1,4 +1,4 @@
-namespace WebApi.Services;
+namespace RadarVoluntario.API.Services;
 
 using MailKit.Net.Smtp;
 using MailKit.Security;

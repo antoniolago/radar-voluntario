@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Text.Json.Serialization;
-using WebApi.Authorization;
-using WebApi.Helpers;
-using WebApi.Services;
+﻿using System.Text.Json.Serialization;
+using RadarVoluntario.Domain.Helpers;
+using RadarVoluntario.Business.Services;
+using RadarVoluntario.Domain.Authorization;
+using RadarVoluntario.API.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,4 +62,4 @@ using (var scope = app.Services.CreateScope())
     app.MapControllers();
 }
 
-app.Run("http://localhost:4000");
+app.Run();

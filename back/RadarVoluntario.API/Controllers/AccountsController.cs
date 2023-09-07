@@ -1,10 +1,11 @@
-﻿namespace WebApi.Controllers;
+﻿namespace RadarVoluntario.API.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
-using RadarVoluntario.API.Authorization;
+using RadarVoluntario.Domain.Authorization;
 using RadarVoluntario.Domain.Entities;
 using RadarVoluntario.Domain.Models.Accounts;
 using RadarVoluntario.Business.Services;
+using RadarVoluntario.API.Authorization;
 
 [Authorize]
 [ApiController]
