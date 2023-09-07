@@ -4,6 +4,9 @@ using RadarVoluntario.Business.Services;
 using RadarVoluntario.Domain.Authorization;
 using RadarVoluntario.API.Services;
 using Microsoft.EntityFrameworkCore;
+using dotenv.net;
+
+DotEnv.Load(options: new DotEnvOptions(envFilePaths: new[] { "../../.env" }));
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +26,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddSwaggerGen();
 
     // configure strongly typed settings object
-    services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+    //services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
     // configure DI for application services
     services.AddScoped<IJwtUtils, JwtUtils>();

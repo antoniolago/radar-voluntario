@@ -299,7 +299,7 @@ public class AccountService : IAccountService
     private string generateJwtToken(Account account)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+        var key = Encoding.ASCII.GetBytes(AppSettings.Instance.SECRET);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[] { new Claim("id", account.Id.ToString()) }),

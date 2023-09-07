@@ -19,21 +19,18 @@ public interface IJwtUtils
 public class JwtUtils : IJwtUtils
 {
     private readonly DataContext _context;
-    private readonly AppSettings _appSettings;
 
     public JwtUtils(
-        DataContext context,
-        IOptions<AppSettings> appSettings)
+        DataContext context)
     {
         _context = context;
-        _appSettings = appSettings.Value;
     }
 
     public string GenerateJwtToken(Account account)
     {
         // generate token that is valid for 15 minutes
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+        var key = Encoding.ASCII.GetBytes(AppSettings.Instance.SECRET);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[] { new Claim("id", account.Id.ToString()) }),
@@ -50,7 +47,7 @@ public class JwtUtils : IJwtUtils
             return null;
 
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+        var key = Encoding.ASCII.GetBytes(AppSettings.Instance.SECRET);
         try
         {
             tokenHandler.ValidateToken(token, new TokenValidationParameters

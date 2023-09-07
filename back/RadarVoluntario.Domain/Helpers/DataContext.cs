@@ -14,7 +14,7 @@ public class DataContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         // connect to sqlite database
-        var connectionString = "Server=127.0.0.1;Database=IW4MAdmin_Migration;Uid=root;Pwd=password;";
+        var connectionString = AppSettings.Instance.DATABASE_CONN_STRING;
         options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
             .EnableDetailedErrors()
             .EnableSensitiveDataLogging();
