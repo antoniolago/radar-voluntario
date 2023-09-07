@@ -54,21 +54,21 @@ services:
   #   networks:
   #     - radar_voluntario_network
 
-  # radar-voluntario-mysql:
-  #   container_name: radar-voluntario-mysql
-  #   restart: unless-stopped
-  #   command: mysqld --default-authentication-plugin=mysql_native_password --sql-mode=""
-  #   env_file:
-  #     - .env
-  #   build: 
-  #     context: ./database/.
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ./database/mysql:/var/lib/mysql
-  #   networks:
-  #     - radar-voluntario-network
-  #   ports:
-  #     - "7020:3306"
+  radar-voluntario-mysql:
+    container_name: radar-voluntario-mysql
+    restart: unless-stopped
+    command: mysqld --default-authentication-plugin=mysql_native_password --sql-mode=""
+    env_file:
+      - .env
+    build: 
+      context: ./database/.
+      dockerfile: Dockerfile
+    volumes:
+      - ./database/mysql:/var/lib/mysql
+    networks:
+      - radar-voluntario-network
+    ports:
+      - "${PORTA_BANCO}:3306"
 
 networks: 
   radar_voluntario_network:
