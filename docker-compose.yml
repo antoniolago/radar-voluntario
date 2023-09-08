@@ -2,34 +2,34 @@ version: '3.8'
 #ESTE COMPOSE É USADO APENAS PARA DESENVOLVIMENTO LOCAL
 
 services:
-   radar_voluntario_frontend:
-    container_name: radar_voluntario_frontend
-    env_file:
-      - .env
-    build: 
-        context: ${FRONTEND_HOME}
-        dockerfile: Dockerfile
-    image: radar_voluntario_frontend:${VERSAO}
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-      - CI=true
-      - NODE_ENV=${NODE_ENV}
-      - TZ=${TZ}
-    networks:
-      - radar_voluntario_network
-    ports:
-      - "${PORTA_FRONT}:${PORTA_FRONT}"
-    volumes:
-      - ${FRONTEND_HOME}:/app/
-      - /app/node_modules
-      - /app/.git
-    deploy:
-      resources:
-        limits:
-          cpus: "3.0"
-          memory: 2G
+  #  radar_voluntario_frontend:
+  #   container_name: radar_voluntario_frontend
+  #   env_file:
+  #     - .env
+  #   build: 
+  #       context: ${FRONTEND_HOME}
+  #       dockerfile: Dockerfile
+  #   image: radar_voluntario_frontend:${VERSAO}
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true
+  #     - CI=true
+  #     - NODE_ENV=${NODE_ENV}
+  #     - TZ=${TZ}
+  #   networks:
+  #     - radar_voluntario_network
+  #   ports:
+  #     - "${PORTA_FRONT}:${PORTA_FRONT}"
+  #   volumes:
+  #     - ${FRONTEND_HOME}:/app/
+  #     - /app/node_modules
+  #     - /app/.git
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: "3.0"
+  #         memory: 2G
 
-   radar_voluntario_redis:
+  radar_voluntario_redis:
     container_name: radar_voluntario_redis
     hostname: radar_voluntario_redis
     image: redis:7-alpine
@@ -66,7 +66,7 @@ services:
     volumes:
       - ./database/mysql:/var/lib/mysql
     networks:
-      - radar-voluntario-network
+      - radar_voluntario_network
     ports:
       - "${PORTA_BANCO}:3306"
 
