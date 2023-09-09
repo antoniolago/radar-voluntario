@@ -11,6 +11,8 @@ import Home from '@/pages/Home';
 import { Tema } from './contexts/Tema';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import 'leaflet/dist/leaflet.css';
+import 'leaflet/dist/leaflet.js';
 
   const queryClient = new QueryClient();
 function App() {

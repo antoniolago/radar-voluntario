@@ -1,9 +1,9 @@
-import Map from '@/components/Map';
+import MapComponent from '@/components/MapComponent';
 
 function Home() {
     return (
         <>
-            <Map />
+            <MapComponent />
         </>
     )
 }
