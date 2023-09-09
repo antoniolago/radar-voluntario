@@ -8,7 +8,6 @@ import { useQueryClient } from 'react-query';
 
 const Auth = () => {
   const queryClient = useQueryClient();
-
   const [btnLoading, setBtnLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

@@ -10,10 +10,10 @@ export const useLogin = (email: string, password: string) =>
   });
 
 export const useGetUser = () => {
-  const context = useFetch<{ user: User }>(
+  const context = useFetch<User>(
     apiRoutes.getUser,
     undefined,
     { retry: false }
   );
-  return { ...context, data: context.data?.user };
+  return { ...context, data: context.data };
 };

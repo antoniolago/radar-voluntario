@@ -1,4 +1,3 @@
-
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -20,12 +19,15 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { useContext, useEffect, useState } from 'react';
 import { AppBar, EnvironmentBadge, Drawer, DrawerHeader } from './styles';
-import { Collapse } from '@mui/material';
+import { Button, Collapse } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router';
 import { TemaContext } from '@/contexts/Tema';
 import { matchPath } from 'react-router';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import { useGetAppSettings } from '@/api/appsettings';
+import { useGetUser } from '@/api/auth';
+import Loading from '../Loading';
+import ThemeSelector from '../ThemeSelector';
 
 export const menuItems = [
     {
@@ -67,12 +69,15 @@ const Layout = (props: any) => {
     const navigate = useNavigate()
     const { pathname } = useLocation();
     const { data: appSettings } = useGetAppSettings();
+    const { data: user, isLoading: isLoadingUser } = useGetUser();
+
     const toggleCollapseState = (id: string) => {
         setCollapseStates((prevCollapseStates: any) => ({
             ...prevCollapseStates,
             [id]: !collapseStates[id],
         }));
     };
+
     useEffect(() => {
         //Inicializa o accordeon das categorias conforme a página atual
         var path = pathname.split("/")[1].replace('/', '')
@@ -82,6 +87,7 @@ const Layout = (props: any) => {
         //Inicializa o estado do drawer conforme o localStorage
         localStorage.getItem('drawerOpen') == 'true' ? setOpen(true) : setOpen(false);
     }, []);
+
     const theme = useTheme();
     const [open, setOpen] = useState(false);
     const toggleDrawer = () => {
@@ -132,20 +138,28 @@ const Layout = (props: any) => {
                                 <span style={{ fontSize: "15px", top: '-1px', position: 'relative', color: 'green' }}>{usuario?.situacao}</span>
                             </div> */}
                         </Typography>
-                        <IconButton
-                            color="inherit"
-                            aria-label="logout"
-                            onClick={handleLogout}
-                        >
-                            <Logout />
-                        </IconButton>
+                        {user?.IsVerified ?
+                            <IconButton
+                                color="inherit"
+                                aria-label="logout"
+                                onClick={handleLogout}
+                            >
+                                <Logout />
+                            </IconButton>
+                            :
+                            <Button 
+                                variant="contained" 
+                                color="inherit">
+                                Logue-se
+                            </Button>
+                        }
                     </Toolbar>
                 </AppBar>
                 <Drawer variant="permanent" open={open} elevation={14}>
                     <DrawerHeader>
                         <Typography variant="h6" noWrap sx={{ flex: 'auto' }}>
                             <Typography sx={{ cursor: "pointer" }} onClick={() => navigate('/home')}>
-                                Espaço do Professor
+                                Radar Voluntário
                                 {appSettings?.ENVIRONMENT != "main" &&
                                     <EnvironmentBadge component="span">
                                         {appSettings?.ENVIRONMENT}
@@ -153,6 +167,7 @@ const Layout = (props: any) => {
                                 }
                             </Typography>
                         </Typography>
+                        {isLoadingUser && <Loading />}
                         <IconButton onClick={toggleDrawer}>
                             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                         </IconButton>
@@ -252,7 +267,7 @@ const Layout = (props: any) => {
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    {/* <ThemeSelector size={40} /> */}
+                                    <ThemeSelector size={40} />
 
                                 </ListItemIcon>
                                 {open &&

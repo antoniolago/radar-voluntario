@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-query';
 import { QueryFunctionContext } from '@tanstack/react-query/types/core/types';
 import { AxiosError, AxiosResponse } from 'axios';
+import { UseQueryResult } from 'react-query';
 
 type QueryKeyT = [string, object | undefined];
 export interface GetInfinitePagesInterface<T> {
@@ -34,10 +35,10 @@ export const useLoadMore = <T>(url: string | null, params?: object) => {
     QueryKeyT
   >(
     [url!, params],
-    ({ queryKey, pageParam = 1 }) => fetcher({ queryKey, pageParam } as any),
+    ({ queryKey, pageParam = 1 }: any) => fetcher({ queryKey, pageParam } as any),
     {
-      getPreviousPageParam: (firstPage) => firstPage.previousId ?? false,
-      getNextPageParam: (lastPage) => {
+      getPreviousPageParam: (firstPage: any) => firstPage.previousId ?? false,
+      getNextPageParam: (lastPage: any) => {
         return lastPage.nextId ?? false;
       },
     }
@@ -56,7 +57,7 @@ export const usePrefetch = <T>(url: string | null, params?: object) => {
 
     queryClient.prefetchQuery<T, Error, T, QueryKeyT>(
       [url!, params],
-      ({ queryKey }) => fetcher({ queryKey } as any)
+      ({ queryKey }: any) => fetcher({ queryKey } as any)
     );
   };
 };
@@ -65,17 +66,15 @@ export const useFetch = <T>(
   url: string | null,
   params?: object,
   config?: UseQueryOptions<T, Error, T, QueryKeyT>
-) => {
-  const context = useQuery<T, Error, T, QueryKeyT>(
+): UseQueryResult<T, AxiosError> => {
+  return useQuery<T, Error, T, QueryKeyT>(
     [url!, params],
-    ({ queryKey }) => fetcher({ queryKey } as any),
+    ({ queryKey }: any) => fetcher<T>({ queryKey } as any),
     {
       enabled: !!url,
       ...config,
     }
   );
-
-  return context;
 };
 
 const useGenericMutation = <T, S>(
@@ -87,7 +86,7 @@ const useGenericMutation = <T, S>(
   const queryClient = useQueryClient();
 
   return useMutation<AxiosResponse, AxiosError, T | S>(func, {
-    onMutate: async (data) => {
+    onMutate: async (data: any) => {
       await queryClient.cancelQueries([url!, params]);
 
       const previousData = queryClient.getQueryData([url!, params]);
