@@ -20,7 +20,7 @@ public class AccountsController : BaseController
     }
 
     [AllowAnonymous]
-    [HttpPost("authenticate")]
+    [HttpPost("login")]
     public ActionResult<AuthenticateResponse> Authenticate(AuthenticateRequest model)
     {
         var response = _accountService.Authenticate(model, ipAddress());

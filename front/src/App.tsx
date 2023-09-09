@@ -1,26 +1,35 @@
-import { LatLngExpression } from 'leaflet';
-import './App.css'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-// import 'leaflet/dist/leaflet.css';
-// import 'leaflet/dist/leaflet.js';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Outlet,
+} from 'react-router-dom';
+// import GlobalStyles from './styles/GlobalStyles';
+// import ReactGA from 'react-ga4';
+import Layout from '@/components/Layout';
+import Home from '@/pages/Home';
+import { Tema } from './contexts/Tema';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
+  const queryClient = new QueryClient();
 function App() {
-  const position: any = [-30.03306, -51.23];
-  return (
-    <div id="map">
-      <MapContainer center={position as LatLngExpression} zoom={14} scrollWheelZoom={true} style={{ height: "100vh" }} >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {/* <Marker position={position}>
-          <Popup>
-            A pretty CSS3 popusp. <br /> Easily customizable.
-          </Popup>
-        </Marker> */}
-      </MapContainer>
-    </div>
-  )
-}
+  // const { error } = useGetProfile();
 
-export default App
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <Tema>
+          <Routes>
+            <Route element={<Layout><Outlet /></Layout>}>
+              <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
+            </Route>
+          </Routes>
+        </Tema >
+      </Router>
+      <ReactQueryDevtools initialIsOpen={true} />
+    </QueryClientProvider>
+  );
+}
+export default App;

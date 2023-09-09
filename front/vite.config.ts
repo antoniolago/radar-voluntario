@@ -11,6 +11,7 @@ export default defineConfig({
   envDir: '../',
   resolve: {
     alias: [
+      { find: 'react-query/devtools', replacement: 'react-query/es/devtools/index'},
       { find: '@', replacement: path.resolve(__dirname, 'src') },
     ],
   },

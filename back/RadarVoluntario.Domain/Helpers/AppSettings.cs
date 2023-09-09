@@ -6,11 +6,11 @@ namespace RadarVoluntario.Domain.Helpers
     {
         public PublicAppSettings()
         {
-            AMBIENTE = Environment.GetEnvironmentVariable("AMBIENTE");
+            ENVIRONMENT = Environment.GetEnvironmentVariable("ENVIRONMENT");
             APP_URL = Environment.GetEnvironmentVariable("APP_URL");
         }
-        [JsonPropertyName("AMBIENTE")]
-        public string AMBIENTE { get; set; }
+        [JsonPropertyName("ENVIRONMENT")]
+        public string ENVIRONMENT { get; set; }
 
         [JsonPropertyName("APP_URL")]
         public string APP_URL { get; set; }
