@@ -1,22 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, Box, Button, TextField, Typography } from '@mui/material';
+import React, { createContext, useEffect, useState } from 'react';
+import { Alert, Backdrop, Box, Button, Fade, Modal, TextField, Typography } from '@mui/material';
 import { useLogin } from '@/api/auth';
-import Cookies from 'js-cookie';
 // import { pageRoutes } from '../routes';
 import { toast } from 'react-toastify';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
-const Auth = () => {
+const LoginModal = () => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [btnLoading, setBtnLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-//   useEffect(() => {
-//     if (Cookies.get('token')) {
-//       history.replace(pageRoutes.main);
-//     }
-//   }, []);
+  const [open, setOpen] = React.useState(true);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    navigate(-1);
+  }
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+  //   useEffect(() => {
+  //     if (Cookies.get('token')) {
+  //       history.replace(pageRoutes.main);
+  //     }
+  //   }, []);
 
   const onSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -24,7 +41,7 @@ const Auth = () => {
     try {
       const resp = await useLogin(email, password);
       if (resp.data.token) {
-        Cookies.set('token', resp.data.token);
+        // Cookies.set('token', resp.data.token);
         // history.replace(pageRoutes.main);
         queryClient.invalidateQueries();
       } else {
@@ -54,77 +71,85 @@ const Auth = () => {
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      width="300px"
-      margin="36px auto auto"
+    <Modal
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
+      open={open}
+      onClose={handleClose}
+      closeAfterTransition
+      slots={{ backdrop: Backdrop }}
+      slotProps={{
+        backdrop: {
+          timeout: 500,
+        },
+      }}
     >
-      <Box mb={6}>
-        <Typography display="block" variant="h1" component="h2">
-          Sign in
-        </Typography>
-      </Box>
+      <Fade in={open}>
+        <Box sx={style} >
+          <Box mb={6}>
+            <Typography display="block" variant="h1" component="h2">
+              Sign in
+            </Typography>
+          </Box>
 
-      <form
-        noValidate
-        autoComplete="off"
-        style={{ width: '100%' }}
-        onSubmit={onSubmit}
-      >
-        <Box mb={2}>
-          <TextField
-            fullWidth
+          <form
+            noValidate
             autoComplete="off"
-            id="outlined-basic"
-            label="Email"
-            variant="outlined"
-            type="email"
-            name="email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-        </Box>
+            style={{ width: '100%' }}
+            onSubmit={onSubmit}
+          >
+            <Box mb={2}>
+              <TextField
+                fullWidth
+                autoComplete="off"
+                label="Email"
+                variant="outlined"
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+            </Box>
 
-        <Box mb={2}>
-          <TextField
-            fullWidth
-            autoComplete="off"
-            id="outlined-basic"
-            label="Password"
-            variant="outlined"
-            type="password"
-            name="password"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
-        </Box>
+            <Box mb={2}>
+              <TextField
+                fullWidth
+                autoComplete="off"
+                label="Password"
+                variant="outlined"
+                type="password"
+                name="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+            </Box>
 
-        <Box mb={2}>
-          <Alert severity="info">
-            You could login with any credentials, even with empty fields. It
-            doesn't matter. Just for demonstration purposes.
-          </Alert>
-        </Box>
+            <Box mb={2}>
+              <Alert severity="info">
+                You could login with any credentials, even with empty fields. It
+                doesn't matter. Just for demonstration purposes.
+              </Alert>
+            </Box>
 
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          size="large"
-          disabled={btnLoading}
-          fullWidth
-        >
-          Submit
-        </Button>
-      </form>
-    </Box>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="large"
+              disabled={btnLoading}
+              fullWidth
+            >
+              Submit
+            </Button>
+          </form>
+        </Box>
+      </Fade>
+    </Modal>
   );
 };
 
-export default Auth;
+export default LoginModal;

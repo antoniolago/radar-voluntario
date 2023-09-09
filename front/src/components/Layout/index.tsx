@@ -138,20 +138,23 @@ const Layout = (props: any) => {
                                 <span style={{ fontSize: "15px", top: '-1px', position: 'relative', color: 'green' }}>{usuario?.situacao}</span>
                             </div> */}
                         </Typography>
-                        {user?.IsVerified ?
-                            <IconButton
-                                color="inherit"
-                                aria-label="logout"
-                                onClick={handleLogout}
-                            >
-                                <Logout />
-                            </IconButton>
-                            :
-                            <Button 
-                                variant="contained" 
-                                color="inherit">
-                                Logue-se
-                            </Button>
+                        {isLoadingUser ?
+                            <Loading color="warning"/>
+                            : user?.IsVerified ?
+                                <IconButton
+                                    color="inherit"
+                                    aria-label="logout"
+                                    onClick={handleLogout}
+                                >
+                                    <Logout />
+                                </IconButton>
+                                :
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    onClick={() => navigate("/login")}>
+                                    Logue-se
+                                </Button>
                         }
                     </Toolbar>
                 </AppBar>
@@ -167,7 +170,6 @@ const Layout = (props: any) => {
                                 }
                             </Typography>
                         </Typography>
-                        {isLoadingUser && <Loading />}
                         <IconButton onClick={toggleDrawer}>
                             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                         </IconButton>

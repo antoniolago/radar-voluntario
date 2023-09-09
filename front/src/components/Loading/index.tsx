@@ -1,11 +1,12 @@
 import { ContainerLoading } from './styles';
-import CircularProgress from '@mui/material/CircularProgress'
-const Loading = (props: any) => {
+import CircularProgress, { CircularProgressProps } from '@mui/material/CircularProgress'
+
+const Loading = (props: CircularProgressProps) => {
 	return (
 		//@ts-ignore
 		<div style={{ textAlign: '-webkit-center' }}>
 			<ContainerLoading>
-				<CircularProgress size={props.size} />
+				<CircularProgress size={props.size} color={props.color || "primary"}/>
 			</ContainerLoading>
 		</div>
 	);

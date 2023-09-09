@@ -13,6 +13,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import 'leaflet/dist/leaflet.css';
 import 'leaflet/dist/leaflet.js';
+import LoginModal from './pages/Login';
 
   const queryClient = new QueryClient();
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route element={<Layout><Outlet /></Layout>}>
               <Route path="/" element={<Home />} />
               <Route path="/home" element={<Home />} />
+              <Route path="/login" element={<><Home /><LoginModal /></>} />
             </Route>
           </Routes>
         </Tema >
