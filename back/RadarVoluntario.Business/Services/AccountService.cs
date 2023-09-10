@@ -13,25 +13,10 @@ using RadarVoluntario.Domain.Entities;
 using RadarVoluntario.Domain.Helpers;
 using RadarVoluntario.Domain.Models.Accounts;
 using RadarVoluntario.API.Services;
+using static Google.Apis.Auth.GoogleJsonWebSignature;
+using Newtonsoft.Json.Linq;
 
-public interface IAccountService
-{
-    AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress);
-    AuthenticateResponse RefreshToken(string token, string ipAddress);
-    void RevokeToken(string token, string ipAddress);
-    void Register(RegisterRequest model, string origin);
-    void VerifyEmail(string token);
-    void ForgotPassword(ForgotPasswordRequest model, string origin);
-    void ValidateResetToken(ValidateResetTokenRequest model);
-    void ResetPassword(ResetPasswordRequest model);
-    IEnumerable<AccountResponse> GetAll();
-    AccountResponse GetById(int id);
-    AccountResponse Create(CreateRequest model);
-    AccountResponse Update(int id, UpdateRequest model);
-    void Delete(int id);
-}
-
-public class AccountService : IAccountService
+public class AccountService
 {
     private readonly DataContext _context;
     private readonly IJwtUtils _jwtUtils;
@@ -51,6 +36,49 @@ public class AccountService : IAccountService
         _mapper = mapper;
         _appSettings = appSettings.Value;
         _emailService = emailService;
+    }
+    public async Task<AuthenticateResponse> AuthenticateGoogle(Payload payload, string ipAddress)
+    {
+        return await FindUserOrAddFromGoogleExternalLogin(payload, ipAddress);
+    }
+
+    private async Task<AuthenticateResponse> FindUserOrAddFromGoogleExternalLogin(Payload payload, string ipAddress)
+    {
+        var account = _context.Accounts.SingleOrDefault(x => x.Email == payload.Email);
+        var refreshToken = _jwtUtils.GenerateRefreshToken(ipAddress);
+        //New Account
+        if (account  == null)
+        {
+            account = new Account()
+            {
+                FirstName = payload.GivenName,
+                LastName = payload.FamilyName,
+                Email = payload.Email,
+                Role = Role.User,
+                Created = DateTime.UtcNow,
+                VerificationToken = generateVerificationToken(),
+                RefreshTokens = new List<RefreshToken>()
+            };
+            _context.Accounts.Update(account);
+            await _context.SaveChangesAsync();
+            Console.WriteLine("NOVA CONTA GOOGLE VINCULADA: " + account.FirstName);
+        }
+
+        // authentication successful so generate jwt and refresh tokens
+        var jwtToken = _jwtUtils.GenerateJwtToken(account);
+        account.RefreshTokens.Add(refreshToken);
+        // remove old refresh tokens from account
+        removeOldRefreshTokens(account);
+
+        // save changes to db
+        _context.Update(account);
+        _context.SaveChanges();
+
+        var response = _mapper.Map<AuthenticateResponse>(account);
+        response.JwtToken = jwtToken;
+        response.RefreshToken = refreshToken.Token;
+        return response;
+
     }
 
     public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)

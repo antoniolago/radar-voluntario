@@ -2,12 +2,12 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import path from "path"
 import dotenv from 'dotenv'
-
+import basicSsl from '@vitejs/plugin-basic-ssl'
 dotenv.config({ path: '../.env' })
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), basicSsl()],
   envDir: '../',
   resolve: {
     alias: [
@@ -17,6 +17,7 @@ export default defineConfig({
   },
   server: {
     host: true,
+    https: true,
     port: +process.env.PORTA_FRONT
   }
 })

@@ -1,11 +1,12 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { Alert, Backdrop, Box, Button, Fade, Modal, TextField, Typography } from '@mui/material';
-import { useLogin } from '@/api/auth';
+import { useLogin, useLoginGoogle } from '@/api/auth';
 // import { pageRoutes } from '../routes';
 import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { apiRoutes } from '@/routes';
 
 const LoginModal = () => {
   const navigate = useNavigate();
@@ -103,6 +104,7 @@ const LoginModal = () => {
               <TextField
                 fullWidth
                 autoComplete="off"
+                size="small"
                 label="Email"
                 variant="outlined"
                 type="email"
@@ -118,6 +120,7 @@ const LoginModal = () => {
               <TextField
                 fullWidth
                 autoComplete="off"
+                size="small"
                 label="Password"
                 variant="outlined"
                 type="password"
@@ -130,22 +133,26 @@ const LoginModal = () => {
             </Box>
 
             <Box mb={2}>
+              <GoogleLogin
+                // login_uri={apiRoutes.loginGoogle}
+                click_listener={() => setBtnLoading(true)}
+                theme={'outline'}
+                onSuccess={credentialResponse => {
+                  console.log(credentialResponse);
+                  useLoginGoogle(credentialResponse);
+                }}
+                onError={() => {
+                  console.log('Login Failed');
+                }}
+                useOneTap
+              />
+            </Box>
+            <Box mb={2}>
               <Alert severity="info">
                 You could login with any credentials, even with empty fields. It
                 doesn't matter. Just for demonstration purposes.
               </Alert>
             </Box>
-              <Box mb={2}>
-                <GoogleLogin
-                  onSuccess={credentialResponse => {
-                    console.log(credentialResponse);
-                  }}
-                  onError={() => {
-                    console.log('Login Failed');
-                  }}
-                  useOneTap
-                />
-              </Box>
 
             <Button
               type="submit"

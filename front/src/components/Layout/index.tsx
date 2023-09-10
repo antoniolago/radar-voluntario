@@ -28,12 +28,14 @@ import { useGetAppSettings } from '@/api/appsettings';
 import { useGetUser } from '@/api/auth';
 import Loading from '../Loading';
 import ThemeSelector from '../ThemeSelector';
+import MapIcon from '@mui/icons-material/Map';
+import ExploreIcon from '@mui/icons-material/Explore';
 
 export const menuItems = [
     {
         id: 'home',
         text: 'Início',
-        icon: <HomeIcon />,
+        icon: <ExploreIcon />,
         path: '/home'
     },
     // {
@@ -108,9 +110,7 @@ const Layout = (props: any) => {
     };
 
     const handleLogout = () => {
-        // const { logout } = useApi();
-        // logout();
-        location.href = "/login";
+        navigate("/");
     }
 
     return (

@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.62.0" />
     <PackageReference Include="MailKit" Version="4.2.0" />
     <PackageReference Include="MimeKit" Version="4.2.0" />
   </ItemGroup>

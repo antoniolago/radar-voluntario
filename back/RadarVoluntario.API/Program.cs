@@ -5,8 +5,14 @@ using RadarVoluntario.Domain.Authorization;
 using RadarVoluntario.API.Services;
 using Microsoft.EntityFrameworkCore;
 using dotenv.net;
+using Microsoft.AspNetCore.Builder;
 
-DotEnv.Load(options: new DotEnvOptions(envFilePaths: new[] { "../../.env" }));
+var envFiles = new List<string>
+{
+    "../../.env",
+    "../../secrets.env"
+};
+DotEnv.Load(options: new DotEnvOptions(envFilePaths: envFiles));
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +36,7 @@ var builder = WebApplication.CreateBuilder(args);
 
     // configure DI for application services
     services.AddScoped<IJwtUtils, JwtUtils>();
-    services.AddScoped<IAccountService, AccountService>();
+    services.AddScoped<AccountService>();
     services.AddScoped<IEmailService, EmailService>();
 }
 
@@ -56,12 +62,12 @@ using (var scope = app.Services.CreateScope())
         .AllowAnyHeader()
         .AllowCredentials());
 
+    app.UseStaticFiles("/api");
+    app.UsePathBase("/api");
     // global error handler
     app.UseMiddleware<ErrorHandlerMiddleware>();
-
     // custom jwt auth middleware
     app.UseMiddleware<JwtMiddleware>();
-
     app.MapControllers();
 }
 

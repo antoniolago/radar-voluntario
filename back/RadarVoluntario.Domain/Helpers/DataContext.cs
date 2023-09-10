@@ -7,7 +7,8 @@ using RadarVoluntario.Domain.Entities;
 public class DataContext : DbContext
 {
     public DbSet<Account> Accounts { get; set; }
-    
+    public DbSet<RefreshToken> RefreshToken { get; set; }
+
     public DataContext()
     {}
 

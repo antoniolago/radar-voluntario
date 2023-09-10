@@ -8,12 +8,18 @@ namespace RadarVoluntario.Domain.Helpers
         {
             ENVIRONMENT = Environment.GetEnvironmentVariable("ENVIRONMENT");
             APP_URL = Environment.GetEnvironmentVariable("APP_URL");
+            GOOGLE_OAUTH_CLIENT_ID = Environment.GetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_ID");
+            GOOGLE_OAUTH_CLIENT_SECRET_ID = Environment.GetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_SECRET_ID");
         }
         [JsonPropertyName("ENVIRONMENT")]
         public string ENVIRONMENT { get; set; }
 
         [JsonPropertyName("APP_URL")]
         public string APP_URL { get; set; }
+        [JsonPropertyName("GOOGLE_OAUTH_CLIENT_ID")]
+        public string GOOGLE_OAUTH_CLIENT_ID { get; set; }
+        [JsonPropertyName("GOOGLE_OAUTH_CLIENT_SECRET_ID")]
+        public string GOOGLE_OAUTH_CLIENT_SECRET_ID { get; set; }
     }
 
     public class AppSettings : PublicAppSettings

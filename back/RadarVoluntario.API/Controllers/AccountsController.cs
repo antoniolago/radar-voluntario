@@ -6,17 +6,43 @@ using RadarVoluntario.Domain.Entities;
 using RadarVoluntario.Domain.Models.Accounts;
 using RadarVoluntario.Business.Services;
 using RadarVoluntario.API.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using RadarVoluntario.Domain.Helpers;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Google.Apis.Auth;
+using static Google.Apis.Requests.BatchRequest;
 
 [Authorize]
 [ApiController]
 [Route("[controller]")]
 public class AccountsController : BaseController
 {
-    private readonly IAccountService _accountService;
+    private readonly AccountService _accountService;
 
-    public AccountsController(IAccountService accountService)
+    public AccountsController(AccountService accountService)
     {
         _accountService = accountService;
+    }
+
+    [AllowAnonymous]
+    [HttpPost("login-google")]
+    public async Task<IActionResult> Google([FromBody] GoogleLoginRequest googleLoginRequest)
+    {
+        try
+        {
+            //SimpleLogger.Log("userView = " + userView.tokenId);
+            var payload = GoogleJsonWebSignature.ValidateAsync(googleLoginRequest.credential, new GoogleJsonWebSignature.ValidationSettings()).Result;
+            var response = await _accountService.AuthenticateGoogle(payload, ipAddress());
+            setTokenCookie(response.RefreshToken);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            BadRequest(ex.Message);
+        }
+        return BadRequest();
     }
 
     [AllowAnonymous]

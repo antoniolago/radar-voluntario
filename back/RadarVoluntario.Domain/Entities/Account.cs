@@ -1,7 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace RadarVoluntario.Domain.Entities;
 
 public class Account
 {
+    [Key]
     public int Id { get; set; }
     public string Title { get; set; }
     public string FirstName { get; set; }
