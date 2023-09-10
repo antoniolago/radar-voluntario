@@ -14,6 +14,7 @@ import Logout from '@mui/icons-material/Logout';
 import ListItem from '@mui/material/ListItem';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import 'react-toastify/dist/ReactToastify.css';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -30,6 +31,8 @@ import Loading from '../Loading';
 import ThemeSelector from '../ThemeSelector';
 import MapIcon from '@mui/icons-material/Map';
 import ExploreIcon from '@mui/icons-material/Explore';
+import { GoogleButton } from '../GoogleButton';
+import { ToastContainer } from 'react-toastify';
 
 export const menuItems = [
     {
@@ -139,7 +142,7 @@ const Layout = (props: any) => {
                             </div> */}
                         </Typography>
                         {isLoadingUser ?
-                            <Loading color="warning"/>
+                            <Loading color="warning" />
                             : user?.IsVerified ?
                                 <IconButton
                                     color="inherit"
@@ -149,12 +152,13 @@ const Layout = (props: any) => {
                                     <Logout />
                                 </IconButton>
                                 :
-                                <Button
-                                    variant="contained"
-                                    color="success"
-                                    onClick={() => navigate("/login")}>
-                                    Logue-se
-                                </Button>
+                                <GoogleButton />
+                            // <Button
+                            //     variant="contained"
+                            //     color="success"
+                            //     onClick={() => navigate("/login")}>
+                            //     Logue-se
+                            // </Button>
                         }
                     </Toolbar>
                 </AppBar>
@@ -283,6 +287,17 @@ const Layout = (props: any) => {
                     <DrawerHeader />
                     {props.children}
                     {/* <Footer /> */}
+                    <ToastContainer
+                        position="bottom-right"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light" />
                 </Box>
             </Box >
         </>

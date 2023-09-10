@@ -10,7 +10,7 @@ import { QueryFunctionContext } from '@tanstack/react-query/types/core/types';
 import { AxiosError, AxiosResponse } from 'axios';
 import { UseQueryResult } from 'react-query';
 
-type QueryKeyT = [string, object | undefined];
+export type QueryKeyT = [string, object | undefined];
 export interface GetInfinitePagesInterface<T> {
   nextId?: number;
   previousId?: number;
@@ -91,13 +91,13 @@ const useGenericMutation = <T, S>(
 
       const previousData = queryClient.getQueryData([url!, params]);
 
-      queryClient.setQueryData<T>([url!, params], (oldData) => {
+      queryClient.setQueryData<T>([url!, params], (oldData: any) => {
         return updater ? updater(oldData!, data as S) : (data as T);
       });
 
       return previousData;
     },
-    onError: (err, _, context) => {
+    onError: (err: any, _: any, context: any) => {
       queryClient.setQueryData([url!, params], context);
     },
     onSettled: () => {

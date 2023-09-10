@@ -137,6 +137,7 @@ const LoginModal = () => {
                 // login_uri={apiRoutes.loginGoogle}
                 click_listener={() => setBtnLoading(true)}
                 theme={'outline'}
+                
                 onSuccess={credentialResponse => {
                   console.log(credentialResponse);
                   useLoginGoogle(credentialResponse);

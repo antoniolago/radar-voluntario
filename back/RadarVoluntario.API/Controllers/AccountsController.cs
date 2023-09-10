@@ -30,18 +30,18 @@ public class AccountsController : BaseController
     [HttpPost("login-google")]
     public async Task<IActionResult> Google([FromBody] GoogleLoginRequest googleLoginRequest)
     {
-        try
-        {
+        //try
+        //{
             //SimpleLogger.Log("userView = " + userView.tokenId);
             var payload = GoogleJsonWebSignature.ValidateAsync(googleLoginRequest.credential, new GoogleJsonWebSignature.ValidationSettings()).Result;
             var response = await _accountService.AuthenticateGoogle(payload, ipAddress());
             setTokenCookie(response.RefreshToken);
             return Ok(response);
-        }
-        catch (Exception ex)
-        {
-            BadRequest(ex.Message);
-        }
+        //}
+        //catch (Exception ex)
+        //{
+        //    BadRequest(ex.Message);
+        //}
         return BadRequest();
     }
 
