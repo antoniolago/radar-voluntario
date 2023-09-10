@@ -5,6 +5,7 @@ import { useLogin } from '@/api/auth';
 import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
 const LoginModal = () => {
   const navigate = useNavigate();
@@ -86,9 +87,9 @@ const LoginModal = () => {
     >
       <Fade in={open}>
         <Box sx={style} >
-          <Box mb={6}>
-            <Typography display="block" variant="h1" component="h2">
-              Sign in
+          <Box mb={3}>
+            <Typography display="block" variant="h5">
+              Logue-se para ter acesso à todas as funcionalidades
             </Typography>
           </Box>
 
@@ -134,6 +135,17 @@ const LoginModal = () => {
                 doesn't matter. Just for demonstration purposes.
               </Alert>
             </Box>
+              <Box mb={2}>
+                <GoogleLogin
+                  onSuccess={credentialResponse => {
+                    console.log(credentialResponse);
+                  }}
+                  onError={() => {
+                    console.log('Login Failed');
+                  }}
+                  useOneTap
+                />
+              </Box>
 
             <Button
               type="submit"

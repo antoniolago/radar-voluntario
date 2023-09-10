@@ -9,18 +9,18 @@ import {
 import Layout from '@/components/Layout';
 import Home from '@/pages/Home';
 import { Tema } from './contexts/Tema';
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import 'leaflet/dist/leaflet.css';
 import 'leaflet/dist/leaflet.js';
 import LoginModal from './pages/Login';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { useGetAppSettings } from './api/appsettings';
 
-  const queryClient = new QueryClient();
 function App() {
   // const { error } = useGetProfile();
+  const { data: appSettings } = useGetAppSettings();
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <GoogleOAuthProvider clientId={appSettings?.GOOGLE_OAUTH_CLIENT_ID || ""}>
       <Router>
         <Tema>
           <Routes>
@@ -32,8 +32,7 @@ function App() {
           </Routes>
         </Tema >
       </Router>
-      <ReactQueryDevtools initialIsOpen={true} />
-    </QueryClientProvider>
+    </GoogleOAuthProvider>
   );
 }
 export default App;

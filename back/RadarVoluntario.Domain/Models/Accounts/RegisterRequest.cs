@@ -4,8 +4,6 @@ using System.ComponentModel.DataAnnotations;
 
 public class RegisterRequest
 {
-    [Required]
-    public string Title { get; set; }
 
     [Required]
     public string FirstName { get; set; }

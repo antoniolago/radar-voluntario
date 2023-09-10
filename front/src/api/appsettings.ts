@@ -3,10 +3,10 @@ import { useFetch } from '@/utils/reactQuery';
 import { AppSettings } from '@/types/appsettings';
 
 export const useGetAppSettings = () => {
-  const context = useFetch<{ appSettings: AppSettings }>(
+  const context = useFetch<AppSettings>(
     apiRoutes.getAppSettings,
     undefined,
     { retry: false }
   );
-  return { ...context, data: context.data?.appSettings };
+  return { ...context, data: context.data };
 };
