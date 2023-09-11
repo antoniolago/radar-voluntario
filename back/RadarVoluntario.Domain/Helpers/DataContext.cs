@@ -16,7 +16,7 @@ public class DataContext : DbContext
     {
         // connect to sqlite database
         var connectionString = AppSettings.Instance.DATABASE_CONN_STRING;
-        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+        options.UseMySQL(connectionString)
             .EnableDetailedErrors()
             .EnableSensitiveDataLogging();
     }

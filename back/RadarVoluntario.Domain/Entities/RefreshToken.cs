@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 [Owned]
+[Table("refreshTokens")]
 public class RefreshToken
 {
     [Key]
