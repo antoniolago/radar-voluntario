@@ -74,7 +74,7 @@ const Layout = (props: any) => {
     const navigate = useNavigate()
     const { pathname } = useLocation();
     const { data: appSettings } = useGetAppSettings();
-    const { data: user, isLoading: isLoadingUser } = useGetUser();
+    const { data: user, isLoading: isLoadingUser, refetch: refetchUser } = useGetUser();
 
     const toggleCollapseState = (id: string) => {
         setCollapseStates((prevCollapseStates: any) => ({

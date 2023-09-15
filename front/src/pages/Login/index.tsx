@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { Alert, Backdrop, Box, Button, Fade, Modal, TextField, Typography } from '@mui/material';
-import { useLogin, useLoginGoogle } from '@/api/auth';
+import { useLogin } from '@/api/auth';
 // import { pageRoutes } from '../routes';
 import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';

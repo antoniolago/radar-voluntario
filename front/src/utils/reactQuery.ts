@@ -1,14 +1,14 @@
-import { api } from './api';
 import {
   useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
   UseQueryOptions,
+  UseQueryResult
 } from '@tanstack/react-query';
 import { QueryFunctionContext } from '@tanstack/react-query/types/core/types';
 import { AxiosError, AxiosResponse } from 'axios';
-import { UseQueryResult } from 'react-query';
+import { api } from './api';
 
 export type QueryKeyT = [string, object | undefined];
 export interface GetInfinitePagesInterface<T> {
@@ -66,8 +66,8 @@ export const useFetch = <T>(
   url: string | null,
   params?: object,
   config?: UseQueryOptions<T, Error, T, QueryKeyT>
-): UseQueryResult<T, AxiosError> => {
-  return useQuery<T, Error, T, QueryKeyT>(
+): UseQueryResult<T, Error> => {
+  var context = useQuery<T, Error, T, QueryKeyT>(
     [url!, params],
     ({ queryKey }: any) => fetcher<T>({ queryKey } as any),
     {
@@ -75,6 +75,7 @@ export const useFetch = <T>(
       ...config,
     }
   );
+  return context; 
 };
 
 const useGenericMutation = <T, S>(

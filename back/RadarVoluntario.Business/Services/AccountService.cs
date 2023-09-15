@@ -66,7 +66,16 @@ public class AccountService
 
         // authentication successful so generate jwt and refresh tokens
         var jwtToken = _jwtUtils.GenerateJwtToken(account);
-        account.RefreshTokens.Add(refreshToken);
+        if(account.RefreshTokens != null)
+        {
+            account.RefreshTokens.Add(refreshToken);
+        } else
+        {
+            refreshToken.Account = account;
+            _context.RefreshToken.Add(refreshToken);
+            await _context.SaveChangesAsync();
+            account.RefreshTokens = (new List<RefreshToken>() { refreshToken });
+        }
         // remove old refresh tokens from account
         removeOldRefreshTokens(account);
 

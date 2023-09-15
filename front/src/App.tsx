@@ -20,7 +20,7 @@ function App() {
   const { data: appSettings, isLoading } = useGetAppSettings();
 
   return (
-    !isLoading && appSettings?.GOOGLE_OAUTH_CLIENT_ID &&
+    appSettings?.GOOGLE_OAUTH_CLIENT_ID &&
     <GoogleOAuthProvider clientId={appSettings?.GOOGLE_OAUTH_CLIENT_ID || ""}>
       <Router>
         <Tema>

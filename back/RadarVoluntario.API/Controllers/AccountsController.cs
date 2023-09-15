@@ -123,10 +123,17 @@ public class AccountsController : BaseController
 
     [Authorize(Role.Admin)]
     [HttpGet]
+    [Route("all")]
     public ActionResult<IEnumerable<AccountResponse>> GetAll()
     {
         var accounts = _accountService.GetAll();
         return Ok(accounts);
+    }
+    [HttpGet]
+    public ActionResult<AccountResponse> Get()
+    {
+        var account = _accountService.GetById(Account.Id);
+        return Ok(account);
     }
 
     [HttpGet("{id:int}")]
@@ -181,7 +188,11 @@ public class AccountsController : BaseController
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
-            Expires = DateTime.UtcNow.AddDays(7)
+            Secure = true,
+            Expires = DateTime.UtcNow.AddDays(7),
+            //Domain = AppSettings.Instance.APP_URL,
+            SameSite = SameSiteMode.None,
+            Path = "/"
         };
         Response.Cookies.Append("refreshToken", token, cookieOptions);
     }

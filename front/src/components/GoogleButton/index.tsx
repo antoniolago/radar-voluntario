@@ -1,12 +1,24 @@
 import { Box } from '@mui/material';
 import { useLoginGoogle } from '@/api/auth';
 // import { pageRoutes } from '../routes';
-import { GoogleLogin } from '@react-oauth/google';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { toast } from 'react-toastify';
-import { AxiosResponse } from 'axios';
+import { api } from '@/utils/api';
 import { AuthenticationResponse } from '@/types/authenticate-response';
+import { AxiosError, AxiosResponse } from 'axios';
+import { apiRoutes } from '@/routes';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const GoogleButton = () => {
+    const queryClient = useQueryClient()
+    const useLoginGoogle = (credentialResponse: CredentialResponse) =>
+        api.post<AuthenticationResponse>(apiRoutes.loginGoogle, credentialResponse)
+            .then((res: AxiosResponse<AuthenticationResponse>) => {
+                toast.success('Bem-vindo ' + res.data.firstName);
+                queryClient.invalidateQueries({ queryKey: apiRoutes.getUser })
+            }).catch((err: AxiosError) => {
+                toast.error("Houve algum erro no login, por favor tente novamente. " + err.message);
+            });
     return (
         <Box mb={0}>
             <GoogleLogin
