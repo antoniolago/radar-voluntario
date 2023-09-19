@@ -8,7 +8,7 @@ namespace RadarVoluntario.API.Controllers
         public AppSettingsController() { }
 
         [HttpGet]
-        [Route("appSettings")]
+        [Route("/appsettings")]
         public IActionResult Get()
         {
             return Ok(new PublicAppSettings());
