@@ -1,76 +1,30 @@
 version: '3.8'
-#ESTE COMPOSE É USADO APENAS PARA DESENVOLVIMENTO LOCAL
 
 services:
-  #  radar_voluntario_frontend:
-  #   container_name: radar_voluntario_frontend
-  #   env_file:
-  #     - .env
-  #   build: 
-  #       context: ${FRONTEND_HOME}
-  #       dockerfile: Dockerfile
-  #   image: radar_voluntario_frontend:${VERSAO}
-  #   environment:
-  #     - CHOKIDAR_USEPOLLING=true
-  #     - CI=true
-  #     - NODE_ENV=${NODE_ENV}
-  #     - TZ=${TZ}
-  #   networks:
-  #     - radar_voluntario_network
-  #   ports:
-  #     - "${PORTA_FRONT}:${PORTA_FRONT}"
-  #   volumes:
-  #     - ${FRONTEND_HOME}:/app/
-  #     - /app/node_modules
-  #     - /app/.git
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         cpus: "3.0"
-  #         memory: 2G
-
-  radar_voluntario_redis:
-    container_name: radar_voluntario_redis
-    hostname: radar_voluntario_redis
-    image: redis:7-alpine
-    command: redis-server --requirepass ${REDIS_PASS}
-    networks:
-      - radar_voluntario_network
+  database:
+    image: postgres:13
+    restart: always
+    container_name: radar-voluntario-database
     ports:
-      - "${REDIS_PORT}:6379"
-
-  #  radar_voluntario_backend:
-  #   container_name: radar_voluntario_backend
-  #   env_file:
-  #     - .env
-  #   build: 
-  #       context: ${BACKEND_HOME}
-  #       dockerfile: Dockerfile
-  #   ports:
-  #     - "${PORTA_BACK}:80"
-  #   image: radar_voluntario_backend:${VERSAO}
-  #   environment:
-  #     - MONO_GC_PARAMS=max-heap-size=1g
-  #   networks:
-  #     - radar_voluntario_network
-
-  radar-voluntario-mysql:
-    container_name: radar-voluntario-mysql
-    restart: unless-stopped
-    command: mysqld --default-authentication-plugin=mysql_native_password --sql-mode=""
-    env_file:
-      - .env
-    build: 
-      context: ./database/.
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: radar-voluntario
+    networks:
+      - radar-voluntario-network
+  backend:
+    container_name: radar-voluntario-backend
+    build:
+      context: ./backend
       dockerfile: Dockerfile
-    volumes:
-      - ./database/mysql:/var/lib/mysql
-    networks:
-      - radar_voluntario_network
     ports:
-      - "${PORTA_BANCO}:3306"
+      - '3333:3333'
+    networks:
+      - radar-voluntario-network
+    depends_on:
+      - database
 
 networks: 
-  radar_voluntario_network:
+  radar-voluntario-network:
     driver: bridge
-    
