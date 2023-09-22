@@ -3,7 +3,7 @@ import { useLoginGoogle } from '@/api/auth';
 // import { pageRoutes } from '../routes';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { toast } from 'react-toastify';
-import { api } from '@/utils/api';
+import { api } from '@/api';
 import { AuthenticationResponse } from '@/types/authenticate-response';
 import { AxiosError, AxiosResponse } from 'axios';
 import { apiRoutes } from '@/routes';
@@ -15,7 +15,7 @@ export const GoogleButton = () => {
         api.post<AuthenticationResponse>(apiRoutes.loginGoogle, credentialResponse)
             .then((res: AxiosResponse<AuthenticationResponse>) => {
                 toast.success('Bem-vindo ' + res.data.firstName);
-                queryClient.invalidateQueries({ queryKey: apiRoutes.getUser })
+                queryClient.invalidateQueries({ queryKey: apiRoutes.getUser });
             }).catch((err: AxiosError) => {
                 toast.error("Houve algum erro no login, por favor tente novamente. " + err.message);
             });

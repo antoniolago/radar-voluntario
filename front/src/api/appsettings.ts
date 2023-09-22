@@ -1,24 +1,22 @@
-import { apiRoutes } from '@/routes';
-import { QueryKeyT, useFetch } from '@/utils/reactQuery';
 import { AppSettings } from '@/types/appsettings';
-import { UseQueryOptions } from '@tanstack/react-query';
+import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useEffect } from 'react';
 import AlertaReconectando from '@/components/AlertaReconectando';
+import { api } from '.';
+import { AxiosResponse } from 'axios';
 
 export const useGetAppSettings = () => {
-  var queryOptions: UseQueryOptions<AppSettings, Error, AppSettings, QueryKeyT> = {
-    // queryKey: ["appsettings"],
+  var queryOptions: UseQueryOptions<AxiosResponse<AppSettings>, Error, AppSettings, string[]> = {
+    queryKey: ["appsettings"],
+    queryFn: () => api.get("appSettings"),
     retry: true,
+    staleTime: Infinity,
     // cacheTime: 3000000,
     enabled: true,
     retryDelay: 3000,
   };
-  const context = useFetch<AppSettings>(
-    apiRoutes.getAppSettings,
-    undefined,
-    queryOptions
-  );
+  const context = useQuery(queryOptions)
   useEffect(() => {
     if(context.failureReason){
       toast.custom(AlertaReconectando);
