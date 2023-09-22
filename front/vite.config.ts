@@ -18,6 +18,6 @@ export default defineConfig({
   server: {
     host: true,
     https: true,
-    port: +process.env.PORTA_FRONT
+    port: +process.env.FRONTEND_PORT
   }
 })

@@ -1,29 +1,45 @@
 version: '3.8'
 
 services:
+  frontend:
+    container_name: radar-voluntario-frontend
+    env_file:
+      - .env
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    ports:
+      - '${FRONTEND_PORT}:${FRONTEND_PORT}'
+    networks:
+      - radar-voluntario-network
+  backend:
+    container_name: radar-voluntario-backend
+    env_file:
+      - .env
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - '${BACKEND_PORT}:${BACKEND_PORT}'
+    networks:
+      - radar-voluntario-network
+    depends_on:
+      - database
   database:
+    container_name: radar-voluntario-database
+    env_file:
+      - .env
     image: postgres:13
     restart: always
-    container_name: radar-voluntario-database
     ports:
-      - '5433:5432'
+      - '${DATABASE_PORT}:${DATABASE_PORT}'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: radar-voluntario
     networks:
       - radar-voluntario-network
-  backend:
-    container_name: radar-voluntario-backend
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    ports:
-      - '3333:3333'
-    networks:
-      - radar-voluntario-network
-    depends_on:
-      - database
+
 
 networks: 
   radar-voluntario-network:
