@@ -4,4 +4,4 @@ metadata:
   name: app-config
 data:
   environment: development
-  api_url: https://radarvoluntario.duckdns.com
+  api_url: https://radarvoluntario.duckdns.com 
