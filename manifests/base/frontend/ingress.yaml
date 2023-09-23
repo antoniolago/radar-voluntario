@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: react-app-ingress
+  namespace: radar-voluntario
 spec:
   rules:
     - host: invalid.domain.com # Replace with your domain or IP

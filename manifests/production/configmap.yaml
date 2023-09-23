@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: app-config
 data:
+  namespace: radar-voluntario
   environment: production
   host: https://radarvoluntario.duckdns.com
   backend_port: "8010"

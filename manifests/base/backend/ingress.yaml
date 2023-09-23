@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: node-api-ingress
+  namespace: radar-voluntario
 spec:
   rules:
     - host: invalid.domain.com # THIS IS REPLACED BY KUSTOMIZATION

@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: node-api-deployment
+  namespace: radar-voluntario
 spec:
   replicas: 3 # Adjust the number of replicas as needed
   selector:
