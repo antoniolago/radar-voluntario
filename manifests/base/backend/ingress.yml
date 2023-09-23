@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: node-api-ingress
+spec:
+  rules:
+    - host: REPLACE_WITH_CONFIGMAP_HOST # THIS IS REPLACED BY KUSTOMIZATION
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: node-api-service
+                port:
+                  number: 80

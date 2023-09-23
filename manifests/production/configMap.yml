@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  environment: development
+  api_url: https://radarvoluntario.duckdns.com
