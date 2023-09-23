@@ -4,7 +4,7 @@ metadata:
   name: react-app-ingress
 spec:
   rules:
-    - host: REPLACE_WITH_CONFIGMAP_HOST # Replace with your domain or IP
+    - host: invalid.domain.com # Replace with your domain or IP
       http:
         paths:
           - path: /

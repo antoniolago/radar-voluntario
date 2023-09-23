@@ -4,7 +4,7 @@ metadata:
   name: node-api-ingress
 spec:
   rules:
-    - host: REPLACE_WITH_CONFIGMAP_HOST # THIS IS REPLACED BY KUSTOMIZATION
+    - host: invalid.domain.com # THIS IS REPLACED BY KUSTOMIZATION
       http:
         paths:
           - path: /api

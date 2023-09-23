@@ -1,3 +1,5 @@
 resources:
-  - ../base
+  - ../base/frontend
+  - ../base/backend
+  - ../base/postgres
   - configmap.yaml

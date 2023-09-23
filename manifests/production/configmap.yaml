@@ -3,5 +3,10 @@ kind: ConfigMap
 metadata:
   name: app-config
 data:
-  environment: development
-  api_url: https://radarvoluntario.duckdns.com 
+  environment: production
+  host: https://radarvoluntario.duckdns.com
+  backend_port: "8010"
+  postgres-db: testdb
+  postgres-user: testuser
+  postgres-password: testpass
+  google-oauth-client-id: 910904119481-m5o3q6n66b1l9bamtgh854t4c31r6kj9.apps.googleusercontent.com
