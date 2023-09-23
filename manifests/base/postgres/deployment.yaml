@@ -21,19 +21,19 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: radar-voluntario-config
-                  name: POSTGRES_DB
+                  name: postgres-db
             - name: POSTGRES_USER
               # value: myuser
               valueFrom:
                 configMapKeyRef:
                   key: radar-voluntario-config
-                  name: POSTGRES_USER
+                  name: postgres-user
             - name: POSTGRES_PASSWORD
               valueFrom:
                 configMapKeyRef:
                   key: radar-voluntario-config
                   # name: postgres-secret
-                  name: POSTGRES_PASSWORD
+                  name: postgres-password
           ports:
             - containerPort: 5432
           volumeMounts:
