@@ -19,8 +19,10 @@ jobs:
         include:
           - dockerfile: ./frontend/Dockerfile_deploy
             image: ghcr.io/antoniolago/radar-voluntario-frontend
+            context: ./frontend
           - dockerfile: ./backend/Dockerfile
             image: ghcr.io/antoniolago/radar-voluntario-backend
+            context: ./frontend
     permissions:
       contents: read
       packages: write
@@ -47,7 +49,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: .
+          context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: true
           tags: ${{ env.NOW }}
