@@ -10,6 +10,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+
   build-and-push-image:
     runs-on: ubuntu-latest
     strategy:
@@ -25,6 +26,8 @@ jobs:
       packages: write
 
     steps:
+      - name: set env
+        run: echo "NOW=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -47,5 +50,5 @@ jobs:
           context: .
           file: ${{ matrix.dockerfile }}
           push: true
-          tags: $(date +%s)
+          tags: ${{ env.NOW }}
           labels: ${{ steps.meta.outputs.labels }}
