@@ -6,7 +6,7 @@ services:
     env_file:
       - .env
     build:
-      context: ./front
+      context: ./frontend
       dockerfile: Dockerfile
     ports:
       - '${FRONTEND_PORT}:${FRONTEND_PORT}'
