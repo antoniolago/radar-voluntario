@@ -17,7 +17,7 @@ import { useGetAppSettings } from './api/appsettings';
 
 function App() {
   // const { error } = useGetProfile();
-  const { data: appSettings, isLoading } = useGetAppSettings();
+  const { data: appSettings } = useGetAppSettings();
 
   return (
     appSettings?.GOOGLE_OAUTH_CLIENT_ID &&

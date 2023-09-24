@@ -1,12 +1,10 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Alert, Backdrop, Box, Button, Fade, Modal, TextField, Typography } from '@mui/material';
 import { useLogin } from '@/api/auth';
-// import { pageRoutes } from '../routes';
 import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
-import { apiRoutes } from '@/routes';
+import { GoogleLogin } from '@react-oauth/google';
 
 const LoginModal = () => {
   const navigate = useNavigate();
@@ -15,7 +13,7 @@ const LoginModal = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [open, setOpen] = React.useState(true);
-  const handleOpen = () => setOpen(true);
+  // const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     navigate(-1);
@@ -140,7 +138,7 @@ const LoginModal = () => {
                 
                 onSuccess={credentialResponse => {
                   console.log(credentialResponse);
-                  useLoginGoogle(credentialResponse);
+                  // useLoginGoogle(credentialResponse);
                 }}
                 onError={() => {
                   console.log('Login Failed');

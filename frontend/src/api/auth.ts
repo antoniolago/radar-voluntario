@@ -1,11 +1,8 @@
 import { apiRoutes } from '@/routes';
 import { api } from '@/api';
 import { User } from '@/types/user';
-import { CredentialResponse } from '@react-oauth/google';
-import { AuthenticationResponse } from '@/types/authenticate-response';
-import { AxiosError, AxiosResponse } from 'axios';
-import { toast } from 'react-toastify';
-import { UseQueryOptions, useQuery, useQueryClient } from 'react-query';
+import { AxiosResponse } from 'axios';
+import { UseQueryOptions, useQuery } from 'react-query';
 
 export const useLogin = (email: string, password: string) =>
   api.post<{ token: string }>(apiRoutes.login, {

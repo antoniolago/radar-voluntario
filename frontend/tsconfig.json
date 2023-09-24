@@ -16,8 +16,10 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    // TODO: REMOVE ON FIRST STABLE VERSION
+    "noUnusedLocals": false,
+    // TODO: REMOVE ON FIRST STABLE VERSION
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {

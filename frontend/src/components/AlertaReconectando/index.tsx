@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Alert from '@mui/joy/Alert';
 import Box from '@mui/joy/Box';
 import CircularProgress from '@mui/joy/CircularProgress';
