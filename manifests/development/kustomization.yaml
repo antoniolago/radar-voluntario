@@ -17,10 +17,6 @@ replacements:
         fieldPaths:
           # … match the image of `my-container` …
           - spec.template.spec.containers.[name=node-api-container].image
-        options:
-          # … but replace only the second part (image tag) when split by ":".
-          delimiter: ":"
-          index: 0
   - source:
       # Replace any matches by the value of environment variable `MY_IMAGE_TAG`.
       kind: ConfigMap
@@ -33,7 +29,7 @@ replacements:
         fieldPaths:
           # … match the image of `my-container` …
           - spec.template.spec.containers.[name=react-app-container].image
-        options:
-          # … but replace only the second part (image tag) when split by ":".
-          delimiter: ":"
-          index: 0
+        # options:
+        #   # … but replace only the second part (image tag) when split by ":".
+        #   delimiter: ":"
+        #   index: 0
