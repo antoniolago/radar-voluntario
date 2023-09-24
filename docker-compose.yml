@@ -12,6 +12,10 @@ services:
       - '${FRONTEND_PORT}:${FRONTEND_PORT}'
     networks:
       - radar-voluntario-network
+    volumes:
+      - ${FRONTEND_HOME}:/app/
+      - /app/node_modules
+      - /app/.git
   backend:
     container_name: radar-voluntario-backend
     env_file:
