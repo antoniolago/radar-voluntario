@@ -4,15 +4,17 @@ import https from "https";
 import cors from "cors";
 import fs from "fs";
 import os from "os";
+import bodyParser from "body-parser";
+import { OAuth2Client } from "google-auth-library";
 
 import express from "express";
-import { google } from "googleapis";
 
 dotenv.config({ path: path.resolve(__dirname, "..", "..", ".env") });
 
 const app = express();
 
 app.use(cors());
+app.use(bodyParser.json());
 
 const PORT = process.env.BACKEND_PORT || 3333;
 
@@ -37,8 +39,6 @@ if (process.env.NODE_ENV === "development") {
   });
 }
 
-const oauth2 = google.oauth2("v2");
-
 app.get("/", (request, response) => {
   return response.json({ message: "Hello World" });
 });
@@ -46,28 +46,26 @@ app.get("/", (request, response) => {
 app.get("/api/appSettings", (request, response) => {
   return response.json({
     GOOGLE_OAUTH_CLIENT_ID: process.env.GOOGLE_OAUTH_CLIENT_ID,
-    ENVIRONMENT: 'main',
-    APP_URL: process.env.APP_URL
+    ENVIRONMENT: "main",
+    APP_URL: process.env.APP_URL,
   });
 });
 
-app.post("/auth", async (request, response) => {
-  const auth = new google.auth.GoogleAuth({
-    clientOptions: {
-      clientId: process.env.GOOGLE_OAUTH_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET_ID,
-    },
-    // Scopes can be specified either as an array or as a single, space-delimited string.
-    scopes: [],
+app.get("/api/user", async (request, response) => {
+  return response.json({ ok: true });
+});
+
+app.post("/api/accounts/login-google", async (request, response) => {
+  const { credential } = request.body;
+
+  const client = new OAuth2Client(process.env.GOOGLE_OAUTH_CLIENT_ID);
+
+  const ticket = await client.verifyIdToken({
+    idToken: credential,
+    audience: process.env.GOOGLE_OAUTH_CLIENT_ID,
   });
 
-  const authClient = await auth.getClient();
+  const payload = ticket.getPayload();
 
-  const accessToken = await authClient.getAccessToken();
-
-  console.log(accessToken);
-
-  return response.send({
-    ok: true,
-  });
+  return response.json({ firstName: payload?.given_name });
 });
