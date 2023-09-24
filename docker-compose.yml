@@ -35,7 +35,7 @@ services:
       - '${DATABASE_PORT}:${DATABASE_PORT}'
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: docker
       POSTGRES_DB: radar-voluntario
     networks:
       - radar-voluntario-network
