@@ -2,7 +2,7 @@ import { apiRoutes } from '@/routes';
 import { api } from '@/api';
 import { User } from '@/types/user';
 import { AxiosResponse } from 'axios';
-import { UseQueryOptions, useQuery } from 'react-query';
+import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 
 export const useLogin = (email: string, password: string) =>
   api.post<{ token: string }>(apiRoutes.login, {
