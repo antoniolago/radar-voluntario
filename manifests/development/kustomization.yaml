@@ -1,3 +1,5 @@
+namespace: radar-voluntario-dev
+
 resources:
   - ../base/frontend
   - ../base/backend
