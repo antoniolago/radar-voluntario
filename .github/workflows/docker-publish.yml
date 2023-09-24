@@ -18,10 +18,10 @@ jobs:
       matrix:
         include:
           - dockerfile: ./frontend/Dockerfile_deploy
-            image: ghcr.io/antoniolago/radar-voluntario-frontend-${{ github.branch }}
+            image: ghcr.io/antoniolago/radar-voluntario-frontend-${{ github.branch }}:${{ env.NOW }}
             context: ./frontend
           - dockerfile: ./backend/Dockerfile
-            image: ghcr.io/antoniolago/radar-voluntario-backend-${{ github.branch }}
+            image: ghcr.io/antoniolago/radar-voluntario-backend-${{ github.branch }}:${{ env.NOW }}
             context: ./frontend
     permissions:
       contents: read
@@ -52,5 +52,5 @@ jobs:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: true
-          tags: ${{ env.NOW }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
