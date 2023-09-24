@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: react-app-container
-          image: your-react-app-image:latest
+          image: this-will-be-replaced-by-kustomize:latest
           ports:
             - containerPort: 80
           resources:
