@@ -1,0 +1,8 @@
+POST http://localhost:9091/auth HTTP/1.1
+Content-Type: application/json
+
+{}
+
+###
+
+GET https://localhost:9091/api/appSettings HTTP/1.1
