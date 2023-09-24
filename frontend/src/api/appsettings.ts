@@ -7,7 +7,7 @@ import { api } from '.';
 import { AxiosResponse } from 'axios';
 
 export const useGetAppSettings = () => {
-  var queryOptions: UseQueryOptions<AxiosResponse<AppSettings>, Error, AppSettings, string[]> = {
+  const queryOptions: UseQueryOptions<AxiosResponse<AppSettings>, Error, AxiosResponse<AppSettings>, string[]> = {
     queryKey: ["appsettings"],
     queryFn: () => api.get("appSettings"),
     retry: true,
@@ -22,7 +22,7 @@ export const useGetAppSettings = () => {
       toast.custom(AlertaReconectando);
     }
   }, [context.failureCount])
-  return { ...context, data: context.data };
+  return { ...context, data: context.data?.data };
 };
 
 export const AppSettingsService = {
