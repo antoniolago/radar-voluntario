@@ -13,6 +13,8 @@ spec:
       labels:
         app: node-api
     spec:
+      imagePullSecrets:
+        - name: registrypullsecret
       containers:
         - name: node-api-container
           image: kustomizeplaceholder
