@@ -47,7 +47,6 @@ jobs:
           images: ${{ matrix.image }}
           tags: |
             type=sha
-            type=edge
             type=raw,value=latest
 
       - name: Build and push Docker image
