@@ -1,29 +1,30 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: node-api-deployment
-  namespace: radar-voluntario
-spec:
-  replicas: 0 # Adjust the number of replicas as needed
-  strategy:
-    type: Recreate
-  selector:
-    matchLabels:
-      app: node-api
-  template:
-    metadata:
-      labels:
-        app: node-api
-    spec:
-      containers:
-        - name: node-api-container
-          image: kustomizeplaceholder
-          ports:
-            - containerPort: 3000 # Adjust the port if your Node.js app listens on a different port
-          resources:
-            limits:
-              cpu: "0.5"
-              memory: "512Mi"
-            # requests:
-            #   cpu: "0.5"
-            #   memory: "256Mi"
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: node-api-deployment
+#   namespace: radar-voluntario
+# spec:
+#   replicas: 0 # Adjust the number of replicas as needed
+#   strategy:
+#     type: Recreate
+#   selector:
+#     matchLabels:
+#       app: node-api
+#   template:
+#     metadata:
+#       name: node-api
+#       labels:
+#         app: node-api
+#     spec:
+#       containers:
+#         - name: node-api-container
+#           image: kustomizeplaceholder
+#           ports:
+#             - containerPort: 3000 # Adjust the port if your Node.js app listens on a different port
+#           resources:
+#             limits:
+#               cpu: "0.5"
+#               memory: "512Mi"
+#             # requests:
+#             #   cpu: "0.5"
+#             #   memory: "256Mi"
