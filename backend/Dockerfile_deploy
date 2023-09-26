@@ -9,19 +9,9 @@ COPY package*.json ./
 COPY yarn.lock ./
 RUN yarn install
 
-# ------------------------------------------------------
-# Build da aplicação
-# ------------------------------------------------------
-FROM node_cache as build
-
+FROM arm64v8/node:20-alpine
 WORKDIR /src/app
 COPY --from=node_cache /cache/ .
 # Copy source files, and possibily invalidate so we have to rebuild
 COPY . ./
-# Builda a aplicação para o deploy
-RUN yarn run build
-
-FROM arm64v8/node:20-alpine
-WORKDIR /app
-COPY --from=build /src/app/dist /app
-CMD [ "node", "server.js" ]
+CMD [ "yarn", "start" ]
