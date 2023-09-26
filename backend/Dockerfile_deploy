@@ -1,14 +1,27 @@
-FROM arm64v8/node:20-alpine
-
-WORKDIR /usr/src/app
-
-COPY *.lock ./
+# ------------------------------------------------------
+# NPM INSTALL CACHE
+# ------------------------------------------------------
+# Cria uma imagem de cache apenas para o node_modules
+FROM node:20-alpine as node_cache
+WORKDIR /cache
+# Instalando dependências da aplicação e armazenando em cache.
 COPY package*.json ./
+COPY yarn.lock ./
 RUN yarn install
 
-# If you are building your code for production
-RUN npm ci --omit=dev
+# ------------------------------------------------------
+# Build da aplicação
+# ------------------------------------------------------
+FROM node_cache as build
 
-COPY . .
-EXPOSE 8080
+WORKDIR /src/app
+COPY --from=node_cache /cache/ .
+# Copy source files, and possibily invalidate so we have to rebuild
+COPY . ./
+# Builda a aplicação para o deploy
+RUN yarn run build
+
+FROM arm64v8/node:20-alpine
+WORKDIR /app
+COPY --from=build /src/app/dist /app
 CMD [ "node", "server.js" ]
