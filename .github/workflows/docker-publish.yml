@@ -18,10 +18,10 @@ jobs:
       matrix:
         include:
           - dockerfile: ./frontend/Dockerfile_deploy
-            image: ghcr.io/antoniolago/radar-voluntario-frontend-${{ github.branch }}
+            image: ghcr.io/antoniolago/radar-voluntario-frontend-${{ github.ref }}
             context: ./frontend
           - dockerfile: ./backend/Dockerfile
-            image: ghcr.io/antoniolago/radar-voluntario-backend-${{ github.branch }}
+            image: ghcr.io/antoniolago/radar-voluntario-backend-${{ github.ref }}
             context: ./backend
     permissions:
       contents: read
