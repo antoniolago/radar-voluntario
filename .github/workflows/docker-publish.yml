@@ -17,10 +17,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: Dockerfile_deploy
+          - dockerfile: frontend/Dockerfile_deploy
             image: ghcr.io/antoniolago/radar-voluntario-frontend-${{ github.ref_name }}
             context: ./frontend
-          - dockerfile: Dockerfile
+          - dockerfile: backend/Dockerfile
             image: ghcr.io/antoniolago/radar-voluntario-backend-${{ github.ref_name }}
             context: ./backend
     permissions:
