@@ -13,8 +13,6 @@ spec:
       labels:
         app: react-app
     spec:
-      imagePullSecrets:
-        - name: registrypullsecret
       containers:
         - name: react-app-container
           image: kustomizeplaceholder
