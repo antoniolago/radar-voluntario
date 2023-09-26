@@ -4,7 +4,9 @@ metadata:
   name: node-api-deployment
   namespace: radar-voluntario
 spec:
-  replicas: 1 # Adjust the number of replicas as needed
+  replicas: 0 # Adjust the number of replicas as needed
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: node-api

@@ -1,9 +1,9 @@
 namespace: radar-voluntario-dev
 
 resources:
-  - ../base/frontend
-  - ../base/backend
-  - ../base/postgres
+  # - ../base/frontend
+  # - ../base/backend
+  # - ../base/postgres
   - configmap.yaml
 
 replacements:

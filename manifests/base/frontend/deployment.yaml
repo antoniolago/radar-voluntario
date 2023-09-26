@@ -3,25 +3,32 @@ kind: Deployment
 metadata:
   name: react-app-deployment
   namespace: radar-voluntario
+  labels:
+    tier: teste
 spec:
   replicas: 1 # Adjust the number of replicas as needed
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: react-app
+      tier: teste
   template:
     metadata:
       labels:
         app: react-app
+        tier: teste
     spec:
       containers:
-        - name: react-app-container
-          image: kustomizeplaceholder
-          ports:
-            - containerPort: 80
-          resources:
-            limits:
-              cpu: "0.5"
-              memory: "512Mi"
-            # requests:
-            #   cpu: "0.5"
-            #   memory: "256Mi"
+      - name: react-app-container
+        image: kustomizeplaceholder
+        ports:
+          - containerPort: 80
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+          # requests:
+          #   cpu: "0.5"
+          #   memory: "256Mi"
+---
