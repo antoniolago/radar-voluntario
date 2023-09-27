@@ -5,6 +5,8 @@ metadata:
   namespace: radar-voluntario
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: react-app
