@@ -8,8 +8,8 @@ data:
   environment: development
   host: https://radarvoluntario.duckdns.com
   backend_port: "7010"
-  frontend_image: ghcr.io/antoniolago/radar-voluntario-frontend-dev:latest
-  backend_image: ghcr.io/antoniolago/radar-voluntario-backend-dev:latest
+  frontend_image: ghcr.io/antoniolago/radar-voluntario-frontend:dev
+  backend_image: ghcr.io/antoniolago/radar-voluntario-backend:dev
   postgres-db: testdb
   postgres-user: testuser
   postgres-password: testpass
