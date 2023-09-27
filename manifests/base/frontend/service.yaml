@@ -9,5 +9,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 443
+      targetPort: 80
   type: LoadBalancer # Use "LoadBalancer" for external access if your cluster supports it

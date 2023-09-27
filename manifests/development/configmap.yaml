@@ -6,7 +6,7 @@ metadata:
 data:
   namespace: radar-voluntario-dev
   environment: development
-  host: https://radarvoluntario.duckdns.com
+  host: radarvoluntario.duckdns.com
   backend_port: "7010"
   frontend_image: ghcr.io/antoniolago/radar-voluntario-frontend:dev
   backend_image: ghcr.io/antoniolago/radar-voluntario-backend:dev

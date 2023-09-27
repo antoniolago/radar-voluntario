@@ -5,7 +5,7 @@ metadata:
   namespace: radar-voluntario
 spec:
   rules:
-    - host: invalid.domain.com # Replace with your domain or IP
+    - host: invalid.domain.com
       http:
         paths:
           - path: /

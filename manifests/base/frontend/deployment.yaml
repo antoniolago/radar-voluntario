@@ -19,6 +19,9 @@ spec:
           image: ghcr.io/antoniolago/radar-voluntario-frontend:latest # {"$imagepolicy": "flux-system:radar-voluntario-front-img-policy"}
           ports:
             - containerPort: 80
+              hostPort: 80
+            - containerPort: 443
+              hostPort: 443
           resources:
             limits:
               cpu: "0.1"
