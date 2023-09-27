@@ -4,7 +4,7 @@ metadata:
   name: react-app-deployment
   namespace: radar-voluntario
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate
   selector:
