@@ -18,10 +18,10 @@ jobs:
       matrix:
         include:
           - dockerfile: frontend/Dockerfile_deploy
-            image: ghcr.io/antoniolago/radar-voluntario-frontend-${{ github.ref_name }}
+            image: ghcr.io/antoniolago/radar-voluntario-frontend
             context: ./frontend
           - dockerfile: backend/Dockerfile_deploy
-            image: ghcr.io/antoniolago/radar-voluntario-backend-${{ github.ref_name }}
+            image: ghcr.io/antoniolago/radar-voluntario-backend
             context: ./backend
     permissions:
       contents: read
@@ -47,7 +47,7 @@ jobs:
           images: ${{ matrix.image }}
           tags: |
             type=sha
-            type=edge
+            type=ref,event=branch
             type=raw,value=latest
 
       - name: Build and push Docker image

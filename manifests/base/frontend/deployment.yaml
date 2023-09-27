@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: react-app-container
-          image: kustomizeplaceholder
+          image: ghcr.io/antoniolago/radar-voluntario-frontend:latest # {"$imagepolicy": "flux-system:radar-voluntario-front-img-policy"}
           ports:
             - containerPort: 80
           resources:
