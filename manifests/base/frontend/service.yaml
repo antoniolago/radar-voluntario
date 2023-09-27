@@ -10,4 +10,4 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-  type: ClusterIP # Use "LoadBalancer" for external access if your cluster supports it
+  type: LoadBalancer # Use "LoadBalancer" for external access if your cluster supports it
