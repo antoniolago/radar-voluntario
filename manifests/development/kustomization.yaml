@@ -2,7 +2,7 @@ namespace: radar-voluntario-dev
 
 resources:
   - ../base/frontend
-  - ../base/backend
+  # - ../base/backend
   # - ../base/postgres
   - configmap.yaml
 
