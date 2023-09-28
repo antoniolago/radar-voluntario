@@ -4,7 +4,7 @@
 # Cria uma imagem de cache apenas para o node_modules
 FROM arm64v8/node:20-alpine as node_cache
 WORKDIR /cache
-RUN apk add --no-cache --virtual .gyp python3 make g++
+# RUN apk add --no-cache --virtual .gyp python3 make g++
 # Instalando dependências da aplicação e armazenando em cache.
 COPY package*.json ./
 COPY yarn.lock ./
