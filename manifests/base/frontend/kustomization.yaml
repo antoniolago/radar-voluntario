@@ -5,3 +5,20 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
+  
+replacements:
+  - source:
+      # Replace any matches by the value of environment variable `MY_IMAGE_TAG`.
+      kind: ConfigMap
+      name: radar-voluntario-config
+      fieldPath: data.frontend_image
+    targets:
+      - select:
+          # In each Deployment resource …
+          kind: Deployment
+        fieldPaths:
+          # … match the image of `my-container` …
+          - spec.template.spec.containers.[name=react-app-container].image
+        options:
+          # … but replace only the second part (image tag) when split by ":".
+          create: true

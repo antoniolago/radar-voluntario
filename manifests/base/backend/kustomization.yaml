@@ -2,3 +2,19 @@ resources:
   - ./deployment.yaml
   - ./service.yaml
   - ./ingress.yaml
+
+  
+replacements:
+  - source:
+      # Replace any matches by the value of environment variable `MY_IMAGE_TAG`.
+      kind: ConfigMap
+      name: radar-voluntario-config
+      fieldPath: data.host
+    targets:
+      - select:
+          # In each Deployment resource …
+          kind: Ingress
+        fieldPaths:
+          - spec.rules.[host=invalid.domain.com].host
+        options: 
+          create: true
