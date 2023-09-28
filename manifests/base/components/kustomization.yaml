@@ -23,6 +23,7 @@ replacements:
       - select:
           # In each Deployment resource …
           kind: Deployment
+          name: node-api-deployment
         fieldPaths:
           # … match the image of `my-container` …
           - spec.template.spec.containers.[name=node-api-container].image
@@ -37,6 +38,7 @@ replacements:
       - select:
           # In each Deployment resource …
           kind: Deployment
+          name: react-app-deployment
         fieldPaths:
           # … match the image of `my-container` …
           - spec.template.spec.containers.[name=react-app-container].image
