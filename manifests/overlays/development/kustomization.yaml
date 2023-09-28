@@ -6,3 +6,7 @@ resources:
   - ../base/backend
   # - ../base/postgres
   - configmap.yaml
+
+  
+components:
+  - ../base/components
