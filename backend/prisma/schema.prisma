@@ -26,7 +26,7 @@ model Institution {
   latitude     Float
   longitude    Float
   users        InstitutionUser[]
-  oportunities Opportunity[]
+  opportunities Opportunity[]
 
   @@map("institutions")
 }
