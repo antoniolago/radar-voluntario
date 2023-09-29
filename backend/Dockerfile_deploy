@@ -2,8 +2,9 @@
 # NPM INSTALL CACHE
 # ------------------------------------------------------
 # Cria uma imagem de cache apenas para o node_modules
-FROM arm64v7/node:20-alpine as node_cache
+FROM arm64v8/node:20-alpine as node_cache
 WORKDIR /cache
+RUN apk update
 RUN apk add --no-cache --virtual .gyp \
         python \
         make \
