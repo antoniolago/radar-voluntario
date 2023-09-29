@@ -5,13 +5,14 @@ import cors from "cors";
 import fs from "fs";
 import os from "os";
 import bodyParser from "body-parser";
-import { OAuth2Client } from "google-auth-library";
-
-import jsonwebtoken from "jsonwebtoken";
 
 import express from "express";
 
-import { prisma } from "./database/prisma";
+import { AppSettingsService } from "./services/app-settings.service";
+import { AppSettingsController } from "./controllers/app-settings.controller";
+import { UserController } from "./controllers/user.controller";
+import { AccountsService } from "./services/accounts.service";
+import { AccountsController } from "./controllers/accounts.controller";
 
 dotenv.config({ path: path.resolve(__dirname, "..", "..", ".env") });
 
@@ -19,6 +20,20 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+
+const appSettingsService = new AppSettingsService();
+const appSettingsController = new AppSettingsController(appSettingsService);
+
+const userController = new UserController();
+
+const accountsService = new AccountsService();
+const accountsController = new AccountsController(accountsService);
+
+app.get("/api/appSettings", appSettingsController.index);
+
+app.get("/api/user", userController.index);
+
+app.post("/api/accounts/login-google", accountsController.loginGoogle);
 
 const PORT = process.env.BACKEND_PORT || 3333;
 
@@ -42,57 +57,3 @@ if (process.env.NODE_ENV === "development") {
     console.log(`Server is runing on http://localhost:${PORT}`);
   });
 }
-
-app.get("/", (request, response) => {
-  return response.json({ message: "Hello World" });
-});
-
-app.get("/api/appSettings", (request, response) => {
-  return response.json({
-    GOOGLE_OAUTH_CLIENT_ID: process.env.GOOGLE_OAUTH_CLIENT_ID,
-    ENVIRONMENT: "main",
-    APP_URL: process.env.APP_URL,
-  });
-});
-
-app.get("/api/user", async (request, response) => {
-  return response.json({ ok: true });
-});
-
-app.post("/api/accounts/login-google", async (request, response) => {
-  const { credential } = request.body;
-
-  const client = new OAuth2Client(process.env.GOOGLE_OAUTH_CLIENT_ID);
-
-  const ticket = await client.verifyIdToken({
-    idToken: credential,
-    audience: process.env.GOOGLE_OAUTH_CLIENT_ID,
-  });
-
-  const payload = ticket.getPayload();
-
-  if (!payload?.email) {
-    return response.status(400).json({ message: "Invalid credential" });
-  }
-
-  let user = await prisma.user.findUnique({
-    where: { email: payload?.email },
-  });
-
-  if (!user) {
-    user = await prisma.user.create({
-      data: {
-        name: payload?.name as string,
-        email: payload?.email,
-      },
-    });
-  }
-
-  const token = jsonwebtoken.sign(
-    { id: user.id, email: user.email },
-    process.env.BACKEND_JWT_SECRET as string,
-    { expiresIn: "14 days" }
-  );
-
-  return response.json({ user, token });
-});
