@@ -39,7 +39,6 @@ Authorization: {{authorization}}
 ###
 
 GET {{base_url}}/institutions HTTP/1.1
-Authorization: {{authorization}}
 
 ###
 
