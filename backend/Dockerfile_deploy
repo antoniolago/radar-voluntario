@@ -2,12 +2,12 @@
 # NPM INSTALL CACHE
 # ------------------------------------------------------
 # Cria uma imagem de cache apenas para o node_modules
-FROM node:16-alpine as node_cache
+FROM arm64v8/node:20-alpine as node_cache
 WORKDIR /cache
 
 # Instalando dependências da aplicação e armazenando em cache.
 COPY package*.json ./
-COPY yarn.lock ./
+# COPY yarn.lock ./
 RUN yarn install
 
 FROM arm64v8/node:20-alpine
