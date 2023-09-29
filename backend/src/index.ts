@@ -7,7 +7,11 @@ import os from "os";
 import bodyParser from "body-parser";
 import { OAuth2Client } from "google-auth-library";
 
+import jsonwebtoken from "jsonwebtoken";
+
 import express from "express";
+
+import { prisma } from "./database/prisma";
 
 dotenv.config({ path: path.resolve(__dirname, "..", "..", ".env") });
 
@@ -67,5 +71,28 @@ app.post("/api/accounts/login-google", async (request, response) => {
 
   const payload = ticket.getPayload();
 
-  return response.json({ firstName: payload?.given_name });
+  if (!payload?.email) {
+    return response.status(400).json({ message: "Invalid credential" });
+  }
+
+  let user = await prisma.user.findUnique({
+    where: { email: payload?.email },
+  });
+
+  if (!user) {
+    user = await prisma.user.create({
+      data: {
+        name: payload?.name as string,
+        email: payload?.email,
+      },
+    });
+  }
+
+  const token = jsonwebtoken.sign(
+    { id: user.id, email: user.email },
+    process.env.BACKEND_JWT_SECRET as string,
+    { expiresIn: "14 days" }
+  );
+
+  return response.json({ user, token });
 });
