@@ -21,11 +21,11 @@ model User {
 }
 
 model Institution {
-  id           String            @id @default(uuid())
-  name         String
-  latitude     Float
-  longitude    Float
-  users        InstitutionUser[]
+  id            String            @id @default(uuid())
+  name          String
+  latitude      Float
+  longitude     Float
+  users         InstitutionUser[]
   opportunities Opportunity[]
 
   @@map("institutions")

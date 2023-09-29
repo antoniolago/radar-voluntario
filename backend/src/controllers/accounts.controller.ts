@@ -5,6 +5,14 @@ export class AccountsController {
 
   constructor(private accountsService: AccountsService) { }
 
+  public login = async (request: Request, response: Response) => {
+    const { email } = request.body;
+
+    const auth = await this.accountsService.login(email)
+
+    return response.json(auth);
+  }
+
   public loginGoogle = async (request: Request, response: Response) => {
     const { credential } = request.body;
 
