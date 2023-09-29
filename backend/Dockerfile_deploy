@@ -10,9 +10,9 @@ COPY package*.json ./
 # COPY yarn.lock ./
 RUN yarn install
 
-FROM arm64v8/node:20-alpine
+FROM node:20-alpine
 WORKDIR /src/app
 COPY --from=node_cache /cache/ .
 # Copy source files, and possibily invalidate so we have to rebuild
 COPY . ./
-CMD [ "yarn", "start" ]
+CMD [ "yarn", "start", "--ignore-engines" ]
