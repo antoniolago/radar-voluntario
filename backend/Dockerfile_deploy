@@ -2,7 +2,7 @@
 # NPM INSTALL CACHE
 # ------------------------------------------------------
 # Cria uma imagem de cache apenas para o node_modules
-FROM node:20-alpine as node_cache
+FROM arm64v8/node:20 as node_cache
 WORKDIR /cache
 
 # Instalando dependências da aplicação e armazenando em cache.
