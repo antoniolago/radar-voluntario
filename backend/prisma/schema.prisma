@@ -11,9 +11,54 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(uuid())
-  name  String
-  email String @unique
+  id            String            @id @default(uuid())
+  name          String
+  email         String            @unique
+  institutions  InstitutionUser[]
+  opportunities OpportunityUser[]
 
   @@map("users")
+}
+
+model Institution {
+  id           String            @id @default(uuid())
+  name         String
+  latitude     Float
+  longitude    Float
+  users        InstitutionUser[]
+  oportunities Opportunity[]
+
+  @@map("institutions")
+}
+
+model InstitutionUser {
+  id             String      @id @default(uuid())
+  institution    Institution @relation(fields: [institution_id], references: [id])
+  institution_id String
+  user           User        @relation(fields: [user_id], references: [id])
+  user_id        String
+
+  @@map("institutions_users")
+}
+
+model Opportunity {
+  id             String            @id @default(uuid())
+  name           String
+  description    String
+  institution    Institution       @relation(fields: [institution_id], references: [id])
+  institution_id String
+  vacancies      Int
+  users          OpportunityUser[]
+
+  @@map("opportunities")
+}
+
+model OpportunityUser {
+  id             String      @id @default(uuid())
+  opportunity    Opportunity @relation(fields: [opportunity_id], references: [id])
+  opportunity_id String
+  user           User        @relation(fields: [user_id], references: [id])
+  user_id        String
+
+  @@map("opportunities_users")
 }
