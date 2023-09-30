@@ -18,23 +18,20 @@ spec:
           image: postgres:latest
           env:
             - name: POSTGRES_DB
-              # value: mydatabase
               valueFrom:
                 configMapKeyRef:
-                  key: radar-voluntario-config
-                  name: postgres-db
+                  key: postgres-db
+                  name: radar-voluntario-config
             - name: POSTGRES_USER
-              # value: myuser
               valueFrom:
                 configMapKeyRef:
-                  key: radar-voluntario-config
-                  name: postgres-user
+                  key: postgres-user
+                  name: radar-voluntario-config
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: oracle-vault-radar-voluntario
-                  # name: postgres-secret
-                  name: postgres-password
+                  key: postgres-password
+                  name: oracle-vault-radar-voluntario
           ports:
             - containerPort: 5432
           volumeMounts:
