@@ -21,12 +21,12 @@ spec:
               # value: mydatabase
               valueFrom:
                 configMapKeyRef:
-                  key: radar-voluntario-config
+                  key: oracle-vault-radar-voluntario
                   name: postgres-db
             - name: POSTGRES_USER
               # value: myuser
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   key: radar-voluntario-config
                   name: postgres-user
             - name: POSTGRES_PASSWORD
