@@ -5,6 +5,7 @@ services:
     container_name: radar-voluntario-frontend
     env_file:
       - .env
+      - secrets.env
     build:
       context: ./frontend
       dockerfile: Dockerfile
