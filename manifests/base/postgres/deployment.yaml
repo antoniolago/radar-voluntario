@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: arm64v8/postgres:16
+          image: docker.io/arm64v8/postgres:16
           env:
             - name: POSTGRES_DB
               valueFrom:
