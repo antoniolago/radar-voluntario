@@ -24,11 +24,7 @@ jobs:
           - dockerfile: backend/Dockerfile_deploy
             image: ghcr.io/antoniolago/radar-voluntario-backend
             context: ./backend
-            platform: 
-              - linux/amd64
-              - linux/arm/v6
-              - linux/arm/v7
-              - linux/arm64
+            platform: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
     permissions:
       contents: read
       packages: write
