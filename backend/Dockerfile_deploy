@@ -8,7 +8,7 @@ WORKDIR /cache
 # Instalando dependências da aplicação e armazenando em cache.
 COPY package*.json ./
 # COPY yarn.lock ./
-RUN yarn install --ignore-engines
+RUN yarn install --ignore-engines --verbose
 
 FROM arm64v8/node:20-alpine
 WORKDIR /src/app
