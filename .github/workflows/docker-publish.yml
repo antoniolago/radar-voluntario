@@ -24,7 +24,11 @@ jobs:
           - dockerfile: backend/Dockerfile_deploy
             image: ghcr.io/antoniolago/radar-voluntario-backend
             context: ./backend
-            platform: linux/amd64,linux/arm64,linux/arm/v7
+            platform: 
+              - linux/amd64
+              - linux/arm/v6
+              - linux/arm/v7
+              - linux/arm64
     permissions:
       contents: read
       packages: write
@@ -52,6 +56,10 @@ jobs:
             type=ref,event=branch
             type=raw,value=latest
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
