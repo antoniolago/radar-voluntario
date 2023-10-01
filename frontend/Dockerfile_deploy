@@ -7,7 +7,7 @@ WORKDIR /cache
 # Instalando dependências da aplicação e armazenando em cache.
 COPY package*.json ./
 COPY *.lock ./
-RUN yarn install
+RUN yarn install --network-timeout 100000
 
 # ------------------------------------------------------
 # Build da aplicação
