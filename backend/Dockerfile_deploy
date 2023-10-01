@@ -8,7 +8,7 @@ WORKDIR /cache
 # Instalando dependências da aplicação e armazenando em cache.
 COPY package*.json ./
 # COPY yarn.lock ./
-RUN yarn install --ignore-engines --verbose
+RUN yarn install --ignore-engines
 COPY prisma ./
 RUN yarn prisma generate
 

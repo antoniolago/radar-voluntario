@@ -20,6 +20,12 @@ spec:
         - name: react-app-container
           imagePullPolicy: Always
           image: ghcr.io/antoniolago/radar-voluntario-frontend:latest # {"$imagepolicy": "flux-system:radar-voluntario-front-img-policy"}
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  key: postgres-db-url
+                  name: oracle-vault-radar-voluntario          
           ports:
             - containerPort: 80
               hostPort: 80
