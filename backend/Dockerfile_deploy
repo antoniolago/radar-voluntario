@@ -9,6 +9,8 @@ WORKDIR /cache
 COPY package*.json ./
 # COPY yarn.lock ./
 RUN yarn install --ignore-engines --verbose
+COPY prisma ./
+RUN yarn prisma generate
 
 FROM  --platform=linux/arm64 node:20-alpine
 WORKDIR /src/app
