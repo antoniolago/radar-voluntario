@@ -4,16 +4,19 @@ metadata:
   name: react-app-ingress
   namespace: radar-voluntario
   annotations:
-    cert-manager.io/cluster-issuer: cert-manager-global
-    acme.cert-manager.io/http01-edit-in-place: "true"
+    # cert-manager.io/cluster-issuer: cert-manager-global
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-staging
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
     
 spec:
   tls:
     - hosts:
-        - invalid.domain.com
-      secretName: test-tls-secret
+        - radarvoluntario.duckdns.org
+      secretName: radarvoluntario-tls-secret-staging
   rules:
-    - host: invalid.domain.com
+    - host: radarvoluntario.duckdns.org
       http:
         paths:
           - path: /
