@@ -6,7 +6,7 @@ metadata:
   annotations:
     # cert-manager.io/cluster-issuer: cert-manager-global
     kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-production
+    cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-staging
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/use-regex: "true"
     
@@ -14,7 +14,7 @@ spec:
   tls:
     - hosts:
         - radarvoluntario.duckdns.org
-      secretName: radarvoluntario-tls-secret-production
+      secretName: radarvoluntario-tls-secret-staging
   rules:
     - host: radarvoluntario.duckdns.org
       http:
