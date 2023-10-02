@@ -12,6 +12,7 @@ replacements:
           kind: Ingress
         fieldPaths:
           - spec.rules.[host=invalid.domain.com].host
+          - spec.tls.[host=invalid.domain.com].hosts
         options: 
           create: true
   - source:

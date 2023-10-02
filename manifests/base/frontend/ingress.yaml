@@ -8,6 +8,10 @@ metadata:
     acme.cert-manager.io/http01-edit-in-place: "true"
     
 spec:
+  tls:
+    - hosts:
+        - invalid.domain.com
+      secretName: test-tls-secret
   rules:
     - host: invalid.domain.com
       http:
