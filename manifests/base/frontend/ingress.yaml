@@ -3,6 +3,9 @@ kind: Ingress
 metadata:
   name: react-app-ingress
   namespace: radar-voluntario
+  annotations:
+    cert-manager.io/cluster-issuer = module.cert_manager.cluster_issuer_name
+    
 spec:
   rules:
     - host: invalid.domain.com
