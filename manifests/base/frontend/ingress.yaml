@@ -4,7 +4,8 @@ metadata:
   name: react-app-ingress
   namespace: radar-voluntario
   annotations:
-    cert-manager.io/cluster-issuer = module.cert_manager.cluster_issuer_name
+    cert-manager.io/cluster-issuer: module.cert_manager.cluster_issuer_name
+    acme.cert-manager.io/http01-edit-in-place: "true"
     
 spec:
   rules:
