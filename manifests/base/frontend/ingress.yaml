@@ -26,3 +26,10 @@ spec:
                 name: react-app-service
                 port:
                   number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: node-api-service
+                port:
+                  number: 80
