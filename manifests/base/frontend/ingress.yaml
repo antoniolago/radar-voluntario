@@ -18,4 +18,4 @@ spec:
               service:
                 name: react-app-service
                 port:
-                  number: 443
+                  number: 80
