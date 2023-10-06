@@ -48,6 +48,13 @@ export const Tema = (props: any) => {
 
 	const darkTheme = createTheme({
 		components: {
+			MuiTypography: {
+				defaultProps: {
+				  variantMapping: {
+					h1: 'h3',
+				  },
+				},
+			},
 			MuiOutlinedInput: {
 				styleOverrides: {
 					input: {
@@ -86,6 +93,7 @@ export const Tema = (props: any) => {
 			},
 
 		},
+	
 		// typography: {
 		// 	fontFamily: 'Poppins',
 		// },
@@ -93,6 +101,13 @@ export const Tema = (props: any) => {
 		ptBR);
 	const lightTheme = createTheme({
 		components: {
+			MuiTypography: {
+				defaultProps: {
+				  variantMapping: {
+					h1: 'h3',
+				  },
+				},
+			},
 			MuiInputLabel: {
 				styleOverrides: {
 					root: {
