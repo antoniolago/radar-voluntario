@@ -8,6 +8,7 @@ import {
 // import ReactGA from 'react-ga4';
 import Layout from '@/components/Layout';
 import Home from '@/pages/Home';
+import InstitutionEdit from './pages/InstitutionEdit';
 import { Tema } from './contexts/Tema';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet/dist/leaflet.js';
@@ -29,6 +30,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/home" element={<Home />} />
               <Route path="/login" element={<><Home /><LoginModal /></>} />
+              <Route path="/perfilInstituicao" element={<InstitutionEdit/>} />
             </Route>
           </Routes>
         </Tema >
