@@ -33,11 +33,6 @@ jobs:
       packages: write
 
     steps:
-      - name: Get Branch
-        run: |
-          raw=$(git branch -r --contains ${{ github.ref }})
-          branch=${raw/origin\/}
-          echo ::set-env name=BRANCH::$branch
       - name: Generate build ID
         id: prep
         # version=${github.event.label.name}
@@ -45,7 +40,7 @@ jobs:
             tag=${GITHUB_REF##*/}
             sha=${GITHUB_SHA::8}
             ts=$(date +%s)
-              echo "::set-output name=BUILD_ID::${{env.BRANCH}}-${tag}-${ts}"          
+              echo "::set-output name=BUILD_ID::${{github.event.base_ref}}-${tag}-${ts}"          
       - name: set env
         run: echo "NOW=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
       - name: Checkout repository
