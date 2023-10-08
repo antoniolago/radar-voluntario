@@ -8,5 +8,5 @@ resources:
   - configmap.yaml
 
   
-components:
-  - ../../base/components
+# components:
+#   - ../../base/components
