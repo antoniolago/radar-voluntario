@@ -23,6 +23,11 @@ spec:
           ports:
             - containerPort: 3333 # Adjust the port if your Node.js app listens on a different port
           env:
+            - name: GOOGLE_OAUTH_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: google_oauth_client_id
+                  name: radar-voluntario-config         
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
