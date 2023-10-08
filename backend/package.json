@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "tsx ./src/index.ts",
+    "start:prod": "prisma migrate deploy && yarn run start",
     "dev": "cross-env NODE_ENV=development tsx watch ./src/index.ts"
   },
   "dependencies": {
