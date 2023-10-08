@@ -5,7 +5,7 @@ metadata:
   namespace: radar-voluntario
 spec:
   rules:
-    - host: invalid.domain.com # THIS IS REPLACED BY KUSTOMIZATION
+    - host: kustomizeplaceholder.com
       http:
         paths:
           - path: /api

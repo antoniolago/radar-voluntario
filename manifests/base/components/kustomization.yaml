@@ -1,0 +1,48 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+replacements:
+  # - source:
+  #     # Replace any matches by the value of environment variable `MY_IMAGE_TAG`.
+  #     kind: ConfigMap
+  #     name: radar-voluntario-config
+  #     fieldPath: data.host
+  #   targets:
+  #     - select:
+  #         # In each Deployment resource …
+  #         kind: Ingress
+  #       fieldPaths:
+  #         - spec.rules.[host=invalid.domain.com].host
+  #         # - spec.tls.[hosts=invalid.domain.com][0]
+  #       options: 
+  #         create: true
+  - source:
+      # Replace any matches by the value of environment variable `MY_IMAGE_TAG`.
+      kind: ConfigMap
+      name: radar-voluntario-config
+      fieldPath: data.backend_image
+    targets:
+      - select:
+          # In each Deployment resource …
+          kind: Deployment
+          name: node-api-deployment
+        fieldPaths:
+          # … match the image of `my-container` …
+          - spec.template.spec.containers.[name=node-api-container].image
+        options: 
+          create: true
+  - source:
+      # Replace any matches by the value of environment variable `MY_IMAGE_TAG`.
+      kind: ConfigMap
+      name: radar-voluntario-config
+      fieldPath: data.frontend_image
+    targets:
+      - select:
+          # In each Deployment resource …
+          kind: Deployment
+          name: react-app-deployment
+        fieldPaths:
+          # … match the image of `my-container` …
+          - spec.template.spec.containers.[name=react-app-container].image
+        options:
+          # … but replace only the second part (image tag) when split by ":".
+          create: true

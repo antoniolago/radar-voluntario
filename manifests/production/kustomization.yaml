@@ -1,5 +1,0 @@
-resources:
-  - ../base/frontend
-  - ../base/backend
-  - ../base/postgres
-  - configmap.yaml

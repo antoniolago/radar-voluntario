@@ -3,9 +3,20 @@ kind: Ingress
 metadata:
   name: react-app-ingress
   namespace: radar-voluntario
+  annotations:
+    # cert-manager.io/cluster-issuer: cert-manager-global
+    # kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-production
+    # nginx.ingress.kubernetes.io/rewrite-target: /$1
+    # nginx.ingress.kubernetes.io/use-regex: "true"
+    
 spec:
+  tls:
+    - hosts:
+        - radarvoluntario.duckdns.org
+      secretName: radarvoluntario-tls-secret-production
   rules:
-    - host: invalid.domain.com # Replace with your domain or IP
+    - host: radarvoluntario.duckdns.org
       http:
         paths:
           - path: /
@@ -13,5 +24,12 @@ spec:
             backend:
               service:
                 name: react-app-service
+                port:
+                  number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: node-api-service
                 port:
                   number: 80

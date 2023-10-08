@@ -4,24 +4,31 @@ metadata:
   name: react-app-deployment
   namespace: radar-voluntario
 spec:
-  replicas: 3 # Adjust the number of replicas as needed
+  replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: react-app
   template:
     metadata:
+      name: react-app
       labels:
         app: react-app
     spec:
       containers:
         - name: react-app-container
-          image: your-react-app-image:latest
+          imagePullPolicy: Always
+          image: ghcr.io/antoniolago/radar-voluntario-frontend:latest # {"$imagepolicy": "flux-system:radar-voluntario-front-img-policy"}      
           ports:
             - containerPort: 80
+              hostPort: 80
+            - containerPort: 443
+              hostPort: 443
           resources:
             limits:
-              cpu: "0.5"
+              cpu: "0.2"
               memory: "512Mi"
             requests:
-              cpu: "0.5"
-              memory: "256Mi"
+              cpu: "0.1"
+              memory: "128Mi"

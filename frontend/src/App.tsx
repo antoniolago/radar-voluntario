@@ -17,10 +17,10 @@ import { useGetAppSettings } from './api/appsettings';
 
 function App() {
   // const { error } = useGetProfile();
-  const { data: appSettings, isLoading } = useGetAppSettings();
+  const { data: appSettings } = useGetAppSettings();
 
   return (
-    appSettings?.GOOGLE_OAUTH_CLIENT_ID &&
+    // appSettings?.GOOGLE_OAUTH_CLIENT_ID &&
     <GoogleOAuthProvider clientId={appSettings?.GOOGLE_OAUTH_CLIENT_ID || ""}>
       <Router>
         <Tema>

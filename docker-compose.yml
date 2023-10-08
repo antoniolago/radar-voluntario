@@ -5,13 +5,17 @@ services:
     container_name: radar-voluntario-frontend
     env_file:
       - .env
+      - secrets.env
     build:
-      context: ./front
+      context: ./frontend
       dockerfile: Dockerfile
     ports:
       - '${FRONTEND_PORT}:${FRONTEND_PORT}'
     networks:
       - radar-voluntario-network
+    volumes:
+      - ${FRONTEND_HOME}:/app/
+      - /app/node_modules
   backend:
     container_name: radar-voluntario-backend
     env_file:

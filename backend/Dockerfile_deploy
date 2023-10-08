@@ -1,0 +1,20 @@
+# ------------------------------------------------------
+# NPM INSTALL CACHE
+# ------------------------------------------------------
+# Cria uma imagem de cache apenas para o node_modules
+FROM  --platform=linux/arm64 node:20 as node_cache
+WORKDIR /cache
+
+# Instalando dependências da aplicação e armazenando em cache.
+COPY package*.json ./
+# COPY yarn.lock ./
+RUN yarn install --ignore-engines
+COPY prisma ./
+RUN yarn prisma generate
+
+FROM  --platform=linux/arm64 node:20-alpine
+WORKDIR /src/app
+COPY --from=node_cache /cache/ .
+# Copy source files, and possibily invalidate so we have to rebuild
+COPY . ./
+CMD [ "yarn", "start" ]
