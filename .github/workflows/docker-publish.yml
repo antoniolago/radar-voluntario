@@ -64,7 +64,8 @@ jobs:
           tags: |
             ${{ steps.prep.outputs.BUILD_ID }}
             type=sha
-            type=ref
+            type=ref,event=branch
+            type=ref,event=tag
             type=raw,value=latest
 
       - name: Set up QEMU
