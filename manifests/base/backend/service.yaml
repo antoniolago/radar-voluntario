@@ -9,8 +9,8 @@ spec:
   ports:
     - name: http
       port: 80
-      targetPort: 80
+      targetPort: 3333
     - name: https
       port: 443
-      targetPort: 80
+      targetPort: 3333
   type: ClusterIP # Use "LoadBalancer" for external access if your cluster supports it

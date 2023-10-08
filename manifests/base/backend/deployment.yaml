@@ -21,7 +21,7 @@ spec:
           imagePullPolicy: Always
           image: ghcr.io/antoniolago/radar-voluntario-backend:latest # {"$imagepolicy": "flux-system:radar-voluntario-back-img"}
           ports:
-            - containerPort: 3000 # Adjust the port if your Node.js app listens on a different port
+            - containerPort: 3333 # Adjust the port if your Node.js app listens on a different port
           env:
             - name: DATABASE_URL
               valueFrom:
