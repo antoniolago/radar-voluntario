@@ -42,11 +42,10 @@ jobs:
         id: prep
         # version=${github.event.label.name}
         run: |
-            branch=${steps.get-branch.outputs.branch##*/}
             tag=${GITHUB_REF##*/}
             sha=${GITHUB_SHA::8}
             ts=$(date +%s)
-            echo "::set-output name=BUILD_ID::${branch}-${tag}-${ts}"          
+              echo "::set-output name=BUILD_ID::${{steps.get-branch.outputs.branch}}-${tag}-${ts}"          
       - name: set env
         run: echo "NOW=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
       - name: Checkout repository
