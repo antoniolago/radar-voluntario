@@ -7,7 +7,10 @@ spec:
   selector:
     app: node-api
   ports:
-    - protocol: TCP
-      port: 80 # Use a different port if needed
-      targetPort: 3000 # Match the container port
+    - name: http
+      port: 80
+      targetPort: 80
+    - name: https
+      port: 443
+      targetPort: 80
   type: ClusterIP # Use "LoadBalancer" for external access if your cluster supports it
