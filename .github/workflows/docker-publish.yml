@@ -33,11 +33,11 @@ jobs:
       packages: write
 
     steps:
-     - name: Get Branch
-       run: |
-         raw=$(git branch -r --contains ${{ github.ref }})
-         branch=${raw/origin\/}
-         echo ::set-env name=BRANCH::$branch
+      - name: Get Branch
+        run: |
+          raw=$(git branch -r --contains ${{ github.ref }})
+          branch=${raw/origin\/}
+          echo ::set-env name=BRANCH::$branch
       - name: Generate build ID
         id: prep
         # version=${github.event.label.name}
