@@ -1,6 +1,6 @@
 import { CONFIG } from '@/configs';
 import axios from 'axios';
-const API_URL = CONFIG.API_URL+"/api";
+const API_URL = `${CONFIG.API_URL || ''}/api`;
 export const api = {
     get: <T>(url: string, params?: object) =>
       axios.get<T>(url, {

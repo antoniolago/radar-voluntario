@@ -1,9 +1,14 @@
 name: Build & publish Docker images
 on:
   push:
-    branches: [ "main", "dev" ]
-  pull_request:
-    branches: [ "main", "dev" ]
+    tags:
+      - v*
+    branches: 
+      - dev
+  # pull_request:
+  #   branches: [ "main", "dev" ]
+    paths-ignore:
+      - 'manifests/**'
 
 env:
   REGISTRY: ghcr.io
@@ -30,6 +35,15 @@ jobs:
       packages: write
 
     steps:
+      - name: Generate build ID
+        id: prep
+        # version=${github.event.label.name}
+        # ref will be branch on branch push and tag on tagpush
+        run: |
+            ref=${GITHUB_REF##*/}
+            sha=${GITHUB_SHA::8}
+            ts=$(date +%s)
+              echo "::set-output name=BUILD_ID::${ref}-${ts}"          
       - name: set env
         run: echo "NOW=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
       - name: Checkout repository
@@ -48,8 +62,10 @@ jobs:
         with:
           images: ${{ matrix.image }}
           tags: |
+            ${{ steps.prep.outputs.BUILD_ID }}
             type=sha
             type=ref,event=branch
+            type=ref,event=tag
             type=raw,value=latest
 
       - name: Set up QEMU
