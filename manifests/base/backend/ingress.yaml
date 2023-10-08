@@ -1,17 +1,17 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: node-api-ingress
-  namespace: radar-voluntario
-spec:
-  rules:
-    - host: kustomizeplaceholder.com
-      http:
-        paths:
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: node-api-service
-                port:
-                  number: 80
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: node-api-ingress
+#   namespace: radar-voluntario
+# spec:
+#   rules:
+#     - host: kustomizeplaceholder.com
+#       http:
+#         paths:
+#           - path: /api
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name: node-api-service
+#                 port:
+#                   number: 80
