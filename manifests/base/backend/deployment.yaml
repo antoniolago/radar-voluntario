@@ -19,7 +19,7 @@ spec:
       containers:
         - name: node-api-container
           imagePullPolicy: Always
-          image: ghcr.io/antoniolago/radar-voluntario-backend:latest # {"$imagepolicy": "flux-system:radar-voluntario-back-img-policy"}
+          image: ghcr.io/antoniolago/radar-voluntario-backend:dev-1696793102 # {"$imagepolicy": "flux-system:radar-voluntario-back-img-policy"}
           ports:
             - containerPort: 3333 # Adjust the port if your Node.js app listens on a different port
           env:
@@ -27,12 +27,12 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: google_oauth_client_id
-                  name: radar-voluntario-config         
+                  name: radar-voluntario-config
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
                   key: postgres-db-url
-                  name: oracle-vault-radar-voluntario              
+                  name: oracle-vault-radar-voluntario
           resources:
             limits:
               cpu: "0.5"
