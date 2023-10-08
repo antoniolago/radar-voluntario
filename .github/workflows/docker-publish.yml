@@ -1,7 +1,8 @@
 name: Build & publish Docker images
 on:
-  label:
-    types: [created, edited]
+  push:
+    tags:
+      - v*
   # push:
   #   branches: [ "main", "dev" ]
   # pull_request:
