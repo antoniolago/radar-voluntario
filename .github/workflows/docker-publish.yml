@@ -43,11 +43,12 @@ jobs:
       - name: Generate build ID
         id: prep
         # version=${github.event.label.name}
+        # ref will be branch on branch push and tag on tagpush
         run: |
-            tag=${GITHUB_REF##*/}
+            ref=${GITHUB_REF##*/}
             sha=${GITHUB_SHA::8}
             ts=$(date +%s)
-              echo "::set-output name=BUILD_ID::${{env.BRANCH}}-${tag}-${ts}"          
+              echo "::set-output name=BUILD_ID::${ref}-${ts}"          
       - name: set env
         run: echo "NOW=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
       - name: Checkout repository
@@ -68,7 +69,7 @@ jobs:
           tags: |
             ${{ steps.prep.outputs.BUILD_ID }}
             type=sha
-            type=ref,event=branch
+            type=ref
             type=raw,value=latest
 
       - name: Set up QEMU
