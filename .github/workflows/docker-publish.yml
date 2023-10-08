@@ -35,12 +35,12 @@ jobs:
     steps:
       - name: Generate build ID
         id: prep
+        # version=${github.event.label.name}
         run: |
             branch=${GITHUB_REF##*/}
             sha=${GITHUB_SHA::8}
-            version=${github.event.label.name}
             ts=$(date +%s)
-            echo "::set-output name=BUILD_ID::${branch}-${version}-${ts}"          
+            echo "::set-output name=BUILD_ID::${branch}-${sha}-${ts}"          
       - name: set env
         run: echo "NOW=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
       - name: Checkout repository
