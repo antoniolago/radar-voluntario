@@ -33,6 +33,11 @@ spec:
                 secretKeyRef:
                   key: postgres-db-url
                   name: oracle-vault-radar-voluntario
+            - name: BACKEND_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: jwt_secret
+                  name: oracle-vault-radar-voluntario
           resources:
             limits:
               cpu: "0.5"
