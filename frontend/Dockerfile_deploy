@@ -14,10 +14,10 @@ RUN yarn install --network-timeout 100000
 # ------------------------------------------------------
 FROM node_cache as build
 
-#Seta variáveis de ambiente para o build dos arquivos estáticos já presentes com as variáveis
-#Toda nova variável usada no código react deve ser declarada aqui e no Jenkinsfile, no stage build_front.
-ARG REACT_APP_API_URL
-ENV REACT_APP_API_URL $REACT_APP_API_URL
+# #Seta variáveis de ambiente para o build dos arquivos estáticos já presentes com as variáveis
+# #Toda nova variável usada no código react deve ser declarada aqui e no Jenkinsfile, no stage build_front.
+# ARG REACT_APP_API_URL
+# ENV REACT_APP_API_URL $REACT_APP_API_URL
 
 WORKDIR /src/app
 COPY --from=node_cache /cache/ .

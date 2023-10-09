@@ -1,10 +1,10 @@
 import { CONFIG } from "./configs";
 
 export const apiRoutes = {
-    login: CONFIG.API_URL + '/accounts/login',
-    loginGoogle: CONFIG.API_URL + '/accounts/login-google',
-    getAppSettings: CONFIG.API_URL + '/appsettings',
-    getUser: CONFIG.API_URL + '/accounts'
+    login: '/accounts/login',
+    loginGoogle: '/accounts/login-google',
+    getAppSettings: '/appsettings',
+    getUser: '/accounts'
   };
   
   export const pageRoutes = {
