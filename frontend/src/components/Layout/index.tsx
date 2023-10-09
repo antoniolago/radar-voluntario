@@ -18,8 +18,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { useContext, useEffect, useState } from 'react';
-import { AppBar, EnvironmentBadge, Drawer, DrawerHeader } from './styles';
-import { Collapse } from '@mui/material';
+import { AppBar, BadgeAmbiente, DrawerHeader, closedMixin, openedMixin } from './styles';
+import { Collapse, Paper } from '@mui/material';
+import MuiDrawer from '@mui/material/Drawer';
 import { useLocation, useNavigate } from 'react-router';
 import { TemaContext } from '@/contexts/Tema';
 import { matchPath } from 'react-router';
@@ -32,6 +33,7 @@ import MapIcon from '@mui/icons-material/Map';
 import ExploreIcon from '@mui/icons-material/Explore';
 import { GoogleButton } from '../GoogleButton';
 import { ToastContainer } from 'react-toastify';
+import { TemaService } from '@/api/tema';
 
 export const menuItems = [
     {
@@ -63,12 +65,34 @@ export const menuItems = [
 ];
 const Layout = (props: any) => {
     const { isDarkTheme, setIsDarkTheme } = useContext(TemaContext);
+    const { isMobile } = TemaService.useGetIsMobile();
     // const { data: user } = useGetUser();
     const [collapseStates, setCollapseStates] = useState<any>(
         {
             'cadastro': false,
             'financeiro': false
         }
+    );
+
+    const Drawer = styled(MuiDrawer, {
+        shouldForwardProp: (prop: any): boolean => {
+            return prop !== 'open' || isMobile!;
+        }
+    })(
+        ({ theme, open }: any) => ({
+            width: 240,
+            // flexShrink: 0,
+            whiteSpace: 'nowrap',
+            boxSizing: 'border-box',
+            ...(open && {
+                ...openedMixin(theme),
+                '& .MuiDrawer-paper': openedMixin(theme),
+            }),
+            ...(!open && {
+                ...closedMixin(theme),
+                '& .MuiDrawer-paper': closedMixin(theme),
+            }),
+        }),
     );
     const navigate = useNavigate()
     const { pathname } = useLocation();
@@ -117,60 +141,75 @@ const Layout = (props: any) => {
 
     return (
         <>
-            <Box sx={{ display: 'flex' }}>
-                <CssBaseline />
-                <AppBar position="fixed" open={open}>
-                    <Toolbar sx={{ justifyContent: "space-between", paddingRight: "0" }}>
-                        <IconButton
-                            color="inherit"
-                            aria-label="Abrir menu"
-                            onClick={toggleDrawer}
-                            edge="start"
-                            sx={{
-                                marginRight: 5,
-                                ...(open && { display: 'none' }),
-                            }}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography className="mr-4" component="div" sx={{ flex: 'auto', display: 'grid' }}>
-                            {/* {user?.firstName} */}
-                            {/* <div style={{ height: '20px' }}>
-                                <SituacaoIcon sx={{ width: '10px', color: "green" }} />
-                                <span style={{ fontSize: "15px", top: '-1px', position: 'relative', color: 'green' }}>{usuario?.situacao}</span>
-                            </div> */}
-                        </Typography>
-                        {isLoadingUser ?
-                            <Loading color="warning" />
-                            : user?.IsVerified ?
-                                <IconButton
-                                    color="inherit"
-                                    aria-label="logout"
-                                    onClick={handleLogout}
-                                >
-                                    <Logout />
-                                </IconButton>
-                                :
-                                <GoogleButton />
-                            // <Button
-                            //     variant="contained"
-                            //     color="success"
-                            //     onClick={() => navigate("/login")}>
-                            //     Logue-se
-                            // </Button>
-                        }
-                    </Toolbar>
-                </AppBar>
-                <Drawer variant="permanent" open={open} elevation={14}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                <div style={{position: "relative", height: '60px', width: '100%'}}>
+                    <AppBar position="fixed" open={open}>
+                        <Toolbar sx={{ justifyContent: "space-between", paddingRight: "0" }}>
+                            <IconButton
+                                color="inherit"
+                                aria-label="Abrir menu"
+                                onClick={toggleDrawer}
+                                edge="start"
+                                sx={{
+                                    marginRight: 5,
+                                    // ...(open && { display: 'none' }),
+                                }}
+                            >
+                                <MenuIcon />
+                            </ IconButton>
+                            <Typography className="mr-4" component="div" sx={{ flex: 'auto', display: 'flex' }}>
+                                Teste
+                                <div>
+                                </div>
+                            </Typography>
+
+                            {isLoadingUser ?
+                                <Loading color="warning" />
+                                : user?.IsVerified ?
+                                    <IconButton
+                                        color="inherit"
+                                        aria-label="logout"
+                                        onClick={handleLogout}
+                                    >
+                                        <Logout />
+                                    </IconButton>
+                                    :
+                                    <GoogleButton />
+                                // <Button
+                                //     variant="contained"
+                                //     color="success"
+                                //     onClick={() => navigate("/login")}>
+                                //     Logue-se
+                                // </Button>
+                            }
+                            <IconButton
+                                color="inherit"
+                                aria-label="logout"
+                                onClick={handleLogout}
+                            >
+                                <Logout />
+                            </IconButton>
+                        </Toolbar>
+                    </AppBar>
+                </div>
+                <Drawer sx={{
+                    // display: !open && isMobile ? 'none' : '', 
+                    // position: isMobile ? "absolute" : "relative"
+                }}
+                    variant={isMobile ? "temporary" : "permanent"}
+                    onClose={toggleDrawer}
+                    open={open}
+                    elevation={14}
+                >
                     <DrawerHeader>
                         <Typography variant="h6" noWrap sx={{ flex: 'auto' }}>
                             <Typography sx={{ cursor: "pointer" }} onClick={() => navigate('/home')}>
                                 Radar Voluntário
-                                {appSettings?.ENVIRONMENT != "main" &&
-                                    <EnvironmentBadge component="span">
-                                        {appSettings?.ENVIRONMENT}
-                                    </EnvironmentBadge>
-                                }
+                                {/* {appSettings?.AMBIENTE != "main" &&
+                                    <BadgeAmbiente component="span">
+                                        {appSettings?.AMBIENTE}
+                                    </BadgeAmbiente>
+                                } */}
                             </Typography>
                         </Typography>
                         <IconButton onClick={toggleDrawer}>
@@ -179,17 +218,13 @@ const Layout = (props: any) => {
                     </DrawerHeader>
                     <Divider />
                     <List>
-                        {menuItems.map((item: any) => (
+                        {menuItems.map((item) => (
                             <div key={item.id}>
                                 <ListItem
                                     key={item.id}
                                     disablePadding
                                     sx={{ display: 'block' }}
-                                    onClick={
-                                        item.subItems
-                                            ? () => toggleCollapseState(item.id)
-                                            : () => navigate(item.path)
-                                    }
+                                    onClick={() => navigate(item.path)}
                                 >
                                     <ListItemButton
                                         sx={{
@@ -206,45 +241,11 @@ const Layout = (props: any) => {
                                                 justifyContent: 'center',
                                             }}
                                         >
-                                            {item.icon}
+                                            {item?.icon}
                                         </ListItemIcon>
                                         {open && <ListItemText primary={item.text} />}
-                                        {item.subItems ? (
-                                            collapseStates[item.id] ? (
-                                                <ExpandLess sx={{ width: '18px' }} />
-                                            ) : (
-                                                <ExpandMore sx={{ width: '18px' }} />
-                                            )
-                                        ) : null}
                                     </ListItemButton>
                                 </ListItem>
-                                {item.subItems ? (
-                                    <Collapse
-                                        in={collapseStates[item.id]}
-                                        timeout="auto"
-                                        unmountOnExit
-                                    >
-                                        <List component="div" disablePadding>
-                                            {item.subItems?.map((subItem: any) => (
-                                                <ListItem
-                                                    key={subItem.path}
-                                                    sx={{ padding: 0 }}
-                                                >
-                                                    <InnerListItemButton
-                                                        onClick={() => navigate(subItem.path)}
-                                                        selected={matchPath(subItem.path, pathname) !== null}>
-                                                        <ListItemIcon>
-                                                            <SubdirectoryArrowRightIcon sx={{ width: '10px' }} />
-                                                            {subItem.icon}
-                                                        </ListItemIcon>
-                                                        {open && <ListItemText primary={subItem.text} />}
-                                                    </InnerListItemButton>
-                                                </ListItem>
-                                            ))}
-                                        </List>
-                                        <Divider />
-                                    </Collapse>
-                                ) : null}
                             </div>
                         ))}
                     </List>
@@ -272,7 +273,7 @@ const Layout = (props: any) => {
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    <ThemeSelector size={40} />
+                                    {/* <SeletorTema size={40} /> */}
 
                                 </ListItemIcon>
                                 {open &&
@@ -282,21 +283,18 @@ const Layout = (props: any) => {
                         </ListItem>
                     </List>
                 </Drawer>
-                <Box component="main" sx={{ flexGrow: 1, margin: '15px' }}>
-                    <DrawerHeader />
-                    {props.children}
-                    {/* <Footer /> */}
-                    <ToastContainer
-                        position="bottom-right"
-                        autoClose={5000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme="light" />
+                <Box sx={{ position: "relative", flexGrow: '2'}}>
+                    {/* <DrawerHeader /> */}
+                    <Paper elevation={1} sx={{
+                        padding: 1,
+                        position: "relative",
+                        top: '15px',
+                        marginLeft: '10px',
+                        marginRight: '10px',
+                    }}>
+                        {props.children}
+                    </Paper>
+                    {/* {!isLoadingErrorAppSettings && <AlertaReconectando />} */}
                 </Box>
             </Box >
         </>

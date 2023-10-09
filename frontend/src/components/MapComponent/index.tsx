@@ -9,7 +9,12 @@ function MapComponent() {
   const position: any = [-30.03306, -51.23];
   return (
     <div id="map" className={isDarkTheme ? "dark" : "light"}>
-      <MapContainer ref={mapRef as any} center={position as LatLngExpression} zoom={14} scrollWheelZoom={true} style={{ height: "80vh" }} >
+      <MapContainer
+        ref={mapRef as any}
+        center={position as LatLngExpression}
+        zoom={14}
+        scrollWheelZoom={true}
+        style={{ height: "75vh", width: '100%' }} >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
