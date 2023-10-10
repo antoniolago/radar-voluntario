@@ -142,7 +142,7 @@ const Layout = (props: any) => {
     return (
         <>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', height: '100%' }}>
-                <div style={{position: "relative", width: '100%', height: '60px'}}>
+                <div style={{ position: "relative", width: '100%', height: '60px' }}>
                     <AppBar position="fixed" open={open}>
                         <Toolbar sx={{ justifyContent: "space-between", paddingRight: "0" }}>
                             <IconButton
@@ -232,7 +232,7 @@ const Layout = (props: any) => {
                                             justifyContent: open ? 'initial' : 'center',
                                             px: 2.5,
                                         }}
-                                        selected={matchPath(item.path + "/*" as string, pathname) !== null}
+                                        selected={matchPath(item.path + "*" as string, pathname) !== null}
                                     >
                                         <ListItemIcon
                                             sx={{
@@ -273,8 +273,7 @@ const Layout = (props: any) => {
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    {/* <SeletorTema size={40} /> */}
-
+                                    <ThemeSelector size={40} />
                                 </ListItemIcon>
                                 {open &&
                                     <ListItemText primary={"Seletor de Tema"} sx={{ opacity: open ? 1 : 0 }} />
@@ -283,9 +282,9 @@ const Layout = (props: any) => {
                         </ListItem>
                     </List>
                 </Drawer>
-                <Box sx={{ position: "relative", flexGrow: '2', height: '100%'}}>
+                <Box sx={{ position: "relative", flexGrow: '2', height: '100%' }}>
                     {/* <DrawerHeader /> */}
-                        {props.children}
+                    {props.children}
                     {/* {!isLoadingErrorAppSettings && <AlertaReconectando />} */}
                 </Box>
             </Box >
