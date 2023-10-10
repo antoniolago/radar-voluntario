@@ -141,8 +141,8 @@ const Layout = (props: any) => {
 
     return (
         <>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-                <div style={{position: "relative", height: '60px', width: '100%'}}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', height: '100%' }}>
+                <div style={{position: "relative", width: '100%', height: '60px'}}>
                     <AppBar position="fixed" open={open}>
                         <Toolbar sx={{ justifyContent: "space-between", paddingRight: "0" }}>
                             <IconButton
@@ -283,17 +283,9 @@ const Layout = (props: any) => {
                         </ListItem>
                     </List>
                 </Drawer>
-                <Box sx={{ position: "relative", flexGrow: '2'}}>
+                <Box sx={{ position: "relative", flexGrow: '2', height: '100%'}}>
                     {/* <DrawerHeader /> */}
-                    <Paper elevation={1} sx={{
-                        padding: 1,
-                        position: "relative",
-                        top: '15px',
-                        marginLeft: '10px',
-                        marginRight: '10px',
-                    }}>
                         {props.children}
-                    </Paper>
                     {/* {!isLoadingErrorAppSettings && <AlertaReconectando />} */}
                 </Box>
             </Box >
