@@ -6,9 +6,3 @@ resources:
   - ../../base/backend
   - ../../base/postgres
   - configmap.yaml
-  - back-image-sync.yaml
-  - front-image-sync.yaml
-
-  
-# components:
-#   - ../../base/components
