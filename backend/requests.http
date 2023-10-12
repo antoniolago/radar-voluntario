@@ -1,6 +1,6 @@
 @base_url = https://localhost:9091/api
 @content_type = application/json
-@authorization = Bearer eyJh.eM30.bunTw
+@authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFhOWY0ZTk0LTcwZjYtNDQ1Ny05OWMxLTY2NGJhODNmMTJlOSIsImVtYWlsIjoiZ3VzdGF2by5oYXJmZkBnbWFpbC5jb20iLCJpYXQiOjE2OTY4OTU0MjYsImV4cCI6MTY5ODEwNTAyNn0.zU57YpRTkjDufEJX6Be5HmPSTJs5-m3zXP6D5B3gO-M
 
 ###
 # @prompt email
@@ -32,8 +32,7 @@ Authorization: {{authorization}}
 
 {
   "name": "Example",
-  "latitude": -29.887551,
-  "longitude": -51.159981
+  "about": "Example about"
 }
 
 ###
@@ -45,3 +44,22 @@ GET {{base_url}}/institutions HTTP/1.1
 GET {{base_url}}/institutions/me HTTP/1.1
 Authorization: {{authorization}}
 
+
+###
+
+POST {{base_url}}/institutions/8d633003-ff8f-46c5-803b-87e9989ba340/addresses HTTP/1.1
+Content-Type: {{content_type}}
+Authorization: {{authorization}}
+
+{
+  "street": "Av. Farroupilha",
+  "number": "8001",
+  "city": "Canoas",
+  "state": "RS",
+  "neighborhood": "São José"
+}
+
+###
+
+GET {{base_url}}/institutions/8d633003-ff8f-46c5-803b-87e9989ba340/addresses HTTP/1.1
+Authorization: {{authorization}}

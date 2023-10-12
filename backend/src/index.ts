@@ -40,6 +40,8 @@ const institutionsController = new InstitutionsController(institutionsService);
 app.post("/api/institutions", authMiddleware, institutionsController.save);
 app.get("/api/institutions", institutionsController.index);
 app.get("/api/institutions/me", authMiddleware, institutionsController.me);
+app.get("/api/institutions/:id/addresses", authMiddleware, institutionsController.getAddresses);
+app.post("/api/institutions/:id/addresses", authMiddleware, institutionsController.saveAddress);
 
 app.get("/api/appSettings", appSettingsController.index);
 

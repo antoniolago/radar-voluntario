@@ -1,7 +1,10 @@
 #root {
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0 auto;
+  /* min-width: 100vw;
+  min-height: 100vh; */
   padding: 2rem;
+  height: 100vh;
   text-align: center;
 }
 

@@ -4,7 +4,6 @@ import {
   Routes,
   Outlet,
 } from 'react-router-dom';
-// import GlobalStyles from './styles/GlobalStyles';
 // import ReactGA from 'react-ga4';
 import Layout from '@/components/Layout';
 import Home from '@/pages/Home';

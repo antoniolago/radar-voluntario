@@ -149,7 +149,7 @@ const LoginModal = () => {
             <Box mb={2}>
               <Alert severity="info">
                 You could login with any credentials, even with empty fields. It
-                doesn't matter. Just for demonstration purposes.
+                doesn't matter. Just for demonstration purposes.teste
               </Alert>
             </Box>
 

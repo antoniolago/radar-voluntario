@@ -1,0 +1,49 @@
+
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: radar-voluntario-front-img-repo
+  namespace: flux-system
+spec:
+  image: ghcr.io/antoniolago/radar-voluntario-frontend
+  interval: 1m
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: radar-voluntario-front-img-policy
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: radar-voluntario-front-img-repo
+  filterTags:
+    # pattern: '.*'
+    pattern: '^dev-(?P<ts>[0-9]+)'
+    # -[a-z0-9]+
+    extract: '$ts'
+  policy:
+    alphabetical:
+      order: asc
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageUpdateAutomation
+metadata:
+  name: radar-voluntario-front-img-update-auto
+  namespace: flux-system
+spec:
+  # suspend: true
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: radar-voluntario-dev-git
+    namespace: radar-voluntario-dev
+  git:
+    commit:
+      author:
+        name: Fluxbot
+        email: flux@example.com
+    checkout:
+      ref:
+        branch: dev
+    push:
+      branch: dev

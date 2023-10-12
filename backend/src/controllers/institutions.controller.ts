@@ -24,4 +24,21 @@ export class InstitutionsController {
 
     return response.status(201).json(institution);
   };
+
+  public getAddresses = async (request: Request, response: Response) => {
+    const addresses = await this.institutionsService.getAddresses(
+      request.params.id
+    );
+
+    return response.json(addresses);
+  }
+
+  public saveAddress = async (request: Request, response: Response) => {
+    const address = await this.institutionsService.createAddress(
+      request.params.id,
+      request.body
+    );
+
+    return response.status(201).json(address);
+  }
 }

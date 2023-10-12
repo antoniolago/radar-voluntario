@@ -17,7 +17,7 @@ export const DrawerHeader = styled('div')(({ theme }: any) => ({
 }));
 export const AppBar = styled(MuiAppBar, { shouldForwardProp: (prop: any) => prop !== 'open' })<AppBarProps>(
 	({ theme, open }: any) => ({
-		backgroundColor: theme.palette.mode == "dark" ? '#000' : theme.palette.primary.main,
+		backgroundColor: theme.palette.mode == "dark" ? '#000' : '#175180',
 		zIndex: theme.zIndex.drawer + 1,
 		transition: theme.transitions.create(['width', 'margin'], {
 			easing: theme.transitions.easing.sharp,
@@ -25,7 +25,7 @@ export const AppBar = styled(MuiAppBar, { shouldForwardProp: (prop: any) => prop
 		}),
 		...(open && {
 			marginLeft: drawerWidth,
-			width: `calc(100% - ${drawerWidth}px)`,
+			width: '100%',//`calc(100% - ${drawerWidth}px)`,
 			transition: theme.transitions.create(['width', 'margin'], {
 				easing: theme.transitions.easing.sharp,
 				duration: theme.transitions.duration.enteringScreen,
@@ -33,24 +33,7 @@ export const AppBar = styled(MuiAppBar, { shouldForwardProp: (prop: any) => prop
 		}),
 	}));
 
-export const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop: any) => prop !== 'open' })(
-	({ theme, open }: any) => ({
-		width: drawerWidth,
-		flexShrink: 0,
-		whiteSpace: 'nowrap',
-		boxSizing: 'border-box',
-		...(open && {
-			...openedMixin(theme),
-			'& .MuiDrawer-paper': openedMixin(theme),
-		}),
-		...(!open && {
-			...closedMixin(theme),
-			'& .MuiDrawer-paper': closedMixin(theme),
-		}),
-	}),
-);
-
-const openedMixin = (theme: Theme): CSSObject => ({
+export const openedMixin = (theme: Theme): CSSObject => ({
 	width: drawerWidth,
 	transition: theme.transitions.create('width', {
 		easing: theme.transitions.easing.sharp,
@@ -59,7 +42,7 @@ const openedMixin = (theme: Theme): CSSObject => ({
 	overflowX: 'hidden',
 });
 
-const closedMixin = (theme: Theme): CSSObject => ({
+export const closedMixin = (theme: Theme): CSSObject => ({
 	transition: theme.transitions.create('width', {
 		easing: theme.transitions.easing.sharp,
 		duration: theme.transitions.duration.leavingScreen,
@@ -97,7 +80,7 @@ export const Container = styled(Box)`
 `;
 
 
-export const EnvironmentBadge = styled(Box)`
+export const BadgeAmbiente = styled(Box)`
 	border-radius: 16px;
     font-size: 10px;
     border-style: groove;

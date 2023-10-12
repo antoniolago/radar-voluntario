@@ -22,14 +22,30 @@ model User {
 }
 
 model Institution {
-  id            String            @id @default(uuid())
+  id            String               @id @default(uuid())
   name          String
-  latitude      Float
-  longitude     Float
+  about         String?
   users         InstitutionUser[]
   opportunities Opportunity[]
+  adresses      InstitutionAddress[]
 
   @@map("institutions")
+}
+
+model InstitutionAddress {
+  id             String        @id @default(uuid())
+  street         String
+  number         String
+  city           String
+  state          String
+  neighborhood   String
+  latitude       Float
+  longitude      Float
+  opportunities  Opportunity[]
+  institution    Institution   @relation(fields: [institution_id], references: [id])
+  institution_id String
+
+  @@map("institutions_addresses")
 }
 
 model InstitutionUser {
@@ -43,13 +59,15 @@ model InstitutionUser {
 }
 
 model Opportunity {
-  id             String            @id @default(uuid())
+  id             String             @id @default(uuid())
   name           String
   description    String
-  institution    Institution       @relation(fields: [institution_id], references: [id])
-  institution_id String
   vacancies      Int
   users          OpportunityUser[]
+  institution    Institution        @relation(fields: [institution_id], references: [id])
+  institution_id String
+  address        InstitutionAddress @relation(fields: [address_id], references: [id])
+  address_id     String
 
   @@map("opportunities")
 }
