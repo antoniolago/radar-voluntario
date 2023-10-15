@@ -21,7 +21,7 @@ export const GoogleButton = () => {
                     shape="rectangular"
                     // width={'10px'}
                     logo_alignment='center'
-                    text="signup_with"
+                    text="signin"
                     onSuccess={credentialResponse => AuthService.useLogin(credentialResponse)}
                     onError={() => {
                         console.log('Login Failed');
