@@ -1,12 +1,10 @@
 export interface AuthenticationResponse {
-    id: number,
-    title: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    role: string,
-    created: Date,
-    updated?: Date,
-    isVerified: boolean,
-    jwtToken: string
+    token: string;
+    user: IUser;
+}
+
+interface IUser {
+    id: string;
+    name: string;
+    email: string;
 }

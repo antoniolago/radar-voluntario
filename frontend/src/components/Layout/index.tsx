@@ -32,15 +32,15 @@ import ThemeSelector from '../ThemeSelector';
 import MapIcon from '@mui/icons-material/Map';
 import ExploreIcon from '@mui/icons-material/Explore';
 import { GoogleButton } from '../GoogleButton';
-import { ToastContainer } from 'react-toastify';
 import { TemaService } from '@/api/tema';
+import { Toaster } from 'sonner';
 
 export const menuItems = [
     {
         id: 'home',
         text: 'Início',
         icon: <ExploreIcon />,
-        path: '/home'
+        path: '/'
     },
     // {
     //     id: 'financeiro',
@@ -127,20 +127,12 @@ const Layout = (props: any) => {
         paddingTop: '5px',
         paddingLeft: open ? '30px' : '15px'
     }));
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
     const handleLogout = () => {
         navigate("/");
     }
 
     return (
-        <>
+        <><Toaster position="top-center" expand visibleToasts={9}/>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', height: '100%' }}>
                 <div style={{ position: "relative", width: '100%', height: '60px' }}>
                     <AppBar position="fixed" open={open}>
@@ -232,7 +224,7 @@ const Layout = (props: any) => {
                                             justifyContent: open ? 'initial' : 'center',
                                             px: 2.5,
                                         }}
-                                        selected={matchPath(item.path + "*" as string, pathname) !== null}
+                                        selected={matchPath(item.path + "/*" as string, pathname) !== null}
                                     >
                                         <ListItemIcon
                                             sx={{
