@@ -12,19 +12,7 @@ export const GoogleButton = () => {
     const { isDarkTheme } = React.useContext(TemaContext)
     const { isMobile } = TemaService.useGetIsMobile();
     return (
-        <Box mb={0} mr={2} sx={{
-            'iframe': {
-                display: 'block',
-                position: 'relative',
-                top: '0px',
-                left: '0px',
-                borderRadius: '4px',
-                height: '38px',
-                width: '218px',
-                border: '0px',
-                margin: '-2px - 10px',
-            }
-        }}>
+        <Box mb={0} mr={2} className="google-auth-button-container">
             <GoogleOAuthProvider clientId={appSettings?.GOOGLE_OAUTH_CLIENT_ID || ""}>
                 <GoogleLogin
                     theme={isDarkTheme ? 'filled_black' : 'outlined' as any}
