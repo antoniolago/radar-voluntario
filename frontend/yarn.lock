@@ -1561,6 +1561,13 @@
   resolved "https://registry.npmjs.org/@floating-ui/utils/-/utils-0.1.4.tgz#19654d1026cc410975d46445180e70a5089b3e7d"
   integrity sha512-qprfWkn82Iw821mcKofJ5Pk9wgioHicxcQMxx+5zt5GSKoqdWvgG5AxVmpmUUjzTLPVSH5auBrhI93Deayn/DA==
 
+"@googlemaps/js-api-loader@^1.14.3":
+  version "1.16.2"
+  resolved "https://registry.yarnpkg.com/@googlemaps/js-api-loader/-/js-api-loader-1.16.2.tgz#3fe748e21243f8e8322c677a5525c569ae9cdbe9"
+  integrity sha512-psGw5u0QM6humao48Hn4lrChOM2/rA43ZCm3tKK9qQsEj1/VzqkCqnvGfEOshDbBQflydfaRovbKwZMF4AyqbA==
+  dependencies:
+    fast-deep-equal "^3.1.3"
+
 "@hookform/resolvers@^3.2.0":
   version "3.3.1"
   resolved "https://registry.npmjs.org/@hookform/resolvers/-/resolvers-3.3.1.tgz#b7cbfe767434f52cba6b99b0a9a0b73eb8895188"
@@ -7106,7 +7113,15 @@ launch-editor@^2.6.0:
     picocolors "^1.0.0"
     shell-quote "^1.7.3"
 
-leaflet@^1.9.4:
+leaflet-geosearch@3.9.0:
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/leaflet-geosearch/-/leaflet-geosearch-3.9.0.tgz#8123ee9078292ff278ef2b93dc9a4bd25a396690"
+  integrity sha512-6bls8jxwGE2DdFXOUBwXlC8+kI7SlT2MuNYgH5/bl5qwzEiobolsgwNvL99mspgfLZjODhH97jrXPX4LVMe4ZQ==
+  optionalDependencies:
+    "@googlemaps/js-api-loader" "^1.14.3"
+    leaflet "^1.6.0"
+
+leaflet@^1.6.0, leaflet@^1.9.4:
   version "1.9.4"
   resolved "https://registry.npmjs.org/leaflet/-/leaflet-1.9.4.tgz#23fae724e282fa25745aff82ca4d394748db7d8d"
   integrity sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==
