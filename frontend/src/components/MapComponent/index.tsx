@@ -22,18 +22,19 @@ function MapComponent() {
       // top: '15px',
       height: '100%',
       margin: '0',
-      '.leaflet-control-geosearch a': {
-        background: (theme) => theme.palette.background.paper,
-        color: (theme) => theme.palette.text.primary
-      },
-      '.leaflet-control-geosearch a:hover': {
+      '.leaflet-control-geosearch a, \
+      .leaflet-control-geosearch a:hover, \
+      .leaflet-control-geosearch form': {
         background: (theme) => theme.palette.background.paper,
         color: (theme) => theme.palette.text.primary
       },
       '.leaflet-control-geosearch form': {
         background: (theme) => theme.palette.background.default
       },
-      '.leaflet-control-geosearch input, .leaflet-control-geosearch .leaflet-bar-notfound': {
+      '.leaflet-control-geosearch input, \
+      .leaflet-control-geosearch .leaflet-bar-notfound, \
+      .leaflet-control-geosearch .results, \
+      .leaflet-control-geosearch .results > :hover': {
         background: (theme) => theme.palette.background.default,
         color: (theme) => theme.palette.text.primary
       },
