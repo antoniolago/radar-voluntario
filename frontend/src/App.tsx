@@ -10,7 +10,7 @@ import Home from '@/pages/Home';
 import { Tema } from './contexts/Tema';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet/dist/leaflet.js';
-import LoginModal from './pages/Login';
+// import LoginModal from './pages/Login';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useGetAppSettings } from './api/appsettings';
 
@@ -22,7 +22,7 @@ function App() {
           <Route element={<Layout><Outlet /></Layout>}>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/login" element={<><Home /><LoginModal /></>} />
+            {/* <Route path="/login" element={<><Home /><LoginModal /></>} /> */}
           </Route>
         </Routes>
       </Tema >
