@@ -3,7 +3,9 @@ import { TemaContext } from '@/contexts/Tema';
 import { Paper } from '@mui/material';
 import { Control, DivIcon, Icon, LatLngExpression, Map, Point } from 'leaflet';
 import { useContext, useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { MarkerLayer, Marker } from "react-leaflet-marker";
+import { MapContainer, TileLayer, Popup } from 'react-leaflet'
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 function MapComponent() {
   const { isDarkTheme } = useContext(TemaContext);
@@ -29,18 +31,13 @@ function MapComponent() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={position}
-            // icon={
-            //   new Icon({
-            //     iconSize: new Point(40, 40),
-            //     iconUrl: 'https://www.cleesp.ufscar.br/imagens/marker.png/image'
-            //   })
-            // }
-          >
-            <Popup>
-              A pretty CSS3 popusp. <br /> Easily customizable.
-            </Popup>
-          </Marker>
+          <MarkerLayer>
+            <Marker position={position}
+              size={[40, 40]} // mesmo que o fontSize
+              placement="top">
+              <LocationOnIcon sx={{fontSize: '40px', color: isDarkTheme ? 'white' : '#000'}}/>
+            </Marker>
+          </MarkerLayer>
         </MapContainer>
       </div>
     </Paper>
