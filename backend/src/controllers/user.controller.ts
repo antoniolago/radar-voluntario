@@ -5,6 +5,6 @@ export class UserController {
   constructor(private accountsService: AccountsService) { }
 
   public index = (request: Request, response: Response) => {
-    return response.json(this.accountsService.getUser(request.user.id));
+    return response.json(this.accountsService.getUser(request.user.email));
   }
 }
