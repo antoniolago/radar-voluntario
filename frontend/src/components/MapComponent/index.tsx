@@ -9,12 +9,20 @@ import { MapContainer, TileLayer, Popup } from 'react-leaflet'
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { SearchBar } from './SearchBar';
 import Box from '@mui/joy/Box';
+import { GeoLocationService } from '@/api/geoloc';
 
 function MapComponent() {
   const { isDarkTheme } = useContext(TemaContext);
+  const zoom = 14;
   const { isMobile } = TemaService.useGetIsMobile();
+  const {data: coordenadasAtuais} = GeoLocationService.useGetCurrentLocation();
   const mapRef = useRef<Map>();
   const position: any = [-30.03306, -51.23];
+  useEffect(() => {
+    console.log(coordenadasAtuais)
+    if(coordenadasAtuais != undefined)
+      mapRef.current?.flyTo(coordenadasAtuais, zoom)
+  }, [coordenadasAtuais])
   return (
     <Paper elevation={1} sx={{
       padding: '0.1px',
@@ -48,8 +56,8 @@ function MapComponent() {
       <div id="map" className={isDarkTheme ? "dark" : "light"} style={{ height: '100%' }}>
         <MapContainer
           ref={mapRef as any}
-          center={position as LatLngExpression}
-          zoom={17}
+          center={coordenadasAtuais ?? position as LatLngExpression}
+          zoom={zoom}
           scrollWheelZoom={true}
           style={{ height: "100%", width: '100%' }} >
           {mapRef.current && <SearchBar map={mapRef.current} />}
