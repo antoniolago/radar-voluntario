@@ -3,6 +3,7 @@ import { TemaContext } from '@/contexts/Tema';
 import { Paper } from '@mui/material';
 import { Control, DivIcon, Icon, LatLngExpression, Map, Point } from 'leaflet';
 import { useContext, useEffect, useRef } from 'react';
+//@ts-ignore
 import { MarkerLayer, Marker } from "react-leaflet-marker";
 import { MapContainer, TileLayer, Popup } from 'react-leaflet'
 import LocationOnIcon from '@mui/icons-material/LocationOn';
