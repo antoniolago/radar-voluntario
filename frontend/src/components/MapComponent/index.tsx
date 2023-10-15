@@ -1,7 +1,7 @@
 import { TemaService } from '@/api/tema';
 import { TemaContext } from '@/contexts/Tema';
 import { Paper } from '@mui/material';
-import { Control, LatLngExpression, Map } from 'leaflet';
+import { Control, DivIcon, Icon, LatLngExpression, Map, Point } from 'leaflet';
 import { useContext, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
@@ -18,18 +18,25 @@ function MapComponent() {
       height: '100%',
       margin: '0',
     }}>
-      <div id="map" className={isDarkTheme ? "dark" : "light"} style={{height: '100%'}}>
+      <div id="map" className={isDarkTheme ? "dark" : "light"} style={{ height: '100%' }}>
         <MapContainer
           ref={mapRef as any}
           center={position as LatLngExpression}
-          zoom={14}
+          zoom={17}
           scrollWheelZoom={true}
           style={{ height: "100%", width: '100%' }} >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={position}>
+          <Marker position={position}
+            // icon={
+            //   new Icon({
+            //     iconSize: new Point(40, 40),
+            //     iconUrl: 'https://www.cleesp.ufscar.br/imagens/marker.png/image'
+            //   })
+            // }
+          >
             <Popup>
               A pretty CSS3 popusp. <br /> Easily customizable.
             </Popup>
