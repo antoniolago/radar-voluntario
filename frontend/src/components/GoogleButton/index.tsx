@@ -18,7 +18,7 @@ export const GoogleButton = () => {
                     theme={isDarkTheme ? 'filled_black' : 'outlined' as any}
                     size="large"
                     type={isMobile ? "icon" : 'standard' as any}
-                    shape="circle"
+                    shape="square"
                     // width={'10px'}
                     logo_alignment='center'
                     text="signup_with"
