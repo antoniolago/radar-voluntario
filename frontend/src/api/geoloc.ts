@@ -8,7 +8,7 @@ import { toast } from "sonner";
 const useGetCurrentLocation = () => {
 
     const queryOptions: UseQueryOptions<LatLngExpression, Error, LatLngExpression, string[]> = {
-        queryKey: ["appsettings"],
+        queryKey: ["user-geoloc"],
         queryFn: () => new Promise(function (resolve, reject) {
             navigator.geolocation.getCurrentPosition(function (pos) {
                 const latitude = pos.coords.latitude;
