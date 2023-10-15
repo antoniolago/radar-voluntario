@@ -1,3 +1,4 @@
+import { TemaService } from '@/api/tema';
 import { TemaContext } from '@/contexts/Tema';
 import { Paper } from '@mui/material';
 import { Control, LatLngExpression, Map } from 'leaflet';
@@ -6,15 +7,16 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 function MapComponent() {
   const { isDarkTheme } = useContext(TemaContext);
+  const { isMobile } = TemaService.useGetIsMobile();
   const mapRef = useRef<Map>();
   const position: any = [-30.03306, -51.23];
   return (
     <Paper elevation={1} sx={{
-      padding: 1,
+      padding: isMobile ? '0.1px' : '10px',
       position: "relative",
       // top: '15px',
       height: '100%',
-      margin: '10px'
+      margin: isMobile ? '0' : '10px',
     }}>
       <div id="map" className={isDarkTheme ? "dark" : "light"} style={{height: '100%'}}>
         <MapContainer
