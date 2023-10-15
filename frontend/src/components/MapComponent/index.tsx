@@ -12,11 +12,11 @@ function MapComponent() {
   const position: any = [-30.03306, -51.23];
   return (
     <Paper elevation={1} sx={{
-      padding: isMobile ? '0.1px' : '10px',
+      padding: '0.1px',
       position: "relative",
       // top: '15px',
       height: '100%',
-      margin: isMobile ? '0' : '10px',
+      margin: '0',
     }}>
       <div id="map" className={isDarkTheme ? "dark" : "light"} style={{height: '100%'}}>
         <MapContainer
