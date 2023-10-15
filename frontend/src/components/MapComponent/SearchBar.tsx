@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+//@ts-ignore
 import * as GeoSearch from 'leaflet-geosearch';
 export const SearchBar = (props: any) => {
     const provider = new GeoSearch.OpenStreetMapProvider({
