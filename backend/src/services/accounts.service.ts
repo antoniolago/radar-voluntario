@@ -5,7 +5,11 @@ import { prisma } from "../database/prisma";
 import AppError from "../errors/app-error";
 
 export class AccountsService {
-
+  public async getUser(email: string){
+    return await prisma.user.findUnique({
+      where: { email },
+    });
+  }
   /**
    * Método sem necessidade de senha apenas para testes
    */

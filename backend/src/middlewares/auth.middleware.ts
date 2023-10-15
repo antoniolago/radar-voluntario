@@ -25,10 +25,11 @@ export default function authMiddleware(
   try {
     const decoded = verify(token, process.env.BACKEND_JWT_SECRET as string);
 
-    const { id } = decoded as ITokenPayload;
+    const { id, email } = decoded as ITokenPayload;
 
     request.user = {
       id: id,
+      email: email
     };
 
     return next();
