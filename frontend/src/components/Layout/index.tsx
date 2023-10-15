@@ -135,8 +135,8 @@ const Layout = (props: any) => {
         <><Toaster position="top-center" expand visibleToasts={9}/>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', height: '100%' }}>
                 <div style={{ position: "relative", width: '100%', height: '60px' }}>
-                    <AppBar position="fixed" open={open}>
-                        <Toolbar sx={{ justifyContent: "space-between", paddingRight: "0" }}>
+                    <AppBar position="fixed" open={open} sx={{height: '60px'}}>
+                        <Toolbar sx={{ justifyContent: "space-between", paddingRight: "0", height: '60px' }}>
                             <IconButton
                                 color="inherit"
                                 aria-label="Abrir menu"
