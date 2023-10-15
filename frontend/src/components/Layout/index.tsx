@@ -26,7 +26,7 @@ import { TemaContext } from '@/contexts/Tema';
 import { matchPath } from 'react-router';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import { useGetAppSettings } from '@/api/appsettings';
-import { useGetUser } from '@/api/auth';
+import { AuthService, useGetUser } from '@/api/auth';
 import Loading from '../Loading';
 import ThemeSelector from '../ThemeSelector';
 import MapIcon from '@mui/icons-material/Map';
@@ -97,7 +97,7 @@ const Layout = (props: any) => {
     const navigate = useNavigate()
     const { pathname } = useLocation();
     const { data: appSettings } = useGetAppSettings();
-    const { data: user, isLoading: isLoadingUser, refetch: refetchUser } = useGetUser();
+    const { data: user, isLoading: isLoadingUser, refetch: refetchUser } = AuthService.useGetUser();
 
     const toggleCollapseState = (id: string) => {
         setCollapseStates((prevCollapseStates: any) => ({
@@ -132,10 +132,10 @@ const Layout = (props: any) => {
     }
 
     return (
-        <><Toaster position="top-center" expand visibleToasts={9}/>
+        <><Toaster position="top-center" expand visibleToasts={9} />
             <Box sx={{ display: 'flex', flexWrap: 'wrap', height: '100%' }}>
                 <div style={{ position: "relative", width: '100%', height: '60px' }}>
-                    <AppBar position="fixed" open={open} sx={{height: '60px'}}>
+                    <AppBar position="fixed" open={open} sx={{ height: '60px' }}>
                         <Toolbar sx={{ justifyContent: "space-between", paddingRight: "0", height: '60px' }}>
                             <IconButton
                                 color="inherit"
@@ -150,21 +150,26 @@ const Layout = (props: any) => {
                                 <MenuIcon />
                             </ IconButton>
                             <Typography className="mr-4" component="div" sx={{ flex: 'auto', display: 'flex' }}>
-                                Teste
+                                Radar Voluntário
                                 <div>
                                 </div>
                             </Typography>
 
                             {isLoadingUser ?
                                 <Loading color="warning" />
-                                : user?.IsVerified ?
-                                    <IconButton
-                                        color="inherit"
-                                        aria-label="logout"
-                                        onClick={handleLogout}
-                                    >
-                                        <Logout />
-                                    </IconButton>
+                                : user?.name != undefined ?
+                                    <Box>
+                                        <Typography>
+                                            {user.name}
+                                        </Typography>
+                                        <IconButton
+                                            color="inherit"
+                                            aria-label="logout"
+                                            onClick={handleLogout}
+                                        >
+                                            <Logout />
+                                        </IconButton>
+                                    </Box>
                                     :
                                     <GoogleButton />
                                 // <Button
@@ -174,13 +179,6 @@ const Layout = (props: any) => {
                                 //     Logue-se
                                 // </Button>
                             }
-                            <IconButton
-                                color="inherit"
-                                aria-label="logout"
-                                onClick={handleLogout}
-                            >
-                                <Logout />
-                            </IconButton>
                         </Toolbar>
                     </AppBar>
                 </div>
