@@ -15,7 +15,7 @@ export const GoogleButton = () => {
         <Box mb={0} mr={2} className="google-auth-button-container">
             <GoogleOAuthProvider clientId={appSettings?.GOOGLE_OAUTH_CLIENT_ID || ""}>
                 <GoogleLogin
-                    theme={isDarkTheme ? 'filled_black' : 'filled_blue'}
+                    theme={isDarkTheme ? 'filled_black' : 'outline'}
                     size="large"
                     type={isMobile ? "icon" : 'standard' as any}
                     shape="rectangular"
