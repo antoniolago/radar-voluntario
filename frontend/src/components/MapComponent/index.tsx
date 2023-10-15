@@ -38,6 +38,7 @@ function MapComponent() {
           style={{ height: "100%", width: '100%' }} >
           {mapRef.current && <SearchBar map={mapRef.current} />}
           <TileLayer
+            detectRetina={true}
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
