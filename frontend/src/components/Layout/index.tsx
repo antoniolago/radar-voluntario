@@ -107,6 +107,7 @@ const Layout = (props: any) => {
     };
 
     useEffect(() => {
+        refetchUser();
         //Inicializa o accordeon das categorias conforme a página atual
         var path = pathname.split("/")[1].replace('/', '')
         if (path in collapseStates) {

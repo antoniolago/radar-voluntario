@@ -24,7 +24,8 @@ export const useGetUser = () => {
     retry: false,
     queryFn: () => api.get("user"),
     staleTime: Infinity,
-    enabled: true,
+    enabled: false,
+    retryOnMount: false,
     queryKey: ['user']
   };
   const context = useQuery(queryOptions)
