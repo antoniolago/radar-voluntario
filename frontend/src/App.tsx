@@ -7,34 +7,30 @@ import {
 // import ReactGA from 'react-ga4';
 import Layout from '@/components/Layout';
 import Home from '@/pages/Home';
-import InstitutionEdit from './pages/InstitutionEdit';
 import { Tema } from './contexts/Tema';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet/dist/leaflet.js';
-import LoginModal from './pages/Login';
+import 'leaflet-geosearch/dist/geosearch.css';
+// import LoginModal from './pages/Login';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useGetAppSettings } from './api/appsettings';
+import InstitutionEdit from './pages/InstitutionEdit';
 
 function App() {
-  // const { error } = useGetProfile();
-  const { data: appSettings } = useGetAppSettings();
-
   return (
-    // appSettings?.GOOGLE_OAUTH_CLIENT_ID &&
-    <GoogleOAuthProvider clientId={appSettings?.GOOGLE_OAUTH_CLIENT_ID || ""}>
-      <Router>
-        <Tema>
-          <Routes>
-            <Route element={<Layout><Outlet /></Layout>}>
-              <Route path="/" element={<Home />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/login" element={<><Home /><LoginModal /></>} />
-              <Route path="/perfilInstituicao" element={<InstitutionEdit/>} />
-            </Route>
-          </Routes>
-        </Tema >
-      </Router>
-    </GoogleOAuthProvider>
+    <Router>
+      <Tema>
+        <Routes>
+          <Route element={<Layout><Outlet /></Layout>}>
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            {/* <Route path="/login" element={<><Home /><LoginModal /></>} /> */}
+            <Route path="/perfilInstituicao" element={<InstitutionEdit/>} />
+          </Route>
+        </Routes>
+      </Tema >
+    </Router>
   );
 }
 export default App;

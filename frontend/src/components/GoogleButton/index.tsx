@@ -1,37 +1,36 @@
+import * as React from 'react';
 import { Box } from '@mui/material';
-import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { toast } from 'react-toastify';
-import { api } from '@/api';
-import { AuthenticationResponse } from '@/types/authenticate-response';
-import { AxiosError, AxiosResponse } from 'axios';
-import { apiRoutes } from '@/routes';
-import { useQueryClient } from '@tanstack/react-query';
+import { AuthService } from '@/api/auth';
+import { useGetAppSettings } from '@/api/appsettings';
+import { TemaContext } from '@/contexts/Tema';
+import { TemaService } from '@/api/tema';
 
 export const GoogleButton = () => {
-    const queryClient = useQueryClient()
-    const useLoginGoogle = (credentialResponse: CredentialResponse) =>
-        api.post<AuthenticationResponse>(apiRoutes.loginGoogle, credentialResponse)
-            .then((res: AxiosResponse<AuthenticationResponse>) => {
-                toast.success('Bem-vindo ' + res.data.firstName);
-                queryClient.invalidateQueries({ queryKey: apiRoutes.getUser } as any);
-            }).catch((err: AxiosError) => {
-                toast.error("Houve algum erro no login, por favor tente novamente. " + err.message);
-            });
+    const { data: appSettings } = useGetAppSettings();
+    const { isDarkTheme } = React.useContext(TemaContext);
+    const { isMobile } = TemaService.useGetIsMobile();
     return (
-        <Box mb={0}>
-            <GoogleLogin
-                theme={'outline'}
-                onSuccess={credentialResponse => {
-                    console.log(credentialResponse);
-                    useLoginGoogle(credentialResponse)
-                }}
-                onError={() => {
-                    console.log('Login Failed');
-                    toast.error('Invalid details');
-                }}
-                useOneTap
-            />
-        </Box>
+        <Box mb={0} mr={2} className="google-auth-button-container">
+            <GoogleOAuthProvider clientId={appSettings?.GOOGLE_OAUTH_CLIENT_ID || ""}>
+                <GoogleLogin
+                    theme={isDarkTheme ? 'filled_black' : 'outline' as any}
+                    size="large"
+                    type={isMobile ? "icon" : 'standard' as any}
+                    shape="rectangular"
+                    // width={'10px'}
+                    logo_alignment='center'
+                    text="signin"
+                    onSuccess={credentialResponse => AuthService.useLogin(credentialResponse)}
+                    onError={() => {
+                        console.log('Login Failed');
+                        toast.error('Login failed.');
+                    }}
+                    useOneTap
+                />
+            </GoogleOAuthProvider>
+        </Box >
     );
 };
 

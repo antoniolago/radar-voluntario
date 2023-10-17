@@ -2,6 +2,7 @@ import MapComponent from '@/components/MapComponent';
 import Oportunidades from '@/components/OpportunitiesList';
 import { Typography } from '@mui/material';
 import Box from '@mui/joy/Box/Box';
+import { useEffect } from 'react';
 
 function Home() {
     return (

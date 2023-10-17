@@ -29,10 +29,10 @@ app.use(bodyParser.json());
 const appSettingsService = new AppSettingsService();
 const appSettingsController = new AppSettingsController(appSettingsService);
 
-const userController = new UserController();
 
 const accountsService = new AccountsService();
 const accountsController = new AccountsController(accountsService);
+const userController = new UserController(accountsService);
 
 const institutionsService = new InstitutionsService();
 const institutionsController = new InstitutionsController(institutionsService);
@@ -45,7 +45,7 @@ app.post("/api/institutions/:id/addresses", authMiddleware, institutionsControll
 
 app.get("/api/appSettings", appSettingsController.index);
 
-app.get("/api/user", userController.index);
+app.get("/api/user", authMiddleware, userController.index);
 
 app.post("/api/accounts/login", accountsController.login);
 app.post("/api/accounts/login-google", accountsController.loginGoogle);
