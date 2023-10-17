@@ -11,9 +11,9 @@ const  [search, setSearch] =  useState('');
 const  [selectedInstitution, setSelectedInstitution] =  useState('');
 const  [selectedCity, setSelectedCity] =  useState('');
 
-useEffect(() => {
-    //filter data
-}, [search, selectedCity, selectedInstitution]);
+// useEffect(() => {
+//     //filter data
+// }, [search, selectedCity, selectedInstitution]);
 
 const clearFilter = () => {
     setSearch('');
@@ -53,11 +53,42 @@ const columns = [
 ];
 
 const mockedRows = [
-    { title: 'Snow', address: 'Jon', date: "10/12/2023", id: 1 },
-    { title: 'Snow', address: 'Jon', date: "10/11/2023", id: 2 },
-    { title: 'Snow', address: 'Jon', date: "23/11/2023", id: 3 },
-    { title: 'Snow', address: 'Jon', date: "26/11/2023", id: 4 },
+    { title: 'Oportunidade nome 1', address: 'Cidade/UF', date: "10/12/2023", id: 1 },
+    { title: 'Oportunidade nome 2', address: 'Cidade/UF', date: "10/11/2023", id: 2 },
+    { title: 'Oportunidade nome 3', address: 'Cidade/UF', date: "23/11/2023", id: 3 },
+    { title: 'Oportunidade nome 4', address: 'Cidade/UF', date: "26/11/2023", id: 4 },
 ];
+const  [data, setData] = useState<any>(mockedRows);
+
+const institutionList = [
+    { value: '1', label: 'Organização 1'},
+    { value: '2', label: 'Organização 2'},
+    { value: '3', label: 'Organização 3'},
+]
+
+const cityList = [
+    { value: '1', label: 'Cidade 1'},
+    { value: '2', label: 'Cidade 2'},
+    { value: '3', label: 'Cidade 3'},
+]
+
+const handleSearch = (event: any) => {
+    let value = event.target.value; 
+    setSearch(event.target.value);
+    
+    const fields = columns.map((column) => column.field);
+
+    let test = data.filter((item: any) => {
+        return fields.some(chave => {
+            if (typeof item[chave] === 'string' && item[chave].toLowerCase().includes(value.toLowerCase())) {
+                console.log(true, item[chave]);
+                return true;
+            }
+            return false;
+        });
+    })
+}
+
 
     return (
         <>
@@ -88,9 +119,9 @@ const mockedRows = [
                             setSelectedInstitution(e.target.value);
                         }}
                     >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        {institutionList.map((institution) => 
+                            <MenuItem value={institution.value}>{institution.label}</MenuItem>
+                        )}
                     </Select>
                 </FormControl>
                 <FormControl >
@@ -102,10 +133,11 @@ const mockedRows = [
                         label="Cidade"
                         onChange={(e) => {
                             setSelectedCity(e.target.value);
-                        }}                    >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        }}                   
+                        >
+                            {cityList.map((city) => 
+                            <MenuItem value={city.value}>{city.label}</MenuItem>
+                        )}
                     </Select>
                 </FormControl>
                 <div>
@@ -115,7 +147,7 @@ const mockedRows = [
                 </div>
             </ContainerFilter>
 
-            <Table rows={mockedRows} columns={columns} />
+            <Table rows={data} columns={columns} />
         </>
 
     );
