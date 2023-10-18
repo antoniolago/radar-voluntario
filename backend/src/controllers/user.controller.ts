@@ -4,7 +4,9 @@ import { AccountsService } from "../services/accounts.service";
 export class UserController {
   constructor(private accountsService: AccountsService) { }
 
-  public index = (request: Request, response: Response) => {
-    return response.json(this.accountsService.getUser(request.user.email));
+  public index = async (request: Request, response: Response) => {
+    const user = await this.accountsService.getUser(request.user.email);
+    
+    return response.json(json);
   }
 }
