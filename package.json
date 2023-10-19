@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mui-tel-input": "^4.0.1",
+    "react-hook-form": "^7.47.0",
+    "react-text-mask": "^5.5.0"
+  },
+  "devDependencies": {
+    "@types/react-text-mask": "^5.4.13"
+  }
+}
