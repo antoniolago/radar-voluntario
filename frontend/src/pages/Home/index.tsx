@@ -1,5 +1,5 @@
 import MapComponent from '@/components/MapComponent';
-import Oportunidades from '@/components/OpportunitiesList';
+import OportunitiesList from '@/components/OpportunitiesList';
 import { Typography } from '@mui/material';
 import Box from '@mui/joy/Box/Box';
 import { useEffect } from 'react';
@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 function Home() {
     return (
         <>
-            <Box sx={{width: '100%', height: '100%', padding:' 3rem 6rem'}}>
+            <Box sx={{width: '100%', height: '100%', padding:'1rem 3rem 3rem 5rem'}}>
                 <div style={{ textAlign: 'center', margin:"2rem 0 3rem 0" }}>
                     <Typography variant="h3" component="h1" fontWeight="600">Radar Voluntário</Typography>
                     <Typography variant="h6" component="p">
@@ -15,7 +15,7 @@ function Home() {
                     </Typography>
                 </div>
                 <MapComponent />
-                <Oportunidades/>
+                <OportunitiesList/>
             </Box>
         </>
     )
