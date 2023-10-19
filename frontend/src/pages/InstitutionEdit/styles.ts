@@ -18,7 +18,7 @@ export const InputGroup = styled('div')`
     > div {
         width: 50%;
     }
-    > div:first-child {
+    > div:first-of-type {
         margin-right: 1rem;
     }
 `
