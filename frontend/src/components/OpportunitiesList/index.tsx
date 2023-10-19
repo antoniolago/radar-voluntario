@@ -11,10 +11,6 @@ const  [search, setSearch] =  useState('');
 const  [selectedInstitution, setSelectedInstitution] =  useState('');
 const  [selectedCity, setSelectedCity] =  useState('');
 
-// useEffect(() => {
-//     //filter data
-// }, [search, selectedCity, selectedInstitution]);
-
 const clearFilter = () => {
     setSearch('');
     setSelectedInstitution('');

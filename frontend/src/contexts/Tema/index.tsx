@@ -67,7 +67,7 @@ export const Tema = (props: any) => {
 			MuiInputLabel: {
 				styleOverrides: {
 					root: {
-						fontWeight: 'bold',
+						fontWeight: 'Normal',
 						marginBottom: "3px"
 					}
 				}
@@ -111,7 +111,7 @@ export const Tema = (props: any) => {
 			MuiInputLabel: {
 				styleOverrides: {
 					root: {
-						fontWeight: 'bold',
+						fontWeight: 'Normal',
 						marginBottom: "3px"
 					}
 				}

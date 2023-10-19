@@ -6,7 +6,9 @@ export const FormContainer = styled('form')`
 
     .MuiFormControl-root { 
         margin-bottom: 2rem;
-        // width: 100% 
+    }
+    & .MuiInputBase-root {
+        font-weight: 300 !important;
     }
 `;
 
@@ -15,9 +17,26 @@ export const InputGroup = styled('div')`
     display: flex;
     > div {
         width: 50%;
+    }
+    > div:first-child {
         margin-right: 1rem;
     }
+`
+export const PreviewImage = styled('img')`
+    width:300px;
+    margin-right:1em;
+`
 
+export const FooterButton = styled('div')`
+    margin-top: 2em;
+    text-align: right;
+`
+
+export const ImageContainer = styled('div')`
+    display: flex;
+    align-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 `
 
 export const VisuallyHiddenInput = styled('input')({
@@ -31,3 +50,4 @@ export const VisuallyHiddenInput = styled('input')({
     whiteSpace: 'nowrap',
     width: 1,
   });
+
