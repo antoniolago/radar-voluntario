@@ -1,9 +1,9 @@
 import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid/DataGrid";
 import Table from "../Table";
 import { ContainerFilter } from "./styles";
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom'; 
 
 const OpportunitiesList = () => {
 
@@ -24,7 +24,8 @@ const goToOportunity = (id: any) => {
 const renderDetailsButton = (params: any) => {
     return (
         <Button
-            onClick={() => goToOportunity(params.row.id)}
+            component={Link} 
+            to={"oportunidade/"+params.row.id}
             variant="outlined"
             color="primary"
             size="small"

@@ -27,7 +27,7 @@ const Opportunities = () => {
 				<IconButton onClick={() => handleDelete(params.row.id)} aria-label="delete" color="error">
 					<DeleteIcon />
 				</IconButton>
-				<IconButton component={Link} to={"/oportunidade/"+params.row.id}  aria-label="edit" color="primary">
+				<IconButton component={Link} to={"/edicao/oportunidade/"+params.row.id}  aria-label="edit" color="primary">
 					<EditIcon />
 				</IconButton>
 			</>
@@ -72,7 +72,7 @@ const Opportunities = () => {
 	const [data, setData] = useState<any>(mockedRows);
 
 	return (
-		<div>
+		<>
 			<Typography mb={8} variant="h5">Oportunidades</Typography>
 			<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}>
 				<TextField
@@ -91,7 +91,7 @@ const Opportunities = () => {
 						),
 					}}
 				/>
-				<Button component={Link} to="/oportunidade" variant="contained" color="primary">
+				<Button component={Link} to="/edicao/oportunidade" variant="contained" color="primary">
 					Cadastrar oportunidade
 				</Button>
 			</div>
@@ -106,7 +106,7 @@ const Opportunities = () => {
                 setOpen={setOpenAlertDialog} 
                 handleClick={deleteAccount}/>
 
-		</div>
+		</>
 	);
 }
 

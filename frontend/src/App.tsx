@@ -18,6 +18,7 @@ import './App.css';
 import ProfileEdit from './pages/ProfileEdit';
 import Opportunities from './pages/Opportunities';
 import OpportunityEdit from './pages/OpportunityEdit';
+import OpportunityDetail from './pages/OpportunityDetail';
 
 function App() {
   return (
@@ -32,8 +33,8 @@ function App() {
             <Route path="/perfilInstituicao" element={<ProfileEdit profile={'institution'}/>} />
             <Route path="/perfilVoluntario" element={<ProfileEdit profile={'volunteer'}/>} />
             <Route path="/oportunidades" element={<Opportunities/>} />
-            <Route path="/oportunidade/:id?" element={<OpportunityEdit/>} />
-            
+            <Route path="/edicao/oportunidade/:id?" element={<OpportunityEdit/>} />
+            <Route path="/oportunidade/:id" element={<OpportunityDetail/>} />
           </Route>
         </Routes>
       </Tema >

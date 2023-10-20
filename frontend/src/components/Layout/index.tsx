@@ -298,7 +298,7 @@ const Layout = (props: any) => {
                         </ListItem>
                     </List>
                 </Drawer>
-                <Box sx={{ position: "relative", flexGrow: '2', height: '100%' }}>
+                <Box sx={{ position: "relative", flexGrow: '2', height: '100%', width:"100vw", padding: "2em 2em 2em 6em"}}>
                     {/* <DrawerHeader /> */}
                     {props.children}
                     {/* {!isLoadingErrorAppSettings && <AlertaReconectando />} */}
