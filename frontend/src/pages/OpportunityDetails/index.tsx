@@ -8,7 +8,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
 
-const OpportunityDetail = () => {
+const OpportunityDetails = () => {
     const { id } = useParams();
 
     const mockedCategories = ["Categoria 1", "Categoria 2", "Categoria 3"]
@@ -69,4 +69,4 @@ const OpportunityDetail = () => {
     );
 }
 
-export default OpportunityDetail;
+export default OpportunityDetails;

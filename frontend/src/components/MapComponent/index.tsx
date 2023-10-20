@@ -53,7 +53,7 @@ function MapComponent() {
         marginRight: '15px',
       } : {}
     }}>
-      <div id="map" className={isDarkTheme ? "dark" : "light"} style={{ height: '65vh' }}>
+      <div id="map" className={isDarkTheme ? "dark" : "light"} style={{ height: '100%' }}>
         <MapContainer
           ref={mapRef as any}
           center={coordenadasAtuais ?? position as LatLngExpression}
