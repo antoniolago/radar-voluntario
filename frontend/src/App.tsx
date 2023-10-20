@@ -14,7 +14,10 @@ import 'leaflet-geosearch/dist/geosearch.css';
 // import LoginModal from './pages/Login';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useGetAppSettings } from './api/appsettings';
-import InstitutionEdit from './pages/InstitutionEdit';
+import './App.css';
+import ProfileEdit from './pages/ProfileEdit';
+import Opportunities from './pages/Opportunities';
+import OpportunityEdit from './pages/OpportunityEdit';
 
 function App() {
   return (
@@ -26,7 +29,11 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/home" element={<Home />} />
             {/* <Route path="/login" element={<><Home /><LoginModal /></>} /> */}
-            <Route path="/perfilInstituicao" element={<InstitutionEdit/>} />
+            <Route path="/perfilInstituicao" element={<ProfileEdit profile={'institution'}/>} />
+            <Route path="/perfilVoluntario" element={<ProfileEdit profile={'volunteer'}/>} />
+            <Route path="/oportunidades" element={<Opportunities/>} />
+            <Route path="/oportunidade/:id?" element={<OpportunityEdit/>} />
+            
           </Route>
         </Routes>
       </Tema >
