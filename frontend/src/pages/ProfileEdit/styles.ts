@@ -1,4 +1,4 @@
-import { Box, styled } from "@mui/material";
+import { styled } from "@mui/material";
 
 export const FormContainer = styled('form')`
     display: flex;
@@ -22,21 +22,10 @@ export const InputGroup = styled('div')`
         margin-right: 1rem;
     }
 `
-export const PreviewImage = styled('img')`
-    width:300px;
-    margin-right:1em;
-`
 
 export const FooterButton = styled('div')`
     margin-top: 2em;
     text-align: right;
-`
-
-export const ImageContainer = styled('div')`
-    display: flex;
-    align-content: center;
-    align-items: center;
-    flex-wrap: wrap;
 `
 
 export const VisuallyHiddenInput = styled('input')({

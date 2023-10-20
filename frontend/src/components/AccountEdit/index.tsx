@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
-import { FooterButton, FormContainer } from '../../pages/InstitutionEdit/styles';
+import { FooterButton, FormContainer } from '../../pages/ProfileEdit/styles';
 import { ButtonContainer } from './styles';
 import { toast } from 'sonner';
 import { useState } from 'react';
@@ -7,7 +7,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import AlertDialog from '../AlertDialog';
 
-function AccountEdit() {
+function AccountEdit(props: any) {
 
     const [email, setEmail] = useState('');
     const [emailCopy, setEmailCopy] = useState('');
