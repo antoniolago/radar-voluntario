@@ -5,7 +5,7 @@ export const FormContainer = styled('form')`
     flex-direction: column;
 
     .MuiFormControl-root { 
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
     }
     & .MuiInputBase-root {
         font-weight: 300 !important;

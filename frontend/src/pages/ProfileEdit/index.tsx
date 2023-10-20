@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import AccountEdit from '../../components/AccountEdit';
 import InstitutionForm from '@/components/InstitutionForm';
-import VolunteerForm from '../../components/VolunteerForm';
+import VolunteerForm from '@/components/VolunteerForm';
 
 const ProfileEdit = (props: any) => {
 

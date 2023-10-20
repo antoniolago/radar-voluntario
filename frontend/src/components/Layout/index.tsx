@@ -31,6 +31,8 @@ import Loading from '../Loading';
 import ThemeSelector from '../ThemeSelector';
 import MapIcon from '@mui/icons-material/Map';
 import ExploreIcon from '@mui/icons-material/Explore';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import { GoogleButton } from '../GoogleButton';
 import { TemaService } from '@/api/tema';
 import { Toaster } from 'sonner';
@@ -41,6 +43,24 @@ export const menuItems = [
         text: 'Início',
         icon: <ExploreIcon />,
         path: '/'
+    },
+    {
+        id: 'institutionProfile',
+        text: 'Perfil Organização',
+        icon: <AccountCircleIcon />,
+        path: '/perfilInstituicao'
+    },
+    {
+        id: 'VolunteerProfile',
+        text: 'Perfil Voluntário',
+        icon: <AccountCircleIcon />,
+        path: '/perfilVoluntario'
+    },
+    {
+        id: 'opportunity',
+        text: 'Oportunidades',
+        icon: <FormatListBulletedIcon />,
+        path: '/oportunidades'
     },
     // {
     //     id: 'financeiro',

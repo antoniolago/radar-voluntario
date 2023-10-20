@@ -146,7 +146,6 @@ function AccountEdit(props: any) {
                 open={openAlertDialog} 
                 setOpen={setOpenAlertDialog} 
                 handleClick={deleteAccount}/>
-
         </>
     )
 }

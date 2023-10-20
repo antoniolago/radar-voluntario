@@ -41,7 +41,6 @@ const columns = [
     {
         field: 'id',
         headerName: 'Ações',
-        description: 'This column has a value getter and is not sortable.',
         sortable: false,
         width: 180,
         renderCell: renderDetailsButton
@@ -97,7 +96,6 @@ const handleSearch = (event: any) => {
             >
                 <TextField 
                     value={search} 
-                    id="outlined-basic" 
                     label="Buscar"
                     variant="outlined"
                     onChange={(e) => {
@@ -105,10 +103,8 @@ const handleSearch = (event: any) => {
                     }}
                     />
                 <FormControl >
-                    <InputLabel id="demo-simple-select-label">Organização</InputLabel>
+                    <InputLabel>Organização</InputLabel>
                     <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
                         value={selectedInstitution}
                         label="Organização"
                         onChange={(e) => {
@@ -121,10 +117,8 @@ const handleSearch = (event: any) => {
                     </Select>
                 </FormControl>
                 <FormControl >
-                    <InputLabel id="demo-simple-select-label">Cidade</InputLabel>
+                    <InputLabel>Cidade</InputLabel>
                     <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
                         value={selectedCity}
                         label="Cidade"
                         onChange={(e) => {
