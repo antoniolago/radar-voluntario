@@ -3,7 +3,7 @@ import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField
 import { FooterButton, FormContainer, InputGroup, VisuallyHiddenInput } from '../../pages/ProfileEdit/styles';
 import { PreviewImage, ImageContainer } from './styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import PhoneInput from '@/components/PhoneInput';
+import MaskedTextField from 'react-masked-mui-textfield';
 import { toast } from 'sonner';
 
 const VolunteerForm = () => {
@@ -68,9 +68,13 @@ const VolunteerForm = () => {
                         </Select>
                     </FormControl>
 
-                    <PhoneInput
+					<MaskedTextField
+                        name="Telefone"
+                        size="small"
                         required={true}
-                        label="Telefone contato" />
+                        placeholder="(00) 00000-0000"
+                        mask="(00) 00000-0000"
+                        variant="outlined" />
                 </Grid>
                 <Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6}>
                     <TextField

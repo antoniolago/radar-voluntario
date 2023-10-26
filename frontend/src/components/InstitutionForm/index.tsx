@@ -3,8 +3,8 @@ import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { ImageContainer, PreviewImage } from './styles';
 import { FooterButton, FormContainer, InputGroup, VisuallyHiddenInput } from '../../pages/ProfileEdit/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import PhoneInput from '@/components/PhoneInput';
 import { toast } from 'sonner';
+import MaskedTextField from 'react-masked-mui-textfield';
 
 const InstitutionForm = () => {
 
@@ -44,9 +44,13 @@ const InstitutionForm = () => {
 						variant="outlined"
 						inputProps={{ maxLength: 255 }} />
 
-					<PhoneInput
-						required={true}
-						label="Telefone contato" />
+					<MaskedTextField
+							name="Telefone"
+							size="small"
+							required={true}
+							placeholder="(00) 00000-0000"
+							mask="(00) 00000-0000"
+							variant="outlined" />
 
 					<ImageContainer>
 						{image ? (
