@@ -8,6 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import SearchIcon from '@mui/icons-material/Search';
 import AlertDialog from "@/components/AlertDialog";
 import { Link } from "react-router-dom";
+import { PageContainer } from "@/styles/styles";
 
 const Opportunities = () => {
     const [openAlertDialog, setOpenAlertDialog] = useState(false);
@@ -72,7 +73,7 @@ const Opportunities = () => {
 	const [data, setData] = useState<any>(mockedRows);
 
 	return (
-		<>
+		<PageContainer>
 			<Typography mb={8} variant="h5">Oportunidades</Typography>
 			<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}>
 				<TextField
@@ -105,8 +106,7 @@ const Opportunities = () => {
                 open={openAlertDialog} 
                 setOpen={setOpenAlertDialog} 
                 handleClick={deleteAccount}/>
-
-		</>
+		</PageContainer>
 	);
 }
 

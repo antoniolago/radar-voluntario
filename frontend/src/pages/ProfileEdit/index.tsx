@@ -3,6 +3,7 @@ import { Box, Tab, Tabs, Typography } from '@mui/material';
 import AccountEdit from '../../components/AccountEdit';
 import InstitutionForm from '@/components/InstitutionForm';
 import VolunteerForm from '@/components/VolunteerForm';
+import { PageContainer } from '@/styles/styles';
 
 const ProfileEdit = (props: any) => {
 
@@ -53,7 +54,7 @@ const ProfileEdit = (props: any) => {
 
 
     return (
-        <>
+        <PageContainer>
             <Typography mb={3} variant="h5">Configurações</Typography>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                 <Tab label="Editar Perfil" {...a11yProps(0)} />
@@ -69,7 +70,7 @@ const ProfileEdit = (props: any) => {
             <CustomTabPanel value={value} index={1}>
                 <AccountEdit profile={props.profile}/>
             </CustomTabPanel>
-        </>
+        </PageContainer>
     );
 }
 

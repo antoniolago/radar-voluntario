@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { FooterButton, FormContainer, InputGroup } from '../ProfileEdit/styles';
 import { toast } from 'sonner';
 import BackButton from '@/components/BackButton';
+import { PageContainer } from '@/styles/styles';
 
 
 const OpportunityEdit = () => {
@@ -22,7 +23,7 @@ const OpportunityEdit = () => {
     }
 
     return (
-        <>
+        <PageContainer>
             <BackButton redirectTo="/oportunidades" />
 
             <Typography mb={5} variant="h5">
@@ -149,7 +150,7 @@ const OpportunityEdit = () => {
                     </Button>
                 </FooterButton>
             </FormContainer>
-        </>
+        </PageContainer>
     );
 }
 

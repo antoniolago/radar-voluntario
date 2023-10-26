@@ -1,12 +1,13 @@
 import BackButton from '@/components/BackButton';
 import { Box, Button, Chip, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { InfoDetails, LocationDetails } from './styles';
 import Visibility from '@mui/icons-material/Visibility';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
+import { PageContainer } from '@/styles/styles';
 
 const OpportunityDetails = () => {
     const { id } = useParams();
@@ -14,7 +15,7 @@ const OpportunityDetails = () => {
     const mockedCategories = ["Categoria 1", "Categoria 2", "Categoria 3"]
 
     return (
-        <>
+        <PageContainer>
             <BackButton redirectTo="/" />
             <Typography mb={4} variant="h5" component="h2"> Título oportunidade {id}</Typography>
 
@@ -58,14 +59,14 @@ const OpportunityDetails = () => {
             </LocationDetails>
 
             <div style={{  marginTop: "2em", textAlign: "right" }}>
-                <Button sx={{ marginRight: "1em" }} type="submit" size="large" color="primary" variant="outlined">
+                <Button component={Link} to={"/instituicao/"+1} sx={{ marginRight: "1em" }} type="submit" size="large" color="primary" variant="outlined">
                     Sobre a Organização
                 </Button>
                 <Button type="submit" size="large" color="primary" variant="contained">
                     Voluntariar para oportunidade
                 </Button>
             </div>
-        </>
+            </PageContainer>  
     );
 }
 
