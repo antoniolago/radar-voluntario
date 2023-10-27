@@ -29,7 +29,7 @@ const useGetUser = () => {
   const api = useApi();
   var queryOptions: UseQueryOptions<AxiosResponse<User>, Error, AxiosResponse<User>, string[]> = {
     retry: false,
-    queryFn: () => api.get("user"),
+    queryFn: () => api.get("account"),
     staleTime: Infinity,
     enabled: true,
     retryOnMount: false,
