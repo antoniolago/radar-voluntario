@@ -10,19 +10,32 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { SearchBar } from './SearchBar';
 import Box from '@mui/joy/Box';
 import { GeoLocationService } from '@/api/geoloc';
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import PrintIcon from '@mui/icons-material/Print';
+import ShareIcon from '@mui/icons-material/Share';
 
 function MapComponent() {
   const { isDarkTheme } = useContext(TemaContext);
   const zoom = 14;
   const { isMobile } = TemaService.useGetIsMobile();
-  const {data: coordenadasAtuais} = GeoLocationService.useGetCurrentLocation();
+  const { data: coordenadasAtuais } = GeoLocationService.useGetCurrentLocation();
   const mapRef = useRef<Map>();
   const position: any = [-30.03306, -51.23];
   useEffect(() => {
     console.log(coordenadasAtuais)
-    if(coordenadasAtuais != undefined)
+    if (coordenadasAtuais != undefined)
       mapRef.current?.flyTo(coordenadasAtuais, zoom)
   }, [coordenadasAtuais])
+  const speedDialActions = [
+    { icon: <FileCopyIcon />, name: 'Copy' },
+    { icon: <SaveIcon />, name: 'Save' },
+    { icon: <PrintIcon />, name: 'Print' },
+    { icon: <ShareIcon />, name: 'Share' },
+  ];
   return (
     <Paper elevation={1} sx={{
       padding: '0.1px',
@@ -53,6 +66,21 @@ function MapComponent() {
         marginRight: '15px',
       } : {}
     }}>
+      <Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1 }}>
+        <SpeedDial
+          ariaLabel="SpeedDial basic example"
+          sx={{ position: 'absolute', bottom: 16, right: 16 }}
+          icon={<SpeedDialIcon />}
+        >
+          {speedDialActions.map((speedDialAction: any) => (
+            <SpeedDialAction
+              key={speedDialAction.name}
+              icon={speedDialAction.icon}
+              tooltipTitle={speedDialAction.name}
+            />
+          ))}
+        </SpeedDial>
+      </Box>
       <div id="map" className={isDarkTheme ? "dark" : "light"} style={{ height: '100%' }}>
         <MapContainer
           ref={mapRef as any}

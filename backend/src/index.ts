@@ -11,7 +11,6 @@ import express, { NextFunction, Request, Response } from "express";
 
 import { AppSettingsService } from "./services/app-settings.service";
 import { AppSettingsController } from "./controllers/app-settings.controller";
-import { UserController } from "./controllers/user.controller";
 import { AccountsService } from "./services/accounts.service";
 import { AccountsController } from "./controllers/accounts.controller";
 import AppError from "./errors/app-error";
@@ -32,7 +31,6 @@ const appSettingsController = new AppSettingsController(appSettingsService);
 
 const accountsService = new AccountsService();
 const accountsController = new AccountsController(accountsService);
-const userController = new UserController(accountsService);
 
 const institutionsService = new InstitutionsService();
 const institutionsController = new InstitutionsController(institutionsService);
@@ -45,8 +43,7 @@ app.post("/api/institutions/:id/addresses", authMiddleware, institutionsControll
 
 app.get("/api/appSettings", appSettingsController.index);
 
-app.get("/api/user", authMiddleware, userController.index);
-
+app.get("/api/account", authMiddleware, accountsController.getAccount);
 app.post("/api/accounts/login", accountsController.login);
 app.post("/api/accounts/login-google", accountsController.loginGoogle);
 

@@ -118,9 +118,6 @@ const Layout = (props: any) => {
     );
     const navigate = useNavigate()
     const { pathname } = useLocation();
-    const { data: appSettings } = useGetAppSettings();
-    const { data: user, isLoading: isLoadingUser, refetch: refetchUser } = AuthService.useGetUser();
-
     const toggleCollapseState = (id: string) => {
         setCollapseStates((prevCollapseStates: any) => ({
             ...prevCollapseStates,
@@ -129,7 +126,6 @@ const Layout = (props: any) => {
     };
 
     useEffect(() => {
-        refetchUser();
         //Inicializa o accordeon das categorias conforme a página atual
         var path = pathname.split("/")[1].replace('/', '')
         if (path in collapseStates) {

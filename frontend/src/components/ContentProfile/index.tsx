@@ -47,6 +47,7 @@ const ContentProfile = (props: any) => {
                     >
                         <Avatar
                             alt="User"
+                            src={user.picture}
                             sx={{
                                 width: 32,
                                 height: 32,

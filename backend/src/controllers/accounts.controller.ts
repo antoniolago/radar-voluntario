@@ -20,5 +20,9 @@ export class AccountsController {
 
     return response.json(auth);
   }
+  public getAccount = async (request: Request, response: Response) => {
+    const user = await this.accountsService.getUser(request.user.email);
+    return response.json(user);
+  }
 
 }
