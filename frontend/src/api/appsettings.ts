@@ -13,7 +13,7 @@ export const useGetAppSettings = () => {
     queryFn: () => api.get("appSettings"),
     retry: true,
     staleTime: Infinity,
-    // cacheTime: 3000000,
+    // cacheTime: 300000,
     enabled: true,
     retryDelay: 3000,
   };
