@@ -53,6 +53,7 @@
     "@types/react-dom": "^18.2.7",
     "@types/react-query": "^1.2.9",
     "@types/react-router-dom": "^5.3.3",
+    "@types/react-text-mask": "^5.4.13",
     "@types/react-toastify": "^4.1.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
