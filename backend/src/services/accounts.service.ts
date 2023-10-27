@@ -41,7 +41,7 @@ export class AccountsService {
 
     const payload = ticket.getPayload();
 
-    if (!payload?.email) {
+    if (!payload?.email || !payload?.name) {
       throw new Error("Invalid credential");
     }
 
@@ -52,8 +52,9 @@ export class AccountsService {
     if (!user) {
       user = await prisma.user.create({
         data: {
-          name: payload?.name as string,
-          email: payload?.email,
+          name: payload?.name,
+          email: payload.email,
+          picture: payload.picture
         },
       });
     }
