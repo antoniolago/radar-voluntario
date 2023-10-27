@@ -26,7 +26,7 @@ import { TemaContext } from '@/contexts/Tema';
 import { matchPath } from 'react-router';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import { useGetAppSettings } from '@/api/appsettings';
-import { AuthService, useGetUser } from '@/api/auth';
+import { AuthService} from '@/api/auth';
 import Loading from '../Loading';
 import ThemeSelector from '../ThemeSelector';
 import MapIcon from '@mui/icons-material/Map';
