@@ -44,7 +44,6 @@ GET {{base_url}}/institutions HTTP/1.1
 GET {{base_url}}/institutions/me HTTP/1.1
 Authorization: {{authorization}}
 
-
 ###
 
 POST {{base_url}}/institutions/8d633003-ff8f-46c5-803b-87e9989ba340/addresses HTTP/1.1
@@ -56,7 +55,10 @@ Authorization: {{authorization}}
   "number": "8001",
   "city": "Canoas",
   "state": "RS",
-  "neighborhood": "São José"
+  "neighborhood": "São José",
+  "zip_code": "92425-900",
+  "latitude": -29.917,
+  "longitude": -51.183
 }
 
 ###

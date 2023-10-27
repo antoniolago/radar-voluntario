@@ -40,6 +40,7 @@ model InstitutionAddress {
   city           String
   state          String
   neighborhood   String
+  zip_code       String
   latitude       Float
   longitude      Float
   opportunities  Opportunity[]
