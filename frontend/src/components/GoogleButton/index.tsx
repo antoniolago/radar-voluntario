@@ -11,6 +11,12 @@ export const GoogleButton = () => {
     const { data: appSettings } = useGetAppSettings();
     const { isDarkTheme } = React.useContext(TemaContext);
     const { isMobile } = TemaService.useGetIsMobile();
+    const [credRes, setCredRes] = React.useState<any>(null);
+    const { mutate } = AuthService.useLogin(credRes);
+    React.useEffect(() => {
+        if(credRes != null)
+            mutate();
+    }, [credRes])
     return (
         <Box mb={0} mr={2} className="google-auth-button-container">
             <GoogleOAuthProvider clientId={appSettings?.GOOGLE_OAUTH_CLIENT_ID || ""}>
@@ -22,7 +28,7 @@ export const GoogleButton = () => {
                     // width={'10px'}
                     logo_alignment='center'
                     text="signin"
-                    onSuccess={credentialResponse => AuthService.useLogin(credentialResponse)}
+                    onSuccess={credentialResponse => setCredRes(credentialResponse)}
                     onError={() => {
                         console.log('Login Failed');
                         toast.error('Login failed.');

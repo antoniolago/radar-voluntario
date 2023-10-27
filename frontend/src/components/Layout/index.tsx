@@ -36,6 +36,7 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import { GoogleButton } from '../GoogleButton';
 import { TemaService } from '@/api/tema';
 import { Toaster } from 'sonner';
+import { getToken, setToken } from '@/api';
 
 export const menuItems = [
     {
@@ -149,6 +150,7 @@ const Layout = (props: any) => {
         paddingLeft: open ? '30px' : '15px'
     }));
     const handleLogout = () => {
+        setToken("");
         navigate("/");
     }
 
@@ -183,7 +185,7 @@ const Layout = (props: any) => {
 
                             {isLoadingUser ?
                                 <Loading color="warning" />
-                                : user?.name != undefined ?
+                                : user?.name != undefined && getToken() != "" ?
                                     <Box>
                                         <Typography>
                                             {user.name}

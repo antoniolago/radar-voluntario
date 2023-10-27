@@ -40,7 +40,7 @@ export const useApi = () => {
 export const setToken = (token: string) => {
   Cookies.set(AuthCookieName, token);
 };
-const getToken = () => {
+export const getToken = () => {
   return Cookies.get(AuthCookieName);
 };
 const getDecodedToken = (): IToken => {
