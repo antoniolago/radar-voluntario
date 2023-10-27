@@ -37,6 +37,7 @@ import { GoogleButton } from '../GoogleButton';
 import { TemaService } from '@/api/tema';
 import { Toaster } from 'sonner';
 import { getToken, setToken } from '@/api';
+import ContentProfile from '../ContentProfile';
 
 export const menuItems = [
     {
@@ -149,10 +150,6 @@ const Layout = (props: any) => {
         paddingTop: '5px',
         paddingLeft: open ? '30px' : '15px'
     }));
-    const handleLogout = () => {
-        setToken("");
-        navigate("/");
-    }
 
     return (
         <>
@@ -182,31 +179,7 @@ const Layout = (props: any) => {
                                 <div>
                                 </div>
                             </Typography>
-
-                            {isLoadingUser ?
-                                <Loading color="warning" />
-                                : user?.name != undefined && getToken() != "" ?
-                                    <Box>
-                                        <Typography>
-                                            {user.name}
-                                        </Typography>
-                                        <IconButton
-                                            color="inherit"
-                                            aria-label="logout"
-                                            onClick={handleLogout}
-                                        >
-                                            <Logout />
-                                        </IconButton>
-                                    </Box>
-                                    :
-                                    <GoogleButton />
-                                // <Button
-                                //     variant="contained"
-                                //     color="success"
-                                //     onClick={() => navigate("/login")}>
-                                //     Logue-se
-                                // </Button>
-                            }
+                            <ContentProfile />
                         </Toolbar>
                     </AppBar>
                 </div>
