@@ -38,8 +38,7 @@ export class InstitutionsService {
   public save = async (command: SaveCommand, userId: string) => {
     const institution = await prisma.institution.create({
       data: {
-        name: command.name,
-        about: command.about,
+        ...command,
       },
     });
 

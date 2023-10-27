@@ -23,12 +23,16 @@ model User {
 }
 
 model Institution {
-  id            String               @id @default(uuid())
-  name          String
-  about         String?
-  users         InstitutionUser[]
-  opportunities Opportunity[]
-  adresses      InstitutionAddress[]
+  id                String               @id @default(uuid())
+  name              String
+  about             String
+  responsible_name  String
+  responsible_phone String
+  facebook          String?
+  instagram         String?
+  users             InstitutionUser[]
+  opportunities     Opportunity[]
+  adresses          InstitutionAddress[]
 
   @@map("institutions")
 }

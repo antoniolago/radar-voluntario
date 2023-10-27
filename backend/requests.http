@@ -32,7 +32,11 @@ Authorization: {{authorization}}
 
 {
   "name": "Example",
-  "about": "Example about"
+  "about": "Example about",
+  "responsible_name": "Example responsible name",
+  "responsible_phone": "(00) 00000-0000",
+  "facebook": "https://www.facebook.com/example",
+  "instagram": "https://www.instagram.com/example",
 }
 
 ###
