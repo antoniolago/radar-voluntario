@@ -70,19 +70,24 @@ const ContentProfile = (props: any) => {
                 style={{ marginTop: '6px' }}
             >
                 <MenuItem>
-                    <Typography variant="body2" className="ml-1">
+                    <Typography variant="body2">
                         Olá {user?.name}
                     </Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseMenu}>
                     <SettingsIcon />
-                    <Typography variant="body2" className="ml-1">
+                    <Typography
+                        variant="body2"
+                        sx={{ marginLeft: '5px' }}>
                         Configurações
                     </Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseMenu}>
                     <LogoutIcon />
-                    <Typography variant="body2" className="ml-1" onClick={handleLogout}>
+                    <Typography
+                        variant="body2"
+                        sx={{ marginLeft: '5px' }}
+                        onClick={handleLogout}>
                         Sair
                     </Typography>
                 </MenuItem>
