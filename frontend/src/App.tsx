@@ -19,6 +19,7 @@ import Opportunities from './pages/Opportunities';
 import OpportunityEdit from './pages/OpportunityEdit';
 import OpportunityDetails from './pages/OpportunityDetails';
 import InstitutionDetails from './pages/InstitutionDetails';
+import Institutions from './pages/Institutions';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route path="/edicao/oportunidade/:id?" element={<OpportunityEdit/>} />
             <Route path="/oportunidade/:id" element={<OpportunityDetails/>} />
             <Route path="/instituicao/:id" element={<InstitutionDetails/>} />
+            <Route path="/organizacoes" element={<Institutions/>} />
           </Route>
         </Routes>
       </Tema >

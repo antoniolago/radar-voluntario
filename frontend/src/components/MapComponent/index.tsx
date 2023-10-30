@@ -17,6 +17,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
+import MapSpeedDial from './MapSpeedDial';
 
 function MapComponent() {
   const { isDarkTheme } = useContext(TemaContext);
@@ -66,21 +67,7 @@ function MapComponent() {
         marginRight: '15px',
       } : {}
     }}>
-      {/* <Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1 }}>
-        <SpeedDial
-          ariaLabel="SpeedDial basic example"
-          sx={{ position: 'absolute', bottom: 16, right: 16 }}
-          icon={<SpeedDialIcon />}
-        >
-          {speedDialActions.map((speedDialAction: any) => (
-            <SpeedDialAction
-              key={speedDialAction.name}
-              icon={speedDialAction.icon}
-              tooltipTitle={speedDialAction.name}
-            />
-          ))}
-        </SpeedDial>
-      </Box> */}
+      <MapSpeedDial />
       <div id="map" className={isDarkTheme ? "dark" : "light"} style={{ height: '100%' }}>
         <MapContainer
           ref={mapRef as any}

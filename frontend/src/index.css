@@ -109,3 +109,58 @@ button:focus-visible {
 .dark .leaflet-control-attribution {
   filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
 }
+
+
+.vertical-grid .MuiDataGrid-columnHeaders {
+  display: none;
+}
+.vertical-grid .MuiDataGrid-cell {
+  max-width: 100% !important;
+  max-height: none !important;
+  border-bottom: none !important;
+  justify-content: space-between !important;
+}
+.vertical-grid .MuiDataGrid-virtualScrollerRenderZone {
+  display: block !important;
+}
+.vertical-grid .MuiDataGrid-row  {
+  display: inline-table !important;
+  height: 100% !important;
+  /* background-color: red; */
+  width: 100% !important;
+  border-bottom: 3px ridge #989898 !important;
+  /* border-radius: 15px; */
+}
+.vertical-grid .MuiDataGrid-columnHeaders {
+  display: none;
+}
+.vertical-grid .MuiDataGrid-virtualScrollerRenderZone {
+  width: 100% !important;
+}
+.vertical-grid .MuiDataGrid-virtualScrollerContent{
+  width: 100% !important;
+}
+.vertical-grid .MuiDataGrid-root{
+  height: 100% !important;
+}
+.vertical-grid .actions {
+  max-height: 100px !important;
+  height: 80px !important;
+  justify-content: space-around !IMPORTANT;
+  /* flex-flow: column !important; */
+}
+.vertical-grid .MuiDataGrid-virtualScrollerRenderZone {
+  transform: translate3d(0px, 0px, 0px) !important;
+}
+
+@media print{
+  .print-container{
+    scale: 0.98;
+  }
+  .print-container .MuiDataGrid-cell:last-of-type{
+    padding-right: 35px;
+  } 
+  .print-container .MuiDataGrid-columnHeader:last-of-type{
+    padding-right: 35px;
+  } 
+}
