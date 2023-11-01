@@ -14,6 +14,7 @@ export function CustomToolbar(props: CustomToolbarProps) {
     return (
         <GridToolbarContainer>
             {props.canInsert &&
+                // @ts-ignore
                 <Button color="primary" startIcon={<AddIcon />} onClick={() => props.handleAddRowClick()}>
                     {props.addNewRowLabel}
                 </Button>

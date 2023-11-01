@@ -280,7 +280,6 @@ const Layout = (props: any) => {
                 </Drawer>
                 </Box>
                 <Box sx={{ position: "relative", flexGrow: '2', height: '100%' }}>
-
                     <Box sx={{
                         width: '100%',
                         height: '100%',

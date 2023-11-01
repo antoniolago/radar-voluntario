@@ -36,9 +36,9 @@ const ProfileMenu = (props: any) => {
                     <Box
                         sx={{
                             display: 'flex',
-                            marginRight: '5px',
+                            marginRight: '15px',
                             alignItems: 'center',
-                            padding: '6px',
+                            border: '3px solid white',
                             borderRadius: '30px',
                             cursor: 'pointer'
                         }}
