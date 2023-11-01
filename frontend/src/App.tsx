@@ -31,7 +31,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             {/* <Route path="/login" element={<><Home /><LoginModal /></>} /> */}
             <Route path="/perfilInstituicao" element={<ProfileEdit profile={'institution'}/>} />
-            <Route path="/perfilVoluntario" element={<ProfileEdit profile={'volunteer'}/>} />
+            <Route path="/perfil" element={<ProfileEdit profile={'volunteer'}/>} />
             <Route path="/oportunidades" element={<Opportunities/>} />
             <Route path="/edicao/oportunidade/:id?" element={<OpportunityEdit/>} />
             <Route path="/oportunidade/:id" element={<OpportunityDetails/>} />

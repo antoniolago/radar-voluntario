@@ -54,12 +54,6 @@ export const menuItems = [
         path: '/perfilInstituicao'
     },
     {
-        id: 'VolunteerProfile',
-        text: 'Perfil Voluntário',
-        icon: <AccountCircleIcon />,
-        path: '/perfilVoluntario'
-    },
-    {
         id: 'opportunity',
         text: 'Oportunidades',
         icon: <FormatListBulletedIcon />,

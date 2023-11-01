@@ -56,7 +56,7 @@ const Opportunities = () => {
 			field: 'title',
 			headerName: 'Oportunidade',
 			flex: 0.1,
-			minWidth: 100,
+			minWidth: 200,
 			align: "center",
 			headerAlign: "center"
 		},
@@ -80,7 +80,7 @@ const Opportunities = () => {
 		},
 		{
 			field: 'date',
-			minWidth: 100,
+			minWidth: 180,
 			renderCell: (params: GridRenderCellParams<any>) => (
 				<>
 					{isMobile &&
@@ -98,6 +98,9 @@ const Opportunities = () => {
 			field: 'volunteers',
 			minWidth: 100,
 			align: 'center',
+			// renderHeader(params: any) {
+			// 	return (params.value);
+			// },
 			renderCell: (params: GridRenderCellParams<any>) => (
 				<>
 					{isMobile &&

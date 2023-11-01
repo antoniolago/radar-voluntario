@@ -74,7 +74,7 @@ const ProfileMenu = (props: any) => {
                         Olá {user?.name}
                     </Typography>
                 </MenuItem>
-                <MenuItem onClick={handleCloseMenu}>
+                <MenuItem onClick={() => navigate('/perfil')}>
                     <SettingsIcon />
                     <Typography
                         variant="body2"
