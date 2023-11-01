@@ -180,11 +180,12 @@ const Opportunities = () => {
 			{/* </div > */}
 			<Box sx={{
 				'.MuiDataGrid-root': {
-					height: '82dvh'
+					height: '75dvh'
 				}
 			}}>
 
 				<DefaultDataGrid
+					enablePagination={true}
 					toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
 					datagridProps={{
 						className: isMobile ? "vertical-grid" : "",
@@ -192,11 +193,11 @@ const Opportunities = () => {
 						density: isMobile ? "compact" : "standard",
 						rows: data as any,
 						rowCount: data?.length,
-						// disableVirtualization: true,
+						disableVirtualization: true,
 						// checkboxSelection: true,
 						disableRowSelectionOnClick: true,
 						// disableColumnMenu: isMobile ? true : false,
-						pageSizeOptions: isMobile ? [5, 10, 25] : [25, 50, 100],
+						pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
 						initialState: {
 							pagination: {
 								paginationModel: {
