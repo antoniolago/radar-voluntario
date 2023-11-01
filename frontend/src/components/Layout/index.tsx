@@ -187,6 +187,7 @@ const Layout = (props: any) => {
                         </Toolbar>
                     </AppBar>
                 </div>
+                <Box sx={{flexBasis: 'max-content'}}>
                 <Drawer sx={{
                     // display: !open && isMobile ? 'none' : '', 
                     // position: isMobile ? "absolute" : "relative"
@@ -277,6 +278,7 @@ const Layout = (props: any) => {
                         </ListItem>
                     </List>
                 </Drawer>
+                </Box>
                 <Box sx={{ position: "relative", flexGrow: '2', height: '100%' }}>
 
                     <Box sx={{

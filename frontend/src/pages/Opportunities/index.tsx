@@ -12,6 +12,7 @@ import { PageContainer } from "@/styles/styles";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import DefaultDataGrid from "@/components/DataGrid";
 import { TemaService } from "@/api/tema";
+import { Box, Grid } from "@mui/joy";
 
 const Opportunities = () => {
 	const [openAlertDialog, setOpenAlertDialog] = useState(false);
@@ -90,7 +91,7 @@ const Opportunities = () => {
 					{params.formattedValue.split(",")[0]}
 				</>
 			),
-			headerName: 'Data', 
+			headerName: 'Data',
 			flex: 0.2
 		},
 		{
@@ -139,59 +140,73 @@ const Opportunities = () => {
 
 	return (
 		<>
-			<Typography mb={8} variant="h5">Oportunidades</Typography>
-			<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-				<TextField
-					sx={{ marginBottom: '1em', width: '350px' }}
-					// value={search} 
-					label="Buscar"
+			<Box sx={{ display: 'flex' }}>
+				<Typography variant="h5" sx={{ marginRight: '10px' }}>Oportunidades </Typography>
+				<Button
+					component={Link}
+					to="/edicao/oportunidade"
 					variant="outlined"
-					onChange={(e) => {
-						// setSearch(e.target.value);
-					}}
-					InputProps={{
-						endAdornment: (
-							<InputAdornment position="end">
-								<SearchIcon />
-							</InputAdornment>
-						),
-					}}
-				/>
-				<Button component={Link} to="/edicao/oportunidade" variant="contained" color="primary">
-					Cadastrar oportunidade
+					color="primary"
+					sx={{ height: '30px' }}
+				>
+					+ Adicionar
 				</Button>
-			</div>
-			<DefaultDataGrid
-				datagridProps={{
-					sx: {
-						// '.boleto-situacao-A': {
-						//     backgroundColor: "yellow"
-						// }
-					},
-					className: isMobile ? "vertical-grid" : "",
-					columns: columns,
-					density: isMobile ? "compact" : "standard",
-					rows: data as any,
-					rowCount: data?.length,
-					// checkboxSelection: true,
-					disableRowSelectionOnClick: true,
-					// disableColumnMenu: isMobile ? true : false,
-					pageSizeOptions: isMobile ? [5, 10, 25] : [25, 50, 100],
-					initialState: {
-						// columns: {
-						//     columnVisibilityModel: {
-						//         // Hide columns status and traderName, the other columns will remain visible
-						//         dataLeitura: false
-						//     },
-						// },
-						pagination: {
-							paginationModel: {
-								pageSize: isMobile ? 5 : 25
+			</Box>
+			{/* <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}> */}
+			{/* <Grid container spacing={1}>
+				<Grid xs={isMobile ? 8 : 6} >
+					<TextField
+						// value={search} 
+						fullWidth
+						label="Buscar"
+						variant="outlined"
+						onChange={(e) => {
+							// setSearch(e.target.value);
+						}}
+						InputProps={{
+							endAdornment: (
+								<InputAdornment position="end">
+									<SearchIcon />
+								</InputAdornment>
+							),
+						}}
+					/>
+				</Grid>
+				<Grid xs={isMobile ? 4 : 6} sx={{ textAlign: 'right' }}>
+
+				</Grid>
+			</Grid> */}
+
+			{/* </div > */}
+			<Box sx={{
+				'.MuiDataGrid-root': {
+					height: '82dvh'
+				}
+			}}>
+
+				<DefaultDataGrid
+					toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
+					datagridProps={{
+						className: isMobile ? "vertical-grid" : "",
+						columns: columns,
+						density: isMobile ? "compact" : "standard",
+						rows: data as any,
+						rowCount: data?.length,
+						// disableVirtualization: true,
+						// checkboxSelection: true,
+						disableRowSelectionOnClick: true,
+						// disableColumnMenu: isMobile ? true : false,
+						pageSizeOptions: isMobile ? [5, 10, 25] : [25, 50, 100],
+						initialState: {
+							pagination: {
+								paginationModel: {
+									pageSize: isMobile ? 5 : 25
+								}
 							}
 						}
-					}
-				}}
-			/>
+					}}
+				/>
+			</Box >
 			{/* <Table rows={data} columns={columns} /> */}
 
 			<AlertDialog
