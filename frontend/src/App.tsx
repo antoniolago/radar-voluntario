@@ -22,6 +22,7 @@ import InstitutionDetails from './pages/InstitutionDetails';
 import VolunteerDetails from './pages/VolunteerDetails';
 import Volunteers from './pages/Volunteers';
 import Registrations from './pages/Registrations';
+import Institutions from './pages/Institutions';
 
 function App() {
   return (
@@ -33,7 +34,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             {/* <Route path="/login" element={<><Home /><LoginModal /></>} /> */}
             <Route path="/perfilInstituicao" element={<ProfileEdit profile={'institution'}/>} />
-            <Route path="/perfilVoluntario" element={<ProfileEdit profile={'volunteer'}/>} />
+            <Route path="/perfil" element={<ProfileEdit profile={'volunteer'}/>} />
             <Route path="/oportunidades" element={<Opportunities/>} />
             <Route path="/edicao/oportunidade/:id?" element={<OpportunityEdit/>} />
             <Route path="/oportunidade/:id" element={<OpportunityDetails/>} />
@@ -41,6 +42,7 @@ function App() {
             <Route path="/voluntario/:id" element={<VolunteerDetails/>} />
             <Route path="/voluntarios" element={<Volunteers/>} />
             <Route path="/inscricoes" element={<Registrations/>} />
+            <Route path="/organizacoes" element={<Institutions/>} />
           </Route>
         </Routes>
       </Tema >

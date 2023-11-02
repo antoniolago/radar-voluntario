@@ -1,6 +1,6 @@
 import { TemaService } from '@/api/tema';
 import { TemaContext } from '@/contexts/Tema';
-import { Paper } from '@mui/material';
+import { Button, Paper } from '@mui/material';
 import { LatLngExpression, Map } from 'leaflet';
 import { useContext, useEffect, useRef } from 'react';
 //@ts-ignore
@@ -17,6 +17,10 @@ import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
+import MapSpeedDial from './MapSpeedDial';
+import TrackChangesIcon from '@mui/icons-material/TrackChanges';
+import { IconButton } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 function MapComponent() {
   const { isDarkTheme } = useContext(TemaContext);
@@ -66,21 +70,24 @@ function MapComponent() {
         marginRight: '15px',
       } : {}
     }}>
-      {/* <Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1 }}>
-        <SpeedDial
-          ariaLabel="SpeedDial basic example"
-          sx={{ position: 'absolute', bottom: 16, right: 16 }}
-          icon={<SpeedDialIcon />}
-        >
-          {speedDialActions.map((speedDialAction: any) => (
-            <SpeedDialAction
-              key={speedDialAction.name}
-              icon={speedDialAction.icon}
-              tooltipTitle={speedDialAction.name}
-            />
-          ))}
-        </SpeedDial>
-      </Box> */}
+      <MapSpeedDial />
+      <Button
+        color="warning"
+        variant="contained"
+
+        component={Link}
+        to="/home/oportunidades-proximas"
+        sx={{
+          position: 'absolute',
+          zIndex: 1190,
+          top: '15dvh',
+          minWidth: '10px',
+          margin: '10px',
+          padding: '5px'
+        }}
+        aria-label="add to shopping cart">
+        <TrackChangesIcon />
+      </Button>
       <div id="map" className={isDarkTheme ? "dark" : "light"} style={{ height: '100%' }}>
         <MapContainer
           ref={mapRef as any}

@@ -5,6 +5,7 @@ import { PreviewImage, ImageContainer } from './styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import MaskedTextField from 'react-masked-mui-textfield';
 import { toast } from 'sonner';
+import { AuthService } from '@/api/auth';
 
 const VolunteerForm = () => {
 
@@ -23,6 +24,7 @@ const VolunteerForm = () => {
     ]
 
 
+	const { data: user } = AuthService.useGetUser();
     const onSubmit = async (event: React.SyntheticEvent) => {
         event.preventDefault();
         toast.success('Perfil atualizado');
@@ -35,22 +37,26 @@ const VolunteerForm = () => {
                 <Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6} >
 
                     <ImageContainer>
-                        {image ? (
-                            <PreviewImage src={URL.createObjectURL(image)} />
+                        {user?.picture ? (
+                            <PreviewImage src={user?.picture} />
                         ) : (
                             <PreviewImage src="/user.png" />
                         )}
-                        <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                        {/* <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                             Carregar imagem
                             <VisuallyHiddenInput required type="file" onChange={handleImageChange} ref={inputRef} />
-                        </Button>
+                        </Button> */}
                     </ImageContainer>
 
                     <TextField
                         required
+                        disabled
+                        value={user?.name}
+                        defaultValue={user?.name || "..."}
                         label="Nome"
                         variant="outlined"
-                        inputProps={{ maxLength: 255 }} />
+                        // inputProps={{ maxLength: 255 }} 
+                        />
                     <TextField
                         label="Sobre"
                         multiline

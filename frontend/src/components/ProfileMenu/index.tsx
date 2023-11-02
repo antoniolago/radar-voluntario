@@ -9,7 +9,7 @@ import { AuthService } from "@/api/auth";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading";
 import { GoogleButton } from "../GoogleButton";
-const ContentProfile = (props: any) => {
+const ProfileMenu = (props: any) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const { data: user, isLoading: isLoadingUser, refetch: refetchUser } = AuthService.useGetUser();
     const navigate = useNavigate()
@@ -36,10 +36,9 @@ const ContentProfile = (props: any) => {
                     <Box
                         sx={{
                             display: 'flex',
+                            marginRight: '15px',
                             alignItems: 'center',
-                            border: '1px solid white',
-                            borderStyle: 'outset',
-                            padding: '6px',
+                            border: '3px solid white',
                             borderRadius: '30px',
                             cursor: 'pointer'
                         }}
@@ -53,7 +52,7 @@ const ContentProfile = (props: any) => {
                                 height: 32,
                             }}
                         />
-                        <SettingsIcon sx={{ marginLeft: '8px', color: '' }} />
+                        {/* <SettingsIcon sx={{ marginLeft: '8px', color: ''}} /> */}
                     </Box>
                     :
                     <GoogleButton />
@@ -75,7 +74,7 @@ const ContentProfile = (props: any) => {
                         Olá {user?.name}
                     </Typography>
                 </MenuItem>
-                <MenuItem onClick={handleCloseMenu}>
+                <MenuItem onClick={() => navigate('/perfil')}>
                     <SettingsIcon />
                     <Typography
                         variant="body2"
@@ -97,4 +96,4 @@ const ContentProfile = (props: any) => {
     );
 };
 
-export default ContentProfile;
+export default ProfileMenu;

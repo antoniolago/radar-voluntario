@@ -27,7 +27,7 @@ import { TemaContext } from '@/contexts/Tema';
 import { matchPath } from 'react-router';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import { useGetAppSettings } from '@/api/appsettings';
-import { AuthService} from '@/api/auth';
+import { AuthService } from '@/api/auth';
 import Loading from '../Loading';
 import ThemeSelector from '../ThemeSelector';
 import MapIcon from '@mui/icons-material/Map';
@@ -40,7 +40,8 @@ import { GoogleButton } from '../GoogleButton';
 import { TemaService } from '@/api/tema';
 import { Toaster } from 'sonner';
 import { getToken, setToken } from '@/api';
-import ContentProfile from '../ContentProfile';
+import ProfileMenu from '../ProfileMenu';
+import Diversity2Icon from '@mui/icons-material/Diversity2';
 
 export const menuItems = [
     {
@@ -49,17 +50,11 @@ export const menuItems = [
         icon: <ExploreIcon />,
         path: '/'
     },
-{
+    {
         id: 'institutionProfile',
         text: 'Perfil Organização',
         icon: <BusinessIcon />,
         path: '/perfilInstituicao'
-    },
-    {
-        id: 'VolunteerProfile',
-        text: 'Perfil Voluntário',
-        icon: <AccountCircleIcon />,
-        path: '/perfilVoluntario'
     },
     {
         id: 'opportunity',
@@ -79,7 +74,12 @@ export const menuItems = [
         icon: <ChecklistIcon />,
         path: '/inscricoes'
     },
-    
+    {
+        id: 'organizacoes',
+        text: 'Organizações',
+        icon: <Diversity2Icon />,
+        path: '/organizacoes'
+    },
     // {
     //     id: 'financeiro',
     //     text: 'Financeiro',
@@ -163,6 +163,7 @@ const Layout = (props: any) => {
         paddingLeft: open ? '30px' : '15px'
     }));
 
+    var isMapPage = pathname == "/";
     return (
         <>
             <Toaster position="top-center" expand visibleToasts={9} />
@@ -191,10 +192,11 @@ const Layout = (props: any) => {
                                 <div>
                                 </div>
                             </Typography>
-                            <ContentProfile />
+                            <ProfileMenu />
                         </Toolbar>
                     </AppBar>
                 </div>
+                <Box sx={{flexBasis: 'max-content'}}>
                 <Drawer sx={{
                     // display: !open && isMobile ? 'none' : '', 
                     // position: isMobile ? "absolute" : "relative"
@@ -285,9 +287,15 @@ const Layout = (props: any) => {
                         </ListItem>
                     </List>
                 </Drawer>
+                </Box>
                 <Box sx={{ position: "relative", flexGrow: '2', height: '100%' }}>
+                    <Box sx={{
+                        width: '100%',
+                        height: '100%',
+                        padding: isMapPage ? 0 : '10px'
+                    }}>{props.children}</Box>
                     {/* <DrawerHeader /> */}
-                    {props.children}
+
                     {/* {!isLoadingErrorAppSettings && <AlertaReconectando />} */}
                 </Box>
             </Box >
