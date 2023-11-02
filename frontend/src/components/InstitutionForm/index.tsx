@@ -5,9 +5,9 @@ import { FooterButton, FormContainer, InputGroup, VisuallyHiddenInput } from '..
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { toast } from 'sonner';
 import MaskedTextField from 'react-masked-mui-textfield';
+import { AuthService } from '@/api/auth';
 
 const InstitutionForm = () => {
-
 	const [image, setImage] = useState();
     const inputRef = useRef(null);
 
@@ -58,10 +58,11 @@ const InstitutionForm = () => {
 						) : (
 							<PreviewImage src="/preview-image.png" />
 						)}
-						<Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+						{/* A foto virá da google */}
+						{/* <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
 							Carregar imagem
 							<VisuallyHiddenInput required type="file" onChange={handleImageChange} ref={inputRef} />
-						</Button>
+						</Button> */}
 					</ImageContainer>
 				</Grid>
 				<Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6}>
