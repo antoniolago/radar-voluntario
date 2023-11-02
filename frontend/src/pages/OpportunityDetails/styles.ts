@@ -8,7 +8,6 @@ export const InfoDetails = styled('div')`
 `
 
 export const LocationDetails = styled('div')`
-
     margin-top: 30px;
     .info { 
         display: flex;
@@ -18,6 +17,4 @@ export const LocationDetails = styled('div')`
     .icon {
         margin-right: 3px;
     }
-    
-
 `

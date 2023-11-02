@@ -19,6 +19,9 @@ import Opportunities from './pages/Opportunities';
 import OpportunityEdit from './pages/OpportunityEdit';
 import OpportunityDetails from './pages/OpportunityDetails';
 import InstitutionDetails from './pages/InstitutionDetails';
+import VolunteerDetails from './pages/VolunteerDetails';
+import Volunteers from './pages/Volunteers';
+import Registrations from './pages/Registrations';
 
 function App() {
   return (
@@ -35,6 +38,9 @@ function App() {
             <Route path="/edicao/oportunidade/:id?" element={<OpportunityEdit/>} />
             <Route path="/oportunidade/:id" element={<OpportunityDetails/>} />
             <Route path="/instituicao/:id" element={<InstitutionDetails/>} />
+            <Route path="/voluntario/:id" element={<VolunteerDetails/>} />
+            <Route path="/voluntarios" element={<Volunteers/>} />
+            <Route path="/inscricoes" element={<Registrations/>} />
           </Route>
         </Routes>
       </Tema >

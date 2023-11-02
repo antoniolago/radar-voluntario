@@ -17,6 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import BusinessIcon from '@mui/icons-material/Business';
 import { useContext, useEffect, useState } from 'react';
 import { AppBar, BadgeAmbiente, DrawerHeader, closedMixin, openedMixin } from './styles';
 import { Collapse, Paper } from '@mui/material';
@@ -31,6 +32,8 @@ import Loading from '../Loading';
 import ThemeSelector from '../ThemeSelector';
 import MapIcon from '@mui/icons-material/Map';
 import ExploreIcon from '@mui/icons-material/Explore';
+import PeopleIcon from '@mui/icons-material/People';
+import ChecklistIcon from '@mui/icons-material/Checklist';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import { GoogleButton } from '../GoogleButton';
@@ -49,7 +52,7 @@ export const menuItems = [
 {
         id: 'institutionProfile',
         text: 'Perfil Organização',
-        icon: <AccountCircleIcon />,
+        icon: <BusinessIcon />,
         path: '/perfilInstituicao'
     },
     {
@@ -64,6 +67,19 @@ export const menuItems = [
         icon: <FormatListBulletedIcon />,
         path: '/oportunidades'
     },
+    {
+        id: 'volunteersList',
+        text: 'Voluntários',
+        icon: <PeopleIcon />,
+        path: '/voluntarios'
+    },
+    {
+        id: 'volunteersList',
+        text: 'Cadastros',
+        icon: <ChecklistIcon />,
+        path: '/inscricoes'
+    },
+    
     // {
     //     id: 'financeiro',
     //     text: 'Financeiro',

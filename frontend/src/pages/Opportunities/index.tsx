@@ -62,8 +62,6 @@ const Opportunities = () => {
 		},
 	];
 
-
-
 	const mockedRows = [
 		{ title: 'Oportunidade nome 1', address: 'Cidade/UF', date: "10/12/2023", volunteers: 1, published: true, id: 1 },
 		{ title: 'Oportunidade nome 2', address: 'Cidade/UF', date: "10/11/2023", volunteers: null, published: false, id: 2 },
