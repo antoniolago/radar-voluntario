@@ -5,7 +5,7 @@ import cors from "cors";
 import fs from "fs";
 import os from "os";
 import bodyParser from "body-parser";
-import 'express-async-errors'
+import "express-async-errors";
 
 import express, { NextFunction, Request, Response } from "express";
 
@@ -28,7 +28,6 @@ app.use(bodyParser.json());
 const appSettingsService = new AppSettingsService();
 const appSettingsController = new AppSettingsController(appSettingsService);
 
-
 const accountsService = new AccountsService();
 const accountsController = new AccountsController(accountsService);
 
@@ -36,10 +35,19 @@ const institutionsService = new InstitutionsService();
 const institutionsController = new InstitutionsController(institutionsService);
 
 app.post("/api/institutions", authMiddleware, institutionsController.save);
+app.put("/api/institutions/:id", authMiddleware, institutionsController.update);
 app.get("/api/institutions", institutionsController.index);
 app.get("/api/institutions/me", authMiddleware, institutionsController.me);
-app.get("/api/institutions/:id/addresses", authMiddleware, institutionsController.getAddresses);
-app.post("/api/institutions/:id/addresses", authMiddleware, institutionsController.saveAddress);
+app.get(
+  "/api/institutions/:id/addresses",
+  authMiddleware,
+  institutionsController.getAddresses
+);
+app.post(
+  "/api/institutions/:id/addresses",
+  authMiddleware,
+  institutionsController.saveAddress
+);
 
 app.get("/api/appSettings", appSettingsController.index);
 

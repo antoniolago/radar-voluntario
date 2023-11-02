@@ -39,6 +39,7 @@ model Institution {
 
 model InstitutionAddress {
   id             String        @id @default(uuid())
+  primary        Boolean       @default(false)
   street         String
   number         String
   city           String
