@@ -79,24 +79,40 @@ const InstitutionForm = () => {
 						defaultValue=""
 						inputProps={{ maxLength: 1024 }} />
 
-					<TextField
+					{/* <TextField
 						required
 						{...register("ownerName")}
 						label="Responsável"
 						variant="outlined"
-						inputProps={{ maxLength: 255 }} />
+						inputProps={{ maxLength: 255 }} /> */}
 
 					<MaskedTextField
 						{...register("telephone")}
 						size="small"
+						label="Telefone"
 						required={true}
 						placeholder="(00) 00000-0000"
 						mask="(00) 00000-0000"
 						variant="outlined" />
-					<Card sx={{ width: 320 }}>
-						<div>
+					<InputGroup>
+						<TextField
+							label="Facebook"
+							variant="outlined"
+							inputProps={{ maxLength: 255 }} />
+
+						<TextField
+							label="Instagram"
+							variant="outlined"
+							inputProps={{ maxLength: 255 }} />
+
+					</InputGroup>
+				</Grid>
+				<Grid item sx={{ display: "flex", flexDirection: "column" }} xs={6} sm={12} md={6}>
+
+					<Card sx={{ mb: 3 }}>
+						{/* <div>
 							<Typography>Foto de perfil da organização</Typography>
-						</div>
+						</div> */}
 						<AspectRatio minHeight="120px" maxHeight="200px">
 							{image ? (
 								<PreviewImage src={URL.createObjectURL(image)} />
@@ -111,8 +127,6 @@ const InstitutionForm = () => {
 							</Button>
 						</CardContent>
 					</Card>
-				</Grid>
-				<Grid item sx={{ display: "flex", flexDirection: "column" }} xs={6} sm={12} md={6}>
 					<TextField
 						required
 						label="CEP"
@@ -141,18 +155,7 @@ const InstitutionForm = () => {
 
 					</InputGroup>
 					<Typography fontWeight={600} variant="subtitle1">Redes sociais</Typography>
-					<InputGroup>
-						<TextField
-							label="Facebook"
-							variant="outlined"
-							inputProps={{ maxLength: 255 }} />
 
-						<TextField
-							label="Instagram"
-							variant="outlined"
-							inputProps={{ maxLength: 255 }} />
-
-					</InputGroup>
 				</Grid>
 			</Grid>
 			<FooterButton>

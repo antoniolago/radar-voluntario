@@ -7,13 +7,14 @@ import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 import Diversity2Icon from '@mui/icons-material/Diversity2';
-import { Modal, SpeedDial, Typography } from '@mui/material';
+import { SpeedDial, Typography } from '@mui/material';
 
 import ModalClose from '@mui/joy/ModalClose';
 import ModalDialog, { ModalDialogProps } from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle';
 import DialogContent from '@mui/joy/DialogContent';
 import InstitutionForm from '../InstitutionForm';
+import { Modal } from '@mui/joy';
 
 
 
@@ -47,7 +48,7 @@ export default function MapSpeedDial() {
     borderRadius: '3px',
     boxShadow: 24,
     p: 4,
-    height: '50dvh',
+    height: '70dvh',
     overflowY: 'auto'
   };
 
@@ -59,13 +60,12 @@ export default function MapSpeedDial() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Nova Organização:
-          </Typography>
-          <br/>
+        <ModalDialog sx={{overflowY: 'auto'}}>
+          <ModalClose />
+          <Typography> Nova Organização:</Typography>
+          <br />
           <InstitutionForm />
-        </Box>
+        </ModalDialog>
       </Modal>
       <Backdrop open={open} />
       <SpeedDial
