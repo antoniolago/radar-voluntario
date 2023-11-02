@@ -50,9 +50,13 @@ const VolunteerForm = () => {
 
                     <TextField
                         required
+                        disabled
+                        value={user?.name}
+                        defaultValue={user?.name || "..."}
                         label="Nome"
                         variant="outlined"
-                        inputProps={{ maxLength: 255 }} />
+                        // inputProps={{ maxLength: 255 }} 
+                        />
                     <TextField
                         label="Sobre"
                         multiline

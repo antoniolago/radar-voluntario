@@ -8,20 +8,37 @@ import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 import Diversity2Icon from '@mui/icons-material/Diversity2';
 import { SpeedDial } from '@mui/material';
+import { Modal, ModalClose, ModalDialog, Typography } from '@mui/joy';
 
-const actions = [
-  { icon: <FileCopyIcon />, name: 'Criar atividade' },
-  { icon: <Diversity2Icon />, name: 'Criar organização' },
-  { icon: <FileCopyIcon />, name: 'Procurar' },
-];
+
 
 export default function MapSpeedDial() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
+  const [openAddOrganizationModal, setOpenAddOrganizationModal] = React.useState(false);
+  const [openAddActivityModal, setOpenAddActivityModal] = React.useState(false);
+  const actions = [
+    {
+      icon: <FileCopyIcon />,
+      name: 'Criar atividade',
+      onClick: () => { setOpenAddActivityModal(true) }
+    },
+    {
+      icon: <Diversity2Icon />,
+      name: 'Criar organização',
+      onClick: () => { setOpenAddOrganizationModal(true) }
+    },
+  ];
   return (
     <>
+      <Modal open={openAddOrganizationModal} onClose={() => setOpen(false)}
+              sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <ModalDialog>
+          <ModalClose />
+          <Typography>Modal title</Typography>
+        </ModalDialog>
+      </Modal>
       <Backdrop open={open} />
       <SpeedDial
         ariaLabel="SpeedDial"
@@ -37,7 +54,10 @@ export default function MapSpeedDial() {
             icon={action.icon}
             tooltipTitle={action.name}
             tooltipOpen
-            onClick={handleClose}
+            onClick={() => {
+              handleClose();
+              action?.onClick();
+            }}
           />
         ))}
       </SpeedDial>

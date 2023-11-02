@@ -5,7 +5,6 @@ import { FooterButton, FormContainer, InputGroup, VisuallyHiddenInput } from '..
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { toast } from 'sonner';
 import MaskedTextField from 'react-masked-mui-textfield';
-import { AuthService } from '@/api/auth';
 
 const InstitutionForm = () => {
 	const [image, setImage] = useState();
@@ -45,12 +44,12 @@ const InstitutionForm = () => {
 						inputProps={{ maxLength: 255 }} />
 
 					<MaskedTextField
-							name="Telefone"
-							size="small"
-							required={true}
-							placeholder="(00) 00000-0000"
-							mask="(00) 00000-0000"
-							variant="outlined" />
+						name="Telefone"
+						size="small"
+						required={true}
+						placeholder="(00) 00000-0000"
+						mask="(00) 00000-0000"
+						variant="outlined" />
 
 					<ImageContainer>
 						{image ? (
