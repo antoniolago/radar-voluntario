@@ -7,8 +7,13 @@ import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 import Diversity2Icon from '@mui/icons-material/Diversity2';
-import { SpeedDial } from '@mui/material';
-import { Modal, ModalClose, ModalDialog, Typography } from '@mui/joy';
+import { Modal, SpeedDial, Typography } from '@mui/material';
+
+import ModalClose from '@mui/joy/ModalClose';
+import ModalDialog, { ModalDialogProps } from '@mui/joy/ModalDialog';
+import DialogTitle from '@mui/joy/DialogTitle';
+import DialogContent from '@mui/joy/DialogContent';
+import InstitutionForm from '../InstitutionForm';
 
 
 
@@ -30,14 +35,37 @@ export default function MapSpeedDial() {
       onClick: () => { setOpenAddOrganizationModal(true) }
     },
   ];
+
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '90%',
+    bgcolor: 'background.paper',
+    border: '1px solid #4a4a4a',
+    borderRadius: '3px',
+    boxShadow: 24,
+    p: 4,
+    height: '50dvh',
+    overflowY: 'auto'
+  };
+
   return (
     <>
-      <Modal open={openAddOrganizationModal} onClose={() => setOpen(false)}
-              sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <ModalDialog>
-          <ModalClose />
-          <Typography>Modal title</Typography>
-        </ModalDialog>
+      <Modal
+        open={openAddOrganizationModal}
+        onClose={() => setOpenAddOrganizationModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Nova Organização:
+          </Typography>
+          <br/>
+          <InstitutionForm />
+        </Box>
       </Modal>
       <Backdrop open={open} />
       <SpeedDial

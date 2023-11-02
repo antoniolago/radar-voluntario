@@ -5,6 +5,8 @@ import { FooterButton, FormContainer, InputGroup, VisuallyHiddenInput } from '..
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { toast } from 'sonner';
 import MaskedTextField from 'react-masked-mui-textfield';
+import { Institution } from '@/types/institution';
+import { useForm } from 'react-hook-form';
 
 const InstitutionForm = () => {
 	const [image, setImage] = useState();
@@ -15,22 +17,56 @@ const InstitutionForm = () => {
 		setImage(file);
 	}
 
-	const onSubmit = async (event: React.SyntheticEvent) => {
-		event.preventDefault();
+	const onSubmit = async (data: any) => {
+		console.log(data)
 		toast.success('Perfil atualizado');
 	}
 
+	const {
+		register,
+		setError,
+		clearErrors,
+		formState: { errors },
+		handleSubmit,
+		control,
+		setValue,
+		getValues,
+		formState,
+		watch,
+		reset,
+	} = useForm<Institution>({
+		// shouldUnregister: false,
+		shouldFocusError: true,
+		// resolver: yupResolver(validationSchema) as Resolver<AtualizacaoCadastralType, object>
+	});
+	const { isDirty, dirtyFields } = formState;
+	var form = {
+		register,
+		setError,
+		clearErrors,
+		errors,
+		handleSubmit,
+		control,
+		setValue,
+		watch,
+		getValues,
+		isDirty,
+		// dirtyFields
+	};
 	return (
-		<FormContainer onSubmit={onSubmit}>
+		<FormContainer onSubmit={handleSubmit(onSubmit)}>
 			<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
 				<Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6} >
 					<TextField
+						{...register("name")}
 						required
-						label="Organização"
+						label="Nome Organização"
+						name="name"
 						variant="outlined"
 						inputProps={{ maxLength: 255 }} />
 					<TextField
 						label="Sobre"
+						{...register("about")}
 						multiline
 						required
 						rows={5}
@@ -39,12 +75,13 @@ const InstitutionForm = () => {
 
 					<TextField
 						required
+						{...register("ownerName")}
 						label="Responsável"
 						variant="outlined"
 						inputProps={{ maxLength: 255 }} />
 
 					<MaskedTextField
-						name="Telefone"
+						{...register("telephone")}
 						size="small"
 						required={true}
 						placeholder="(00) 00000-0000"
