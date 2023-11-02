@@ -32,10 +32,11 @@ export const Tema = (props: any) => {
 		const { setMode: setJoyMode } = useJoyColorScheme();
 
 		useEffect(() => {
-			localStorage.setItem('tema', props.isDarkTheme ? 'dark' : 'light');
+			var curTheme: any = props.isDarkTheme ? 'dark' : 'light';
+			localStorage.setItem('tema', curTheme);
 
-			setMaterialMode(props.isDarkTheme ? 'dark' : 'light');
-			setJoyMode(props.isDarkTheme ? 'dark' : 'light');
+			setJoyMode(curTheme);
+			setMaterialMode(curTheme);
 			// ReactGA.event({
 			// 	category: 'Tema',
 			// 	action: isDarkTheme ? "Tema escuro" : "Tema claro" + " selecionado"
@@ -153,7 +154,7 @@ export const Tema = (props: any) => {
 	// },
 	// 	ptBR);
 	return (
-		<MaterialCssVarsProvider defaultMode="system"
+		<MaterialCssVarsProvider  //defaultMode="dark"
 			// theme={isDarkTheme ? darkTheme : lightTheme}
 			theme={{ [MATERIAL_THEME_ID]: materialTheme }}
 		>

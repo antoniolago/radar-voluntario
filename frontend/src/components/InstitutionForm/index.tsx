@@ -68,6 +68,7 @@ const InstitutionForm = () => {
 						required
 						label="Nome Organização"
 						name="name"
+						size={"small"}
 						variant="outlined"
 						inputProps={{ maxLength: 255 }} />
 					<TextField
@@ -94,14 +95,18 @@ const InstitutionForm = () => {
 						placeholder="(00) 00000-0000"
 						mask="(00) 00000-0000"
 						variant="outlined" />
+					<Typography fontWeight={600} variant="subtitle1">Redes sociais</Typography>
+
 					<InputGroup>
 						<TextField
 							label="Facebook"
+							size={"small"}
 							variant="outlined"
 							inputProps={{ maxLength: 255 }} />
 
 						<TextField
 							label="Instagram"
+							size={"small"}
 							variant="outlined"
 							inputProps={{ maxLength: 255 }} />
 
@@ -127,34 +132,6 @@ const InstitutionForm = () => {
 							</Button>
 						</CardContent>
 					</Card>
-					<TextField
-						required
-						label="CEP"
-						variant="outlined" />
-					<TextField
-						required
-						label="Endereço"
-						variant="outlined"
-						inputProps={{ maxLength: 255 }} />
-
-					<TextField
-						required
-						label="Bairro"
-						variant="outlined"
-						inputProps={{ maxLength: 255 }} />
-
-					<InputGroup>
-						<TextField
-							required
-							label="UF"
-							variant="outlined" />
-						<TextField
-							required
-							label="Cidade"
-							variant="outlined" />
-
-					</InputGroup>
-					<Typography fontWeight={600} variant="subtitle1">Redes sociais</Typography>
 
 				</Grid>
 			</Grid>
