@@ -17,6 +17,8 @@ import AppError from "./errors/app-error";
 import { InstitutionsService } from "./services/institutions.service";
 import { InstitutionsController } from "./controllers/institutions.controller";
 import authMiddleware from "./middlewares/auth.middleware";
+import { OpportunitiesService } from "./services/opportunities.service";
+import { OpportunitiesController } from "./controllers/opportunities.controller";
 
 dotenv.config({ path: path.resolve(__dirname, "..", "..", ".env") });
 
@@ -24,12 +26,6 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-
-const appSettingsService = new AppSettingsService();
-const appSettingsController = new AppSettingsController(appSettingsService);
-
-const accountsService = new AccountsService();
-const accountsController = new AccountsController(accountsService);
 
 const institutionsService = new InstitutionsService();
 const institutionsController = new InstitutionsController(institutionsService);
@@ -49,7 +45,31 @@ app.post(
   institutionsController.saveAddress
 );
 
+const opportunitiesService = new OpportunitiesService();
+const opportunitiesController = new OpportunitiesController(
+  opportunitiesService
+);
+
+app.get("/api/opportunities/:id", opportunitiesController.index);
+app.post("/api/opportunities", authMiddleware, opportunitiesController.save);
+app.put(
+  "/api/opportunities/:id",
+  authMiddleware,
+  opportunitiesController.update
+);
+app.delete(
+  "/api/opportunities/:id",
+  authMiddleware,
+  opportunitiesController.delete
+);
+
+const appSettingsService = new AppSettingsService();
+const appSettingsController = new AppSettingsController(appSettingsService);
+
 app.get("/api/appSettings", appSettingsController.index);
+
+const accountsService = new AccountsService();
+const accountsController = new AccountsController(accountsService);
 
 app.get("/api/account", authMiddleware, accountsController.getAccount);
 app.post("/api/accounts/login", accountsController.login);
