@@ -4,7 +4,12 @@ import AppError from "../errors/app-error";
 
 type OptionalFields = "id";
 
-type SaveCommand = Omit<Prisma.InstitutionCreateManyInput, OptionalFields>;
+type SaveCommand = Omit<Prisma.InstitutionCreateManyInput, OptionalFields> & {
+  address: Omit<
+    Prisma.InstitutionAddressCreateManyInput,
+    OptionalAddressFields
+  >;
+};
 
 type OptionalAddressFields = "id" | "institution" | "institution_id";
 
@@ -15,9 +20,15 @@ type AddressSaveCommand = Omit<
 
 export class InstitutionsService {
   public index = async () => {
-    const institutions = await prisma.institution.findMany();
+    const institutions = await prisma.institution.findMany({
+      include: { adresses: true },
+    });
 
-    return institutions;
+    return institutions.map((institution) => ({
+      ...institution,
+      address: institution.adresses.find((address) => address.primary),
+      adresses: undefined,
+    }));
   };
 
   public me = async (userId: string) => {
@@ -36,9 +47,23 @@ export class InstitutionsService {
   };
 
   public save = async (command: SaveCommand, userId: string) => {
+    const { address, ...rest } = command;
+
+    if (!address) {
+      throw new AppError("Address is required", 400);
+    }
+
     const institution = await prisma.institution.create({
       data: {
-        ...command,
+        ...rest,
+      },
+    });
+
+    const institutionAddress = await prisma.institutionAddress.create({
+      data: {
+        ...address,
+        primary: true,
+        institution_id: institution.id,
       },
     });
 
@@ -49,7 +74,49 @@ export class InstitutionsService {
       },
     });
 
-    return institution;
+    return {
+      ...institution,
+      address: institutionAddress,
+    };
+  };
+
+  public update = async (id: string, command: SaveCommand) => {
+    const { address: _, ...rest } = command;
+
+    const institution = await prisma.institution.update({
+      where: {
+        id,
+      },
+      data: {
+        ...rest,
+      },
+    });
+
+    const address = await prisma.institutionAddress.findFirst({
+      where: {
+        institution_id: institution.id,
+        primary: true,
+      },
+    });
+
+    if (address) {
+      await prisma.institutionAddress.update({
+        where: {
+          id: address.id,
+        },
+        data: {
+          ...command.address,
+        },
+      });
+    }
+
+    return {
+      ...institution,
+      address: {
+        ...address,
+        ...command.address,
+      },
+    };
   };
 
   public getAddresses = async (institutionId: string) => {
