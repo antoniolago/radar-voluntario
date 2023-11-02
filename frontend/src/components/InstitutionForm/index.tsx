@@ -7,10 +7,16 @@ import { toast } from 'sonner';
 import MaskedTextField from 'react-masked-mui-textfield';
 import { Institution } from '@/types/institution';
 import { useForm } from 'react-hook-form';
+import AspectRatio from '@mui/joy/AspectRatio';
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import IconButton from '@mui/joy/IconButton';
+import BookmarkAdd from '@mui/icons-material/BookmarkAddOutlined';
+// import { Grid } from '@mui/joy';
 
 const InstitutionForm = () => {
 	const [image, setImage] = useState();
-    const inputRef = useRef(null);
+	const inputRef = useRef(null);
 
 	const handleImageChange = (event: any) => {
 		const file = event.target.files[0]
@@ -56,7 +62,7 @@ const InstitutionForm = () => {
 	return (
 		<FormContainer onSubmit={handleSubmit(onSubmit)}>
 			<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-				<Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6} >
+				<Grid item sx={{ display: "flex", flexDirection: "column" }} xs={6} sm={12} md={6} >
 					<TextField
 						{...register("name")}
 						required
@@ -87,21 +93,26 @@ const InstitutionForm = () => {
 						placeholder="(00) 00000-0000"
 						mask="(00) 00000-0000"
 						variant="outlined" />
-
-					<ImageContainer>
-						{image ? (
-							<PreviewImage src={URL.createObjectURL(image)} />
-						) : (
-							<PreviewImage src="/preview-image.png" />
-						)}
-						{/* A foto virá da google */}
-						{/* <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-							Carregar imagem
-							<VisuallyHiddenInput required type="file" onChange={handleImageChange} ref={inputRef} />
-						</Button> */}
-					</ImageContainer>
+					<Card sx={{ width: 320 }}>
+						<div>
+							<Typography>Foto de perfil da organização</Typography>
+						</div>
+						<AspectRatio minHeight="120px" maxHeight="200px">
+							{image ? (
+								<PreviewImage src={URL.createObjectURL(image)} />
+							) : (
+								<PreviewImage src="/preview-image.png" />
+							)}
+						</AspectRatio>
+						<CardContent orientation="horizontal">
+							<Button fullWidth component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+								Carregar imagem
+								<VisuallyHiddenInput required type="file" onChange={handleImageChange} ref={inputRef} />
+							</Button>
+						</CardContent>
+					</Card>
 				</Grid>
-				<Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6}>
+				<Grid item sx={{ display: "flex", flexDirection: "column" }} xs={6} sm={12} md={6}>
 					<TextField
 						required
 						label="CEP"
