@@ -12,9 +12,10 @@ import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import IconButton from '@mui/joy/IconButton';
 import BookmarkAdd from '@mui/icons-material/BookmarkAddOutlined';
+import AddressSelect from '../AddressSelect';
 // import { Grid } from '@mui/joy';
 
-const InstitutionForm = () => {
+const NewInstitutionForm = () => {
 	const [image, setImage] = useState();
 	const inputRef = useRef(null);
 
@@ -24,7 +25,6 @@ const InstitutionForm = () => {
 	}
 
 	const onSubmit = async (data: any) => {
-		console.log(data)
 		toast.success('Perfil atualizado');
 	}
 
@@ -132,7 +132,7 @@ const InstitutionForm = () => {
 							</Button>
 						</CardContent>
 					</Card>
-
+					<AddressSelect />
 				</Grid>
 			</Grid>
 			<FooterButton>
@@ -144,4 +144,4 @@ const InstitutionForm = () => {
 	);
 }
 
-export default InstitutionForm;
+export default NewInstitutionForm;

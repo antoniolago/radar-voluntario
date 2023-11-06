@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Box, Paper, Tab, Tabs, Typography } from '@mui/material';
 import AccountEdit from '../../components/AccountEdit';
-import InstitutionForm from '@/components/InstitutionForm';
+import NewInstitutionForm from '@/components/NewInstitutionForm';
 import VolunteerForm from '@/components/VolunteerForm';
 import { PageContainer } from '@/styles/styles';
 
@@ -62,7 +62,7 @@ const ProfileEdit = (props: any) => {
             </Tabs>
             <CustomTabPanel value={value} index={0}>
                 {props.profile === 'institution' ? (
-                    <InstitutionForm />
+                    <NewInstitutionForm />
                 ) : (
                     <VolunteerForm />
                 )}

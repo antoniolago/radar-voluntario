@@ -13,7 +13,7 @@ import ModalClose from '@mui/joy/ModalClose';
 import ModalDialog, { ModalDialogProps } from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle';
 import DialogContent from '@mui/joy/DialogContent';
-import InstitutionForm from '../InstitutionForm';
+import NewInstitutionForm from '../NewInstitutionForm';
 import { Modal } from '@mui/joy';
 
 
@@ -64,7 +64,7 @@ export default function MapSpeedDial() {
           <ModalClose />
           <Typography> Nova Organização:</Typography>
           <br />
-          <InstitutionForm />
+          <NewInstitutionForm />
         </ModalDialog>
       </Modal>
       <Backdrop open={open} />

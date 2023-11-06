@@ -1,8 +1,8 @@
 import { TemaService } from '@/api/tema';
 import { TemaContext } from '@/contexts/Tema';
 import { Button, Paper } from '@mui/material';
-import { LatLngExpression, Map } from 'leaflet';
-import { useContext, useEffect, useRef } from 'react';
+import L, { LatLngExpression, Map } from 'leaflet';
+import { useContext, useEffect, useRef, useState } from 'react';
 //@ts-ignore
 import { MarkerLayer, Marker } from "react-leaflet-marker";
 import { MapContainer, TileLayer, Popup } from 'react-leaflet'
@@ -21,16 +21,61 @@ import MapSpeedDial from './MapSpeedDial';
 import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import { IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
+import ReactDOMServer, { renderToStaticMarkup } from "react-dom/server";
 
-function MapComponent() {
+interface MapProps {
+  selectionMode?: boolean;
+}
+function MapComponent(props: MapProps) {
   const { isDarkTheme } = useContext(TemaContext);
+  const [selectionPinRef, setSelectionPinRef] = useState<Marker<any>>();
+  const [selectedLatitude, setSelectedLatitude] = useState<number>();
+  const [selectedLongitude, setSelectedLongitude] = useState<number>();
   const zoom = 14;
   const { isMobile } = TemaService.useGetIsMobile();
   const { data: coordenadasAtuais } = GeoLocationService.useGetCurrentLocation();
   const mapRef = useRef<Map>();
+  const markerRef = useRef<Marker>();
   const position: any = [-30.03306, -51.23];
+  const MarkerIcon = <LocationOnIcon
+                        sx={{
+                          fontSize: '40px',
+                          color: isDarkTheme ? 'white' : '#000'
+                      }} />
   useEffect(() => {
-    console.log(coordenadasAtuais)
+    if (props.selectionMode &&
+      markerRef?.current != undefined) {
+      // if (selectionPinRef?.current == undefined) {
+      mapRef.current?.on('click', function (ev) {
+        var t = L.marker(ev.latlng, {
+          riseOnHover: true, draggable: true,
+          icon: L.divIcon({ html: renderToStaticMarkup(MarkerIcon) as any, className: 'custom-marker', iconSize: [40, 40] }),
+        })
+        t.addTo(mapRef?.current as any);
+        t?.on('drag', function (ev: any) {
+          setSelectedLatitude(ev.latlng.lat);
+          setSelectedLongitude(ev.latlng.lng);
+        });
+        setSelectionPinRef(t);
+        mapRef.current?.removeEventListener('click');
+        mapRef.current?.on('click', function (ev) {
+          console.log(selectionPinRef)
+          t?.setLatLng(ev.latlng);
+          setSelectedLatitude(ev.latlng.lat);
+          setSelectedLongitude(ev.latlng.lng);
+        });
+      });
+      // } else {
+      //   mapRef.current?.on('click', function (ev) {
+      //     console.log(selectionPinRef)
+      //     selectionPinRef?.current?.setLatLng(ev.latlng);
+      //     setSelectedLatitude(ev.latlng.lat);
+      //     setSelectedLongitude(ev.latlng.lng);
+      //   });
+      // }
+    }
+  }, [markerRef?.current, selectionPinRef?.current])
+  useEffect(() => {
     if (coordenadasAtuais != undefined)
       mapRef.current?.flyTo(coordenadasAtuais, zoom)
   }, [coordenadasAtuais])
@@ -70,8 +115,8 @@ function MapComponent() {
         marginRight: '15px',
       } : {}
     }}>
-      <MapSpeedDial />
-      <Button
+      {!props.selectionMode && <MapSpeedDial />}
+      {/* <Button
         color="warning"
         variant="contained"
 
@@ -87,7 +132,7 @@ function MapComponent() {
         }}
         aria-label="add to shopping cart">
         <TrackChangesIcon />
-      </Button>
+      </Button> */}
       <div id="map" className={isDarkTheme ? "dark" : "light"} style={{ height: '100%' }}>
         <MapContainer
           ref={mapRef as any}
@@ -95,14 +140,14 @@ function MapComponent() {
           zoom={zoom}
           scrollWheelZoom={true}
           style={{ height: "100%", width: '100%' }} >
-          {mapRef.current && <SearchBar map={mapRef.current} />}
+          {mapRef.current && !props.selectionMode && <SearchBar map={mapRef.current} />}
           <TileLayer
             detectRetina={true}
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <MarkerLayer>
-            <Marker position={position}
+            <Marker innerRef={markerRef as any} position={position} id="mainMarker"
               size={[40, 40]} // mesmo que o fontSize
               placement="top">
               <LocationOnIcon sx={{ fontSize: '40px', color: isDarkTheme ? 'white' : '#000' }} />
