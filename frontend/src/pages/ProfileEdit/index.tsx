@@ -54,6 +54,8 @@ const ProfileEdit = (props: any) => {
 
 
     return (
+        <PageContainer>
+
         <Paper elevation={3}>
             {/* <Typography mb={3} variant="h5">Configurações</Typography> */}
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -71,6 +73,8 @@ const ProfileEdit = (props: any) => {
                 <AccountEdit profile={props.profile}/>
             </CustomTabPanel>
         </Paper>
+        </PageContainer>
+
     );
 }
 

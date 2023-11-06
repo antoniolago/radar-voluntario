@@ -292,7 +292,7 @@ const Layout = (props: any) => {
                     <Box sx={{
                         width: '100%',
                         height: '100%',
-                        padding: isMapPage ? 0 : '10px'
+                        // padding: isMapPage ? 0 : '10px'
                     }}>{props.children}</Box>
                     {/* <DrawerHeader /> */}
 

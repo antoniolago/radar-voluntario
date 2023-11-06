@@ -36,9 +36,9 @@ const OpportunitiesList = (props: { institutionId?: number }) => {
     }
 
     const columns = [
-        { field: 'title', headerName: 'Oportunidade', flex: 1 },
-        { field: 'address', headerName: 'Endereço', flex: 1 },
-        { field: 'date', headerName: 'Data', flex: 1 },
+        { field: 'title', headerName: 'Oportunidade' },
+        { field: 'address', headerName: 'Endereço' },
+        { field: 'date', headerName: 'Data' },
         {
             field: 'id',
             headerName: 'Ações',

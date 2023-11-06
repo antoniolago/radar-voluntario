@@ -26,10 +26,10 @@ function Registrations() {
 	}
 
 	const columns = [
-		{ field: 'opportunity', headerName: 'Oportunidade', flex: 1 },
-		{ field: 'institution', headerName: 'Organização', flex: 1 },
-		{ field: 'address', headerName: 'Endereço', flex: 1 },
-		{ field: 'date', headerName: 'Data', flex: 1 },
+		{ field: 'opportunity', headerName: 'Oportunidade' },
+		{ field: 'institution', headerName: 'Organização' },
+		{ field: 'address', headerName: 'Endereço' },
+		{ field: 'date', headerName: 'Data' },
 		{
 			field: 'id',
 			headerName: 'Ações',

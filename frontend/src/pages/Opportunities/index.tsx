@@ -55,7 +55,7 @@ const Opportunities = () => {
 		{
 			field: 'title',
 			headerName: 'Oportunidade',
-			flex: 0.1,
+			// flex: 0.1,
 			minWidth: 200,
 			align: "center",
 			headerAlign: "center"
@@ -74,7 +74,7 @@ const Opportunities = () => {
 			),
 			minWidth: 100,
 			headerName: 'Endereço',
-			flex: 0.2,
+			// flex: 0.2,
 			align: "center",
 			headerAlign: "center"
 		},
@@ -92,7 +92,7 @@ const Opportunities = () => {
 				</>
 			),
 			headerName: 'Data',
-			flex: 0.2
+			// flex: 0.2
 		},
 		{
 			field: 'volunteers',
@@ -112,13 +112,13 @@ const Opportunities = () => {
 				</>
 			),
 			headerName: 'Voluntários inscritos',
-			flex: 0.2
+			// flex: 0.2
 		},
 		{
 			field: 'published',
 			minWidth: 100,
 			headerName: 'Publicado',
-			flex: 0.3,
+			// flex: 0.3,
 			renderCell: renderPublishedIcon
 		},
 		{
@@ -142,7 +142,8 @@ const Opportunities = () => {
 	const [data, setData] = useState<any>(mockedRows);
 
 	return (
-		<>
+		<PageContainer>
+
 			<Box sx={{ display: 'flex' }}>
 				<Typography variant="h5" sx={{ marginRight: '10px' }}>Oportunidades </Typography>
 				<Button
@@ -220,7 +221,8 @@ const Opportunities = () => {
 				open={openAlertDialog}
 				setOpen={setOpenAlertDialog}
 				handleClick={deleteAccount} />
-		</>
+		</PageContainer>
+
 	);
 }
 

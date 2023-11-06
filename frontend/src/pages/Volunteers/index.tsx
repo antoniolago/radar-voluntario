@@ -24,10 +24,10 @@ function Volunteers() {
 	}
 
 	const columns = [
-		{ field: 'name', headerName: 'Nome', flex: 1 },
-		{ field: 'address', headerName: 'Endereço', flex: 1 },
-		{ field: 'phone', headerName: 'Telefone', flex: 1 },
-		{ field: 'volunteers', headerName: 'Inscrições em atividades', flex: 1 },
+		{ field: 'name', headerName: 'Nome' },
+		{ field: 'address', headerName: 'Endereço' },
+		{ field: 'phone', headerName: 'Telefone' },
+		{ field: 'volunteers', headerName: 'Inscrições em atividades' },
 		{
 			field: 'id',
 			headerName: 'Ações',

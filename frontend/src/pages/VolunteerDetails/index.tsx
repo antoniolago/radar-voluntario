@@ -45,9 +45,9 @@ function VolunteerDetails() {
     }
 
     const columns = [
-        { field: 'opportunity', headerName: 'Oportunidade', flex: 1 },
-        { field: 'registration_date', headerName: 'Data de inscrição', flex: 1 },
-        { field: 'activity_date', headerName: 'Data de atividade', flex: 1 },
+        { field: 'opportunity', headerName: 'Oportunidade' },
+        { field: 'registration_date', headerName: 'Data de inscrição' },
+        { field: 'activity_date', headerName: 'Data de atividade' },
         {
             field: 'id',
             headerName: 'Ações',
