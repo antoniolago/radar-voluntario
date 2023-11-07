@@ -4,6 +4,9 @@ import { useParams } from 'react-router-dom';
 import { FooterButton, FormContainer, InputGroup } from '../ProfileEdit/styles';
 import { toast } from 'sonner';
 import BackButton from '@/components/BackButton';
+import { PageContainer } from '@/styles/styles';
+import { useForm } from 'react-hook-form';
+import { Opportunity } from '@/types/opportunity';
 
 const OpportunityEdit = () => {
     const { id } = useParams();
@@ -15,13 +18,41 @@ const OpportunityEdit = () => {
         setOnlineOpportunity(event.target.checked);
     };
 
-    const onSubmit = async (event: React.SyntheticEvent) => {
-        event.preventDefault();
-        toast.success('Oportunidade atualizada');
-    }
+    const onSubmit = async (data: any) => {
+		toast.success('Oportunidade cadastrada');
+	}
+
+	const {
+		register,
+		setError,
+		clearErrors,
+		formState: { errors },
+		handleSubmit,
+		control,
+		setValue,
+		getValues,
+		formState,
+		watch,
+		reset,
+	} = useForm<Opportunity>({
+		shouldFocusError: true,
+	});
+	const { isDirty, dirtyFields } = formState;
+	var form = {
+		register,
+		setError,
+		clearErrors,
+		errors,
+		handleSubmit,
+		control,
+		setValue,
+		watch,
+		getValues,
+		isDirty,
+	};
 
     return (
-        <>
+        <PageContainer>
             <BackButton redirectTo="/oportunidades" />
 
             <Typography mb={5} variant="h5">
@@ -31,11 +62,15 @@ const OpportunityEdit = () => {
                     <Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6} >
 
                         <TextField
+                            {...register("name")}
+                            name="name"
                             required
                             label="Título"
                             variant="outlined"
                             inputProps={{ maxLength: 255 }} />
                         <TextField
+                            {...register("description")}
+                            name="description"
                             label="Descrição"
                             multiline
                             required
@@ -44,6 +79,8 @@ const OpportunityEdit = () => {
                             inputProps={{ maxLength: 1024 }} />
 
                         <TextField
+                            {...register("vacancies")}
+                            name="vacancies"
                             label="Número de voluntários"
                             required
                             type="number"
@@ -64,6 +101,8 @@ const OpportunityEdit = () => {
 
                         {/* TODO: add datepicker */}
                         <TextField
+                            {...register("date")}
+                            name="date"
                             label="Data"
                             multiline
                             required
@@ -72,9 +111,13 @@ const OpportunityEdit = () => {
                         <InputGroup>
                             <TextField
                                 required
+                                {...register("start_time")}
+                                name="start_time"
                                 label="Hora início"
                                 variant="outlined" />
                             <TextField
+                                {...register("end_time")}
+                                name="end_time"
                                 required
                                 label="Hora fim"
                                 variant="outlined" />
@@ -146,7 +189,7 @@ const OpportunityEdit = () => {
                     </Button>
                 </FooterButton>
             </FormContainer>
-        </>
+        </PageContainer>
     );
 }
 

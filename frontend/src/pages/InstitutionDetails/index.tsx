@@ -18,7 +18,7 @@ function InstitutionDetails() {
     }
 
     return (
-        <>
+        <PageContainer>
             <BackButton redirectTo='/' />
             <Typography sx={{ textAlign: "center" }} mb={4} variant="h5" component="h2"> {institution.name} {id}</Typography>
             <Typography sx={{ textAlign: "justify" }} mb={4} variant="body1" component="p"> {institution.description} </Typography>
@@ -43,7 +43,7 @@ function InstitutionDetails() {
 
             <OportunitiesList institutionId={1} />
 
-        </>
+        </PageContainer>
     )
 }
 

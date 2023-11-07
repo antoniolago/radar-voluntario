@@ -50,7 +50,6 @@ function Registrations() {
 
     return (
         <PageContainer>
-            <BackButton redirectTo='/' />
             <Typography mb={4} variant="h5" component="h2"> Oportunidades Inscritas </Typography>
 			<Table rows={data} columns={columns} />
         </PageContainer>
