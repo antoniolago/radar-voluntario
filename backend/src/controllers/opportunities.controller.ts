@@ -39,5 +39,5 @@ export class OpportunitiesController {
     await this.opportunitiesService.delete(id, request.user.id);
 
     return response.status(204).send();
-  }
+  };
 }

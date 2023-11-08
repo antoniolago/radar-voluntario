@@ -11,7 +11,7 @@ const useLogin = (credentialResponse: CredentialResponse) => {
   const api = useApi();
   const queryClient = useQueryClient()
 
-  var mutationOptions: UseMutationOptions = {
+  const mutationOptions: UseMutationOptions = {
     mutationFn: () => api.post<AuthenticationResponse>(apiRoutes.loginGoogle, credentialResponse)
       .then((res: AxiosResponse<AuthenticationResponse>) => {
         setToken(res.data.token);
@@ -27,9 +27,9 @@ const useLogin = (credentialResponse: CredentialResponse) => {
 
 const useGetUser = () => {
   const api = useApi();
-  var queryOptions: UseQueryOptions<AxiosResponse<User>, Error, AxiosResponse<User>, string[]> = {
+  const queryOptions: UseQueryOptions<AxiosResponse<User>, Error, AxiosResponse<User>, string[]> = {
     retry: false,
-    queryFn: () => api.get("account"),
+    queryFn: () => api.get("accounts"),
     staleTime: Infinity,
     enabled: true,
     retryOnMount: false,

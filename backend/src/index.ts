@@ -71,7 +71,8 @@ app.get("/api/appSettings", appSettingsController.index);
 const accountsService = new AccountsService();
 const accountsController = new AccountsController(accountsService);
 
-app.get("/api/account", authMiddleware, accountsController.getAccount);
+app.get("/api/accounts", authMiddleware, accountsController.getAccount);
+app.put("/api/accounts", authMiddleware, accountsController.updateAccount);
 app.post("/api/accounts/login", accountsController.login);
 app.post("/api/accounts/login-google", accountsController.loginGoogle);
 
