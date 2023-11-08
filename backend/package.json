@@ -7,7 +7,7 @@
     "start": "tsx ./src/index.ts",
     "start:prod": "prisma migrate deploy && yarn run start",
     "dev": "cross-env NODE_ENV=development tsx watch ./src/index.ts",
-    "migrate": "prisma migrate && prisma migrate deploy"
+    "migrate": "prisma generate && prisma migrate deploy"
   },
   "dependencies": {
     "@prisma/client": "5.3.1",
