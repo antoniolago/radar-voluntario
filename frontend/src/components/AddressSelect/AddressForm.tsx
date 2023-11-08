@@ -130,7 +130,7 @@ const AddressForm = (props: any) => {
                     </Typography>
                     <br />
                     <Grid container spacing={2}>
-                        <Grid md={6}>
+                        <Grid xs={12} md={6}>
                             <InputLabel>
                                 Nome
                                 <Box component="span" style={{ color: "red" }}> *</Box>
@@ -146,7 +146,7 @@ const AddressForm = (props: any) => {
                             />
                             {/* <FormHelperText error={true}>{form.errors?.cep?.message as any}</FormHelperText> */}
                         </Grid>
-                        <Grid md={6}>
+                        <Grid xs={6} md={6}>
                             <InputLabel>
                                 CEP
                                 <Box component="span" style={{ color: "red" }}> *</Box>
@@ -164,7 +164,7 @@ const AddressForm = (props: any) => {
                             />
                             <FormHelperText error={true}>{form.errors?.cep?.message as any}</FormHelperText>
                         </Grid>
-                        <Grid md={4}>
+                        <Grid xs={6} md={4}>
                             <InputLabel>
                                 Estado
                                 <Box component="span" style={{ color: "red" }}> *</Box>
@@ -176,7 +176,7 @@ const AddressForm = (props: any) => {
                                 defaultValue={form.getValues("estado")}
                                 {...form?.register('estado')} />
                         </Grid>
-                        <Grid md={4}>
+                        <Grid xs={6} md={4}>
                             <InputLabel>
                                 Cidade
                                 <Box component="span" style={{ color: "red" }}> *</Box>
@@ -188,7 +188,7 @@ const AddressForm = (props: any) => {
                                 style={{ width: '100%', margin: 0 }}
                                 size="small" />
                         </Grid>
-                        <Grid md={4}>
+                        <Grid xs={6} md={4}>
                             <InputLabel>
                                 Bairro
                                 <Box component="span" style={{ color: "red" }}> *</Box>
@@ -204,7 +204,7 @@ const AddressForm = (props: any) => {
                             />
                             <FormHelperText error={true}>{form.errors?.bairro?.message as any}</FormHelperText>
                         </Grid>
-                        <Grid md={4}>
+                        <Grid xs={12} md={4}>
                             <InputLabel>
                                 Logradouro
                                 <Box component="span" style={{ color: "red" }}> *</Box>
@@ -221,7 +221,7 @@ const AddressForm = (props: any) => {
                             />
                             <FormHelperText error={true}>{form.errors?.logradouro?.message as any}</FormHelperText>
                         </Grid>
-                        <Grid md={4}>
+                        <Grid xs={6} md={4}>
                             <InputLabel>
                                 Número
                                 <Box component="span" style={{ color: "red" }}> *</Box>
@@ -237,7 +237,7 @@ const AddressForm = (props: any) => {
                             />
                             <FormHelperText error={true}>{form.errors?.numeroEndereco?.message as any}</FormHelperText>
                         </Grid>
-                        <Grid md={4}>
+                        <Grid xs={6} md={4}>
                             <InputLabel>
                                 Complemento
                             </InputLabel>
@@ -250,7 +250,7 @@ const AddressForm = (props: any) => {
                             />
                             {/* <FormHelperText error={true}>{form.errors?.complemento?.message as any}</FormHelperText> */}
                         </Grid>
-                        {/* <Grid sm={12} md={4} style={{ cursor: 'not-allowed' }}>
+                        {/* <Grid xs={12} md={4} style={{ cursor: 'not-allowed' }}>
 							<InputSelect
 								obrigatorio
 								cidade
@@ -263,7 +263,7 @@ const AddressForm = (props: any) => {
 								form={form}
 							/>
 						</Grid>
-						<Grid sm={12} md={3} style={{ cursor: 'not-allowed' }}>
+						<Grid xs={12} md={3} style={{ cursor: 'not-allowed' }}>
 							<InputSelect
 								obrigatorio
 								readOnly
@@ -280,13 +280,16 @@ const AddressForm = (props: any) => {
                     {showMap &&
                         <>
                             <Grid container>
-                                <Grid md={12} style={{ height: '150px', width: '100%' }}>
+                                <Grid xs={12} md={12} style={{ height: '150px', width: '100%' }}>
                                     <MapComponent selectionMode />
+                                    <FormHelperText>Toque no mapa e mova o marcador para a localização exata do local</FormHelperText>
+
                                 </Grid>
                             </Grid>
                             <br />
                         </>
                     }
+                    <br />
                     <Grid>
                         {/* <pre>{JSON.stringify(getValues(), null, 4)}</pre> */}
                         <Grid style={{ textAlign: "right" }}>

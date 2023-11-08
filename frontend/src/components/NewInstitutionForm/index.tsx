@@ -142,7 +142,7 @@ const NewInstitutionForm = (props: any) => {
 
 			<Grid>
 				{/* <pre>{JSON.stringify(getValues(), null, 4)}</pre> */}
-				<Grid style={{ textAlign: "right" }}>
+				<Grid md={12} style={{ textAlign: "right" }}>
 					<Button
 						color="primary"
 						variant='outlined'
@@ -156,7 +156,7 @@ const NewInstitutionForm = (props: any) => {
 						variant='contained'
 						form="new-organization-form"
 						type="submit"
-						size="large"
+						// size="large"
 						id="new-organization-form-btn">
 						SALVAR
 					</Button>

@@ -20,7 +20,7 @@ const AddressSelect = () => {
     }, []);
     return (
         <Grid container>
-            <Grid md={10}>
+            <Grid xs={10} md={10}>
                 <TextField
                     id="outlined-select-currency"
                     select
@@ -37,7 +37,7 @@ const AddressSelect = () => {
                     ))}
                 </TextField>
             </Grid>
-            <Grid md={2}>
+            <Grid xs={2} md={2}>
                 <IconButton
                     variant="outlined"
                     style={{ marginLeft: '10px', marginTop: '2px' }}

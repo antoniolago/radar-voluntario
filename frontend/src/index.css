@@ -21,7 +21,9 @@
   background: none;
   border: none;
 }
-
+.leaflet-control-attribution {
+  display: none;
+}
 .leaflet-container {
   cursor: pointer !important;
   width: 100%;
