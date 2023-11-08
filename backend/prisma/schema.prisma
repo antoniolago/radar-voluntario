@@ -16,6 +16,8 @@ model User {
   name          String
   email         String            @unique
   picture       String?
+  about         String?
+  phone         String?
   institutions  InstitutionUser[]
   opportunities OpportunityUser[]
 
