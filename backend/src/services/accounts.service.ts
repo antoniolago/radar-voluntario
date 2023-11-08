@@ -49,7 +49,15 @@ export class AccountsService {
       where: { email: payload?.email },
     });
 
-    if (!user) {
+    if (user) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          name: payload.name,
+          picture: payload.picture
+        },
+      });
+    } else {
       user = await prisma.user.create({
         data: {
           name: payload?.name,
