@@ -4,8 +4,9 @@ export interface Opportunity {
     description: string
     institution_id: string
     vacancies: number
+    published: boolean,
+    online: boolean,
     address_id: string
-    date: Date,
-    start_time: any,
-    end_time: any,
+    start_date: any,
+    end_date: any,
 }

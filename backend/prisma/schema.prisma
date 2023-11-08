@@ -83,11 +83,15 @@ model Opportunity {
   name           String
   description    String
   vacancies      Int
+  published      Boolean               @default(false)
+  online         Boolean               @default(false)
+  start_date     DateTime
+  end_date       DateTime
   users          OpportunityUser[]
   institution    Institution           @relation(fields: [institution_id], references: [id])
   institution_id String
-  address        InstitutionAddress    @relation(fields: [address_id], references: [id])
-  address_id     String
+  address        InstitutionAddress?    @relation(fields: [address_id], references: [id])
+  address_id     String?
   categories     OpportunityCategory[]
 
   @@map("opportunities")
