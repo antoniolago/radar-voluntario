@@ -171,6 +171,7 @@ export const Tema = (props: any) => {
 			theme={{ [MATERIAL_THEME_ID]: materialTheme }}
 		>
 			<JoyCssVarsProvider>
+				<CssBaseline enableColorScheme />
 				<TemaContext.Provider value={{ isDarkTheme, setIsDarkTheme }}>
 					<TemaAux isDarkTheme={isDarkTheme}>
 						{props.children}
