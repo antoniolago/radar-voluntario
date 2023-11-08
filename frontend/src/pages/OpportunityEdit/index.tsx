@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Switch, TextField, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { FooterButton, FormContainer, InputGroup } from '../ProfileEdit/styles';
@@ -7,18 +7,31 @@ import BackButton from '@/components/BackButton';
 import { PageContainer } from '@/styles/styles';
 import { useForm } from 'react-hook-form';
 import { Opportunity } from '@/types/opportunity';
+import { OpportunityService } from '@/api/opportunity';
+import YourComponent from '@/components/DatePicker';
+import { InstitutionService } from '@/api/institution';
 
 const OpportunityEdit = () => {
     const { id } = useParams();
     const [onlineOpportunity, setOnlineOpportunity] = useState(false);
     const [addressId, setAddressId] = useState('');
 
+    const { data: institutionData } = InstitutionService.useGetInstitution();
+    const { mutate } = OpportunityService.usePostOpportunity();
+    
+    useEffect(() => {
+        if(institutionData != undefined && institutionData.length > 0){
+            setValue('institution_id', institutionData[0]!.id!);
+        }
+    }, [institutionData])
 
     const handleChangeOnineOpportinity = (event: React.ChangeEvent<HTMLInputElement>) => {
         setOnlineOpportunity(event.target.checked);
     };
 
-    const onSubmit = async (data: any) => {
+    const onSubmit = async (data: Opportunity) => {
+        console.log(data);
+        mutate(data);
 		toast.success('Oportunidade cadastrada');
 	}
 
@@ -58,8 +71,9 @@ const OpportunityEdit = () => {
             <Typography mb={5} variant="h5">
                 {id ? 'Editar' : 'Cadastrar'} oportunidade
             </Typography>
-            <FormContainer onSubmit={onSubmit}>
+            <FormContainer  onSubmit={handleSubmit(onSubmit)}>
                     <Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6} >
+                    <input {...register("institution_id", {value: ''})} type="hidden" />
 
                         <TextField
                             {...register("name")}
@@ -90,18 +104,9 @@ const OpportunityEdit = () => {
                             <FormControlLabel control={<Switch defaultChecked />} label="Publicar oportunidade" />
                         </FormControl>
 
-                        <FormControl >
-                            <InputLabel>Categorias</InputLabel>
-                            <Select label="Organização">
-                                {/* {interestsList.map((interest) =>
-                                <MenuItem value={interest.value}>{interest.label}</MenuItem>
-                            )} */}
-                            </Select>
-                        </FormControl>
-
                         {/* TODO: add datepicker */}
                         <TextField
-                            {...register("date")}
+                            // {...register("date")}
                             name="date"
                             label="Data"
                             multiline
@@ -111,12 +116,12 @@ const OpportunityEdit = () => {
                         <InputGroup>
                             <TextField
                                 required
-                                {...register("start_time")}
+                                // {...register("start_time")}
                                 name="start_time"
                                 label="Hora início"
                                 variant="outlined" />
                             <TextField
-                                {...register("end_time")}
+                                // {...register("end_time")}
                                 name="end_time"
                                 required
                                 label="Hora fim"

@@ -69,7 +69,7 @@ export const menuItems = [
         path: '/voluntarios'
     },
     {
-        id: 'volunteersList',
+        id: 'registers',
         text: 'Cadastros',
         icon: <ChecklistIcon />,
         path: '/inscricoes'
