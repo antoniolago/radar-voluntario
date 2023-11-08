@@ -64,7 +64,7 @@ export default function MapSpeedDial() {
           <ModalClose />
           <Typography> Nova Organização:</Typography>
           <br />
-          <NewInstitutionForm />
+          <NewInstitutionForm setShowModal={setOpenAddOrganizationModal}/>
         </ModalDialog>
       </Modal>
       <Backdrop open={open} />

@@ -13,9 +13,10 @@ import CardContent from '@mui/joy/CardContent';
 import IconButton from '@mui/joy/IconButton';
 import BookmarkAdd from '@mui/icons-material/BookmarkAddOutlined';
 import AddressSelect from '../AddressSelect';
+import { createPortal } from 'react-dom';
 // import { Grid } from '@mui/joy';
 
-const NewInstitutionForm = () => {
+const NewInstitutionForm = (props: any) => {
 	const [image, setImage] = useState();
 	const inputRef = useRef(null);
 
@@ -24,7 +25,10 @@ const NewInstitutionForm = () => {
 		setImage(file);
 	}
 
-	const onSubmit = async (data: any) => {
+	const onSubmitt = (data: any, e: any) => {
+		e.preventDefault();
+		e.stopPropagation();
+		if (e.target.id != "new-organization-form") return;
 		toast.success('Perfil atualizado');
 	}
 
@@ -60,7 +64,7 @@ const NewInstitutionForm = () => {
 		// dirtyFields
 	};
 	return (
-		<FormContainer onSubmit={handleSubmit(onSubmit)}>
+		<FormContainer onSubmit={handleSubmit(onSubmitt)} id="new-organization-form">
 			<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
 				<Grid item sx={{ display: "flex", flexDirection: "column" }} xs={6} sm={12} md={6} >
 					<TextField
@@ -135,11 +139,40 @@ const NewInstitutionForm = () => {
 					<AddressSelect />
 				</Grid>
 			</Grid>
-			<FooterButton>
-				<Button type="submit" size="large" color="success" variant="contained">
+
+			<Grid>
+				{/* <pre>{JSON.stringify(getValues(), null, 4)}</pre> */}
+				<Grid style={{ textAlign: "right" }}>
+					<Button
+						color="primary"
+						variant='outlined'
+						onClick={() => props.setShowModal(false)}
+						// onClick={() => reset({})} 
+						style={{ marginRight: "10px" }}
+					>
+						CANCELAR
+					</Button>
+					<Button 
+						variant='contained'
+						form="new-organization-form"
+						type="submit"
+						size="large"
+						id="new-organization-form-btn">
+						SALVAR
+					</Button>
+				</Grid>
+			</Grid>
+			{/* <FooterButton>
+				<Button
+					form="new-organization-form"
+					type="submit"
+					size="large"
+					color="success"
+					variant="contained"
+					id="new-organization-form-btn">
 					Salvar
 				</Button>
-			</FooterButton>
+			</FooterButton> */}
 		</FormContainer>
 	);
 }

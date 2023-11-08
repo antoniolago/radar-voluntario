@@ -1,11 +1,13 @@
 import { Button, Grid } from "@mui/joy";
 import { Box, FormHelperText, InputLabel, MenuItem, TextField, Typography } from "@mui/material";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useState } from "react";
 import Loading from "../Loading";
 import MaskedTextField from "react-masked-mui-textfield";
 import { useForm } from "react-hook-form";
 import MapComponent from "../MapComponent";
+import { useApi } from "@/api";
+import { toast } from "sonner";
 
 const AddressForm = (props: any) => {
     const [carregando, setCarregandoEndereco] = useState(false);
@@ -58,7 +60,6 @@ const AddressForm = (props: any) => {
         isDirty,
         // dirtyFields
     };
-    console.log(form.errors?.cep?.message)
     const buscaCep = (cep: any) => {
         cep = cep.replace("-", "");
         if (cep.length == 8) {
@@ -96,18 +97,26 @@ const AddressForm = (props: any) => {
                 .catch((error: any) => {
                     console.log(error);
                 });
+        } else if (cep.length > 0){
+            form.setError('cep', { type: 'custom', message: 'Insira um CEP válido' });
+        } else {
+            form.clearErrors(['logradouro', 'bairro', 'cidade', 'cep']);
         }
     }
-    const onSubmit = (data: any) => {
-        console.log(data);
+    const onSubmit = (data: any, e: any) => {
+        if(e.target.id != "form-new-address") return;
+        const api = useApi();
+        api.post("endereco").then((res: AxiosResponse) => toast.success("Endereço adicionado com sucesso"))
+        props.setShowModal(false);
     }
     return (
         <Box
+            id="form-new-address"
             component="form"
             sx={{
                 '& .MuiTextField-root': { m: 1, width: '25ch' },
             }}
-            noValidate
+            // noValidate
             onSubmit={handleSubmit(onSubmit)}
             autoComplete="off"
         >
@@ -119,7 +128,7 @@ const AddressForm = (props: any) => {
                         Alguns campos são preenchidos automaticamente através do
                         CEP fornecido.
                     </Typography>
-                    <br/>
+                    <br />
                     <Grid container spacing={2}>
                         <Grid md={6}>
                             <InputLabel>
@@ -130,12 +139,12 @@ const AddressForm = (props: any) => {
                                 {...form.register("nome")}
                                 size='small'
                                 placeholder="Ex: Sede estadual"
-                                error={form.errors?.cep?.message != undefined}
+                                // error={form.errors?.cep?.message != undefined}
                                 style={{ width: "100%", margin: 0 }}
                                 variant="outlined"
                                 required
                             />
-                            <FormHelperText error={true}>{form.errors?.cep?.message as any}</FormHelperText>
+                            {/* <FormHelperText error={true}>{form.errors?.cep?.message as any}</FormHelperText> */}
                         </Grid>
                         <Grid md={6}>
                             <InputLabel>
@@ -200,10 +209,9 @@ const AddressForm = (props: any) => {
                                 Logradouro
                                 <Box component="span" style={{ color: "red" }}> *</Box>
                             </InputLabel>
-                            <MaskedTextField
+                            <TextField
                                 {...form.register("logradouro")}
                                 size='small'
-                                mask="00000-000"
                                 disabled={cepContemLogradouro}
                                 error={form.errors?.logradouro?.message != ""}
                                 style={{ width: "100%", margin: 0 }}
@@ -285,13 +293,15 @@ const AddressForm = (props: any) => {
                             <Button
                                 color="primary"
                                 variant='outlined'
-                                onClick={() => props?.setOpenModal(false)}
+                                onClick={() => props?.setShowModal(false)}
                                 // onClick={() => reset({})} 
                                 style={{ marginRight: "10px" }}
                             >
                                 CANCELAR
                             </Button>
-                            <Button variant='soft' type="submit">
+                            <Button variant='solid' type="submit"
+                                form="form-new-address"
+                                id="form-new-address-btn">
                                 SALVAR
                             </Button>
                         </Grid>

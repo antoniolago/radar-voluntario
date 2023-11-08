@@ -5,8 +5,9 @@ import MenuItem from '@mui/material/MenuItem';
 import { Grid, IconButton, Modal, ModalClose, ModalDialog, Typography } from '@mui/joy';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import AddressForm from './AddressForm';
-const AddressSelect = (props: any) => {
-    const [openAddOrganizationModal, setOpenAddOrganizationModal] = React.useState(false);
+import { createPortal } from 'react-dom';
+const AddressSelect = () => {
+    const [openNewAddressModal, setOpenNewAddressModal] = React.useState(false);
     // TODO FETCH ALL ADDRESSES
     const addresses = [
         {
@@ -41,23 +42,25 @@ const AddressSelect = (props: any) => {
                     variant="outlined"
                     style={{ marginLeft: '10px', marginTop: '2px' }}
                     color="primary"
-                    onClick={() => setOpenAddOrganizationModal(true)}
+                    onClick={() => setOpenNewAddressModal(true)}
                     aria-label="Adicionar Endereço">
                     <AddCircleOutlineIcon />
                 </IconButton>
-
-                <Modal
-                    open={openAddOrganizationModal}
-                    onClose={() => setOpenAddOrganizationModal(false)}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <ModalDialog sx={{ overflowY: 'auto' }}>
-                        <ModalClose />
-                        <Typography> Novo endereço:</Typography>
-                        <AddressForm />
-                    </ModalDialog>
-                </Modal>
+                {createPortal(
+                    <Modal
+                        open={openNewAddressModal}
+                        onClose={() => setOpenNewAddressModal(false)}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <ModalDialog sx={{ overflowY: 'auto' }}>
+                            <ModalClose />
+                            <Typography> Novo endereço:</Typography>
+                            <AddressForm setShowModal={setOpenNewAddressModal}/>
+                        </ModalDialog>
+                    </Modal>,
+                    document.body
+                )}
             </Grid>
         </Grid>
     );
