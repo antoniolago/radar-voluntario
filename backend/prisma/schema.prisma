@@ -23,7 +23,7 @@ model User {
 }
 
 model Institution {
-  id                String               @id @default(uuid())
+  id                String                @id @default(uuid())
   name              String
   about             String
   responsible_name  String
@@ -33,6 +33,7 @@ model Institution {
   users             InstitutionUser[]
   opportunities     Opportunity[]
   adresses          InstitutionAddress[]
+  categories        InstitutionCategory[]
 
   @@map("institutions")
 }
@@ -55,6 +56,16 @@ model InstitutionAddress {
   @@map("institutions_addresses")
 }
 
+model InstitutionCategory {
+  id             String                @id @default(uuid())
+  name           String
+  institution    Institution           @relation(fields: [institution_id], references: [id])
+  institution_id String
+  opportunities  OpportunityCategory[]
+
+  @@map("institutions_categories")
+}
+
 model InstitutionUser {
   id             String      @id @default(uuid())
   institution    Institution @relation(fields: [institution_id], references: [id])
@@ -66,15 +77,16 @@ model InstitutionUser {
 }
 
 model Opportunity {
-  id             String             @id @default(uuid())
+  id             String                @id @default(uuid())
   name           String
   description    String
   vacancies      Int
   users          OpportunityUser[]
-  institution    Institution        @relation(fields: [institution_id], references: [id])
+  institution    Institution           @relation(fields: [institution_id], references: [id])
   institution_id String
-  address        InstitutionAddress @relation(fields: [address_id], references: [id])
+  address        InstitutionAddress    @relation(fields: [address_id], references: [id])
   address_id     String
+  categories     OpportunityCategory[]
 
   @@map("opportunities")
 }
@@ -87,4 +99,14 @@ model OpportunityUser {
   user_id        String
 
   @@map("opportunities_users")
+}
+
+model OpportunityCategory {
+  id             String              @id @default(uuid())
+  category       InstitutionCategory @relation(fields: [category_id], references: [id])
+  category_id    String
+  opportunity    Opportunity         @relation(fields: [opportunity_id], references: [id])
+  opportunity_id String
+
+  @@map("opportunities_categories")
 }
