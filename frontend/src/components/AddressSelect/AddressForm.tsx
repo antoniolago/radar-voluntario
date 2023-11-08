@@ -280,7 +280,7 @@ const AddressForm = (props: any) => {
                     {showMap &&
                         <>
                             <Grid container>
-                                <Grid md={12} style={{ height: '150px' }}>
+                                <Grid md={12} style={{ height: '150px', width: '100%' }}>
                                     <MapComponent selectionMode />
                                 </Grid>
                             </Grid>
