@@ -19,6 +19,15 @@ export class OpportunitiesController {
 
     return response.json(opportunity);
   };
+
+  public getPublished = async (request: Request, response: Response) => {
+    const { id } = request.params;
+
+    const opportunity = await this.opportunitiesService.getPublished(id);
+
+    return response.json(opportunity);
+  };
+
   public save = async (request: Request, response: Response) => {
     const opportunity = await this.opportunitiesService.save(
       request.body,

@@ -23,6 +23,19 @@ export class OpportunitiesService {
     return opportunity;
   };
 
+  public getPublished = async (id: string) => {
+    const opportunity = await prisma.opportunity.findUnique({
+      where: {
+        id: id,
+        published: true
+      },
+      include: { institution: true },
+    });
+
+    return opportunity;
+  };
+
+
   public save = async (command: SaveCommand, userId: string) => {
     const institution = await prisma.institution.findUnique({
       where: {

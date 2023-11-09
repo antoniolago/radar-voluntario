@@ -63,6 +63,8 @@ app.delete(
   authMiddleware,
   opportunitiesController.delete
 );
+app.get("/api/opportunity/published/:id?", opportunitiesController.getPublished);
+
 
 const appSettingsService = new AppSettingsService();
 const appSettingsController = new AppSettingsController(appSettingsService);

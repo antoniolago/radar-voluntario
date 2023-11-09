@@ -377,9 +377,9 @@ export default function DefaultDataGrid(props: DataTableProps) {
         field: 'actions',
         type: 'actions',
         headerName: 'Ações',
-        width: 100,
-        // align: 'right',
-        // headerAlign: 'right',
+        width: 120,
+        align: 'left',
+        headerAlign: 'center',
         cellClassName: 'actions',
         getActions: (params: any) => {
             const isInEditMode = rowModesModel[params.id]?.mode === GridRowModes.Edit;
@@ -434,12 +434,12 @@ export default function DefaultDataGrid(props: DataTableProps) {
                     onClick={handleDeleteClick(params.id)}
                     sx={{ color: 'error.main' }}
                 />);
-                if (props.canView)
+                if (props.canView && params.row.published)
                 icones.push(<GridActionsCellItem
                     icon={<VisibilityIcon />}
                     label="Visualizar"
                     onClick={handleViewClick(params.id)}
-                    sx={{ color: 'error.main' }}
+                    sx={{ color: '#424242' }}
                 />);
             return icones;
         },

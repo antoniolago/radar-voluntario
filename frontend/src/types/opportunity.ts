@@ -9,4 +9,5 @@ export interface Opportunity {
     address_id: string
     start_date: any,
     end_date: any,
+    institution?: any,
 }

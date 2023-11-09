@@ -35,6 +35,18 @@ const useGetOpportunity = (id: string) => {
   return { ...context, data: context.data?.data === undefined ? {} as Opportunity : context.data?.data };
 };
 
+const useGetPublishedOpportunity = (id: string) => {
+  const api = useApi();
+  var queryOptions: UseQueryOptions<AxiosResponse<Opportunity>, Error, AxiosResponse<Opportunity>, string[]> = {
+    queryFn: () => api.get("opportunity/published/"+id),
+    staleTime: Infinity,
+    enabled: true,
+    retryOnMount: false,
+    queryKey: ['publised-opportunity-'+id]
+  };
+  const context = useQuery(queryOptions)
+  return { ...context, data: context.data?.data === undefined ? {} as Opportunity : context.data?.data };
+};
 
 const usePostOpportunity = () => {
   const api = useApi();
@@ -55,8 +67,6 @@ const usePostOpportunity = () => {
     },
   });
 }
-
-//set query data
 
 const usePutOpportunity = () => {
   const api = useApi();
@@ -102,5 +112,6 @@ export const OpportunityService = {
   usePutOpportunity,
   useGetOpportunityList,
   useGetOpportunity,
+  useGetPublishedOpportunity,
   useDeleteOpportunity
 }
