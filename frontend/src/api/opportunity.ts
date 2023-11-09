@@ -9,14 +9,14 @@ import { toast } from 'sonner';
 const useGetOpportunityList = (institution_id: string) => {
   const api = useApi();
 
-  let queryKey: string[] = ['opportunities', institution_id];
+  const enabled = institution_id == '0' ? false : true;
 
   var queryOptions: UseQueryOptions<AxiosResponse<Opportunity[]>, Error, AxiosResponse<Opportunity[]>, string[]> = {
     queryFn: () => api.get("opportunities/"+institution_id),
     staleTime: Infinity,
-    enabled: true,
-    retryOnMount: false,
-    queryKey: queryKey
+    enabled: enabled,
+    retryOnMount: true,
+    queryKey:  ['opportunities']
   };
   const context = useQuery(queryOptions)
   return { ...context, data: context.data?.data === undefined ? [] : context.data?.data };
@@ -32,7 +32,7 @@ const useGetOpportunity = (id: string) => {
     staleTime: Infinity,
     enabled: true,
     retryOnMount: false,
-    queryKey: queryKey
+    queryKey: ['opportunity-'+id]
   };
   const context = useQuery(queryOptions)
   return { ...context, data: context.data?.data === undefined ? {} as Opportunity : context.data?.data };
@@ -57,9 +57,11 @@ const usePostOpportunity = () => {
   });
 }
 
+//set query data
+
 const usePutOpportunity = (id: string) => {
   const api = useApi();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (opportunityForm: Opportunity) => {
@@ -67,20 +69,42 @@ const usePutOpportunity = (id: string) => {
         .then((response) => response.data);
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(['opportunities', data.institution_id])
-      queryClient.invalidateQueries(['opportunities', data.id])
+      queryClient.invalidateQueries(['opportunities'])
+      queryClient.invalidateQueries(['opportunity-'+data.id])
       toast.success('Oportunidade atualizada');
     },
     onError: (error) => {
       toast.error("Houve algum erro ao salvar, por favor tente novamente.");
     },
-    
   });
 }
 
+const useDeleteOpportunity = () => {
+  const api = useApi();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      return await api.delete('opportunities/' + id)
+      .then((response) => response);
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(['opportunities'])
+      queryClient.invalidateQueries({
+        queryKey: ['opportunities']
+      })
+      toast.success('Oportunidade excluída');
+      return data;
+    },
+    onError: (error) => {
+      toast.error("Houve algum erro ao exclurr, por favor tente novamente.");
+    },
+  });
+}
 export const OpportunityService = {
   usePostOpportunity,
   usePutOpportunity,
   useGetOpportunityList,
-  useGetOpportunity
+  useGetOpportunity,
+  useDeleteOpportunity
 }

@@ -17,12 +17,11 @@ import { OpportunityService } from "@/api/opportunity";
 import { InstitutionService } from "@/api/institution";
 
 const Opportunities = () => {
-	const [openAlertDialog, setOpenAlertDialog] = useState(false);
 	const [institutionId, setInstitutionId] = useState('0');
 
     const { data: institutionData } = InstitutionService.useGetInstitution();
-
 	const { data } = OpportunityService.useGetOpportunityList(institutionId);
+	const { mutateAsync: deleteOpportunity  } = OpportunityService.useDeleteOpportunity();
 
     useEffect(() => {
         if(institutionData != undefined && institutionData.length > 0){
@@ -30,21 +29,14 @@ const Opportunities = () => {
         }
     }, [institutionData])
 
-	const deleteAccount = () => {
-		alert("Oportunidade excluída");
-		setOpenAlertDialog(false);
-	}
-
-	const handleDelete = (opportunityId: number) => {
-		setOpenAlertDialog(true);
+	const deleteAccount = async (id: string, callback: any) => {
+		const response = await deleteOpportunity(id);
+		callback(response);
 	}
 
 	const renderActions = (params: any) => {
 		return (
 			<>
-				<IconButton onClick={() => handleDelete(params.row.id)} aria-label="delete" color="error">
-					<DeleteIcon />
-				</IconButton>
 				<IconButton component={Link} to={"/edicao/oportunidade/" + params.row.id} aria-label="edit" color="primary">
 					<EditIcon />
 				</IconButton>
@@ -154,7 +146,6 @@ const Opportunities = () => {
 
 	const { isMobile } = TemaService.useGetIsMobile();
 
-
 	return (
 		<PageContainer>
 
@@ -207,6 +198,8 @@ const Opportunities = () => {
 
 						<DefaultDataGrid
 							enablePagination={true}
+							canDelete={true}
+							onDelete={deleteAccount}
 							toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
 							datagridProps={{
 								className: isMobile ? "vertical-grid" : "",
@@ -233,15 +226,6 @@ const Opportunities = () => {
 						)}
 
 			</Box >
-			{/* <Table rows={data} columns={columns} /> */}
-
-			<AlertDialog
-				title={"Excluir oportunidade"}
-				description={"Você tem certeza que deseja excluir esta oportunidade?"}
-				confirmText={"Sim, excluir oportunidade"}
-				open={openAlertDialog}
-				setOpen={setOpenAlertDialog}
-				handleClick={deleteAccount} />
 		</PageContainer>
 
 	);

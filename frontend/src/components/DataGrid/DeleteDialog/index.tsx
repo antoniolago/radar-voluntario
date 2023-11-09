@@ -7,12 +7,12 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 export type DataGridDeleteDialogProps = {
-    onDelete?: any;
-    open: boolean;
-    setOpen: any;
-    texto: string;
-    titulo: string;
-    textoBotaoConfirma: string;
+  onDelete?: any;
+  open: boolean;
+  setOpen: any;
+  texto: string;
+  titulo: string;
+  textoBotaoConfirma: string;
 }
 export default function DeleteDialog(props: DataGridDeleteDialogProps) {
 
@@ -23,7 +23,7 @@ export default function DeleteDialog(props: DataGridDeleteDialogProps) {
   const handleDelete = () => {
     handleClose();
     props.onDelete();
-}
+  }
 
   return (
     <div>
@@ -42,8 +42,8 @@ export default function DeleteDialog(props: DataGridDeleteDialogProps) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancelar</Button>
-          <Button onClick={handleDelete} autoFocus>
+          <Button color="error" variant="contained" onClick={handleClose}>Cancelar</Button>
+          <Button color="success" variant="contained" onClick={handleDelete} autoFocus>
             {props.textoBotaoConfirma}
           </Button>
         </DialogActions>

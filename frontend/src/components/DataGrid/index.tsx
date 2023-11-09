@@ -320,9 +320,9 @@ export default function DefaultDataGrid(props: DataTableProps) {
     const finishedDeletingCallback = (response: AxiosResponse) => {
         setSaveResponse(response);
         var tooltipTime = 2500;
-        if (saveResponse.status != 200) {
+        if (response.status != 200) {
             tooltipTime = 5000;
-        } else if (saveResponse.status == 200) {
+        } else if (response.status == 200) {
             setRows(rows.filter((row: any) => row.id !== savingRow.id));
         }
         setSaving(false);
