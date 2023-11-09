@@ -50,6 +50,7 @@ const opportunitiesController = new OpportunitiesController(
   opportunitiesService
 );
 
+app.get("/api/opportunity/:id?", opportunitiesController.get);
 app.get("/api/opportunities/:id?", opportunitiesController.index);
 app.post("/api/opportunities", authMiddleware, opportunitiesController.save);
 app.put(

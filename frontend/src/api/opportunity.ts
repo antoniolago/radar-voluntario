@@ -6,12 +6,12 @@ import { UseMutationOptions, UseQueryOptions, useMutation, useQuery, useQueryCli
 import { Opportunity } from '@/types/opportunity';
 import { toast } from 'sonner';
 
-const useGetOpportunity = (institution_id: string) => {
+const useGetOpportunityList = (institution_id: string) => {
   const api = useApi();
 
   let queryKey: string[] = ['opportunities', institution_id];
 
-  var queryOptions: UseQueryOptions<AxiosResponse<any[]>, Error, AxiosResponse<any[]>, string[]> = {
+  var queryOptions: UseQueryOptions<AxiosResponse<Opportunity[]>, Error, AxiosResponse<Opportunity[]>, string[]> = {
     queryFn: () => api.get("opportunities/"+institution_id),
     staleTime: Infinity,
     enabled: true,
@@ -22,6 +22,21 @@ const useGetOpportunity = (institution_id: string) => {
   return { ...context, data: context.data?.data === undefined ? [] : context.data?.data };
 };
 
+const useGetOpportunity = (id: string) => {
+  const api = useApi();
+
+  let queryKey: string[] = ['opportunities', id];
+
+  var queryOptions: UseQueryOptions<AxiosResponse<Opportunity>, Error, AxiosResponse<Opportunity>, string[]> = {
+    queryFn: () => api.get("opportunity/"+id),
+    staleTime: Infinity,
+    enabled: true,
+    retryOnMount: false,
+    queryKey: queryKey
+  };
+  const context = useQuery(queryOptions)
+  return { ...context, data: context.data?.data === undefined ? {} as Opportunity : context.data?.data };
+};
 
 
 const usePostOpportunity = () => {
@@ -33,7 +48,8 @@ const usePostOpportunity = () => {
         .then((response) => response.data);
     },
     onSuccess: (data) => {
-      toast.success('Perfil atualizado');
+      // navigate('/edicao/oportunidade/'+data.id)
+      toast.success('Oportunidade cadastrada');
     },
     onError: (error) => {
       toast.error("Houve algum erro ao salvar, por favor tente novamente.");
@@ -41,7 +57,30 @@ const usePostOpportunity = () => {
   });
 }
 
+const usePutOpportunity = (id: string) => {
+  const api = useApi();
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (opportunityForm: Opportunity) => {
+      return api.put('opportunities/'+id, opportunityForm)
+        .then((response) => response.data);
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(['opportunities', data.institution_id])
+      queryClient.invalidateQueries(['opportunities', data.id])
+      toast.success('Oportunidade atualizada');
+    },
+    onError: (error) => {
+      toast.error("Houve algum erro ao salvar, por favor tente novamente.");
+    },
+    
+  });
+}
+
 export const OpportunityService = {
   usePostOpportunity,
+  usePutOpportunity,
+  useGetOpportunityList,
   useGetOpportunity
 }

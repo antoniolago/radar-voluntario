@@ -22,7 +22,7 @@ const Opportunities = () => {
 
     const { data: institutionData } = InstitutionService.useGetInstitution();
 
-	const { data } = OpportunityService.useGetOpportunity(institutionId);
+	const { data } = OpportunityService.useGetOpportunityList(institutionId);
 
     useEffect(() => {
         if(institutionData != undefined && institutionData.length > 0){
