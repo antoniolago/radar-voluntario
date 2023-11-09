@@ -1,19 +1,28 @@
 import BackButton from '@/components/BackButton';
-import { Box, Button, Chip, Stack, Typography } from '@mui/material';
+import { Box, Button, Chip, Dialog, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { InfoDetails, LocationDetails } from './styles';
-import Visibility from '@mui/icons-material/Visibility';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import { PageContainer } from '@/styles/styles';
 import { OpportunityService } from '@/api/opportunity';
+import ConfirmDialog from '@/components/ConfirmDialog';
+import { RegistrationService } from '@/api/registrations';
 
 const OpportunityDetails = () => {
     const { id } = useParams();
     const { data } = OpportunityService.useGetPublishedOpportunity(id ?? "");
+    const { mutate: createRegistration } = RegistrationService.usePostRegistration();
+    
+
     // const mockedCategories = ["Categoria 1", "Categoria 2", "Categoria 3"]
+    const [openAlertDialog, setOpenAlertDialog] = useState(false);
+
+    const onRegistrationClick = () => {
+        setOpenAlertDialog(false);
+        createRegistration(data.id)
+    }    
 
     return (
         <PageContainer>
@@ -39,8 +48,11 @@ const OpportunityDetails = () => {
 
                         <Typography variant="body1">
                             {data.description}
-                         </Typography>
+                        </Typography>
                     </InfoDetails>
+
+                    Vagas: 2 disponíveis
+                    
                     {/* <Stack direction="row" spacing={1}>
                         {mockedCategories.map((category) =>
                             <Chip label={category} />
@@ -55,7 +67,7 @@ const OpportunityDetails = () => {
                             <CalendarTodayIcon className="icon" /> <div><b>Data e hora inicio: </b>  {data.start_date}</div>
                         </div>
                         <div className="info">
-                        <CalendarTodayIcon className="icon" /> <div><b>Data e hora fim: </b>  {data.end_date} </div>
+                            <CalendarTodayIcon className="icon" /> <div><b>Data e hora fim: </b>  {data.end_date} </div>
                             {/* <WatchLaterIcon className="icon" /> <div><b>Hora: </b> 18:00 - 21:00</div> */}
                         </div>
                     </LocationDetails>
@@ -64,7 +76,13 @@ const OpportunityDetails = () => {
                         <Button component={Link} to={"/instituicao/" + 1} sx={{ marginRight: "1em" }} type="submit" size="large" color="primary" variant="outlined">
                             Sobre a Organização
                         </Button>
-                        <Button type="submit" size="large" color="primary" variant="contained">
+                        {/* TODO:
+                            - Verificar se usuário está logado
+                            - Verificar se usuário já está cadastrado na oportunidade
+                            - Verificar se usuário não é dono da instituição, nesse caso não permitir o cadastro 
+                        */}
+
+                        <Button onClick={() => setOpenAlertDialog(true)} size="large" color="primary" variant="contained">
                             Voluntariar para oportunidade
                         </Button>
                     </div>
@@ -72,9 +90,16 @@ const OpportunityDetails = () => {
                 </>
             ) : (
                 "Oportunidade não encontrada"
-            )
+            )}
 
-            }
+            <ConfirmDialog 
+                title={"Voluntariar para oportunidade"}
+                description={"Deseja se cadastrar como voluntário para esta oportunidade? Ao fazer isso, a organização terá acesso aos seus dados de contato."}
+                confirmText={"Voluntariar"}
+                open={openAlertDialog} 
+                setOpen={setOpenAlertDialog} 
+                handleClick={onRegistrationClick}/>            
+
         </PageContainer>
     );
 }

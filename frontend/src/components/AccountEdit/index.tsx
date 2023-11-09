@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { useState } from 'react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import AlertDialog from '../AlertDialog';
+import AlertDialog from '../ConfirmDialog';
 
 function AccountEdit(props: any) {
 

@@ -19,6 +19,8 @@ import { InstitutionsController } from "./controllers/institutions.controller";
 import authMiddleware from "./middlewares/auth.middleware";
 import { OpportunitiesService } from "./services/opportunities.service";
 import { OpportunitiesController } from "./controllers/opportunities.controller";
+import { RegistrationsService } from "./services/registrations.service";
+import { RegistrationsController } from "./controllers/registrations.controller";
 
 dotenv.config({ path: path.resolve(__dirname, "..", "..", ".env") });
 
@@ -64,6 +66,12 @@ app.delete(
   opportunitiesController.delete
 );
 app.get("/api/opportunity/published/:id?", opportunitiesController.getPublished);
+
+
+const registrationsService = new RegistrationsService();
+const registrationsController = new RegistrationsController(registrationsService);
+
+app.post("/api/registrations", authMiddleware, registrationsController.save);
 
 
 const appSettingsService = new AppSettingsService();
