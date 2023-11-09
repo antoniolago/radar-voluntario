@@ -8,7 +8,6 @@ import { PageContainer } from '@/styles/styles';
 import { useForm } from 'react-hook-form';
 import { Opportunity } from '@/types/opportunity';
 import { OpportunityService } from '@/api/opportunity';
-import YourComponent from '@/components/DatePicker';
 import { InstitutionService } from '@/api/institution';
 
 const OpportunityEdit = () => {
@@ -74,6 +73,7 @@ const OpportunityEdit = () => {
             <FormContainer  onSubmit={handleSubmit(onSubmit)}>
                     <Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6} >
                     <input {...register("institution_id", {value: ''})} type="hidden" />
+                    {/* <input {...register("address_id", {value: '1'})} type="hidden" /> */}
 
                         <TextField
                             {...register("name")}
@@ -93,7 +93,7 @@ const OpportunityEdit = () => {
                             inputProps={{ maxLength: 1024 }} />
 
                         <TextField
-                            {...register("vacancies")}
+                            {...register("vacancies", {valueAsNumber: true})}
                             name="vacancies"
                             label="Número de voluntários"
                             required
@@ -104,27 +104,18 @@ const OpportunityEdit = () => {
                             <FormControlLabel control={<Switch defaultChecked />} label="Publicar oportunidade" />
                         </FormControl>
 
-                        {/* TODO: add datepicker */}
-                        <TextField
-                            // {...register("date")}
-                            name="date"
-                            label="Data"
-                            multiline
-                            required
-                            inputProps={{ maxLength: 10 }} />
-
                         <InputGroup>
                             <TextField
                                 required
-                                // {...register("start_time")}
-                                name="start_time"
-                                label="Hora início"
+                                {...register("start_date")}
+                                name="start_date"
+                                label="Date e horário início"
                                 variant="outlined" />
                             <TextField
-                                // {...register("end_time")}
-                                name="end_time"
+                                {...register("end_date")}
+                                name="end_date"
                                 required
-                                label="Hora fim"
+                                label="Date e horário fim"
                                 variant="outlined" />
                         </InputGroup>
                     </Grid>
