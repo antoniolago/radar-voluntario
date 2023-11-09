@@ -12,7 +12,19 @@ import { useColorScheme as useMaterialColorScheme } from '@mui/material/styles';
 import { CssVarsProvider as JoyCssVarsProvider } from '@mui/joy/styles';
 // import ReactGA from 'react-ga4';
 export const TemaContext = createContext<any>({} as any);
-const materialTheme = materialExtendTheme();
+const materialTheme = materialExtendTheme({
+	components: {
+		MuiOutlinedInput: {
+			styleOverrides: {
+				input: {
+					root: {
+						background: 'black'
+					}
+				},
+			},
+		},
+	}
+});
 
 export const Tema = (props: any) => {
 	const [width, setWidth] = useState<number>(window.innerWidth);
@@ -159,6 +171,7 @@ export const Tema = (props: any) => {
 			theme={{ [MATERIAL_THEME_ID]: materialTheme }}
 		>
 			<JoyCssVarsProvider>
+				<CssBaseline enableColorScheme />
 				<TemaContext.Provider value={{ isDarkTheme, setIsDarkTheme }}>
 					<TemaAux isDarkTheme={isDarkTheme}>
 						{props.children}
