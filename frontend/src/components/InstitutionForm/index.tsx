@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-import { ImageContainer, PreviewImage } from './styles';
 import { FooterButton, FormContainer, InputGroup, VisuallyHiddenInput } from '../../pages/ProfileEdit/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { toast } from 'sonner';
 import MaskedTextField from 'react-masked-mui-textfield';
+import { ImageContainer, PreviewImage } from '../NewInstitutionForm/styles';
 
 const InstitutionForm = () => {
 	const [image, setImage] = useState();
@@ -22,7 +22,6 @@ const InstitutionForm = () => {
 
 	return (
 		<FormContainer onSubmit={onSubmit}>
-			aquiiiiiiiii
 			<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
 				<Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6} >
 					<TextField
