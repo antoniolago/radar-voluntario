@@ -1,22 +1,18 @@
-import { ContainerFilter } from "@/components/OpportunitiesList/styles";
-import Table from "@/components/Table";
-import { Button, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import CheckIcon from '@mui/icons-material/Check';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import SearchIcon from '@mui/icons-material/Search';
-import AlertDialog from "@/components/AlertDialog";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PageContainer } from "@/styles/styles";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import DefaultDataGrid from "@/components/DataGrid";
 import { TemaService } from "@/api/tema";
-import { Box, Grid } from "@mui/joy";
+import { Box } from "@mui/joy";
 import { OpportunityService } from "@/api/opportunity";
 import { InstitutionService } from "@/api/institution";
 
 const Opportunities = () => {
+    const navigate = useNavigate()
+
 	const [institutionId, setInstitutionId] = useState('0');
 
     const { data: institutionData } = InstitutionService.useGetInstitution();
@@ -34,16 +30,14 @@ const Opportunities = () => {
 		callback(response);
 	}
 
-	const renderActions = (params: any) => {
-		return (
-			<>
-				<IconButton component={Link} to={"/edicao/oportunidade/" + params.row.id} aria-label="edit" color="primary">
-					<EditIcon />
-				</IconButton>
-			</>
-		)
+	const onEdit = (id: string) => {
+		navigate("/edicao/oportunidade/" + id)
 	}
 
+	const onView = (id: string) => {
+		const urlBase = window.location.origin;
+		window.open(`${urlBase}/oportunidade/${id}`, '_blank');
+	}
 
 	const renderPublishedIcon = (params: any) => {
 
@@ -132,16 +126,7 @@ const Opportunities = () => {
 			headerName: 'Publicado',
 			// flex: 0.3,
 			renderCell: renderPublishedIcon
-		},
-		{
-			field: 'id',
-			headerName: 'Ações',
-			align: 'center',
-			headerAlign: 'center',
-			sortable: false,
-			minWidth: 120,
-			renderCell: renderActions
-		},
+		}
 	];
 
 	const { isMobile } = TemaService.useGetIsMobile();
@@ -161,32 +146,7 @@ const Opportunities = () => {
 					+ Adicionar
 				</Button>
 			</Box>
-			{/* <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}> */}
-			{/* <Grid container spacing={1}>
-				<Grid xs={isMobile ? 8 : 6} >
-					<TextField
-						// value={search} 
-						fullWidth
-						label="Buscar"
-						variant="outlined"
-						onChange={(e) => {
-							// setSearch(e.target.value);
-						}}
-						InputProps={{
-							endAdornment: (
-								<InputAdornment position="end">
-									<SearchIcon />
-								</InputAdornment>
-							),
-						}}
-					/>
-				</Grid>
-				<Grid xs={isMobile ? 4 : 6} sx={{ textAlign: 'right' }}>
-
-				</Grid>
-			</Grid> */}
-
-			{/* </div > */}
+			
 			<Box sx={{
 				'.MuiDataGrid-root': {
 					height: '75dvh'
@@ -200,6 +160,10 @@ const Opportunities = () => {
 							enablePagination={true}
 							canDelete={true}
 							onDelete={deleteAccount}
+							canUpdate={true}
+							onEdit={onEdit}
+							canView={true}
+							onView={onView}
 							toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
 							datagridProps={{
 								className: isMobile ? "vertical-grid" : "",
@@ -208,9 +172,7 @@ const Opportunities = () => {
 								rows: data as any,
 								rowCount: data?.length,
 								disableVirtualization: true,
-								// checkboxSelection: true,
 								disableRowSelectionOnClick: true,
-								// disableColumnMenu: isMobile ? true : false,
 								pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
 								initialState: {
 									pagination: {

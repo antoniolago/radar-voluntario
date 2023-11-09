@@ -5,6 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import CircularProgress from '@mui/material/CircularProgress';
 import {
     GridRowsProp,
@@ -52,12 +53,15 @@ import { AxiosResponse } from 'axios';
 export type DataTableProps = {
     onSave?: any;
     onDelete?: any;
+    onEdit?: any;
+    onView?: any;
     tituloDeleteDialog?: string;
     textoDeleteDialog?: string;
     textoBotaoConfirmaDeleteDialog?: string;
     canDelete?: boolean;
     canInsert?: boolean;
     canUpdate?: boolean;
+    canView?: boolean;
     enablePagination?: boolean;
     datagridProps: DataGridProps;
     toolbarProps?: CustomToolbarProps;
@@ -242,14 +246,15 @@ export default function DefaultDataGrid(props: DataTableProps) {
 
     //Dispara quando clica fora da row que está sendo editada
     const handleRowEditStop: GridEventListener<'rowEditStop'> = (params: any, event: any) => {
-        console.log("handleRowEditStop", params.row)
         if (params.reason === GridRowEditStopReasons.rowFocusOut) {
             event.defaultMuiPrevented = true;
         }
     };
 
     const handleEditClick = (id: GridRowId) => () => {
-        setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+        props.onEdit(id);
+        
+        // setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
     };
 
     const handleSaveClick = (rowParams: GridRowParams) => () => {
@@ -270,6 +275,10 @@ export default function DefaultDataGrid(props: DataTableProps) {
         var row = rows.filter((row: any) => row.id === id)[0];
         setSavingRow(row);
         setOpenDeleteDialog(true);
+    };
+
+    const handleViewClick = (id: GridRowId) => () => {
+        props.onView(id)
     };
 
     const handleCancelClick = (id: GridRowId) => () => {
@@ -363,7 +372,7 @@ export default function DefaultDataGrid(props: DataTableProps) {
             setSavingJustFinished(false);
         }, tooltipTime);
     }
-    var shouldShowActions = props.canDelete || props.canUpdate || saving || savingRow.id == 0;
+    var shouldShowActions = props.canDelete || props.canUpdate || props.canView || saving || savingRow.id == 0;
     var actions: GridColDef = {
         field: 'actions',
         type: 'actions',
@@ -414,15 +423,22 @@ export default function DefaultDataGrid(props: DataTableProps) {
                 icones.push(<GridActionsCellItem
                     disabled={!props.canUpdate}
                     icon={<EditIcon />}
-                    label="Edit"
+                    label="Editar"
                     onClick={handleEditClick(params.id)}
-                    sx={{ color: 'warning.main' }} />);
+                    sx={{ color: 'primary.main' }} />);
 
             if (props.canDelete)
                 icones.push(<GridActionsCellItem
                     icon={<DeleteIcon />}
-                    label="Delete"
+                    label="Excluir"
                     onClick={handleDeleteClick(params.id)}
+                    sx={{ color: 'error.main' }}
+                />);
+                if (props.canView)
+                icones.push(<GridActionsCellItem
+                    icon={<VisibilityIcon />}
+                    label="Visualizar"
+                    onClick={handleViewClick(params.id)}
                     sx={{ color: 'error.main' }}
                 />);
             return icones;

@@ -14,31 +14,37 @@ const OpportunityEdit = () => {
     const { id } = useParams();
     const [onlineOpportunity, setOnlineOpportunity] = useState(false);
     const [addressId, setAddressId] = useState('');
+    const [opportunity, setOpportunity] = useState<Opportunity>({} as Opportunity);
 
     const { data: institutionData } = InstitutionService.useGetInstitution();
-    const { mutate: createOpportunity } = OpportunityService.usePostOpportunity();
-    const { mutate: updateOpportunity } = OpportunityService.usePutOpportunity(id ?? '');
-    
+    const { mutateAsync: createOpportunity } = OpportunityService.usePostOpportunity();
+    const { mutate: updateOpportunity } = OpportunityService.usePutOpportunity();
     const { data: opportunityData } = id != undefined ? OpportunityService.useGetOpportunity(id) : { data: null };
 
     useEffect(() => {
-        if (opportunityData != null) {
-            setValue('id', opportunityData.id);
-            setValue('name', opportunityData.name);
-            setValue('description', opportunityData.description);
-            setValue('vacancies', opportunityData.vacancies);
-            setValue('start_date', opportunityData.start_date);
-            setValue('end_date', opportunityData.end_date);
-            setValue('online', opportunityData.online);
-            setValue('published', opportunityData.published);
+        if (opportunity != null) {
+            setValue('id', opportunity.id);
+            setValue('name', opportunity.name);
+            setValue('description', opportunity.description);
+            setValue('vacancies', opportunity.vacancies);
+            setValue('start_date', opportunity.start_date);
+            setValue('end_date', opportunity.end_date);
+            setValue('online', opportunity.online);
+            setValue('published', opportunity.published);
         }
-    }, [opportunityData])
+    }, [opportunity])
 
     useEffect(() => {
         if (institutionData != undefined && institutionData.length > 0) {
             setValue('institution_id', institutionData[0]!.id!);
         }
     }, [institutionData])
+
+    useEffect(() => {
+        if(opportunityData != null){
+            setOpportunity(opportunityData);
+        }
+    }, [opportunityData])
 
     const handleChangeOnineOpportinity = (event: React.ChangeEvent<HTMLInputElement>) => {
         setOnlineOpportunity(event.target.checked);
@@ -48,7 +54,8 @@ const OpportunityEdit = () => {
         if(data.id) {
             updateOpportunity(data);
         }else{
-            createOpportunity(data);
+            const newData = await createOpportunity(data);
+            setOpportunity(newData);
         }
     }
 
@@ -90,7 +97,7 @@ const OpportunityEdit = () => {
             </Typography>
             <FormContainer onSubmit={handleSubmit(onSubmit)}>
                 <Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6} >
-                    {id && <input {...register("id", { value: '' })} type="hidden" />}
+                    {opportunity != null && <input {...register("id", { value: '' })} type="hidden" />}
                     <input {...register("institution_id", { value: '' })} type="hidden" />
                     {/* <input {...register("address_id", {value: '1'})} type="hidden" /> */}
 
