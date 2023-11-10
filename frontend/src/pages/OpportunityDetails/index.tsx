@@ -8,21 +8,28 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { PageContainer } from '@/styles/styles';
 import { OpportunityService } from '@/api/opportunity';
 import ConfirmDialog from '@/components/ConfirmDialog';
-import { RegistrationService } from '@/api/registrations';
+import { RegistrationService } from '@/api/registration';
 
 const OpportunityDetails = () => {
     const { id } = useParams();
     const { data } = OpportunityService.useGetPublishedOpportunity(id ?? "");
     const { mutate: createRegistration } = RegistrationService.usePostRegistration();
-    
-
+    const { data: registration } = RegistrationService.useGetRegistration(id ?? "");
+    const { mutate: deleteRegistration } = RegistrationService.useDeleteRegistration();
     // const mockedCategories = ["Categoria 1", "Categoria 2", "Categoria 3"]
-    const [openAlertDialog, setOpenAlertDialog] = useState(false);
+    const [openRegisterDialog, setOpenRegisterDialog] = useState(false);
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
     const onRegistrationClick = () => {
-        setOpenAlertDialog(false);
-        createRegistration(data.id)
-    }    
+        setOpenRegisterDialog(false);
+        createRegistration({ opportunity_id: data.id })
+    }
+
+    const onRemoveRegistrationClick = () => {
+        setOpenDeleteDialog(false);
+        deleteRegistration(registration.id)
+    }
+
 
     return (
         <PageContainer>
@@ -52,7 +59,7 @@ const OpportunityDetails = () => {
                     </InfoDetails>
 
                     Vagas: 2 disponíveis
-                    
+
                     {/* <Stack direction="row" spacing={1}>
                         {mockedCategories.map((category) =>
                             <Chip label={category} />
@@ -78,13 +85,19 @@ const OpportunityDetails = () => {
                         </Button>
                         {/* TODO:
                             - Verificar se usuário está logado
-                            - Verificar se usuário já está cadastrado na oportunidade
                             - Verificar se usuário não é dono da instituição, nesse caso não permitir o cadastro 
                         */}
-
-                        <Button onClick={() => setOpenAlertDialog(true)} size="large" color="primary" variant="contained">
-                            Voluntariar para oportunidade
-                        </Button>
+                        {
+                            registration === undefined || registration === null || Object.keys(registration).length === 0 ? (
+                                <Button onClick={() => setOpenRegisterDialog(true)} size="large" color="primary" variant="contained">
+                                    Voluntariar para oportunidade
+                                </Button>
+                            ) : (
+                                <Button onClick={() => setOpenDeleteDialog(true)} size="large" color="error" variant="contained">
+                                    Remover inscrição para oportunidade
+                                </Button>
+                            )
+                        }
                     </div>
 
                 </>
@@ -92,16 +105,26 @@ const OpportunityDetails = () => {
                 "Oportunidade não encontrada"
             )}
 
-            <ConfirmDialog 
+            <ConfirmDialog
                 title={"Voluntariar para oportunidade"}
                 description={"Deseja se cadastrar como voluntário para esta oportunidade? Ao fazer isso, a organização terá acesso aos seus dados de contato."}
                 confirmText={"Voluntariar"}
-                open={openAlertDialog} 
-                setOpen={setOpenAlertDialog} 
-                handleClick={onRegistrationClick}/>            
+                open={openRegisterDialog}
+                setOpen={setOpenRegisterDialog}
+                handleClick={onRegistrationClick} />
+
+                
+            <ConfirmDialog
+                title={"Remover inscrição de oportunidade"}
+                description={"Tem certeza que deseja remover inscrição nesta oportunidade."}
+                confirmText={"Remover"}
+                open={openDeleteDialog}
+                setOpen={setOpenDeleteDialog}
+                handleClick={onRemoveRegistrationClick} />
 
         </PageContainer>
     );
 }
-
+ 
 export default OpportunityDetails;
+

@@ -107,6 +107,7 @@ const useDeleteOpportunity = () => {
     },
   });
 }
+
 export const OpportunityService = {
   usePostOpportunity,
   usePutOpportunity,
