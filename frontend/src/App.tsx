@@ -23,11 +23,19 @@ import VolunteerDetails from './pages/VolunteerDetails';
 import Volunteers from './pages/Volunteers';
 import Registrations from './pages/Registrations';
 import Institutions from './pages/Institutions';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { ptBR } from '@mui/x-date-pickers/locales';
+import 'dayjs/locale/en-gb';
 
 function App() {
   return (
     <Router>
       <Tema>
+      <LocalizationProvider dateAdapter={AdapterDayjs}
+      localeText={ptBR.components.MuiLocalizationProvider.defaultProps.localeText}
+      adapterLocale='en-gb'>
+
         <Routes>
           <Route element={<Layout><Outlet /></Layout>}>
             <Route path="/" element={<Home />} />
@@ -45,6 +53,7 @@ function App() {
             <Route path="/organizacoes" element={<Institutions/>} />
           </Route>
         </Routes>
+        </LocalizationProvider>
       </Tema >
     </Router>
   );

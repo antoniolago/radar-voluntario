@@ -10,11 +10,13 @@ import { Opportunity } from '@/types/opportunity';
 import { OpportunityService } from '@/api/opportunity';
 import { InstitutionService } from '@/api/institution';
 import AddressSelect from '@/components/AddressSelect';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 const OpportunityEdit = () => {
     const { id } = useParams();
     const [onlineOpportunity, setOnlineOpportunity] = useState(false);
     const [addressId, setAddressId] = useState('');
+    const [dateValue, setDateValue] = useState<any>(new Date());
     const [opportunity, setOpportunity] = useState<Opportunity>({} as Opportunity);
 
     const { data: institutionData } = InstitutionService.useGetInstitution();
@@ -42,7 +44,7 @@ const OpportunityEdit = () => {
     }, [institutionData])
 
     useEffect(() => {
-        if(opportunityData != null){
+        if (opportunityData != null) {
             setOpportunity(opportunityData);
         }
     }, [opportunityData])
@@ -52,9 +54,9 @@ const OpportunityEdit = () => {
     };
 
     const onSubmit = async (data: Opportunity) => {
-        if(data.id) {
+        if (data.id) {
             updateOpportunity(data);
-        }else{
+        } else {
             const newData = await createOpportunity(data);
             setOpportunity(newData);
         }
@@ -92,6 +94,8 @@ const OpportunityEdit = () => {
     return (
         <PageContainer>
             <BackButton redirectTo="/oportunidades" />
+
+
 
             <Typography mb={5} variant="h5">
                 {id ? 'Editar' : 'Cadastrar'} oportunidade
@@ -133,31 +137,31 @@ const OpportunityEdit = () => {
                         <FormControlLabel control={<Switch {...register('published')} />} label="Publicar oportunidade" />
                     </FormControl>
 
+
                     <InputGroup>
-                        <TextField
-                            required
-                            {...register("start_date")}
-                            name="start_date"
-                            label="Date e horário início"
-                            variant="outlined"
-                            InputLabelProps={{ shrink: true }}/>
-                        <TextField
+                        <DateTimePicker
+                            label="Date e horário inicio"
+                        />
+                        <DateTimePicker
+                            label="Date e horário fim"
+                        />
+                        {/* <TextField
                             {...register("end_date")}
                             name="end_date"
                             required
                             label="Date e horário fim"
                             InputLabelProps={{ shrink: true }}
-                            variant="outlined" />
+                            variant="outlined" /> */}
                     </InputGroup>
                 </Grid>
                 <Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6}>
                     <FormControl sx={{ padding: "8.5px 14px" }}>
                         <FormControlLabel
                             control={<Switch
-                                {...register('online')} 
+                                {...register('online')}
                                 checked={onlineOpportunity}
                                 onChange={handleChangeOnineOpportinity}
-                                defaultChecked />}
+                            />}
                             label="Oportunidade online" />
                     </FormControl>
 
