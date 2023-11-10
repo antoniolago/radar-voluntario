@@ -29,7 +29,9 @@ export default function ConfirmDialog(props: any) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
+          {!props.hideCancelBtn &&
           <Button color="error" variant="contained" onClick={handleClose}>Cancelar</Button>
+          }
           <Button color="success" variant="contained" onClick={props.handleClick} autoFocus>
             {props.confirmText}
           </Button>

@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import { Opportunity } from '@/types/opportunity';
 import { OpportunityService } from '@/api/opportunity';
 import { InstitutionService } from '@/api/institution';
+import AddressSelect from '@/components/AddressSelect';
 
 const OpportunityEdit = () => {
     const { id } = useParams();
@@ -161,51 +162,51 @@ const OpportunityEdit = () => {
                     </FormControl>
 
                     {!onlineOpportunity &&
-                        <>
-                            <FormControl >
-                                <InputLabel>Endereço</InputLabel>
-                                <Select
-                                    onChange={(e) => (setAddressId(e.target.value))}
-                                    value={addressId}
-                                    label="Organização">
-                                    <MenuItem value={'1'}>Rua x, Bairro, Cidade - UF</MenuItem>
-                                    <MenuItem value={'0'}>Outro</MenuItem>
-                                </Select>
-                            </FormControl>
+                        // <>
+                        //     <FormControl >
+                        //         <InputLabel>Endereço</InputLabel>
+                        //         <Select
+                        //             onChange={(e) => (setAddressId(e.target.value))}
+                        //             value={addressId}
+                        //             label="Organização">
+                        //             <MenuItem value={'1'}>Rua x, Bairro, Cidade - UF</MenuItem>
+                        //             <MenuItem value={'0'}>Outro</MenuItem>
+                        //         </Select>
+                        //     </FormControl>
 
-                            {addressId === '0' &&
-                                <>
-                                    <TextField
-                                        required
-                                        label="CEP"
-                                        variant="outlined" />
-                                    <TextField
-                                        required
-                                        label="Endereço"
-                                        variant="outlined"
-                                        inputProps={{ maxLength: 255 }} />
+                        //     {addressId === '0' &&
+                        //         <>
+                        //             <TextField
+                        //                 required
+                        //                 label="CEP"
+                        //                 variant="outlined" />
+                        //             <TextField
+                        //                 required
+                        //                 label="Endereço"
+                        //                 variant="outlined"
+                        //                 inputProps={{ maxLength: 255 }} />
 
-                                    <TextField
-                                        required
-                                        label="Bairro"
-                                        variant="outlined"
-                                        inputProps={{ maxLength: 255 }} />
+                        //             <TextField
+                        //                 required
+                        //                 label="Bairro"
+                        //                 variant="outlined"
+                        //                 inputProps={{ maxLength: 255 }} />
 
-                                    <InputGroup>
-                                        <TextField
-                                            required
-                                            label="UF"
-                                            variant="outlined" />
-                                        <TextField
-                                            required
-                                            label="Cidade"
-                                            variant="outlined" />
-                                    </InputGroup>
-                                </>
+                        //             <InputGroup>
+                        //                 <TextField
+                        //                     required
+                        //                     label="UF"
+                        //                     variant="outlined" />
+                        //                 <TextField
+                        //                     required
+                        //                     label="Cidade"
+                        //                     variant="outlined" />
+                        //             </InputGroup>
+                        //         </>
 
-                            }
-                        </>
-
+                        //     }
+                        // </>
+                        <AddressSelect />
                     }
 
 

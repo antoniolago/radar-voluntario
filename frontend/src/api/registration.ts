@@ -61,7 +61,7 @@ const useDeleteRegistration = () => {
       },
       onSuccess: (data: Registration) => {
         queryClient.invalidateQueries(['registration-'+data.opportunity_id])
-        toast.success('Oportunidade excluída');
+        toast.success('Inscrição removida');
       },
       onError: (error) => {
         toast.error("Houve algum erro ao exclurr, por favor tente novamente.");
