@@ -13,6 +13,14 @@ export class RegistrationsController {
 
   };
 
+  public getOpportunities = async (request: Request, response: Response) => {
+
+    const opportunities = await this.registrationsService.getOpportunities(request.user.id);
+
+    return response.json(opportunities);
+
+  };
+  
   public save = async (request: Request, response: Response) => {
     const opportunity = await this.registrationsService.save(
       request.body,

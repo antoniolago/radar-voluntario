@@ -4,6 +4,7 @@ import { useApi } from '@/api';
 import { UseQueryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Registration } from '@/types/registration';
 import { toast } from 'sonner';
+import { Opportunity } from '@/types/opportunity';
 
 const usePostRegistration = () => {
     const api = useApi();
@@ -37,6 +38,18 @@ const useGetRegistration = (id: string) => {
     return { ...context, data: context.data?.data === undefined ? {} as Registration : context.data?.data };
 };
 
+
+const useGetRegistrationList = () => {
+  const api = useApi();
+  var queryOptions: UseQueryOptions<AxiosResponse<Opportunity[]>, Error, AxiosResponse<Opportunity[]>, string[]> = {
+      queryFn: () => api.get("registrations/"),
+      staleTime: Infinity,
+      queryKey: ['registrations']
+  };
+  const context = useQuery(queryOptions)
+  return { ...context, data: context.data?.data === undefined ? [] : context.data?.data };
+};
+
 const useDeleteRegistration = () => {
     const api = useApi();
     const queryClient = useQueryClient();
@@ -59,5 +72,6 @@ const useDeleteRegistration = () => {
 export const RegistrationService = {
     usePostRegistration,
     useGetRegistration,
-    useDeleteRegistration
+    useDeleteRegistration,
+    useGetRegistrationList
 };

@@ -434,7 +434,7 @@ export default function DefaultDataGrid(props: DataTableProps) {
                     onClick={handleDeleteClick(params.id)}
                     sx={{ color: 'error.main' }}
                 />);
-                if (props.canView && params.row.published)
+            if (props.canView && params.row.published)
                 icones.push(<GridActionsCellItem
                     icon={<VisibilityIcon />}
                     label="Visualizar"

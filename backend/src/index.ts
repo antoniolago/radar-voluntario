@@ -72,7 +72,8 @@ const registrationsService = new RegistrationsService();
 const registrationsController = new RegistrationsController(registrationsService);
 
 app.post("/api/registrations", authMiddleware, registrationsController.save);
-app.get("/api/registrations/:id?", authMiddleware, registrationsController.index);
+app.get("/api/registrations/:id", authMiddleware, registrationsController.index);
+app.get("/api/registrations", authMiddleware, registrationsController.getOpportunities);
 app.delete("/api/registrations/:id?", authMiddleware, registrationsController.delete);
 
 

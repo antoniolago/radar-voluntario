@@ -8,47 +8,73 @@ type SaveCommand = Omit<Prisma.OpportunityUserCreateManyInput, OptionalFields>;
 
 export class RegistrationsService {
     public index = async (userId: string, opportunityId?: string) => {
-        let registrations;
-        if (opportunityId) {
-            registrations = await prisma.opportunityUser.findFirst({
-                where: {
-                    user_id: userId,
-                    opportunity_id: opportunityId
-                },
-            });
-                
-        } else {
-            registrations = await prisma.opportunityUser.findMany({
-                where: {
-                    user_id: userId,
-                },
-            });
+
+        const opportunity = await prisma.opportunity.findUnique({
+            where: {
+                id: opportunityId,
+            },
+        });
+        
+        if (!opportunity) {
+            throw new AppError("Opportunity not found", 400);
         }
 
-        
+        const registrations = await prisma.opportunityUser.findFirst({
+            where: {
+                user_id: userId,
+                opportunity_id: opportunityId
+            },
+        });
+
         return registrations;
     };
 
+    public getOpportunities = async (userId: string) => {
+
+        const registrations = await prisma.opportunityUser.findMany({
+            where: {
+                user_id: userId,
+            }
+        })
+
+        if (!registrations) {
+            throw new AppError("Registration not found", 400);
+        }
+        const opportunityUserIds = registrations.map((opportunityUser) => opportunityUser.opportunity_id);
+
+        const opportunities = await prisma.opportunity.findMany({
+            where: {
+                id: {
+                    in: opportunityUserIds,
+                },
+            },
+            include: { institution: true }
+        })
+
+        return opportunities;
+    };
+
+
     public delete = async (registrationId: string, userId: string) => {
         const registrations = await prisma.opportunityUser.findUnique({
-          where: {
-            id: registrationId,
-            user_id: userId,
-          },
+            where: {
+                id: registrationId,
+                user_id: userId,
+            },
         });
-    
+
         if (!registrations) {
-          throw new AppError("Registration not found", 400);
+            throw new AppError("Registration not found", 400);
         }
 
         const deletedRegistration = await prisma.opportunityUser.delete({
-          where: {
-            id: registrationId
-          },
+            where: {
+                id: registrationId
+            },
         });
 
         return deletedRegistration;
-      }
+    }
 
     public save = async (command: SaveCommand, user_id: string) => {
         const { opportunity_id } = command;
