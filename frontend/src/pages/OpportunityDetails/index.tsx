@@ -11,6 +11,8 @@ import ConfirmDialog from '@/components/ConfirmDialog';
 import { RegistrationService } from '@/api/registration';
 import { AuthService } from '@/api/auth';
 import { getToken } from '@/api';
+import { displayDateTime } from '@/utils/dateUtils';
+import { getFullAddress } from '@/utils/addressUtils';
 
 const OpportunityDetails = () => {
     const { id } = useParams();
@@ -79,13 +81,19 @@ const OpportunityDetails = () => {
 
                     <LocationDetails>
                         <div className="info">
-                            <LocationOnIcon className="icon" /> <div><b> Local: </b> Endereço x</div>
+                            <LocationOnIcon className="icon" /> <div><b> Local: </b> 
+                            { data.online ?
+                                'Online'
+                                :
+                                getFullAddress(data.address)
+                            }
+                        </div>
                         </div>
                         <div className="info">
-                            <CalendarTodayIcon className="icon" /> <div><b>Data e hora inicio: </b>  {data.start_date}</div>
+                            <CalendarTodayIcon className="icon" /> <div><b>Inicio: </b>  {displayDateTime(data.start_date)} </div>
                         </div>
                         <div className="info">
-                            <CalendarTodayIcon className="icon" /> <div><b>Data e hora fim: </b>  {data.end_date} </div>
+                            <CalendarTodayIcon className="icon" /> <div><b>Fim: </b> {displayDateTime(data.start_date)} </div>
                             {/* <WatchLaterIcon className="icon" /> <div><b>Hora: </b> 18:00 - 21:00</div> */}
                         </div>
                     </LocationDetails>

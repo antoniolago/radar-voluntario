@@ -8,6 +8,8 @@ import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { TemaService } from '@/api/tema';
 import DefaultDataGrid from '@/components/DataGrid';
 import { RegistrationService } from '@/api/registration';
+import { getCityState } from '@/utils/addressUtils';
+import { displayDateOnTable } from '@/utils/dateUtils';
 
 function Registrations() {
 
@@ -64,10 +66,9 @@ function Registrations() {
 							Endereço:
 						</Typography>
 					}
-					{console.log(params)}
 					{params.row.online ?
 						'Online'
-						: 'Endereço'}
+						: getCityState(params.row.address)}
 
 				</>
 			),
@@ -88,8 +89,7 @@ function Registrations() {
 						</Typography>
 					}
 					{
-						params.formattedValue != undefined &&
-						params.formattedValue.split(",")[0]
+						displayDateOnTable(params.row.start_date, params.row.start_end)
 					}
 				</>
 			),

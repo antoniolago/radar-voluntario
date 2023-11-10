@@ -9,6 +9,8 @@ import { TemaService } from "@/api/tema";
 import { Box } from "@mui/joy";
 import { OpportunityService } from "@/api/opportunity";
 import { InstitutionService } from "@/api/institution";
+import { displayDateOnTable } from "@/utils/dateUtils";
+import { getCityState } from "@/utils/addressUtils";
 
 const Opportunities = () => {
     const navigate = useNavigate()
@@ -68,10 +70,9 @@ const Opportunities = () => {
 							Endereço:
 						</Typography>
 					}
-
 					{params.row.online ?
 						'Online'
-						: 'Endereço'}
+						: getCityState(params.row.address)}
 
 				</>
 			),
@@ -92,8 +93,7 @@ const Opportunities = () => {
 						</Typography>
 					}
 					{
-						params.formattedValue != undefined &&
-						params.formattedValue.split(",")[0]
+						displayDateOnTable(params.row.start_date, params.row.end_date)
 					}
 				</>
 			),

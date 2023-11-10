@@ -1,3 +1,5 @@
+import { IAddress } from "./address";
+
 export interface Opportunity {
     id: string,
     name: string,
@@ -10,4 +12,5 @@ export interface Opportunity {
     start_date: any,
     end_date: any,
     institution?: any,
+    address?: IAddress,
 }

@@ -11,12 +11,15 @@ import { OpportunityService } from '@/api/opportunity';
 import { InstitutionService } from '@/api/institution';
 import AddressSelect from '@/components/AddressSelect';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import dayjs, { Dayjs } from 'dayjs';
 
 const OpportunityEdit = () => {
     const { id } = useParams();
     const [onlineOpportunity, setOnlineOpportunity] = useState(false);
     const [addressId, setAddressId] = useState('');
-    const [dateValue, setDateValue] = useState<any>(new Date());
+    const [startDate, setStartDate] = useState<Dayjs | null>(null);
+    const [endDate, setEndDate] = useState<Dayjs | null>(null);
+
     const [opportunity, setOpportunity] = useState<Opportunity>({} as Opportunity);
 
     const { data: institutionData } = InstitutionService.useGetInstitution();
@@ -34,6 +37,9 @@ const OpportunityEdit = () => {
             setValue('end_date', opportunity.end_date);
             setValue('online', opportunity.online);
             setValue('published', opportunity.published);
+            
+            setStartDate(dayjs(opportunity.start_date));
+            setEndDate(dayjs(opportunity.end_date));
         }
     }, [opportunity])
 
@@ -60,6 +66,10 @@ const OpportunityEdit = () => {
             const newData = await createOpportunity(data);
             setOpportunity(newData);
         }
+    }
+
+    const handleDateChange = (field: 'start_date' | 'end_date', date?: any) => {
+        setValue(field, date.format())
     }
 
     const {
@@ -140,10 +150,14 @@ const OpportunityEdit = () => {
 
                     <InputGroup>
                         <DateTimePicker
-                            label="Date e horário inicio"
+                            label="Date e horário de inicio"
+                            value={startDate}
+                            onChange={(newDate) => handleDateChange('start_date', newDate)}
                         />
                         <DateTimePicker
-                            label="Date e horário fim"
+                            label="Date e horário de fim"
+                            value={endDate}
+                            onChange={(newDate) => handleDateChange('end_date', newDate)}
                         />
                         {/* <TextField
                             {...register("end_date")}

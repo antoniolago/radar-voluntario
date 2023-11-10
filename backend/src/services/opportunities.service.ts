@@ -10,6 +10,7 @@ export class OpportunitiesService {
   public index = async (institutionId: string) => {
     const opportunities = await prisma.opportunity.findMany({
       where: { institution_id: institutionId },
+      include: { address: true }
     });
 
     return opportunities;
@@ -29,7 +30,7 @@ export class OpportunitiesService {
         id: id,
         published: true
       },
-      include: { institution: true },
+      include: { institution: true, address: true },
     });
 
     return opportunity;
