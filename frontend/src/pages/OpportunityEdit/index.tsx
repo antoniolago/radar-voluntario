@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Switch, TextField, Typography } from '@mui/material';
+import { Button, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Paper, Select, Switch, TextField, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { FooterButton, FormContainer, InputGroup } from '../ProfileEdit/styles';
 import { toast } from 'sonner';
@@ -37,7 +37,7 @@ const OpportunityEdit = () => {
             setValue('end_date', opportunity.end_date);
             setValue('online', opportunity.online);
             setValue('published', opportunity.published);
-            
+
             setStartDate(dayjs(opportunity.start_date));
             setEndDate(dayjs(opportunity.end_date));
         }
@@ -102,7 +102,7 @@ const OpportunityEdit = () => {
     };
 
     return (
-        <PageContainer>
+        <Paper elevation={2} >
             <BackButton redirectTo="/oportunidades" />
 
 
@@ -111,49 +111,59 @@ const OpportunityEdit = () => {
                 {id ? 'Editar' : 'Cadastrar'} oportunidade
             </Typography>
             <FormContainer onSubmit={handleSubmit(onSubmit)}>
-                <Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6} >
+                <Grid container spacing={1} > 
                     {opportunity != null && <input {...register("id", { value: '' })} type="hidden" />}
                     <input {...register("institution_id", { value: '' })} type="hidden" />
                     {/* <input {...register("address_id", {value: '1'})} type="hidden" /> */}
 
-                    <TextField
-                        {...register("name")}
-                        name="name"
-                        required
-                        label="Título"
-                        variant="outlined"
-                        InputLabelProps={{ shrink: true }}
-                        inputProps={{ maxLength: 255 }} />
-                    <TextField
-                        {...register("description")}
-                        name="description"
-                        label="Descrição"
-                        multiline
-                        required
-                        rows={5}
-                        InputLabelProps={{ shrink: true }}
-                        inputProps={{ maxLength: 1024 }} />
+                    <Grid item md={6}>
+                        <TextField
+                            {...register("name")}
+                            name="name"
+                            required
+                            fullWidth
+                            label="Título"
+                            variant="outlined"
+                            InputLabelProps={{ shrink: true }}
+                            inputProps={{ maxLength: 255 }} />
 
-                    <TextField
-                        {...register("vacancies", { valueAsNumber: true })}
-                        name="vacancies"
-                        label="Número de voluntários"
-                        required
-                        InputLabelProps={{ shrink: true }}
-                        type="number"
-                    />
+                    </Grid>
+                    <Grid item md={6}>
+                        <TextField
+                            {...register("description")}
+                            name="description"
+                            label="Descrição"
+                            multiline
+                            required
+                            rows={5}
+                            InputLabelProps={{ shrink: true }}
+                            inputProps={{ maxLength: 1024 }} />
 
-                    <FormControl>
-                        <FormControlLabel control={<Switch {...register('published')} />} label="Publicar oportunidade" />
-                    </FormControl>
+                    </Grid>
+                    <Grid item md={6}>
+                        <TextField
+                            {...register("vacancies", { valueAsNumber: true })}
+                            name="vacancies"
+                            label="Número de voluntários"
+                            required
+                            InputLabelProps={{ shrink: true }}
+                            type="number"
+                        />
 
+                        <FormControl>
+                            <FormControlLabel control={<Switch {...register('published')} />} label="Publicar oportunidade" />
+                        </FormControl>
 
-                    <InputGroup>
+                    </Grid>
+                    <Grid item md={6}>
                         <DateTimePicker
                             label="Date e horário de inicio"
                             value={startDate}
                             onChange={(newDate) => handleDateChange('start_date', newDate)}
                         />
+
+                    </Grid>
+                    <Grid item md={6}>
                         <DateTimePicker
                             label="Date e horário de fim"
                             value={endDate}
@@ -166,68 +176,31 @@ const OpportunityEdit = () => {
                             label="Date e horário fim"
                             InputLabelProps={{ shrink: true }}
                             variant="outlined" /> */}
-                    </InputGroup>
-                </Grid>
-                <Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6}>
-                    <FormControl sx={{ padding: "8.5px 14px" }}>
-                        <FormControlLabel
-                            control={<Switch
-                                {...register('online')}
-                                checked={onlineOpportunity}
-                                onChange={handleChangeOnineOpportinity}
-                            />}
-                            label="Oportunidade online" />
-                    </FormControl>
 
-                    {!onlineOpportunity &&
-                        // <>
-                        //     <FormControl >
-                        //         <InputLabel>Endereço</InputLabel>
-                        //         <Select
-                        //             onChange={(e) => (setAddressId(e.target.value))}
-                        //             value={addressId}
-                        //             label="Organização">
-                        //             <MenuItem value={'1'}>Rua x, Bairro, Cidade - UF</MenuItem>
-                        //             <MenuItem value={'0'}>Outro</MenuItem>
-                        //         </Select>
-                        //     </FormControl>
+                    </Grid>
+                    <Grid container>
 
-                        //     {addressId === '0' &&
-                        //         <>
-                        //             <TextField
-                        //                 required
-                        //                 label="CEP"
-                        //                 variant="outlined" />
-                        //             <TextField
-                        //                 required
-                        //                 label="Endereço"
-                        //                 variant="outlined"
-                        //                 inputProps={{ maxLength: 255 }} />
-
-                        //             <TextField
-                        //                 required
-                        //                 label="Bairro"
-                        //                 variant="outlined"
-                        //                 inputProps={{ maxLength: 255 }} />
-
-                        //             <InputGroup>
-                        //                 <TextField
-                        //                     required
-                        //                     label="UF"
-                        //                     variant="outlined" />
-                        //                 <TextField
-                        //                     required
-                        //                     label="Cidade"
-                        //                     variant="outlined" />
-                        //             </InputGroup>
-                        //         </>
-
-                        //     }
-                        // </>
-                        <AddressSelect context="newActivity"/>
-                    }
+                        <Grid item xs={6} sm={12} md={6}>
+                            <FormControl sx={{ padding: "8.5px 14px" }}>
+                                <FormControlLabel
+                                    control={<Switch
+                                        {...register('online')}
+                                        checked={onlineOpportunity}
+                                        onChange={handleChangeOnineOpportinity}
+                                    />}
+                                    label="Oportunidade online" />
+                            </FormControl>
 
 
+                        </Grid>
+                        <Grid item md={6}>
+
+                            {!onlineOpportunity &&
+                                <AddressSelect context="newActivity" />
+                            }
+
+                        </Grid>
+                    </Grid>
                 </Grid>
                 <FooterButton>
                     <Button type="submit" size="large" color="success" variant="contained">
@@ -235,7 +208,7 @@ const OpportunityEdit = () => {
                     </Button>
                 </FooterButton>
             </FormContainer>
-        </PageContainer>
+        </Paper>
     );
 }
 

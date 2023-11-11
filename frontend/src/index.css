@@ -13,6 +13,9 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+.fit-content{
+  max-width: fit-content !important;
+}
 .custom-marker svg{
   top: -20px;
   position: absolute;

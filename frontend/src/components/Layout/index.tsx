@@ -20,7 +20,7 @@ import ListItemText from '@mui/material/ListItemText';
 import BusinessIcon from '@mui/icons-material/Business';
 import { useContext, useEffect, useState } from 'react';
 import { AppBar, BadgeAmbiente, DrawerHeader, closedMixin, openedMixin } from './styles';
-import { Collapse, Paper } from '@mui/material';
+import { Collapse, Grid, Paper } from '@mui/material';
 import MuiDrawer from '@mui/material/Drawer';
 import { useLocation, useNavigate } from 'react-router';
 import { TemaContext } from '@/contexts/Tema';
@@ -118,7 +118,7 @@ const Layout = (props: any) => {
         }
     })(
         ({ theme, open }: any) => ({
-            width: 240,
+            width: 224,
             // flexShrink: 0,
             whiteSpace: 'nowrap',
             boxSizing: 'border-box',
@@ -167,138 +167,146 @@ const Layout = (props: any) => {
     return (
         <>
             <Toaster position="top-center" expand visibleToasts={9} />
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', height: '100%' }}>
-                <div style={{ position: "relative", width: '100%', height: '60px' }}>
-                    <AppBar position="fixed" open={open} sx={{ height: '60px' }}>
-                        <Toolbar sx={{
-                            justifyContent: "space-between",
-                            paddingRight: "0",
-                            height: '60px'
-                        }}>
-                            <IconButton
-                                color="inherit"
-                                aria-label="Abrir menu"
-                                onClick={toggleDrawer}
-                                edge="start"
-                                sx={{
-                                    marginRight: 5,
-                                    // ...(open && { display: 'none' }),
-                                }}
-                            >
-                                <MenuIcon />
-                            </ IconButton>
-                            <Typography className="mr-4" component="div" sx={{ flex: 'auto', display: 'flex' }}>
-                                Radar Voluntário
-                                <div>
-                                </div>
-                            </Typography>
-                            <ProfileMenu />
-                        </Toolbar>
-                    </AppBar>
-                </div>
-                <Box sx={{flexBasis: 'max-content'}}>
-                <Drawer sx={{
-                    // display: !open && isMobile ? 'none' : '', 
-                    // position: isMobile ? "absolute" : "relative"
-                }}
-                    variant={isMobile ? "temporary" : "permanent"}
-                    onClose={toggleDrawer}
-                    open={open}
-                    elevation={14}
-                >
-                    <DrawerHeader>
-                        <Typography variant="h6" noWrap sx={{ flex: 'auto' }}>
-                            <Typography sx={{ cursor: "pointer" }} onClick={() => navigate('/home')}>
-                                Radar Voluntário
-                                {/* {appSettings?.AMBIENTE != "main" &&
+            <Grid container sx={{ display: 'flex', flexWrap: 'wrap', height: '100%' }}>
+                <Grid item md={12}>
+                    <div style={{ position: "relative", width: '100%', height: '60px' }}>
+                        <AppBar position="fixed" open={open} sx={{ height: '60px' }}>
+                            <Toolbar sx={{
+                                justifyContent: "space-between",
+                                paddingRight: "0",
+                                height: '60px'
+                            }}>
+                                <IconButton
+                                    color="inherit"
+                                    aria-label="Abrir menu"
+                                    onClick={toggleDrawer}
+                                    edge="start"
+                                    sx={{
+                                        marginRight: 5,
+                                        // ...(open && { display: 'none' }),
+                                    }}
+                                >
+                                    <MenuIcon />
+                                </ IconButton>
+                                <Typography className="mr-4" component="div" sx={{ flex: 'auto', display: 'flex' }}>
+                                    Radar Voluntário
+                                    <div>
+                                    </div>
+                                </Typography>
+                                <ProfileMenu />
+                            </Toolbar>
+                        </AppBar>
+                    </div>
+                </Grid>
+                <Grid item md={open ? 2 : 1}
+                    sx={{
+
+                        flex: 'none'
+                    }}
+                    className={open ? "" : "fit-content"}>
+                    {/* <Box sx={{ flexBasis: 'max-content' }}> */}
+                    <Drawer sx={{
+                        // display: !open && isMobile ? 'none' : '', 
+                        // position: isMobile ? "absolute" : "relative"
+                    }}
+                        variant={isMobile ? "temporary" : "permanent"}
+                        onClose={toggleDrawer}
+                        open={open}
+                        elevation={14}
+                    >
+                        <DrawerHeader>
+                            <Typography variant="h6" noWrap sx={{ flex: 'auto' }}>
+                                <Typography sx={{ cursor: "pointer" }} onClick={() => navigate('/home')}>
+                                    Radar Voluntário
+                                    {/* {appSettings?.AMBIENTE != "main" &&
                                     <BadgeAmbiente component="span">
                                         {appSettings?.AMBIENTE}
                                     </BadgeAmbiente>
                                 } */}
+                                </Typography>
                             </Typography>
-                        </Typography>
-                        <IconButton onClick={toggleDrawer}>
-                            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                        </IconButton>
-                    </DrawerHeader>
-                    <Divider />
-                    <List>
-                        {menuItems.map((item) => (
-                            <div key={item.id}>
-                                <ListItem
-                                    key={item.id}
-                                    disablePadding
-                                    sx={{ display: 'block' }}
-                                    onClick={() => navigate(item.path)}
-                                >
-                                    <ListItemButton
-                                        sx={{
-                                            minHeight: 48,
-                                            justifyContent: open ? 'initial' : 'center',
-                                            px: 2.5,
-                                        }}
-                                        selected={matchPath(item.path + "/*" as string, pathname) !== null}
+                            <IconButton onClick={toggleDrawer}>
+                                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                            </IconButton>
+                        </DrawerHeader>
+                        <Divider />
+                        <List>
+                            {menuItems.map((item) => (
+                                <div key={item.id}>
+                                    <ListItem
+                                        key={item.id}
+                                        disablePadding
+                                        sx={{ display: 'block' }}
+                                        onClick={() => navigate(item.path)}
                                     >
-                                        <ListItemIcon
+                                        <ListItemButton
                                             sx={{
-                                                minWidth: 0,
-                                                mr: open ? 3 : 'auto',
-                                                justifyContent: 'center',
+                                                minHeight: 48,
+                                                justifyContent: open ? 'initial' : 'center',
+                                                px: 2.5,
                                             }}
+                                            selected={matchPath(item.path + "/*" as string, pathname) !== null}
                                         >
-                                            {item?.icon}
-                                        </ListItemIcon>
-                                        {open && <ListItemText primary={item.text} />}
-                                    </ListItemButton>
-                                </ListItem>
-                            </div>
-                        ))}
-                    </List>
-                    <List sx={{
-                        flex: 'auto',
-                        display: 'flex',
-                        placeItems: 'self-end',
-                        paddingBottom: '0'
-                    }}>
-                        <ListItem key="4" disablePadding sx={{ display: 'block' }}>
-                            <Divider />
-                            <ListItemButton
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: open ? 'initial' : 'center',
-                                    px: 2.5,
-                                    // padding: 0,
-                                }}
-                                onClick={() => setIsDarkTheme(!isDarkTheme)}
-                            >
-                                <ListItemIcon
+                                            <ListItemIcon
+                                                sx={{
+                                                    minWidth: 0,
+                                                    mr: open ? 3 : 'auto',
+                                                    justifyContent: 'center',
+                                                }}
+                                            >
+                                                {item?.icon}
+                                            </ListItemIcon>
+                                            {open && <ListItemText primary={item.text} />}
+                                        </ListItemButton>
+                                    </ListItem>
+                                </div>
+                            ))}
+                        </List>
+                        <List sx={{
+                            flex: 'auto',
+                            display: 'flex',
+                            placeItems: 'self-end',
+                            paddingBottom: '0'
+                        }}>
+                            <ListItem key="4" disablePadding sx={{ display: 'block' }}>
+                                <Divider />
+                                <ListItemButton
                                     sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : 'auto',
-                                        justifyContent: 'center',
+                                        minHeight: 48,
+                                        justifyContent: open ? 'initial' : 'center',
+                                        px: 2.5,
+                                        // padding: 0,
                                     }}
+                                    onClick={() => setIsDarkTheme(!isDarkTheme)}
                                 >
-                                    <ThemeSelector size={40} />
-                                </ListItemIcon>
-                                {open &&
-                                    <ListItemText primary={"Seletor de Tema"} sx={{ opacity: open ? 1 : 0 }} />
-                                }
-                            </ListItemButton>
-                        </ListItem>
-                    </List>
-                </Drawer>
-                </Box>
-                <Box sx={{ position: "relative", flexGrow: '2', height: '100%' }}>
-                    <Box sx={{
-                        width: '100%',
-                        height: '100%',
-                        // padding: isMapPage ? 0 : '10px'
-                    }}>{props.children}</Box>
-                    {/* <DrawerHeader /> */}
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 0,
+                                            mr: open ? 3 : 'auto',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <ThemeSelector size={40} />
+                                    </ListItemIcon>
+                                    {open &&
+                                        <ListItemText primary={"Seletor de Tema"} sx={{ opacity: open ? 1 : 0 }} />
+                                    }
+                                </ListItemButton>
+                            </ListItem>
+                        </List>
+                    </Drawer>
+                    {/* </Box> */}
 
-                    {/* {!isLoadingErrorAppSettings && <AlertaReconectando />} */}
-                </Box>
-            </Box >
+                </Grid>
+                <Grid item md={open ? 10 : 11} sx={{
+                    width: '100%',
+                    height: '100%',
+                    padding: isMapPage ? 0 : '10px'
+                }}>{props.children}</Grid>
+                {/* <DrawerHeader /> */}
+
+                {/* {!isLoadingErrorAppSettings && <AlertaReconectando />} */}
+            </Grid>
         </>
     );
 }
