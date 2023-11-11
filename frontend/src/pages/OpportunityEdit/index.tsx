@@ -224,7 +224,7 @@ const OpportunityEdit = () => {
 
                         //     }
                         // </>
-                        <AddressSelect />
+                        <AddressSelect context="newActivity"/>
                     }
 
 
