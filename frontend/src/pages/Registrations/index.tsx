@@ -1,9 +1,6 @@
-import BackButton from '@/components/BackButton';
 import { PageContainer } from '@/styles/styles';
 import { Box, Button, IconButton, Typography } from '@mui/material';
 import { Link, useParams } from "react-router-dom";
-import Table from '@/components/Table';
-import { useState } from 'react';
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { TemaService } from '@/api/tema';
 import DefaultDataGrid from '@/components/DataGrid';
