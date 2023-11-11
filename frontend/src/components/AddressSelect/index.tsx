@@ -6,33 +6,41 @@ import { Grid, IconButton, Modal, ModalClose, ModalDialog, Typography } from '@m
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import AddressForm from './AddressForm';
 import { createPortal } from 'react-dom';
-const AddressSelect = () => {
+import { IAddress } from '@/types/address';
+interface IAddressSelectProps {
+    context: "newOrganization" | "newActivity";
+    addreses?: IAddress[];
+    setAddress?: any;
+    selectedAddress?: IAddress;
+}
+const AddressSelect = (props: IAddressSelectProps) => {
     const [openNewAddressModal, setOpenNewAddressModal] = React.useState(false);
-    // TODO FETCH ALL ADDRESSES
-    const addresses = [
-        {
-            value: 'Teste',
-            label: 'TTTTT',
-        },
-    ];
+    const [addresses, setAddresses] = React.useState<IAddress[]>([]);
     React.useEffect(() => {
 
-    }, []);
+    }, [addresses]);
+    // React.useEffect(() => {
+    //     if(props.selectedAddress){
+    //         setAddresses([props.selectedAddress])
+    //     }
+    // }, [props.selectedAddress])
     return (
         <Grid container>
             <Grid xs={10} md={10}>
                 <TextField
-                    id="outlined-select-currency"
+                    id="select-address"
                     select
                     size="small"
+                    disabled={props.context == "newOrganization"}
                     fullWidth
-                    label="Sede"
-                    defaultValue="EUR"
-                    helperText="Caso o endereço desejado não exista na lista, o adicione."
+                    label={props.selectedAddress?.name || "Endereço"}
+                    defaultValue=""
+                    helperText={props.context == "newOrganization" ? 
+                    "Adicione um endereço no botão ao lado do campo" : "Caso o endereço desejado não exista na lista, o adicione."}
                 >
-                    {addresses.map((address: any) => (
-                        <MenuItem key={address.value} value={address.value}>
-                            {address.label}
+                    {addresses.map((address: IAddress) => (
+                        <MenuItem key={address.id} value={address.id}>
+                            {address.name}
                         </MenuItem>
                     ))}
                 </TextField>
@@ -56,7 +64,11 @@ const AddressSelect = () => {
                         <ModalDialog sx={{ overflowY: 'auto' }}>
                             <ModalClose />
                             <Typography> Novo endereço:</Typography>
-                            <AddressForm setShowModal={setOpenNewAddressModal}/>
+                            <AddressForm
+                                context={props.context}
+                                setAddress={props.setAddress}
+                                setShowModal={setOpenNewAddressModal}
+                            />
                         </ModalDialog>
                     </Modal>,
                     document.body

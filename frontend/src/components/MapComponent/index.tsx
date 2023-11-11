@@ -22,15 +22,16 @@ import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import { IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ReactDOMServer, { renderToStaticMarkup } from "react-dom/server";
+import { Coordenates } from '@/types/coords';
 
 interface MapProps {
   selectionMode?: boolean;
+  position?: LatLngExpression | undefined;
+  setSelectedCoordenate?: any;
 }
 function MapComponent(props: MapProps) {
   const { isDarkTheme } = useContext(TemaContext);
   const [selectionPinRef, setSelectionPinRef] = useState<Marker<any>>();
-  const [selectedLatitude, setSelectedLatitude] = useState<number>();
-  const [selectedLongitude, setSelectedLongitude] = useState<number>();
   const zoom = 14;
   const { isMobile } = TemaService.useGetIsMobile();
   const { data: coordenadasAtuais } = GeoLocationService.useGetCurrentLocation();
@@ -38,10 +39,10 @@ function MapComponent(props: MapProps) {
   const markerRef = useRef<Marker>();
   const position: any = [-30.03306, -51.23];
   const MarkerIcon = <LocationOnIcon
-                        sx={{
-                          fontSize: '40px',
-                          color: isDarkTheme ? 'white' : '#000'
-                      }} />
+    sx={{
+      fontSize: '40px',
+      color: isDarkTheme ? 'white' : '#000'
+    }} />
   useEffect(() => {
     if (props.selectionMode &&
       markerRef?.current != undefined) {
@@ -53,16 +54,19 @@ function MapComponent(props: MapProps) {
         })
         t.addTo(mapRef?.current as any);
         t?.on('drag', function (ev: any) {
-          setSelectedLatitude(ev.latlng.lat);
-          setSelectedLongitude(ev.latlng.lng);
+          props.setSelectedCoordenate({
+            latitude: ev.latlng.lat,
+            longitude: ev.latlng.lng
+          } as Coordenates)
         });
         setSelectionPinRef(t);
         mapRef.current?.removeEventListener('click');
         mapRef.current?.on('click', function (ev) {
-          console.log(selectionPinRef)
           t?.setLatLng(ev.latlng);
-          setSelectedLatitude(ev.latlng.lat);
-          setSelectedLongitude(ev.latlng.lng);
+          props.setSelectedCoordenate({
+            latitude: ev.latlng.lat,
+            longitude: ev.latlng.lng
+          } as Coordenates)
         });
       });
       // } else {
@@ -79,6 +83,11 @@ function MapComponent(props: MapProps) {
     if (coordenadasAtuais != undefined)
       mapRef.current?.flyTo(coordenadasAtuais, zoom)
   }, [coordenadasAtuais])
+  useEffect(() => {
+    if (props.position != undefined)
+      mapRef.current?.flyTo(props.position, zoom)
+  }, [props.position])
+
   const speedDialActions = [
     { icon: <FileCopyIcon />, name: 'Copy' },
     { icon: <SaveIcon />, name: 'Save' },
@@ -150,7 +159,7 @@ function MapComponent(props: MapProps) {
             <Marker innerRef={markerRef as any} position={position} id="mainMarker"
               size={[40, 40]} // mesmo que o fontSize
               placement="top">
-              <LocationOnIcon sx={{ fontSize: '40px', color: isDarkTheme ? 'white' : '#000' }} />
+              {/* <LocationOnIcon sx={{ fontSize: '40px', color: isDarkTheme ? 'white' : '#000' }} /> */}
             </Marker>
           </MarkerLayer>
         </MapContainer>

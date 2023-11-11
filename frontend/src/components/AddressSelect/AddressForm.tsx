@@ -8,14 +8,27 @@ import { useForm } from "react-hook-form";
 import MapComponent from "../MapComponent";
 import { useApi } from "@/api";
 import { toast } from "sonner";
+import { BrasilApiAddress } from "@/types/brasil-api-cep-search-return";
+import { IAddress } from "@/types/address";
+import { Coordenates } from "@/types/coords";
 
-const AddressForm = (props: any) => {
+interface IAddressFormProps {
+    setShowModal: (x: any) => void;
+    context: "newOrganization" | "newActivity";
+    setAddress?: any;
+}
+const AddressForm = (props: IAddressFormProps) => {
     const [carregando, setCarregandoEndereco] = useState(false);
-    const [showMap, setShowMap] = useState(true);
-    const [cepContemBairro, setCepContemBairro] = useState(true);
-    const [cepContemLogradouro, setCepContemLogradouro] = useState(true);
+    const [selectedCoordenate, setSelectedCoordenate] = useState<Coordenates>();
+    const [position, setPosition] = useState<L.LatLngExpression | undefined>();
+    const [showMap, setShowMap] = useState(false);
+    const [zip_codeContemBairro, setCepContemBairro] = useState(true);
+    const [zip_codeContemLogradouro, setCepContemLogradouro] = useState(true);
     const apiViaCep = axios.create({
         baseURL: "https://viacep.com.br/ws/",
+    });
+    const apiBrasilApi = axios.create({
+        baseURL: "https://brasilapi.com.br/",
     });
     apiViaCep.interceptors.request.use(async (config: any) => {
         return config;
@@ -23,9 +36,9 @@ const AddressForm = (props: any) => {
     //TODO ADD MAP IN SELECTION MODE
 
     // useEffect(() => {
-    // 	var cep = form.getValues("cep")[0];
-    // 	if(cep != ''){
-    // 		buscaCep(cep);
+    // 	var zip_code = form.getValues("zip_code")[0];
+    // 	if(zip_code != ''){
+    // 		buscaCep(zip_code);
     // 	}
     // }, [])
 
@@ -41,7 +54,7 @@ const AddressForm = (props: any) => {
         formState,
         watch,
         reset,
-    } = useForm<any>({
+    } = useForm<IAddress>({
         // shouldUnregister: false,
         shouldFocusError: true,
         // resolver: yupResolver(validationSchema) as Resolver<AtualizacaoCadastralType, object>
@@ -60,54 +73,78 @@ const AddressForm = (props: any) => {
         isDirty,
         // dirtyFields
     };
-    const buscaCep = (cep: any) => {
-        cep = cep.replace("-", "");
-        if (cep.length == 8) {
-            apiViaCep.get(cep + "/json/")
+    const buscaCep = (zip_code: any) => {
+        zip_code = zip_code.replace("-", "");
+        if (zip_code.length == 8) {
+            apiViaCep.get(zip_code + "/json/")
                 .then((resposta: any) => {
+                    console.log("Teste")
                     if (resposta.data.erro) {
-                        form.setValue('logradouro', "");
-                        form.setValue('bairro', "");
-                        form.setValue('cidade', "");
-                        form.setValue('estado', "");
-                        form.setError('cep', { type: 'custom', message: 'Insira um CEP válido' });
+                        form.setValue('street', "");
+                        form.setValue('neighborhood', "");
+                        form.setValue('city', "");
+                        form.setValue('state', "");
+                        form.setError('zip_code', { type: 'custom', message: 'Insira um CEP válido' });
                     }
                     var endereco = resposta.data.logradouro;
-                    var bairro = resposta.data.bairro;
-                    var cidade = resposta.data.localidade.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-                    var estado = resposta.data.uf;
-                    if (endereco == "") {
-                        setCepContemLogradouro(false);
-                    } else {
-                        setCepContemLogradouro(true);
-                    }
-                    if (bairro == "") {
-                        setCepContemBairro(false);
-                    } else {
-                        setCepContemBairro(true);
-                    }
-
-                    form.setValue('logradouro', endereco);
-                    form.setValue('cidade', cidade);
-                    form.setValue('bairro', bairro);
-                    form.setValue('estado', estado);
-                    form.clearErrors(['logradouro', 'bairro', 'cidade', 'cep']);
-
+                    var neighborhood = resposta.data.bairro;
+                    var city = resposta.data.localidade?.toUpperCase()?.normalize('NFD')?.replace(/[\u0300-\u036f]/g, '');
+                    var state = resposta.data.uf;
+                    setCepContemLogradouro(endereco == "" ? false : true);
+                    setCepContemBairro(neighborhood == "" ? false : true);
+                    form.setValue('street', endereco);
+                    form.setValue('city', city);
+                    form.setValue('neighborhood', neighborhood);
+                    form.setValue('state', state);
+                    form.clearErrors(['street', 'neighborhood', 'city', 'zip_code']);
                 })
                 .catch((error: any) => {
                     console.log(error);
+                })
+                .finally(() => {
+                    apiBrasilApi.get(`api/cep/v2/${zip_code}`)
+                        .then((res: AxiosResponse<BrasilApiAddress>) => {
+                            setPosition(
+                                {
+                                    lat: +res.data.location.coordinates.latitude,
+                                    lng: +res.data.location.coordinates.longitude
+                                }
+                            );
+                            setShowMap(true);
+                        })
                 });
-        } else if (cep.length > 0){
-            form.setError('cep', { type: 'custom', message: 'Insira um CEP válido' });
+        } else if (zip_code.length > 0) {
+            form.setError('zip_code', { type: 'custom', message: 'Insira um CEP válido' });
         } else {
-            form.clearErrors(['logradouro', 'bairro', 'cidade', 'cep']);
+            form.clearErrors(['street', 'neighborhood', 'city', 'zip_code']);
         }
     }
     const onSubmit = (data: any, e: any) => {
-        if(e.target.id != "form-new-address") return;
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.target.id != "form-new-address") return;
         const api = useApi();
-        api.post("endereco").then((res: AxiosResponse) => toast.success("Endereço adicionado com sucesso"))
-        props.setShowModal(false);
+        var request: IAddress = data;
+        if (selectedCoordenate == undefined) {
+            //TODO ADICIONAR MELHOR SINALIZACAO DE QUE É NECESSARIO CLICAR NO MAPA
+            toast.error("Por favor marque no mapa a localização precisa do local");
+            return;
+        }
+        request.latitude = selectedCoordenate.latitude;
+        request.longitude = selectedCoordenate.longitude;
+        console.log(request)
+        if (props.context == "newActivity") {
+            api.post("address").then(
+                (res: AxiosResponse) => {
+                    toast.success("Endereço adicionado com sucesso")
+                }
+            )
+        } else {
+            props.setAddress(request);
+
+            toast.success("Endereço adicionado com sucesso")
+        }
+        // props.setShowModal(false);
     }
     return (
         <Box
@@ -129,22 +166,22 @@ const AddressForm = (props: any) => {
                         CEP fornecido.
                     </Typography>
                     <br />
-                    <Grid container spacing={2}>
+                    <Grid container spacing={1}>
                         <Grid xs={12} md={6}>
                             <InputLabel>
                                 Nome
                                 <Box component="span" style={{ color: "red" }}> *</Box>
                             </InputLabel>
                             <TextField
-                                {...form.register("nome")}
+                                {...form.register("name")}
                                 size='small'
                                 placeholder="Ex: Sede estadual"
-                                // error={form.errors?.cep?.message != undefined}
+                                // error={form.errors?.zip_code?.message != undefined}
                                 style={{ width: "100%", margin: 0 }}
                                 variant="outlined"
                                 required
                             />
-                            {/* <FormHelperText error={true}>{form.errors?.cep?.message as any}</FormHelperText> */}
+                            {/* <FormHelperText error={true}>{form.errors?.zip_code?.message as any}</FormHelperText> */}
                         </Grid>
                         <Grid xs={6} md={6}>
                             <InputLabel>
@@ -152,17 +189,17 @@ const AddressForm = (props: any) => {
                                 <Box component="span" style={{ color: "red" }}> *</Box>
                             </InputLabel>
                             <MaskedTextField
-                                {...form.register("cep")}
+                                {...form.register("zip_code")}
                                 size='small'
                                 placeholder="00000-000"
                                 onChange={(e: any) => buscaCep(e.target.value)}
                                 mask="00000-000"
-                                error={form.errors?.cep?.message}
+                                error={form.errors?.zip_code?.message}
                                 style={{ width: "100%", margin: 0 }}
                                 variant="outlined"
                                 required
                             />
-                            <FormHelperText error={true}>{form.errors?.cep?.message as any}</FormHelperText>
+                            <FormHelperText error={true}>{form.errors?.zip_code?.message as any}</FormHelperText>
                         </Grid>
                         <Grid xs={6} md={4}>
                             <InputLabel>
@@ -173,8 +210,8 @@ const AddressForm = (props: any) => {
                                 disabled
                                 style={{ width: '100%', margin: 0 }}
                                 size="small"
-                                defaultValue={form.getValues("estado")}
-                                {...form?.register('estado')} />
+                                defaultValue={form.getValues("state")}
+                                {...form?.register('state')} />
                         </Grid>
                         <Grid xs={6} md={4}>
                             <InputLabel>
@@ -183,8 +220,8 @@ const AddressForm = (props: any) => {
                             </InputLabel>
                             <TextField
                                 disabled
-                                {...form.register("cidade")}
-                                defaultValue={form.getValues("cidade")}
+                                {...form.register("city")}
+                                defaultValue={form.getValues("city")}
                                 style={{ width: '100%', margin: 0 }}
                                 size="small" />
                         </Grid>
@@ -194,15 +231,15 @@ const AddressForm = (props: any) => {
                                 <Box component="span" style={{ color: "red" }}> *</Box>
                             </InputLabel>
                             <TextField
-                                {...form.register("bairro")}
+                                {...form.register("neighborhood")}
                                 size='small'
-                                error={form.errors?.bairro?.message != ""}
+                                error={form.errors?.neighborhood?.message != ""}
                                 style={{ width: "100%", margin: 0 }}
-                                disabled={cepContemBairro}
+                                disabled={zip_codeContemBairro}
                                 variant="outlined"
-                                label={cepContemBairro ? "" : "Informe seu bairro..."}
+                                label={zip_codeContemBairro ? "" : "Informe seu neighborhood..."}
                             />
-                            <FormHelperText error={true}>{form.errors?.bairro?.message as any}</FormHelperText>
+                            <FormHelperText error={true}>{form.errors?.neighborhood?.message as any}</FormHelperText>
                         </Grid>
                         <Grid xs={12} md={4}>
                             <InputLabel>
@@ -210,16 +247,16 @@ const AddressForm = (props: any) => {
                                 <Box component="span" style={{ color: "red" }}> *</Box>
                             </InputLabel>
                             <TextField
-                                {...form.register("logradouro")}
+                                {...form.register("street")}
                                 size='small'
-                                disabled={cepContemLogradouro}
-                                error={form.errors?.logradouro?.message != ""}
+                                disabled={zip_codeContemLogradouro}
+                                error={form.errors?.street?.message != ""}
                                 style={{ width: "100%", margin: 0 }}
                                 variant="outlined"
-                                placeholder={cepContemLogradouro ? "" : "Informe seu endereço..."}
+                                placeholder={zip_codeContemLogradouro ? "" : "Informe seu endereço..."}
                                 required
                             />
-                            <FormHelperText error={true}>{form.errors?.logradouro?.message as any}</FormHelperText>
+                            <FormHelperText error={true}>{form.errors?.street?.message as any}</FormHelperText>
                         </Grid>
                         <Grid xs={6} md={4}>
                             <InputLabel>
@@ -227,63 +264,41 @@ const AddressForm = (props: any) => {
                                 <Box component="span" style={{ color: "red" }}> *</Box>
                             </InputLabel>
                             <TextField
-                                {...form.register("numeroEndereco")}
+                                {...form.register("number")}
                                 size='small'
-                                error={form.errors?.numeroEndereco?.message != undefined}
+                                error={form.errors?.number?.message != undefined}
                                 style={{ width: "100%", margin: 0 }}
                                 type="number"
                                 variant="outlined"
                                 required
                             />
-                            <FormHelperText error={true}>{form.errors?.numeroEndereco?.message as any}</FormHelperText>
+                            <FormHelperText error={true}>{form.errors?.number?.message as any}</FormHelperText>
                         </Grid>
                         <Grid xs={6} md={4}>
                             <InputLabel>
                                 Complemento
                             </InputLabel>
                             <TextField
-                                {...form.register("complemento")}
+                                {...form.register("complement")}
                                 size='small'
-                                // error={form.errors?.complemento?.message != ""}
+                                // error={form.errors?.complement?.message != ""}
                                 style={{ width: "100%", margin: 0 }}
                                 variant="outlined"
                             />
-                            {/* <FormHelperText error={true}>{form.errors?.complemento?.message as any}</FormHelperText> */}
+                            {/* <FormHelperText error={true}>{form.errors?.complement?.message as any}</FormHelperText> */}
                         </Grid>
-                        {/* <Grid xs={12} md={4} style={{ cursor: 'not-allowed' }}>
-							<InputSelect
-								obrigatorio
-								cidade
-								readOnly
-								mensagemErro="A Cidade deve ser informada a partir do CEP"
-								id="idCidade"
-								options={cidades}
-								nome="Cidade"
-								nomeInput="idCidade"
-								form={form}
-							/>
-						</Grid>
-						<Grid xs={12} md={3} style={{ cursor: 'not-allowed' }}>
-							<InputSelect
-								obrigatorio
-								readOnly
-								mensagemErro="O Estado deve ser informado a partir do CEP"
-								estado
-								options={estados}
-								nome="SiglaEstado"
-								nomeInput="siglaEstado"
-								form={form}
-							/>
-						</Grid> */}
                     </Grid>
                     <br />
                     {showMap &&
                         <>
                             <Grid container>
-                                <Grid xs={12} md={12} style={{ height: '150px', width: '100%' }}>
-                                    <MapComponent selectionMode />
+                                <Grid xs={12} md={12} style={{ height: '160px', width: '100%' }}>
+                                    <MapComponent
+                                        selectionMode
+                                        position={position}
+                                        setSelectedCoordenate={setSelectedCoordenate}
+                                    />
                                     <FormHelperText>Toque no mapa e mova o marcador para a localização exata do local</FormHelperText>
-
                                 </Grid>
                             </Grid>
                             <br />

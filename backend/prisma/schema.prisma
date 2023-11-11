@@ -20,31 +20,35 @@ model User {
   phone         String?
   institutions  InstitutionUser[]
   opportunities OpportunityUser[]
+  Institution   Institution[]
 
   @@map("users")
 }
 
 model Institution {
-  id                String                @id @default(uuid())
-  name              String
-  about             String
-  responsible_name  String
-  responsible_phone String
-  facebook          String?
-  instagram         String?
-  users             InstitutionUser[]
-  opportunities     Opportunity[]
-  adresses          InstitutionAddress[]
-  categories        InstitutionCategory[]
+  id            String                @id @default(uuid())
+  name          String
+  about         String
+  telephone     String?
+  owner_id      String
+  owner         User                  @relation(fields: [owner_id], references: [id])
+  facebook      String?
+  instagram     String?
+  users         InstitutionUser[]
+  opportunities Opportunity[]
+  adresses      InstitutionAddress[]
+  categories    InstitutionCategory[]
 
   @@map("institutions")
 }
 
 model InstitutionAddress {
   id             String        @id @default(uuid())
+  name           String
   primary        Boolean       @default(false)
   street         String
   number         String
+  complement     String
   city           String
   state          String
   neighborhood   String
@@ -90,7 +94,7 @@ model Opportunity {
   users          OpportunityUser[]
   institution    Institution           @relation(fields: [institution_id], references: [id])
   institution_id String
-  address        InstitutionAddress?    @relation(fields: [address_id], references: [id])
+  address        InstitutionAddress?   @relation(fields: [address_id], references: [id])
   address_id     String?
   categories     OpportunityCategory[]
 

@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
+import AxiosResponse from 'axios';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { ImageContainer, PreviewImage } from './styles';
 import { FooterButton, FormContainer, InputGroup, VisuallyHiddenInput } from '../../pages/ProfileEdit/styles';
@@ -14,10 +15,15 @@ import IconButton from '@mui/joy/IconButton';
 import BookmarkAdd from '@mui/icons-material/BookmarkAddOutlined';
 import AddressSelect from '../AddressSelect';
 import { createPortal } from 'react-dom';
+import { IAddress } from '@/types/address';
+import { apiRoutes } from '@/routes';
+import { useApi } from '@/api';
 // import { Grid } from '@mui/joy';
 
 const NewInstitutionForm = (props: any) => {
 	const [image, setImage] = useState();
+	const api = useApi();
+	const [address, setAddress] = useState<IAddress | undefined>();
 	const inputRef = useRef(null);
 
 	const handleImageChange = (event: any) => {
@@ -25,12 +31,6 @@ const NewInstitutionForm = (props: any) => {
 		setImage(file);
 	}
 
-	const onSubmitt = (data: any, e: any) => {
-		e.preventDefault();
-		e.stopPropagation();
-		if (e.target.id != "new-organization-form") return;
-		toast.success('Perfil atualizado');
-	}
 
 	const {
 		register,
@@ -49,6 +49,18 @@ const NewInstitutionForm = (props: any) => {
 		shouldFocusError: true,
 		// resolver: yupResolver(validationSchema) as Resolver<AtualizacaoCadastralType, object>
 	});
+	React.useEffect(() => {
+		const debug = true;
+		if(debug)
+			reset({
+				about: 'About........................',
+				facebook: '',
+				instagram: '',
+				owner_id: '',
+				name: 'Teste123',
+				telephone: '00 00000-0000',
+			})
+	}, [])
 	const { isDirty, dirtyFields } = formState;
 	var form = {
 		register,
@@ -63,6 +75,25 @@ const NewInstitutionForm = (props: any) => {
 		isDirty,
 		// dirtyFields
 	};
+	const onSubmitt = (data: Institution, e: any) => {
+		e.preventDefault();
+		e.stopPropagation();
+        if (e.target.id != "new-organization-form") return;
+		if(address != undefined) {
+			data.address = address;
+		} else{
+			toast.error("Insira um endereço");
+			return;
+		}
+		// else {
+		// 	toast.error("Insira um endereço.")
+		// }
+		api.post("institutions", data)
+		.then((res: any) => {
+			toast.success('Instituição criada com sucesso.');
+			console.log(res);
+		});
+	}
 	return (
 		<FormContainer onSubmit={handleSubmit(onSubmitt)} id="new-organization-form">
 			<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
@@ -79,7 +110,7 @@ const NewInstitutionForm = (props: any) => {
 						label="Sobre"
 						{...register("about")}
 						multiline
-						required
+						// required
 						rows={5}
 						defaultValue=""
 						inputProps={{ maxLength: 1024 }} />
@@ -96,11 +127,11 @@ const NewInstitutionForm = (props: any) => {
 						size="small"
 						label="Telefone"
 						required={true}
+						defaultValue=""
 						placeholder="(00) 00000-0000"
 						mask="(00) 00000-0000"
 						variant="outlined" />
-					<Typography fontWeight={600} variant="subtitle1">Redes sociais</Typography>
-
+					{/* <Typography fontWeight={600} variant="subtitle1">Redes sociais</Typography> */}
 					<InputGroup>
 						<TextField
 							label="Facebook"
@@ -132,11 +163,15 @@ const NewInstitutionForm = (props: any) => {
 						<CardContent orientation="horizontal">
 							<Button fullWidth component="label" variant="contained" startIcon={<CloudUploadIcon />}>
 								Carregar imagem
-								<VisuallyHiddenInput required type="file" onChange={handleImageChange} ref={inputRef} />
+								<VisuallyHiddenInput required={false} type="file" onChange={handleImageChange} ref={inputRef} />
 							</Button>
 						</CardContent>
 					</Card>
-					<AddressSelect />
+					<AddressSelect
+						context="newOrganization"
+						setAddress={setAddress}
+						selectedAddress={address}
+					/>
 				</Grid>
 			</Grid>
 
@@ -152,7 +187,7 @@ const NewInstitutionForm = (props: any) => {
 					>
 						CANCELAR
 					</Button>
-					<Button 
+					<Button
 						variant='contained'
 						form="new-organization-form"
 						type="submit"

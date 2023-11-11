@@ -52,6 +52,7 @@ const VolunteerForm = () => {
                         required
                         disabled
                         value={user?.name}
+                        size='small'
                         defaultValue={user?.name || "..."}
                         label="Nome"
                         variant="outlined"
@@ -61,68 +62,41 @@ const VolunteerForm = () => {
                         label="Sobre"
                         multiline
                         required
-                        rows={5}
+                        rows={2}
                         defaultValue=""
                         inputProps={{ maxLength: 1024 }} />
 
-                    <FormControl >
+                    {/* <FormControl >
                         <InputLabel>Interesses</InputLabel>
                         <Select label="Organização">
                             {interestsList.map((interest) =>
                                 <MenuItem value={interest.value}>{interest.label}</MenuItem>
                             )}
                         </Select>
-                    </FormControl>
+                    </FormControl> */}
 
 					<MaskedTextField
                         name="Telefone"
                         size="small"
                         required={true}
+                        label="Telefone"
                         placeholder="(00) 00000-0000"
                         mask="(00) 00000-0000"
                         variant="outlined" />
                 </Grid>
                 <Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6}>
-                    <TextField
-                        required
-                        label="CEP"
-                        variant="outlined" />
-                    <TextField
-                        required
-                        label="Endereço"
-                        variant="outlined"
-                        inputProps={{ maxLength: 255 }} />
-
-                    <TextField
-                        required
-                        label="Bairro"
-                        variant="outlined"
-                        inputProps={{ maxLength: 255 }} />
-
-                    <InputGroup>
-                        <TextField
-                            required
-                            label="UF"
-                            variant="outlined" />
-                        <TextField
-                            required
-                            label="Cidade"
-                            variant="outlined" />
-
-                    </InputGroup>
                     <Typography fontWeight={600} variant="subtitle1">Redes sociais</Typography>
-                    <InputGroup>
                         <TextField
                             label="Facebook"
                             variant="outlined"
+                            size='small'
                             inputProps={{ maxLength: 255 }} />
 
                         <TextField
                             label="Instagram"
                             variant="outlined"
+                            size='small'
                             inputProps={{ maxLength: 255 }} />
-
-                    </InputGroup>
                 </Grid>
             </Grid>
             <FooterButton>

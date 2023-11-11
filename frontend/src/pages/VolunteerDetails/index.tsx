@@ -80,12 +80,12 @@ function VolunteerDetails() {
                         {volunteer.description}
                     </Typography>
 
-                    <Typography mb={2} variant="h6"> Interesses </Typography>
+                    {/* <Typography mb={2} variant="h6"> Interesses </Typography>
                     <Stack mb={4} direction="row" spacing={1}>
                         {mockedInterests.map((interest) =>
                             <Chip label={interest} />
                         )}
-                    </Stack>
+                    </Stack> */}
 
                     <Typography mb={2} variant="h6"> Contatos </Typography>
                     <ContactDetails>

@@ -46,9 +46,9 @@ export class InstitutionsService {
     );
   };
 
-  public save = async (command: SaveCommand, userId: string) => {
+  public save = async (command: SaveCommand, owner_id: string) => {
     const { address, ...rest } = command;
-
+    console.log(command)
     if (!address) {
       throw new AppError("Address is required", 400);
     }
@@ -56,6 +56,7 @@ export class InstitutionsService {
     const institution = await prisma.institution.create({
       data: {
         ...rest,
+        owner_id,
       },
     });
 
@@ -70,7 +71,7 @@ export class InstitutionsService {
     await prisma.institutionUser.create({
       data: {
         institution_id: institution.id,
-        user_id: userId,
+        user_id: owner_id,
       },
     });
 
