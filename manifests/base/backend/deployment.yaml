@@ -19,7 +19,7 @@ spec:
       containers:
         - name: node-api-container
           imagePullPolicy: Always
-          image: ghcr.io/antoniolago/radar-voluntario-backend:dev-1699749039 # {"$imagepolicy": "flux-system:radar-voluntario-back-img-policy"}
+          image: ghcr.io/antoniolago/radar-voluntario-backend:dev-1699749538 # {"$imagepolicy": "flux-system:radar-voluntario-back-img-policy"}
           ports:
             - containerPort: 3333 # Adjust the port if your Node.js app listens on a different port
           env:
