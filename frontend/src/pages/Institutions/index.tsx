@@ -87,7 +87,7 @@ function Institutions() {
         isLoading: isLoadingUserInstitutions,
         isError: isUserInstitutionsError
     } = InstitutionService.useGetUserInstitutions();
-    var gridHeight = '60vh';
+    var gridHeight = '60dvh';
     return (
         <Paper elevation={4} sx={{ p: 2 }}>
             {/* <Grid container spacing={1}>
@@ -158,7 +158,8 @@ function Institutions() {
                                 loading={isLoadingUserInstitutions || isUserInstitutionsError}
                                 height={gridHeight}
                                 sx={{
-                                    height: "70vh", '.MuiDataGrid-root': {
+                                    height: "70vh", 
+                                    '.MuiDataGrid-root': {
                                         height: gridHeight,
                                     },
                                 }}

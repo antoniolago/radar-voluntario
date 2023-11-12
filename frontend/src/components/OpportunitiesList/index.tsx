@@ -4,6 +4,7 @@ import { ContainerFilter } from "./styles";
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
+import { GridColDef } from "@mui/x-data-grid";
 
 const OpportunitiesList = (props: { institutionId?: number }) => {
 
@@ -35,15 +36,33 @@ const OpportunitiesList = (props: { institutionId?: number }) => {
         )
     }
 
-    const columns = [
-        { field: 'title', headerName: 'Oportunidade' },
-        { field: 'address', headerName: 'Endereço' },
-        { field: 'date', headerName: 'Data' },
+    const columns: GridColDef[] = [
+        { 
+            field: 'title', 
+            headerName: 'Oportunidade',
+            minWidth: 200,
+            flex: 0.3
+        },
+        { 
+            field: 'address', 
+            headerName: 'Endereço',
+            minWidth: 200,
+            flex: 0.2
+        },
+        { 
+            field: 'date', 
+            headerName: 'Data',
+            minWidth: 200,
+            flex: 0.2
+        },
         {
             field: 'id',
             headerName: 'Ações',
             sortable: false,
-            width: 180,
+            headerAlign: 'center',
+            align: 'center',
+            minWidth: 150,
+            flex: 0.3,
             renderCell: renderDetailsButton
         },
     ];
