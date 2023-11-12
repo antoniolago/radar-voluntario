@@ -183,7 +183,6 @@ const Layout = (props: any) => {
                                     edge="start"
                                     sx={{
                                         marginRight: 5,
-                                        // ...(open && { display: 'none' }),
                                     }}
                                 >
                                     <MenuIcon />
@@ -198,9 +197,7 @@ const Layout = (props: any) => {
                         </AppBar>
                     </div>
                 </Grid>
-                <Grid item md={open ? 2 : 1} sx={{ display: 'flex' }}
-                    className={open ? "" : "fit-content"}>
-                    {/* <Box sx={{ flexBasis: 'max-content' }}> */}
+                <Grid item xs="auto" sx={{ display: 'flex' }}>
                     <Drawer sx={{
                         // display: !open && isMobile ? 'none' : '', 
                         position: isMobile ? "absolute" : "relative",
@@ -294,19 +291,15 @@ const Layout = (props: any) => {
                             </ListItem>
                         </List>
                     </Drawer>
-                    {/* </Box> */}
 
                 </Grid>
-                <Grid item md={open ? 10 : 11} sx={{
+                <Grid item 
+                    xs sx={{
                     position: 'relative',
                     top: isMobile ? '60px' : '0',
-                    width: '100%',
                     height: '100%',
                     padding: isMapPage ? 0 : '10px'
                 }}>{props.children}</Grid>
-                {/* <DrawerHeader /> */}
-
-                {/* {!isLoadingErrorAppSettings && <AlertaReconectando />} */}
             </Grid>
         </>
     );
