@@ -19,7 +19,7 @@ spec:
       containers:
         - name: react-app-container
           imagePullPolicy: Always
-          image: ghcr.io/antoniolago/radar-voluntario-frontend:dev-1699749538 # {"$imagepolicy": "flux-system:radar-voluntario-front-img-policy"}      
+          image: ghcr.io/antoniolago/radar-voluntario-frontend:dev-1699813445 # {"$imagepolicy": "flux-system:radar-voluntario-front-img-policy"}      
           ports:
             - containerPort: 80
               hostPort: 80
