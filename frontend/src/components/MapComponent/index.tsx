@@ -23,6 +23,7 @@ import { IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ReactDOMServer, { renderToStaticMarkup } from "react-dom/server";
 import { Coordenates } from '@/types/coords';
+import { useColorScheme as useMaterialColorScheme } from '@mui/material/styles';
 
 interface MapProps {
   selectionMode?: boolean;
@@ -30,7 +31,7 @@ interface MapProps {
   setSelectedCoordenate?: any;
 }
 function MapComponent(props: MapProps) {
-  const { isDarkTheme } = useContext(TemaContext);
+  const { mode } = useMaterialColorScheme();
   const [selectionPinRef, setSelectionPinRef] = useState<Marker<any>>();
   const zoom = 14;
   const { isMobile } = TemaService.useGetIsMobile();
@@ -41,7 +42,11 @@ function MapComponent(props: MapProps) {
   const MarkerIcon = <LocationOnIcon
     sx={{
       fontSize: '40px',
-      color: isDarkTheme ? 'white' : '#000'
+      // color: mode == "dark" ? 'white' : '#000',
+      "path":{
+        stroke: 'red',
+        fill: 'darkred'
+      }
     }} />
   useEffect(() => {
     if (props.selectionMode &&
@@ -122,7 +127,11 @@ function MapComponent(props: MapProps) {
         maxWidth: '-webkit-fill-available',
         marginLeft: '55px',
         marginRight: '15px',
-      } : {}
+      } : {},
+      ".custom-marker": {
+        fill: 'darkred',
+        stroke: mode == "dark" ? 'white' : "black"
+      }
     }}>
       {!props.selectionMode && <MapSpeedDial />}
       {/* <Button
@@ -142,7 +151,7 @@ function MapComponent(props: MapProps) {
         aria-label="add to shopping cart">
         <TrackChangesIcon />
       </Button> */}
-      <div id="map" className={isDarkTheme ? "dark" : "light"} style={{ height: '100%' }}>
+      <div id="map" className={mode} style={{ height: '100%' }}>
         <MapContainer
           ref={mapRef as any}
           center={coordenadasAtuais ?? position as LatLngExpression}
