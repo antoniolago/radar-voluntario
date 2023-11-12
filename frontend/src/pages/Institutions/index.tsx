@@ -64,8 +64,9 @@ function Institutions() {
     const deleteOrganization = () => {
 
     };
-    const onView = () => {
-
+    const onView = (e: any) => {
+        console.log(e)
+        navigate(`/organizacao/${e.id}`)
     }
     function a11yProps(index: number) {
         return {
@@ -89,7 +90,7 @@ function Institutions() {
     var gridHeight = '60vh';
     return (
         <Paper elevation={4} sx={{ p: 2 }}>
-            <Grid container spacing={1}>
+            {/* <Grid container spacing={1}>
                 <Grid item xs={4} md={2}>
                     <BackButton redirectTo='/' />
                 </Grid>
@@ -98,7 +99,7 @@ function Institutions() {
                         Organizações
                     </Typography>
                 </Grid>
-            </Grid>
+            </Grid> */}
 
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                 <Tab label="Organizações" {...a11yProps(0)} />
@@ -122,7 +123,7 @@ function Institutions() {
                                     <DefaultDataGrid
                                         enablePagination={true}
                                         canView={true}
-                                        onView={() => onView()}
+                                        onView={onView}
                                         toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
                                         datagridProps={{
                                             className: isMobile ? "vertical-grid" : "",

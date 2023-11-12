@@ -279,7 +279,8 @@ export default function DefaultDataGrid(props: DataTableProps) {
     };
 
     const handleViewClick = (id: GridRowId) => () => {
-        props.onView(id)
+        var row = rows.filter((row: any) => row.id === id)[0];
+        props.onView(row)
     };
 
     const handleCancelClick = (id: GridRowId) => () => {

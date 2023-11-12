@@ -46,11 +46,11 @@ function App() {
             <Route path="/oportunidades" element={<Opportunities/>} />
             <Route path="/edicao/oportunidade/:id?" element={<OpportunityEdit/>} />
             <Route path="/oportunidade/:id" element={<OpportunityDetails/>} />
-            <Route path="/instituicao/:id" element={<InstitutionDetails/>} />
             <Route path="/voluntario/:id" element={<VolunteerDetails/>} />
             <Route path="/voluntarios" element={<Volunteers/>} />
             <Route path="/inscricoes" element={<Registrations/>} />
             <Route path="/organizacoes" element={<Institutions/>} />
+            <Route path="/organizacao/:id" element={<InstitutionDetails/>} />
           </Route>
         </Routes>
         </LocalizationProvider>
