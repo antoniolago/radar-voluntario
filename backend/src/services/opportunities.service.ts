@@ -10,32 +10,52 @@ export class OpportunitiesService {
   public index = async (institutionId: string) => {
     const opportunities = await prisma.opportunity.findMany({
       where: { institution_id: institutionId },
-      include: { address: true }
+      include: {
+        institution: true,
+        address: true,
+        users: { include: { user: true } },
+      },
     });
 
-    return opportunities;
+    return opportunities.map((opportunity) => ({
+      ...opportunity,
+      users: opportunity.users.map((user) => user),
+    }));
   };
 
   public get = async (id: string) => {
     const opportunity = await prisma.opportunity.findUnique({
       where: { id: id },
+      include: {
+        institution: true,
+        address: true,
+        users: { include: { user: true } },
+      },
     });
 
-    return opportunity;
+    if (!opportunity) return null;
+
+    return {
+      ...opportunity,
+      users: opportunity.users.map((user) => user),
+    };
   };
 
   public getPublished = async (id: string) => {
     const opportunity = await prisma.opportunity.findUnique({
       where: {
         id: id,
-        published: true
+        published: true,
       },
-      include: { institution: true, address: true },
+      include: {
+        institution: true,
+        address: true,
+        users: { include: { user: true } },
+      },
     });
 
     return opportunity;
   };
-
 
   public save = async (command: SaveCommand, userId: string) => {
     const institution = await prisma.institution.findUnique({
@@ -66,7 +86,10 @@ export class OpportunitiesService {
       },
     });
 
-    return opportunity;
+    return {
+      ...opportunity,
+      users: [],
+    }
   };
 
   public update = async (
@@ -105,14 +128,24 @@ export class OpportunitiesService {
       throw new AppError("User not authorized", 400);
     }
 
-    return await prisma.opportunity.update({
+    const updatedOpportunity = await prisma.opportunity.update({
       where: {
         id: opportunity.id,
       },
       data: {
         ...command,
       },
+      include: {
+        institution: true,
+        address: true,
+        users: { include: { user: true } },
+      }
     });
+
+    return {
+      ...updatedOpportunity,
+      users: updatedOpportunity.users.map((user) => user),
+    }
   };
 
   public delete = async (opportunityId: string, userId: string) => {
@@ -152,5 +185,5 @@ export class OpportunitiesService {
         id: opportunity.id,
       },
     });
-  }
+  };
 }
