@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import DescriptionIcon from '@mui/icons-material/Description';
 import CircularProgress from '@mui/material/CircularProgress';
 import {
     GridRowsProp,
@@ -378,7 +379,7 @@ export default function DefaultDataGrid(props: DataTableProps) {
         type: 'actions',
         headerName: 'Ações',
         width: 120,
-        align: 'left',
+        align: 'center',
         headerAlign: 'center',
         cellClassName: 'actions',
         getActions: (params: any) => {
@@ -434,19 +435,25 @@ export default function DefaultDataGrid(props: DataTableProps) {
                     onClick={handleDeleteClick(params.id)}
                     sx={{ color: 'error.main' }}
                 />);
-            if (props.canView && params.row.published)
+            var canView = false;
+            if(params.row.published != undefined){
+                canView = props?.canView && params.row.published;
+            } else {
+                canView = props?.canView ?? false;
+            }
+            if (canView)
                 icones.push(<GridActionsCellItem
-                    icon={<VisibilityIcon />}
+                    icon={<DescriptionIcon />}
                     label="Visualizar"
                     onClick={handleViewClick(params.id)}
-                    sx={{ color: '#424242' }}
+                    sx={{ color: 'primary.main' }}
                 />);
             return icones;
         },
     };
     const handleAddRowClick = () => {
         // Get the last row from the existing rows list
-        const lastRow = rows[rows.length - 1];
+        const lastRow = rows[rows?.length - 1];
 
         // Create a new row with initialized fields
         const newRow = {
