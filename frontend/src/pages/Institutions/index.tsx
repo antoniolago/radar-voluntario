@@ -28,6 +28,7 @@ function Institutions() {
             <div
                 role="tabpanel"
                 hidden={value !== index}
+                style={{padding: "0px 13px"}}
                 id={`simple-tabpanel-${index}`}
                 aria-labelledby={`simple-tab-${index}`}
                 {...other}
@@ -89,7 +90,7 @@ function Institutions() {
     } = InstitutionService.useGetUserInstitutions();
     var gridHeight = '65dvh';
     return (
-        <Paper elevation={4} sx={{ p: 2 }}>
+        <Paper elevation={4}>
             {/* <Grid container spacing={1}>
                 <Grid item xs={4} md={2}>
                     <BackButton redirectTo='/' />
