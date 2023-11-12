@@ -3,25 +3,15 @@ import Table from "../Table";
 import { ContainerFilter } from "./styles";
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { GridColDef } from "@mui/x-data-grid";
+import { Skeleton } from "@mui/joy";
+import { OpportunityService } from "@/api/opportunity";
+import DefaultDataGrid from "../DataGrid";
+import { TemaService } from "@/api/tema";
 
 const OpportunitiesList = (props: { institutionId?: number }) => {
-
-    const [search, setSearch] = useState('');
-    const [selectedInstitution, setSelectedInstitution] = useState('');
-    const [selectedCity, setSelectedCity] = useState('');
-
-    const clearFilter = () => {
-        setSearch('');
-        setSelectedInstitution('');
-        setSelectedCity('');
-    }
-
-    const goToOportunity = (id: any) => {
-        alert(id)
-    }
-
+    const { id } = useParams();
     const renderDetailsButton = (params: any) => {
         return (
             <Button
@@ -37,20 +27,20 @@ const OpportunitiesList = (props: { institutionId?: number }) => {
     }
 
     const columns: GridColDef[] = [
-        { 
-            field: 'title', 
+        {
+            field: 'title',
             headerName: 'Oportunidade',
             minWidth: 200,
             flex: 0.3
         },
-        { 
-            field: 'address', 
+        {
+            field: 'address',
             headerName: 'Endereço',
             minWidth: 200,
             flex: 0.2
         },
-        { 
-            field: 'date', 
+        {
+            field: 'date',
             headerName: 'Data',
             minWidth: 200,
             flex: 0.2
@@ -73,41 +63,47 @@ const OpportunitiesList = (props: { institutionId?: number }) => {
         { title: 'Oportunidade nome 3', address: 'Cidade/UF', date: "23/11/2023", id: 3 },
         { title: 'Oportunidade nome 4', address: 'Cidade/UF', date: "26/11/2023", id: 4 },
     ];
-    const [data, setData] = useState<any>(mockedRows);
-
-    const institutionList = [
-        { value: '1', label: 'Organização 1' },
-        { value: '2', label: 'Organização 2' },
-        { value: '3', label: 'Organização 3' },
-    ]
-
-    const cityList = [
-        { value: '1', label: 'Cidade 1' },
-        { value: '2', label: 'Cidade 2' },
-        { value: '3', label: 'Cidade 3' },
-    ]
-
-    const handleSearch = (event: any) => {
-        let value = event.target.value;
-        setSearch(event.target.value);
-
-        const fields = columns.map((column) => column.field);
-
-        let test = data.filter((item: any) => {
-            return fields.some(chave => {
-                if (typeof item[chave] === 'string' && item[chave].toLowerCase().includes(value.toLowerCase())) {
-                    console.log(true, item[chave]);
-                    return true;
-                }
-                return false;
-            });
-        })
-    }
-
-
+    const isMobile = TemaService.useGetIsMobile();
+    const { data, isLoading, isError } = OpportunityService.useGetOpportunityList(id!);
+    const gridHeight = "50dvh";
     return (
         <>
-            <Table rows={data} columns={columns} />
+            <Skeleton
+                loading={isLoading || isError}
+                height={gridHeight}
+                variant="rectangular">
+                {data != undefined &&
+                    <Box sx={{
+                        '.MuiDataGrid-root': {
+                            height: gridHeight
+                        },
+                    }}>
+                        <DefaultDataGrid
+                            enablePagination={true}
+                            // canView={true}
+                            // onView={onView}
+                            toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
+                            datagridProps={{
+                                className: isMobile ? "vertical-grid" : "",
+                                columns: columns,
+                                density: isMobile ? "compact" : "standard",
+                                rows: data as any,
+                                rowCount: data?.length,
+                                disableVirtualization: true,
+                                disableRowSelectionOnClick: true,
+                                pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
+                                initialState: {
+                                    pagination: {
+                                        paginationModel: {
+                                            pageSize: isMobile ? 5 : 25
+                                        }
+                                    }
+                                }
+                            }}
+                        />
+                    </Box>
+                }
+            </Skeleton>
         </>
 
     );

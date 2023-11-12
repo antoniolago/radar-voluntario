@@ -77,17 +77,17 @@ function Institutions() {
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
-    const { 
-        data: allInstitutions, 
-        isLoading: isLoadingAllInstitutions, 
+    const {
+        data: allInstitutions,
+        isLoading: isLoadingAllInstitutions,
         isError: isAllInstitutionsError
     } = InstitutionService.useGetInstitutions();
-    const { 
-        data: userInstitutions, 
+    const {
+        data: userInstitutions,
         isLoading: isLoadingUserInstitutions,
         isError: isUserInstitutionsError
     } = InstitutionService.useGetUserInstitutions();
-    var gridHeight = '60dvh';
+    var gridHeight = '65dvh';
     return (
         <Paper elevation={4} sx={{ p: 2 }}>
             {/* <Grid container spacing={1}>
@@ -114,36 +114,43 @@ function Institutions() {
                                 loading={isLoadingAllInstitutions || isAllInstitutionsError}
                                 height={gridHeight}
                                 sx={{
-                                    height: gridHeight, 
+                                    height: gridHeight,
                                     '.MuiDataGrid-root': {
                                         height: gridHeight,
                                     },
                                 }}
                                 variant="rectangular">
                                 {allInstitutions &&
-                                    <DefaultDataGrid
-                                        enablePagination={true}
-                                        canView={true}
-                                        onView={onView}
-                                        toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
-                                        datagridProps={{
-                                            className: isMobile ? "vertical-grid" : "",
-                                            columns: columns,
-                                            density: isMobile ? "compact" : "standard",
-                                            rows: allInstitutions as any,
-                                            rowCount: allInstitutions?.length,
-                                            disableVirtualization: true,
-                                            disableRowSelectionOnClick: true,
-                                            pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
-                                            initialState: {
-                                                pagination: {
-                                                    paginationModel: {
-                                                        pageSize: isMobile ? 5 : 25
+
+                                    <Box sx={{
+                                        '.MuiDataGrid-root': {
+                                            height: gridHeight
+                                        },
+                                    }}>
+                                        <DefaultDataGrid
+                                            enablePagination={true}
+                                            canView={true}
+                                            onView={onView}
+                                            toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
+                                            datagridProps={{
+                                                className: isMobile ? "vertical-grid" : "",
+                                                columns: columns,
+                                                density: isMobile ? "compact" : "standard",
+                                                rows: allInstitutions as any,
+                                                rowCount: allInstitutions?.length,
+                                                disableVirtualization: true,
+                                                disableRowSelectionOnClick: true,
+                                                pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
+                                                initialState: {
+                                                    pagination: {
+                                                        paginationModel: {
+                                                            pageSize: isMobile ? 5 : 25
+                                                        }
                                                     }
                                                 }
-                                            }
-                                        }}
-                                    />
+                                            }}
+                                        />
+                                    </Box>
                                 }
                             </Skeleton>
                         }
@@ -158,36 +165,43 @@ function Institutions() {
                                 loading={isLoadingUserInstitutions || isUserInstitutionsError}
                                 height={gridHeight}
                                 sx={{
-                                    height: "70vh", 
+                                    height: "70vh",
                                     '.MuiDataGrid-root': {
                                         height: gridHeight,
                                     },
                                 }}
                                 variant="rectangular">
                                 {userInstitutions &&
-                                    <DefaultDataGrid
-                                        enablePagination={true}
-                                        canView={true}
-                                        onView={onView}
-                                        toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
-                                        datagridProps={{
-                                            className: isMobile ? "vertical-grid" : "",
-                                            columns: columns,
-                                            density: isMobile ? "compact" : "standard",
-                                            rows: userInstitutions as any,
-                                            rowCount: userInstitutions?.length,
-                                            disableVirtualization: true,
-                                            disableRowSelectionOnClick: true,
-                                            pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
-                                            initialState: {
-                                                pagination: {
-                                                    paginationModel: {
-                                                        pageSize: isMobile ? 5 : 25
+
+                                    <Box sx={{
+                                        '.MuiDataGrid-root': {
+                                            height: gridHeight
+                                        },
+                                    }}>
+                                        <DefaultDataGrid
+                                            enablePagination={true}
+                                            canView={true}
+                                            onView={onView}
+                                            toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
+                                            datagridProps={{
+                                                className: isMobile ? "vertical-grid" : "",
+                                                columns: columns,
+                                                density: isMobile ? "compact" : "standard",
+                                                rows: userInstitutions as any,
+                                                rowCount: userInstitutions?.length,
+                                                disableVirtualization: true,
+                                                disableRowSelectionOnClick: true,
+                                                pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
+                                                initialState: {
+                                                    pagination: {
+                                                        paginationModel: {
+                                                            pageSize: isMobile ? 5 : 25
+                                                        }
                                                     }
                                                 }
-                                            }
-                                        }}
-                                    />
+                                            }}
+                                        />
+                                    </Box>
                                 }
                             </Skeleton>
                         }
