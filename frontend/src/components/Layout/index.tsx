@@ -297,7 +297,7 @@ const Layout = (props: any) => {
                     {/* </Box> */}
 
                 </Grid>
-                <Grid item md={open ? 9 : 11} sx={{
+                <Grid item md={open ? 10 : 11} sx={{
                     position: 'relative',
                     top: isMobile ? '60px' : '0',
                     width: '100%',
