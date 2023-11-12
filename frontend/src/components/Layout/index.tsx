@@ -51,11 +51,17 @@ export const menuItems = [
         path: '/'
     },
     {
-        id: 'institutionProfile',
-        text: 'Perfil Organização',
-        icon: <BusinessIcon />,
-        path: '/perfilInstituicao'
+        id: 'organizacoes',
+        text: 'Organizações',
+        icon: <Diversity2Icon />,
+        path: '/organizacoes'
     },
+    // {
+    //     id: 'institutionProfile',
+    //     text: 'Perfil Organização',
+    //     icon: <BusinessIcon />,
+    //     path: '/perfilInstituicao'
+    // },
     {
         id: 'opportunity',
         text: 'Oportunidades',
@@ -73,12 +79,6 @@ export const menuItems = [
         text: 'Cadastros',
         icon: <ChecklistIcon />,
         path: '/inscricoes'
-    },
-    {
-        id: 'organizacoes',
-        text: 'Organizações',
-        icon: <Diversity2Icon />,
-        path: '/organizacoes'
     },
     // {
     //     id: 'financeiro',

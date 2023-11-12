@@ -26,7 +26,7 @@ const AddressSelect = (props: IAddressSelectProps) => {
     // }, [props.selectedAddress])
     return (
         <Grid container>
-            <Grid xs={11} md={11} lg={11}>
+            <Grid xs={10} md={10} lg={11}>
                 <TextField
                     id="select-address"
                     select
@@ -45,7 +45,7 @@ const AddressSelect = (props: IAddressSelectProps) => {
                     ))}
                 </TextField>
             </Grid>
-            <Grid xs={1} md={1} lg={1}>
+            <Grid xs={2} md={2} lg={1}>
                 <IconButton
                     variant="outlined"
                     style={{ marginLeft: '10px', marginTop: '2px' }}
