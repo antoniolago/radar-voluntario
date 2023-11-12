@@ -168,7 +168,7 @@ const Layout = (props: any) => {
         <>
             <Toaster position="top-center" expand visibleToasts={9} />
             <Grid container sx={{ display: 'flex', flexWrap: 'wrap', height: '100%' }}>
-                <Grid item md={12}>
+                <Grid item xs={isMobile ? 0 : 12} md={isMobile ? 0 : 12}>
                     <div style={{ position: "relative", width: '100%', height: '60px' }}>
                         <AppBar position="fixed" open={open} sx={{ height: '60px' }}>
                             <Toolbar sx={{
@@ -206,7 +206,7 @@ const Layout = (props: any) => {
                         ".MuiPaper-root": {
                             width: '100%',
                             position: isMobile ? "absolute" : 'relative',
-                            marginTop: isMobile ? '60px' : '',
+                            marginTop: isMobile ? '60px' : '0px',
                             height: isMobile ? 'calc(100dvh - 60px)' : '100%'
                         }
                     }}

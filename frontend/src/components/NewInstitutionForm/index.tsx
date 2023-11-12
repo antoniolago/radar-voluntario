@@ -18,6 +18,7 @@ import { createPortal } from 'react-dom';
 import { IAddress } from '@/types/address';
 import { apiRoutes } from '@/routes';
 import { useApi } from '@/api';
+import { useNavigate } from 'react-router-dom';
 // import { Grid } from '@mui/joy';
 
 const NewInstitutionForm = (props: any) => {
@@ -25,7 +26,7 @@ const NewInstitutionForm = (props: any) => {
 	const api = useApi();
 	const [address, setAddress] = useState<IAddress | undefined>();
 	const inputRef = useRef(null);
-
+	const navigate = useNavigate();
 	const handleImageChange = (event: any) => {
 		const file = event.target.files[0]
 		setImage(file);
@@ -181,7 +182,12 @@ const NewInstitutionForm = (props: any) => {
 					<Button
 						color="primary"
 						variant='outlined'
-						onClick={() => props.setShowModal(false)}
+						onClick={() => {
+							if(props?.setShowModal != undefined)
+								props.setShowModal(false)
+							else
+								navigate(-1);
+						}}
 						// onClick={() => reset({})} 
 						style={{ marginRight: "10px" }}
 					>

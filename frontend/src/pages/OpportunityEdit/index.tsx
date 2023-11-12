@@ -25,7 +25,7 @@ const OpportunityEdit = () => {
     const { data: institutionData } = InstitutionService.useGetInstitution(id);
     const { mutateAsync: createOpportunity } = OpportunityService.usePostOpportunity();
     const { mutate: updateOpportunity } = OpportunityService.usePutOpportunity();
-    const { data: opportunityData } = id != undefined ? OpportunityService.useGetOpportunity(id) : { data: null };
+    const { data: opportunityData } = OpportunityService.useGetOpportunity(id!);
 
     useEffect(() => {
         if (opportunity != null) {

@@ -7,6 +7,7 @@ import { InsitutionImage, SocialMedialList } from './styles';
 import facebookLogo from '../../assets/facebook.svg';
 import instagramLogo from '../../assets/instagram.svg';
 import { InstitutionService } from '@/api/institution';
+import { Button } from '@mui/joy';
 
 function InstitutionDetails() {
     const { id } = useParams();
@@ -32,8 +33,21 @@ function InstitutionDetails() {
             </Breadcrumbs>
             {institution != undefined &&
                 <>
-                    <Typography sx={{ textAlign: "center" }} m={1} variant="h5" component="h2"> {institution.name}</Typography>
-                    <Typography sx={{ textAlign: "justify" }} mb={4} variant="body1" component="p"> {institution.about} </Typography>
+                    <Typography
+                        sx={{ textAlign: "center" }}
+                        m={1}
+                        variant="h5"
+                        component="h2">
+                        {institution.name}
+                        <Button 
+                            variant='outlined'
+                            sx={{ml: 3}}
+                            color="warning"
+                            onClick={() => navigate("edit")}>
+                            Editar
+                        </Button>
+                    </Typography>
+                    <Typography sx={{ textAlign: "justify" }} variant="body1" component="p"> {institution.about} </Typography>
 
                     <SocialMedialList>
                         {institution.facebook &&

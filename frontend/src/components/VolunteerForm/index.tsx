@@ -24,7 +24,7 @@ const VolunteerForm = () => {
     ]
 
 
-	const { data: user } = AuthService.useGetUser();
+    const { data: user } = AuthService.useGetUser();
     const onSubmit = async (event: React.SyntheticEvent) => {
         event.preventDefault();
         toast.success('Perfil atualizado');
@@ -56,8 +56,8 @@ const VolunteerForm = () => {
                         defaultValue={user?.name || "..."}
                         label="Nome"
                         variant="outlined"
-                        // inputProps={{ maxLength: 255 }} 
-                        />
+                    // inputProps={{ maxLength: 255 }} 
+                    />
                     <TextField
                         label="Sobre"
                         multiline
@@ -75,7 +75,7 @@ const VolunteerForm = () => {
                         </Select>
                     </FormControl> */}
 
-					<MaskedTextField
+                    <MaskedTextField
                         name="Telefone"
                         size="small"
                         required={true}
@@ -86,21 +86,25 @@ const VolunteerForm = () => {
                 </Grid>
                 <Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6}>
                     <Typography fontWeight={600} variant="subtitle1">Redes sociais</Typography>
-                        <TextField
-                            label="Facebook"
-                            variant="outlined"
-                            size='small'
-                            inputProps={{ maxLength: 255 }} />
+                    <TextField
+                        label="Facebook"
+                        variant="outlined"
+                        size='small'
+                        inputProps={{ maxLength: 255 }} />
 
-                        <TextField
-                            label="Instagram"
-                            variant="outlined"
-                            size='small'
-                            inputProps={{ maxLength: 255 }} />
+                    <TextField
+                        label="Instagram"
+                        variant="outlined"
+                        size='small'
+                        inputProps={{ maxLength: 255 }} />
                 </Grid>
             </Grid>
             <FooterButton>
-                <Button type="submit" size="large" color="success" variant="contained">
+                <Button
+                    type="submit"
+                    size="large"
+                    color="primary"
+                    variant="contained">
                     Salvar
                 </Button>
             </FooterButton>

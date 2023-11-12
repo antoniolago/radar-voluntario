@@ -51,6 +51,7 @@ function App() {
             <Route path="/inscricoes" element={<Registrations/>} />
             <Route path="/organizacoes" element={<Institutions/>} />
             <Route path="/organizacao/:id" element={<InstitutionDetails/>} />
+            <Route path="/organizacao/:id/edit" element={<ProfileEdit profile={'institution'}/>} />
           </Route>
         </Routes>
         </LocalizationProvider>
