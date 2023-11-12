@@ -2,6 +2,7 @@ import { IAddress } from "./address";
 import { User } from "./user";
 
 export interface Institution {
+    id: string;
     name: string;
     about: string;
     picture: string;
