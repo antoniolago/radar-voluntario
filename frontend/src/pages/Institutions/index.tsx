@@ -109,12 +109,13 @@ function Institutions() {
             <CustomTabPanel value={value} index={0}>
                 <Grid container>
                     <Grid item sx={{ width: '100%' }}>
-                        {allInstitutions &&
+                        {allInstitutions != undefined &&
                             <Skeleton
                                 loading={isLoadingAllInstitutions || isAllInstitutionsError}
                                 height={gridHeight}
                                 sx={{
-                                    height: "70vh", '.MuiDataGrid-root': {
+                                    height: gridHeight, 
+                                    '.MuiDataGrid-root': {
                                         height: gridHeight,
                                     },
                                 }}
@@ -152,7 +153,7 @@ function Institutions() {
             <CustomTabPanel value={value} index={1}>
                 <Grid container>
                     <Grid item sx={{ width: '100%' }}>
-                        {userInstitutions &&
+                        {userInstitutions != undefined &&
                             <Skeleton
                                 loading={isLoadingUserInstitutions || isUserInstitutionsError}
                                 height={gridHeight}
@@ -166,7 +167,7 @@ function Institutions() {
                                     <DefaultDataGrid
                                         enablePagination={true}
                                         canView={true}
-                                        onView={() => onView()}
+                                        onView={onView}
                                         toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
                                         datagridProps={{
                                             className: isMobile ? "vertical-grid" : "",

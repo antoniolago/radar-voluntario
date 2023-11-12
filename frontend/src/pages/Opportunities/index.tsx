@@ -17,15 +17,15 @@ const Opportunities = () => {
 
 	const [institutionId, setInstitutionId] = useState('0');
 
-    const { data: institutionData } = InstitutionService.useGetInstitution();
+    // const { data: institutionData } = InstitutionService.useGetInstitution();
 	const { data } = OpportunityService.useGetOpportunityList(institutionId);
 	const { mutateAsync: deleteOpportunity  } = OpportunityService.useDeleteOpportunity();
 
-    useEffect(() => {
-        if(institutionData != undefined && institutionData.length > 0){
-            setInstitutionId(institutionData[0]!.id!);
-        }
-    }, [institutionData])
+    // useEffect(() => {
+    //     if(institutionData != undefined && institutionData.length > 0){
+    //         setInstitutionId(institutionData[0]!.id!);
+    //     }
+    // }, [institutionData])
 
 	const deleteAccount = async (id: string, callback: any) => {
 		const response = await deleteOpportunity(id);

@@ -40,14 +40,14 @@ function MapComponent(props: MapProps) {
   const markerRef = useRef<Marker>();
   const position: any = [-30.03306, -51.23];
   const MarkerIcon = <LocationOnIcon
-    sx={{
-      fontSize: '40px',
-      // color: mode == "dark" ? 'white' : '#000',
-      "path":{
-        stroke: 'red',
-        fill: 'darkred'
-      }
-    }} />
+                        sx={{
+                          fontSize: '40px',
+                          "path":{
+                            stroke: 'red',
+                            fill: 'darkred'
+                          }
+                        }} 
+                      />
   useEffect(() => {
     if (props.selectionMode &&
       markerRef?.current != undefined) {

@@ -1,49 +1,63 @@
 import OportunitiesList from '@/components/OpportunitiesList';
-import { Grid, Typography } from '@mui/material';
+import { Breadcrumbs, Grid, Link, Paper, Typography } from '@mui/material';
 import BackButton from '@/components/BackButton';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PageContainer } from '@/styles/styles';
 import { InsitutionImage, SocialMedialList } from './styles';
 import facebookLogo from '../../assets/facebook.svg';
 import instagramLogo from '../../assets/instagram.svg';
+import { InstitutionService } from '@/api/institution';
 
 function InstitutionDetails() {
     const { id } = useParams();
+    const navigate = useNavigate();
 
-    const institution = {
-        name: 'Nome organização',
-        description: 'Sobre a organização. Lorem ipsum dolor sit amet. Ut magni debitis sit veniam enim sed adipisci vitae sit enim alias qui voluptatem eligendi ea eaque accusamus! Et facere tenetur ab esse asperiores et iste doloribus sit eius quaerat aut eaque ullam et ducimus illo quo adipisci quia. Sit maiores voluptatum et vitae quaerat ut Quis voluptatem qui illo maiores sed provident aliquid quo voluptatibus nisi At animi culpa.',
-        instagram: 'https://www.instagram.com/s',
-        facebook: 'https://www.facebook.com/s'
-    }
+    const {
+        data: institution,
+        isLoading,
+        isError
+    } = InstitutionService.useGetInstitution(id);
 
     return (
-        <PageContainer>
-            <BackButton redirectTo='/' />
-            <Typography sx={{ textAlign: "center" }} mb={4} variant="h5" component="h2"> {institution.name} {id}</Typography>
-            <Typography sx={{ textAlign: "justify" }} mb={4} variant="body1" component="p"> {institution.description} </Typography>
+        <Paper elevation={3} sx={{ p: 2 }}>
+            {/* <BackButton redirectTo='/organizacoes' /> */}
+            <Breadcrumbs aria-label="breadcrumb">
+                <Link
+                    underline="hover"
+                    color="inherit"
+                    onClick={() => navigate("/organizacoes")}>
+                    Organizações
+                </Link>
+                <Typography color="text.primary">{institution?.name}</Typography>
+            </Breadcrumbs>
+            {institution != undefined &&
+                <>
+                    <Typography sx={{ textAlign: "center" }} m={1} variant="h5" component="h2"> {institution.name}</Typography>
+                    <Typography sx={{ textAlign: "justify" }} mb={4} variant="body1" component="p"> {institution.about} </Typography>
 
-            <SocialMedialList>
-                {institution.facebook &&
-                    <a href={institution.facebook} target="_blank">
-                        <img src={facebookLogo} />
-                    </a>
-                }
+                    <SocialMedialList>
+                        {institution.facebook &&
+                            <a href={institution.facebook} target="_blank">
+                                <img src={facebookLogo} />
+                            </a>
+                        }
 
-                {institution.instagram &&
-                    <a href={institution.instagram} target="_blank">
-                        <img src={instagramLogo} />
-                    </a>
-                }
-            </SocialMedialList>
+                        {institution.instagram &&
+                            <a href={institution.instagram} target="_blank">
+                                <img src={instagramLogo} />
+                            </a>
+                        }
+                    </SocialMedialList>
+                    {/* TEMPORARY DISABLE!!! */}
+                    {/* <Grid sx={{ textAlign: "center" }} item xs={6} sm={12} md={6} >
+                        <InsitutionImage src="/preview-image.png" />
+                    </Grid> */}
 
-            <Grid sx={{ textAlign: "center" }} item xs={6} sm={12} md={6} >
-                <InsitutionImage src="/preview-image.png" />
-            </Grid>
+                    <OportunitiesList institutionId={1} />
+                </>
 
-            <OportunitiesList institutionId={1} />
-
-        </PageContainer>
+            }
+        </Paper>
     )
 }
 

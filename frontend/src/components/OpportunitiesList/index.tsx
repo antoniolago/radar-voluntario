@@ -88,63 +88,6 @@ const OpportunitiesList = (props: { institutionId?: number }) => {
 
     return (
         <>
-            {props.institutionId === undefined &&
-                <div style={{ margin: "3rem 0 2rem 0", textAlign: 'center' }}>
-                    <Typography variant="h5" component="h2"> Busque por oportunidades</Typography>
-                </div>
-            }
-            <ContainerFilter
-                noValidate
-                autoComplete="off"
-            >
-                <TextField
-                    value={search}
-                    label="Buscar"
-                    variant="outlined"
-                    onChange={(e) => {
-                        setSearch(e.target.value);
-                    }}
-                />
-                {props.institutionId === undefined &&
-                    <>
-                        <FormControl >
-                            <InputLabel>Organização</InputLabel>
-                            <Select
-                                value={selectedInstitution}
-                                label="Organização"
-                                onChange={(e) => {
-                                    setSelectedInstitution(e.target.value);
-                                }}
-                            >
-                                {institutionList.map((institution) =>
-                                    <MenuItem value={institution.value}>{institution.label}</MenuItem>
-                                )}
-                            </Select>
-                        </FormControl>
-                        <FormControl >
-                            <InputLabel>Cidade</InputLabel>
-                            <Select
-                                value={selectedCity}
-                                label="Cidade"
-                                onChange={(e) => {
-                                    setSelectedCity(e.target.value);
-                                }}
-                            >
-                                {cityList.map((city) =>
-                                    <MenuItem value={city.value}>{city.label}</MenuItem>
-                                )}
-                            </Select>
-                        </FormControl>
-                    </>
-
-                }
-                <div>
-                    <IconButton aria-label="delete" onClick={clearFilter}>
-                        <CloseIcon />
-                    </IconButton>
-                </div>
-            </ContainerFilter>
-
             <Table rows={data} columns={columns} />
         </>
 
