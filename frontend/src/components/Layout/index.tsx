@@ -198,38 +198,37 @@ const Layout = (props: any) => {
                         </AppBar>
                     </div>
                 </Grid>
-                <Grid item md={open ? 2 : 1}
-                    sx={{
-
-                        flex: 'none'
-                    }}
+                <Grid item md={open ? 3 : 1} sx={{ display: 'flex' }}
                     className={open ? "" : "fit-content"}>
                     {/* <Box sx={{ flexBasis: 'max-content' }}> */}
                     <Drawer sx={{
                         // display: !open && isMobile ? 'none' : '', 
-                        // position: isMobile ? "absolute" : "relative"
+                        position: isMobile ? "absolute" : "relative",
+                        width: isMobile ? '250px':'100%',
+                        // marginTop: isMobile ? '80px' : '0',
+                        ".MuiPaper-root": {
+                            width: '100%',
+                            position: isMobile ? "absolute" : 'relative',
+                            marginTop: isMobile ? '60px' : '',
+                            height: isMobile ? 'calc(100dvh - 60px)' : '100%'
+                        }
                     }}
                         variant={isMobile ? "temporary" : "permanent"}
                         onClose={toggleDrawer}
                         open={open}
                         elevation={14}
                     >
-                        <DrawerHeader>
+                        {/* <DrawerHeader>
                             <Typography variant="h6" noWrap sx={{ flex: 'auto' }}>
                                 <Typography sx={{ cursor: "pointer" }} onClick={() => navigate('/home')}>
                                     Radar Voluntário
-                                    {/* {appSettings?.AMBIENTE != "main" &&
-                                    <BadgeAmbiente component="span">
-                                        {appSettings?.AMBIENTE}
-                                    </BadgeAmbiente>
-                                } */}
                                 </Typography>
                             </Typography>
                             <IconButton onClick={toggleDrawer}>
                                 {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                             </IconButton>
                         </DrawerHeader>
-                        <Divider />
+                        <Divider /> */}
                         <List>
                             {menuItems.map((item) => (
                                 <div key={item.id}>
@@ -298,7 +297,9 @@ const Layout = (props: any) => {
                     {/* </Box> */}
 
                 </Grid>
-                <Grid item md={open ? 10 : 11} sx={{
+                <Grid item md={open ? 9 : 11} sx={{
+                    position: 'relative',
+                    top: isMobile ? '60px' : '0',
                     width: '100%',
                     height: '100%',
                     padding: isMapPage ? 0 : '10px'
