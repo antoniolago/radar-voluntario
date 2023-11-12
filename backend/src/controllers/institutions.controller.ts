@@ -4,6 +4,14 @@ import { InstitutionsService } from "../services/institutions.service";
 export class InstitutionsController {
   constructor(private institutionsService: InstitutionsService) {}
 
+  public get = async (request: Request, response: Response) => {
+    const { id } = request.params;
+
+    const institution = await this.institutionsService.show(id);
+
+    return response.json(institution);
+  }
+
   public index = async (request: Request, response: Response) => {
     const institutions = await this.institutionsService.index();
 

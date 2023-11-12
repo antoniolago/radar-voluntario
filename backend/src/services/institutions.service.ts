@@ -19,6 +19,28 @@ type AddressSaveCommand = Omit<
 >;
 
 export class InstitutionsService {
+
+  public show = async (id: string) => {
+    const institution = await prisma.institution.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        adresses: true,
+      },
+    });
+
+    if (!institution) {
+      throw new AppError("Institution not found", 404);
+    }
+
+    return {
+      ...institution,
+      address: institution.adresses.find((address) => address.primary),
+      adresses: undefined,
+    }
+  }
+
   public index = async () => {
     const institutions = await prisma.institution.findMany({
       include: { adresses: true },

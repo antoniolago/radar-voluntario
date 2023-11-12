@@ -34,6 +34,7 @@ app.use(bodyParser.json());
 const institutionsService = new InstitutionsService();
 const institutionsController = new InstitutionsController(institutionsService);
 
+app.get("/api/institutions/:id?", institutionsController.get);
 app.post("/api/institutions", authMiddleware, institutionsController.save);
 app.put("/api/institutions/:id", authMiddleware, institutionsController.update);
 app.get("/api/institutions", institutionsController.index);
