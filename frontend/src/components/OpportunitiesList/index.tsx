@@ -5,13 +5,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from "react";
 import { Link, useParams } from 'react-router-dom';
 import { GridColDef } from "@mui/x-data-grid";
-import { Skeleton } from "@mui/joy";
+import { Modal, ModalClose, ModalDialog, Skeleton } from "@mui/joy";
 import { OpportunityService } from "@/api/opportunity";
 import DefaultDataGrid from "../DataGrid";
 import { TemaService } from "@/api/tema";
 
 const OpportunitiesList = (props: { institutionId?: number }) => {
     const { id } = useParams();
+    const [openAddActivityModal, setOpenAddActivityModal] = useState(false);
     const renderDetailsButton = (params: any) => {
         return (
             <Button
@@ -82,7 +83,13 @@ const OpportunitiesList = (props: { institutionId?: number }) => {
                             enablePagination={true}
                             // canView={true}
                             // onView={onView}
-                            toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
+                            toolbarProps={{
+                                showQuickFilter: true,
+                                showFilterButton: true,
+                                addNewRowLabel: "Adicionar Atividade"
+                            }}
+                            onInsert={() => setOpenAddActivityModal(true)}
+                            canInsert={true}
                             datagridProps={{
                                 className: isMobile ? "vertical-grid" : "",
                                 columns: columns,
@@ -103,7 +110,21 @@ const OpportunitiesList = (props: { institutionId?: number }) => {
                         />
                     </Box>
                 }
+                <Modal
+                    open={openAddActivityModal}
+                    onClose={() => setOpenAddActivityModal(false)}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <ModalDialog sx={{ overflowY: 'auto' }}>
+                        <ModalClose />
+                        <Typography> Nova Organização:</Typography>
+                        <br />
+                        {/* <NewInstitutionForm setShowModal={setOpenAddActivityModal} /> */}
+                    </ModalDialog>
+                </Modal>
             </Skeleton>
+
         </>
 
     );

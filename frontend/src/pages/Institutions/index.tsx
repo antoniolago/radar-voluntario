@@ -9,13 +9,15 @@ import DefaultDataGrid from '@/components/DataGrid';
 import { TemaService } from '@/api/tema';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { InstitutionService } from '@/api/institution';
-import { Skeleton } from '@mui/joy';
+import { Modal, ModalClose, ModalDialog, Skeleton } from '@mui/joy';
 import { useState } from 'react';
+import NewInstitutionForm from '@/components/NewInstitutionForm';
 
 function Institutions() {
     const [value, setValue] = useState(0);
     const { id } = useParams();
-
+    const [openAddOrganizationModal, setOpenAddOrganizationModal] = useState(false);
+  
     interface TabPanelProps {
         children?: React.ReactNode;
         index: number;
@@ -28,7 +30,7 @@ function Institutions() {
             <div
                 role="tabpanel"
                 hidden={value !== index}
-                style={{padding: "0px 13px"}}
+                style={{ padding: "0px 13px" }}
                 id={`simple-tabpanel-${index}`}
                 aria-labelledby={`simple-tab-${index}`}
                 {...other}
@@ -55,11 +57,25 @@ function Institutions() {
             headerName: 'Sobre',
             flex: 0.4,
             minWidth: 200,
-            align: "center",
-            headerAlign: "center"
+            align: "left",
+            headerAlign: "left"
         }
     ];
 
+    const style = {
+        position: 'absolute' as 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '90%',
+        bgcolor: 'background.paper',
+        border: '1px solid #4a4a4a',
+        borderRadius: '3px',
+        boxShadow: 24,
+        p: 4,
+        height: '70dvh',
+        overflowY: 'auto'
+      };
     const navigate = useNavigate()
     const { isMobile } = TemaService.useGetIsMobile();
     const deleteOrganization = () => {
@@ -183,7 +199,13 @@ function Institutions() {
                                             enablePagination={true}
                                             canView={true}
                                             onView={onView}
-                                            toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
+                                            onInsert={() => setOpenAddOrganizationModal(true)}
+                                            canInsert={true}
+                                            toolbarProps={{
+                                                showQuickFilter: true,
+                                                showFilterButton: true,
+                                                addNewRowLabel: "Adicionar Organização"
+                                            }}
                                             datagridProps={{
                                                 className: isMobile ? "vertical-grid" : "",
                                                 columns: columns,
@@ -204,6 +226,20 @@ function Institutions() {
                                         />
                                     </Box>
                                 }
+
+                                <Modal
+                                    open={openAddOrganizationModal}
+                                    onClose={() => setOpenAddOrganizationModal(false)}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                >
+                                    <ModalDialog sx={{ overflowY: 'auto' }}>
+                                        <ModalClose />
+                                        <Typography> Nova Organização:</Typography>
+                                        <br />
+                                        <NewInstitutionForm setShowModal={setOpenAddOrganizationModal} />
+                                    </ModalDialog>
+                                </Modal>
                             </Skeleton>
                         }
                     </Grid>

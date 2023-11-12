@@ -133,7 +133,7 @@ function MapComponent(props: MapProps) {
         stroke: mode == "dark" ? 'white' : "black"
       }
     }}>
-      {!props.selectionMode && <MapSpeedDial />}
+      {/* {!props.selectionMode && <MapSpeedDial />} */}
       {/* <Button
         color="warning"
         variant="contained"

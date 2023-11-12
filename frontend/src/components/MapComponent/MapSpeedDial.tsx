@@ -22,18 +22,11 @@ export default function MapSpeedDial() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [openAddOrganizationModal, setOpenAddOrganizationModal] = React.useState(false);
-  const [openAddActivityModal, setOpenAddActivityModal] = React.useState(false);
   const actions = [
     {
       icon: <FileCopyIcon />,
       name: 'Criar atividade',
-      onClick: () => { setOpenAddActivityModal(true) }
-    },
-    {
-      icon: <Diversity2Icon />,
-      name: 'Criar organização',
-      onClick: () => { setOpenAddOrganizationModal(true) }
+      // onClick: () => { setOpenAddActivityModal(true) }
     },
   ];
 
@@ -54,19 +47,6 @@ export default function MapSpeedDial() {
 
   return (
     <>
-      <Modal
-        open={openAddOrganizationModal}
-        onClose={() => setOpenAddOrganizationModal(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <ModalDialog sx={{overflowY: 'auto'}}>
-          <ModalClose />
-          <Typography> Nova Organização:</Typography>
-          <br />
-          <NewInstitutionForm setShowModal={setOpenAddOrganizationModal}/>
-        </ModalDialog>
-      </Modal>
       <Backdrop open={open} />
       <SpeedDial
         ariaLabel="SpeedDial"
@@ -84,7 +64,7 @@ export default function MapSpeedDial() {
             tooltipOpen
             onClick={() => {
               handleClose();
-              action?.onClick();
+              // action?.onClick();
             }}
           />
         ))}

@@ -13,16 +13,25 @@ export interface CustomToolbarProps {
 export function CustomToolbar(props: CustomToolbarProps) {
     return (
         <GridToolbarContainer>
-            {props.canInsert &&
-                // @ts-ignore
-                <Button color="primary" startIcon={<AddIcon />} onClick={() => props.handleAddRowClick()}>
-                    {props.addNewRowLabel}
-                </Button>
-            }
             {props.showQuickFilter && <GridToolbarQuickFilter />}
 
             {props.showFilterButton && <GridToolbarFilterButton />}
 
+            {props.canInsert &&
+                // @ts-ignore
+                <Button
+                    color="success"
+                    startIcon={<AddIcon />}
+                    // variant="outlined"
+                    // sx={{m: '0 15px'}}
+                    onClick={() => {
+                        if (props.handleAddRowClick != undefined)
+                            props?.handleAddRowClick()
+                    }}
+                >
+                    {props.addNewRowLabel}
+                </Button>
+            }
             {/* <GridToolbarExport /> */}
             {/* <GridToolbarColumnsButton />
             <GridToolbarDensitySelector /> */}

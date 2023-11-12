@@ -54,6 +54,7 @@ import { AxiosResponse } from 'axios';
 export type DataTableProps = {
     onSave?: any;
     onDelete?: any;
+    onInsert?: any;
     onEdit?: any;
     onView?: any;
     tituloDeleteDialog?: string;
@@ -485,7 +486,11 @@ export default function DefaultDataGrid(props: DataTableProps) {
     // };
     var columns = props.datagridProps.columns;
     var canInsert = props.canInsert;
-    var toolbarProps = { ...props.toolbarProps, handleAddRowClick, canInsert };
+    var toolbarProps = { 
+        ...props.toolbarProps, 
+        handleAddRowClick: props?.onInsert != undefined ? 
+                                props.onInsert : handleAddRowClick, 
+        canInsert };
     return (
         <Paper
             elevation={1}
@@ -509,8 +514,8 @@ export default function DefaultDataGrid(props: DataTableProps) {
                     '.MuiDataGrid-footerContainer': {
                         display: props.enablePagination ? 'inline-flex' : 'none'
                     },
-                    '.MuiTablePagination-selectLabel': { marginBottom: '0px !important' },
-                    '.MuiTablePagination-displayedRows': { marginBottom: '0px !important' },
+                    '.MuiTablePagination-selectLabel': { margin: '0px !important' },
+                    '.MuiTablePagination-displayedRows': { margin: '0px !important' },
                 }}
                 columns={shouldShowActions || props.canInsert ? [...props.datagridProps.columns, actions] : props.datagridProps.columns}
                 editMode="row"

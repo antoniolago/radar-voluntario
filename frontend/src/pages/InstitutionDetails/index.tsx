@@ -8,6 +8,7 @@ import facebookLogo from '../../assets/facebook.svg';
 import instagramLogo from '../../assets/instagram.svg';
 import { InstitutionService } from '@/api/institution';
 import { Button } from '@mui/joy';
+import { AuthService } from '@/api/auth';
 
 function InstitutionDetails() {
     const { id } = useParams();
@@ -18,7 +19,8 @@ function InstitutionDetails() {
         isLoading,
         isError
     } = InstitutionService.useGetInstitution(id);
-
+    const { data: curUser } = AuthService.useGetUser();
+    const isUserOwner = institution?.owner_id == curUser?.id
     return (
         <Paper elevation={3} sx={{ p: 2 }}>
             {/* <BackButton redirectTo='/organizacoes' /> */}
@@ -39,13 +41,15 @@ function InstitutionDetails() {
                         variant="h5"
                         component="h2">
                         {institution.name}
-                        <Button 
-                            variant='outlined'
-                            sx={{ml: 3}}
-                            color="warning"
-                            onClick={() => navigate("edit")}>
-                            Editar
-                        </Button>
+                        {isUserOwner &&
+                            <Button
+                                variant='outlined'
+                                sx={{ ml: 3 }}
+                                color="warning"
+                                onClick={() => navigate("edit")}>
+                                Editar
+                            </Button>
+                        }
                     </Typography>
                     <Typography sx={{ textAlign: "justify" }} variant="body1" component="p"> {institution.about} </Typography>
 
