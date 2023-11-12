@@ -198,7 +198,7 @@ const Layout = (props: any) => {
                         </AppBar>
                     </div>
                 </Grid>
-                <Grid item md={open ? 3 : 1} sx={{ display: 'flex' }}
+                <Grid item md={open ? 2 : 1} sx={{ display: 'flex' }}
                     className={open ? "" : "fit-content"}>
                     {/* <Box sx={{ flexBasis: 'max-content' }}> */}
                     <Drawer sx={{
