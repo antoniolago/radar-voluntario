@@ -24,7 +24,7 @@ const materialTheme = materialExtendTheme({
 			},
 		},
 	}
-});
+}, ptBR);
 
 export const Tema = (props: any) => {
 	const [width, setWidth] = useState<number>(window.innerWidth);
