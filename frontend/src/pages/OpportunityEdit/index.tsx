@@ -14,7 +14,10 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import { Box, Button } from '@mui/joy';
 
-const OpportunityEdit = () => {
+interface OpportunityEditProps {
+    setShowModal?: any;
+}
+const OpportunityEdit = (props: OpportunityEditProps) => {
     const { id } = useParams();
     const [onlineOpportunity, setOnlineOpportunity] = useState(false);
     const [addressId, setAddressId] = useState('');
@@ -186,7 +189,7 @@ const OpportunityEdit = () => {
                     </Grid>
                     <Grid item xs={6}>
                         <FormControl sx={{ padding: "8.5px 14px" }}>
-                        <FormControlLabel control={<Switch {...register('published')} />} label="Publicar atividade" />
+                            <FormControlLabel control={<Switch {...register('published')} />} label="Publicar atividade" />
                         </FormControl>
                     </Grid>
                     <Grid item xs={12}>
@@ -197,18 +200,26 @@ const OpportunityEdit = () => {
 
                     </Grid>
                 </Grid>
-                <FooterButton>
-                    <Button 
-                        type="button" 
-                        color="primary" 
-                        variant="outlined"
-                        sx={{mr: 2}}>
-                        Cancelar
-                    </Button>
-                    <Button type="submit" color="primary" variant="solid">
-                        Salvar
-                    </Button>
-                </FooterButton>
+
+                <Grid>
+                    {/* <pre>{JSON.stringify(getValues(), null, 4)}</pre> */}
+                    <Grid style={{ textAlign: "right" }}>
+                        <Button
+                            color="primary"
+                            variant='outlined'
+                            onClick={() => props?.setShowModal(false)}
+                            // onClick={() => reset({})} 
+                            style={{ marginRight: "10px" }}
+                        >
+                            CANCELAR
+                        </Button>
+                        <Button variant='solid' type="submit"
+                            form="form-new-address"
+                            id="form-new-address-btn">
+                            SALVAR
+                        </Button>
+                    </Grid>
+                </Grid>
             </FormContainer>
         </Box >
     );

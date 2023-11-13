@@ -121,7 +121,7 @@ const OpportunitiesList = (props: { institutionId?: number }) => {
                         <ModalClose />
                         <Typography> Nova Oportunidade:</Typography>
                         <br />
-                        <OpportunityEdit />
+                        <OpportunityEdit setShowModal={() => setOpenAddActivityModal(false)} />
                     </ModalDialog>
                 </Modal>
             </Skeleton>

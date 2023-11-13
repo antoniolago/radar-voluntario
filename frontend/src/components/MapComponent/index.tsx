@@ -29,6 +29,7 @@ interface MapProps {
   selectionMode?: boolean;
   position?: LatLngExpression | undefined;
   setSelectedCoordenate?: any;
+  previewMode?: boolean;
 }
 function MapComponent(props: MapProps) {
   const { mode } = useMaterialColorScheme();
@@ -40,14 +41,32 @@ function MapComponent(props: MapProps) {
   const markerRef = useRef<Marker>();
   const position: any = [-30.03306, -51.23];
   const MarkerIcon = <LocationOnIcon
-                        sx={{
-                          fontSize: '40px',
-                          "path":{
-                            stroke: 'red',
-                            fill: 'darkred'
-                          }
-                        }} 
-                      />
+    sx={{
+      fontSize: '40px',
+      "path": {
+        stroke: 'red',
+        fill: 'darkred'
+      }
+    }}
+  />
+
+  useEffect(() => {
+    if (props.previewMode && props.position != undefined &&
+      mapRef?.current != undefined) {
+      var t = L.marker(props.position, {
+        riseOnHover: true, draggable: false,
+        icon: L.divIcon(
+          {
+            html: renderToStaticMarkup(MarkerIcon) as any,
+            className: 'custom-marker',
+            iconSize: [40, 40]
+          }
+        ),
+      })
+      t.addTo(mapRef?.current as any);
+      mapRef.current.flyTo(props.position)
+    }
+  }, [mapRef?.current, position])
   useEffect(() => {
     if (props.selectionMode &&
       markerRef?.current != undefined) {
@@ -158,7 +177,9 @@ function MapComponent(props: MapProps) {
           zoom={zoom}
           scrollWheelZoom={true}
           style={{ height: "100%", width: '100%' }} >
-          {mapRef.current && !props.selectionMode && <SearchBar map={mapRef.current} />}
+          {mapRef.current && !props.selectionMode && !props.previewMode &&
+            <SearchBar map={mapRef.current} />
+          }
           <TileLayer
             detectRetina={true}
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

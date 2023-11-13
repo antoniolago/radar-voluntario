@@ -7,6 +7,9 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import AddressForm from './AddressForm';
 import { createPortal } from 'react-dom';
 import { IAddress } from '@/types/address';
+import { InstitutionService } from '@/api/institution';
+import { useParams } from 'react-router-dom';
+import MapComponent from '../MapComponent';
 interface IAddressSelectProps {
     context: "newOrganization" | "newActivity";
     addreses?: IAddress[];
@@ -14,16 +17,20 @@ interface IAddressSelectProps {
     selectedAddress?: IAddress;
 }
 const AddressSelect = (props: IAddressSelectProps) => {
+    const [selectedAddress, setSelectedAddress] = React.useState<IAddress>()
     const [openNewAddressModal, setOpenNewAddressModal] = React.useState(false);
-    const [addresses, setAddresses] = React.useState<IAddress[]>([]);
+    // const [addresses, setAddresses] = React.useState<IAddress[]>([]);
+    const { id } = useParams();
+    const { data: addresses, refetch } = InstitutionService.useGetInstitutionAddresses(id);
     React.useEffect(() => {
-
-    }, [addresses]);
+        if (id != undefined) refetch();
+    }, [id]);
     // React.useEffect(() => {
     //     if(props.selectedAddress){
     //         setAddresses([props.selectedAddress])
     //     }
     // }, [props.selectedAddress])
+    React.useEffect
     return (
         <Grid container>
             <Grid xs={10} md={10} lg={11}>
@@ -33,12 +40,17 @@ const AddressSelect = (props: IAddressSelectProps) => {
                     size="small"
                     disabled={props.context == "newOrganization"}
                     fullWidth
+                    onChange={(e: any) => {
+                        var address = addresses?.filter(
+                            (address) => address.id === e.target.value)[0]
+                        setSelectedAddress(address);
+                    }}
                     label={props.selectedAddress?.name || "Endereço"}
                     defaultValue=""
                     helperText={props.context == "newOrganization" ?
                         "Adicione um endereço no botão ao lado do campo" : "Caso o endereço desejado não exista na lista, o adicione."}
                 >
-                    {addresses.map((address: IAddress) => (
+                    {addresses?.map((address: IAddress) => (
                         <MenuItem key={address.id} value={address.id}>
                             {address.name}
                         </MenuItem>
@@ -78,6 +90,18 @@ const AddressSelect = (props: IAddressSelectProps) => {
                     document.body
                 )}
             </Grid>
+            {selectedAddress != undefined &&
+                <Grid xs={12} sx={{ height: '150px', mb: 3 }}>
+                    <MapComponent
+                        previewMode
+                        position={
+                            [
+                                selectedAddress?.latitude,
+                                selectedAddress?.longitude
+                            ]
+                        }
+                    />
+                </Grid>}
         </Grid>
     );
 }

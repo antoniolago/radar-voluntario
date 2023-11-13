@@ -40,7 +40,7 @@ app.put("/api/institution/:id", authMiddleware, institutionsController.update);
 app.get("/api/institutions", institutionsController.index);
 app.get("/api/institutions/me", authMiddleware, institutionsController.me);
 app.get(
-  "/api/institutions/:id/addresses",
+  "/api/institution/:id/addresses",
   authMiddleware,
   institutionsController.getAddresses
 );

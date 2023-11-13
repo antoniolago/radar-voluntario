@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 import {  useApi } from '@/api';
 import { UseQueryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Institution } from '@/types/institution';
+import { IAddress } from '@/types/address';
 
 
 const useGetInstitution = (id: any) => {
@@ -45,8 +46,23 @@ const useGetInstitution = (id: any) => {
     return { ...context, data: context.data?.data };
   }
 
+  const useGetInstitutionAddresses = (id: string | undefined) => {
+    const api = useApi();
+    var queryOptions: UseQueryOptions<AxiosResponse<IAddress[]>, Error, AxiosResponse<IAddress[]>, string[]> = {
+      retry: false,
+      queryFn: () => api.get(`institution/${id}/addresses`),
+      staleTime: Infinity,
+      enabled: false,
+      retryOnMount: false,
+      queryKey: ['user-institutions']
+    };
+    const context = useQuery(queryOptions)
+    return { ...context, data: context.data?.data };
+  }
+
   export const InstitutionService = {
     useGetInstitution,
     useGetInstitutions,
-    useGetUserInstitutions
+    useGetUserInstitutions,
+    useGetInstitutionAddresses
   }
