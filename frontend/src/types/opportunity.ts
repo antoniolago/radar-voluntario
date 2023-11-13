@@ -9,8 +9,8 @@ export interface Opportunity {
     published: boolean,
     online: boolean,
     address_id: string
-    start_date: any,
-    end_date: any,
+    start_date: Date,
+    end_date: Date,
     institution?: any,
     address?: IAddress,
 }

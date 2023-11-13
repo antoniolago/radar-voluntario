@@ -11,7 +11,7 @@ import DefaultDataGrid from "../DataGrid";
 import { TemaService } from "@/api/tema";
 import OpportunityEdit from "@/pages/OpportunityEdit";
 
-const OpportunitiesList = (props: { institutionId?: number }) => {
+const OpportunitiesList = (props: { institutionId?: number, isUserOwner?: boolean }) => {
     const { id } = useParams();
     const [openAddActivityModal, setOpenAddActivityModal] = useState(false);
     const renderDetailsButton = (params: any) => {
@@ -90,7 +90,7 @@ const OpportunitiesList = (props: { institutionId?: number }) => {
                                 addNewRowLabel: "Adicionar Atividade"
                             }}
                             onInsert={() => setOpenAddActivityModal(true)}
-                            canInsert={true}
+                            canInsert={props.isUserOwner == true}
                             datagridProps={{
                                 className: isMobile ? "vertical-grid" : "",
                                 columns: columns,

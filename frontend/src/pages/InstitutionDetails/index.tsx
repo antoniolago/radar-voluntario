@@ -71,7 +71,7 @@ function InstitutionDetails() {
                         <InsitutionImage src="/preview-image.png" />
                     </Grid> */}
 
-                    <OportunitiesList institutionId={1} />
+                    <OportunitiesList isUserOwner={isUserOwner} institutionId={1} />
                 </>
 
             }

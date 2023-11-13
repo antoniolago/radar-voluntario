@@ -33,14 +33,15 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
 
     useEffect(() => {
         if (opportunity != null) {
-            setValue('id', opportunity.id);
-            setValue('name', opportunity.name);
-            setValue('description', opportunity.description);
-            setValue('vacancies', opportunity.vacancies);
-            setValue('start_date', opportunity.start_date);
-            setValue('end_date', opportunity.end_date);
-            setValue('online', opportunity.online);
-            setValue('published', opportunity.published);
+            reset(opportunity);
+            // setValue('id', opportunity.id);
+            // setValue('name', opportunity.name);
+            // setValue('description', opportunity.description);
+            // setValue('vacancies', opportunity.vacancies);
+            // setValue('start_date', opportunity.start_date);
+            // setValue('end_date', opportunity.end_date);
+            // setValue('online', opportunity.online);
+            // setValue('published', opportunity.published);
 
             setStartDate(dayjs(opportunity.start_date));
             setEndDate(dayjs(opportunity.end_date));

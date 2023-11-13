@@ -51,7 +51,7 @@ const NewInstitutionForm = (props: any) => {
 		// resolver: yupResolver(validationSchema) as Resolver<AtualizacaoCadastralType, object>
 	});
 	React.useEffect(() => {
-		const debug = true;
+		const debug = false;
 		if(debug)
 			reset({
 				about: 'About........................',

@@ -64,7 +64,7 @@ function MapComponent(props: MapProps) {
         ),
       })
       t.addTo(mapRef?.current as any);
-      mapRef.current.flyTo(props.position)
+      mapRef.current.flyTo(props.position, 16)
     }
   }, [mapRef?.current, position])
   useEffect(() => {
@@ -175,6 +175,7 @@ function MapComponent(props: MapProps) {
           ref={mapRef as any}
           center={coordenadasAtuais ?? position as LatLngExpression}
           zoom={zoom}
+          maxZoom={25}
           scrollWheelZoom={true}
           style={{ height: "100%", width: '100%' }} >
           {mapRef.current && !props.selectionMode && !props.previewMode &&

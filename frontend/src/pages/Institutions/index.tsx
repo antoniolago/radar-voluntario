@@ -12,12 +12,13 @@ import { InstitutionService } from '@/api/institution';
 import { Modal, ModalClose, ModalDialog, Skeleton } from '@mui/joy';
 import { useState } from 'react';
 import NewInstitutionForm from '@/components/NewInstitutionForm';
+import { AuthService } from '@/api/auth';
 
 function Institutions() {
     const [value, setValue] = useState(0);
     const { id } = useParams();
     const [openAddOrganizationModal, setOpenAddOrganizationModal] = useState(false);
-  
+
     interface TabPanelProps {
         children?: React.ReactNode;
         index: number;
@@ -43,6 +44,8 @@ function Institutions() {
             </div>
         );
     }
+
+    const { data: curUser } = AuthService.useGetUser();
     const columns: GridColDef[] = [
         {
             field: 'name',
@@ -75,7 +78,7 @@ function Institutions() {
         p: 4,
         height: '70dvh',
         overflowY: 'auto'
-      };
+    };
     const navigate = useNavigate()
     const { isMobile } = TemaService.useGetIsMobile();
     const deleteOrganization = () => {
@@ -120,7 +123,7 @@ function Institutions() {
 
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                 <Tab label="Organizações" {...a11yProps(0)} />
-                <Tab label="Minhas Organizações" {...a11yProps(1)} />
+                <Tab disabled={curUser == undefined} label="Minhas Organizações" {...a11yProps(1)} />
                 {/* <Tab label="Conta" {...a11yProps(1)} /> */}
             </Tabs>
             <CustomTabPanel value={value} index={0}>
@@ -177,71 +180,69 @@ function Institutions() {
             <CustomTabPanel value={value} index={1}>
                 <Grid container>
                     <Grid item sx={{ width: '100%' }}>
-                        {userInstitutions != undefined &&
-                            <Skeleton
-                                loading={isLoadingUserInstitutions || isUserInstitutionsError}
-                                height={gridHeight}
-                                sx={{
-                                    height: "70vh",
-                                    '.MuiDataGrid-root': {
-                                        height: gridHeight,
-                                    },
-                                }}
-                                variant="rectangular">
-                                {userInstitutions &&
+                        <Skeleton
+                            loading={isLoadingUserInstitutions || isUserInstitutionsError}
+                            height={gridHeight}
+                            sx={{
+                                height: "70vh",
+                                '.MuiDataGrid-root': {
+                                    height: gridHeight,
+                                },
+                            }}
+                            variant="rectangular">
+                            {userInstitutions  != undefined &&
 
-                                    <Box sx={{
-                                        '.MuiDataGrid-root': {
-                                            height: gridHeight
-                                        },
-                                    }}>
-                                        <DefaultDataGrid
-                                            enablePagination={true}
-                                            canView={true}
-                                            onView={onView}
-                                            onInsert={() => setOpenAddOrganizationModal(true)}
-                                            canInsert={true}
-                                            toolbarProps={{
-                                                showQuickFilter: true,
-                                                showFilterButton: true,
-                                                addNewRowLabel: "Adicionar Organização"
-                                            }}
-                                            datagridProps={{
-                                                className: isMobile ? "vertical-grid" : "",
-                                                columns: columns,
-                                                density: isMobile ? "compact" : "standard",
-                                                rows: userInstitutions as any,
-                                                rowCount: userInstitutions?.length,
-                                                disableVirtualization: true,
-                                                disableRowSelectionOnClick: true,
-                                                pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
-                                                initialState: {
-                                                    pagination: {
-                                                        paginationModel: {
-                                                            pageSize: isMobile ? 5 : 25
-                                                        }
+                                <Box sx={{
+                                    '.MuiDataGrid-root': {
+                                        height: gridHeight
+                                    },
+                                }}>
+                                    <DefaultDataGrid
+                                        enablePagination={true}
+                                        canView={true}
+                                        onView={onView}
+                                        onInsert={() => setOpenAddOrganizationModal(true)}
+                                        canInsert={true}
+                                        toolbarProps={{
+                                            showQuickFilter: true,
+                                            showFilterButton: true,
+                                            addNewRowLabel: "Adicionar Organização"
+                                        }}
+                                        datagridProps={{
+                                            className: isMobile ? "vertical-grid" : "",
+                                            columns: columns,
+                                            density: isMobile ? "compact" : "standard",
+                                            rows: userInstitutions as any,
+                                            rowCount: userInstitutions?.length,
+                                            disableVirtualization: true,
+                                            disableRowSelectionOnClick: true,
+                                            pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
+                                            initialState: {
+                                                pagination: {
+                                                    paginationModel: {
+                                                        pageSize: isMobile ? 5 : 25
                                                     }
                                                 }
-                                            }}
-                                        />
-                                    </Box>
-                                }
+                                            }
+                                        }}
+                                    />
+                                </Box>
+                            }
 
-                                <Modal
-                                    open={openAddOrganizationModal}
-                                    onClose={() => setOpenAddOrganizationModal(false)}
-                                    aria-labelledby="modal-modal-title"
-                                    aria-describedby="modal-modal-description"
-                                >
-                                    <ModalDialog sx={{ overflowY: 'auto' }}>
-                                        <ModalClose />
-                                        <Typography> Nova Organização:</Typography>
-                                        <br />
-                                        <NewInstitutionForm setShowModal={setOpenAddOrganizationModal} />
-                                    </ModalDialog>
-                                </Modal>
-                            </Skeleton>
-                        }
+                            <Modal
+                                open={openAddOrganizationModal}
+                                onClose={() => setOpenAddOrganizationModal(false)}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                            >
+                                <ModalDialog sx={{ overflowY: 'auto' }}>
+                                    <ModalClose />
+                                    <Typography> Nova Organização:</Typography>
+                                    <br />
+                                    <NewInstitutionForm setShowModal={setOpenAddOrganizationModal} />
+                                </ModalDialog>
+                            </Modal>
+                        </Skeleton>
                     </Grid>
                 </Grid>
             </CustomTabPanel>
