@@ -132,19 +132,19 @@ const AddressForm = (props: IAddressFormProps) => {
         }
         request.latitude = selectedCoordenate.latitude;
         request.longitude = selectedCoordenate.longitude;
-        console.log(request)
         if (props.context == "newActivity") {
             api.post("address").then(
                 (res: AxiosResponse) => {
                     toast.success("Endereço adicionado com sucesso")
+                    props.setShowModal(false);
                 }
             )
         } else {
             props.setAddress(request);
 
             toast.success("Endereço adicionado com sucesso")
+            props.setShowModal(false);
         }
-        // props.setShowModal(false);
     }
     return (
         <Box

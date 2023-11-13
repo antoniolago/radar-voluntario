@@ -121,6 +121,7 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                             {...register("name")}
                             name="name"
                             required
+                            size='small'
                             fullWidth
                             label="Título"
                             variant="outlined"
@@ -134,6 +135,7 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                             name="vacancies"
                             label="Nr. de voluntários"
                             required
+                            size='small'
                             InputLabelProps={{ shrink: true }}
                             type="number"
                         />
@@ -143,11 +145,12 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                         <TextField
                             {...register("description")}
                             name="description"
+                            size='small'
                             label="Descrição"
                             multiline
                             required
                             fullWidth
-                            rows={5}
+                            rows={3}
                             InputLabelProps={{ shrink: true }}
                             inputProps={{ maxLength: 1024 }} />
 

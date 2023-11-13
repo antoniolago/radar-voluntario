@@ -92,6 +92,7 @@ const NewInstitutionForm = (props: any) => {
 		api.post("institutions", data)
 		.then((res: any) => {
 			toast.success('Instituição criada com sucesso.');
+			props.setShowModal(false);
 			console.log(res);
 		});
 	}
