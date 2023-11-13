@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Paper, Select, Switch, TextField, Typography } from '@mui/material';
+import { FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Paper, Select, Switch, TextField, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { FooterButton, FormContainer, InputGroup } from '../ProfileEdit/styles';
 import { toast } from 'sonner';
@@ -12,6 +12,7 @@ import { InstitutionService } from '@/api/institution';
 import AddressSelect from '@/components/AddressSelect';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs, { Dayjs } from 'dayjs';
+import { Box, Button } from '@mui/joy';
 
 const OpportunityEdit = () => {
     const { id } = useParams();
@@ -102,21 +103,17 @@ const OpportunityEdit = () => {
     };
 
     return (
-        <Paper elevation={2} >
-            <BackButton redirectTo="/oportunidades" />
-
-
-
-            <Typography mb={5} variant="h5">
-                {id ? 'Editar' : 'Cadastrar'} oportunidade
-            </Typography>
+        <Box>
+            {/* <Typography mb={5} variant="h5">
+                {id ? 'Editar' : 'Cadastrar'} atividade
+            </Typography> */}
             <FormContainer onSubmit={handleSubmit(onSubmit)}>
-                <Grid container spacing={1} > 
+                <Grid container spacing={1} >
                     {opportunity != null && <input {...register("id", { value: '' })} type="hidden" />}
                     <input {...register("institution_id", { value: '' })} type="hidden" />
                     {/* <input {...register("address_id", {value: '1'})} type="hidden" /> */}
 
-                    <Grid item md={6}>
+                    <Grid item xs={8}>
                         <TextField
                             {...register("name")}
                             name="name"
@@ -128,31 +125,28 @@ const OpportunityEdit = () => {
                             inputProps={{ maxLength: 255 }} />
 
                     </Grid>
-                    <Grid item md={6}>
+                    <Grid item md={4}>
+                        <TextField
+                            {...register("vacancies", { valueAsNumber: true })}
+                            name="vacancies"
+                            label="Nr. de voluntários"
+                            required
+                            InputLabelProps={{ shrink: true }}
+                            type="number"
+                        />
+
+                    </Grid>
+                    <Grid item xs={12}>
                         <TextField
                             {...register("description")}
                             name="description"
                             label="Descrição"
                             multiline
                             required
+                            fullWidth
                             rows={5}
                             InputLabelProps={{ shrink: true }}
                             inputProps={{ maxLength: 1024 }} />
-
-                    </Grid>
-                    <Grid item md={6}>
-                        <TextField
-                            {...register("vacancies", { valueAsNumber: true })}
-                            name="vacancies"
-                            label="Número de voluntários"
-                            required
-                            InputLabelProps={{ shrink: true }}
-                            type="number"
-                        />
-
-                        <FormControl>
-                            <FormControlLabel control={<Switch {...register('published')} />} label="Publicar oportunidade" />
-                        </FormControl>
 
                     </Grid>
                     <Grid item md={6}>
@@ -178,37 +172,45 @@ const OpportunityEdit = () => {
                             variant="outlined" /> */}
 
                     </Grid>
-                    <Grid container>
 
-                        <Grid item xs={6} sm={12} md={6}>
-                            <FormControl sx={{ padding: "8.5px 14px" }}>
-                                <FormControlLabel
-                                    control={<Switch
-                                        {...register('online')}
-                                        checked={onlineOpportunity}
-                                        onChange={handleChangeOnineOpportinity}
-                                    />}
-                                    label="Oportunidade online" />
-                            </FormControl>
+                    <Grid item xs={6} sm={6} md={6}>
+                        <FormControl sx={{ padding: "8.5px 14px" }}>
+                            <FormControlLabel
+                                control={<Switch
+                                    {...register('online')}
+                                    checked={onlineOpportunity}
+                                    onChange={handleChangeOnineOpportinity}
+                                />}
+                                label="Atividade online" />
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <FormControl sx={{ padding: "8.5px 14px" }}>
+                        <FormControlLabel control={<Switch {...register('published')} />} label="Publicar atividade" />
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
 
+                        {!onlineOpportunity &&
+                            <AddressSelect context="newActivity" />
+                        }
 
-                        </Grid>
-                        <Grid item md={6}>
-
-                            {!onlineOpportunity &&
-                                <AddressSelect context="newActivity" />
-                            }
-
-                        </Grid>
                     </Grid>
                 </Grid>
                 <FooterButton>
-                    <Button type="submit" size="large" color="success" variant="contained">
+                    <Button 
+                        type="button" 
+                        color="primary" 
+                        variant="outlined"
+                        sx={{mr: 2}}>
+                        Cancelar
+                    </Button>
+                    <Button type="submit" color="primary" variant="solid">
                         Salvar
                     </Button>
                 </FooterButton>
             </FormContainer>
-        </Paper>
+        </Box >
     );
 }
 

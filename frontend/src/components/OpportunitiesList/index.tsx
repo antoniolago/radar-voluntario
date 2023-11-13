@@ -9,6 +9,7 @@ import { Modal, ModalClose, ModalDialog, Skeleton } from "@mui/joy";
 import { OpportunityService } from "@/api/opportunity";
 import DefaultDataGrid from "../DataGrid";
 import { TemaService } from "@/api/tema";
+import OpportunityEdit from "@/pages/OpportunityEdit";
 
 const OpportunitiesList = (props: { institutionId?: number }) => {
     const { id } = useParams();
@@ -118,9 +119,9 @@ const OpportunitiesList = (props: { institutionId?: number }) => {
                 >
                     <ModalDialog sx={{ overflowY: 'auto' }}>
                         <ModalClose />
-                        <Typography> Nova Organização:</Typography>
+                        <Typography> Nova Oportunidade:</Typography>
                         <br />
-                        {/* <NewInstitutionForm setShowModal={setOpenAddActivityModal} /> */}
+                        <OpportunityEdit />
                     </ModalDialog>
                 </Modal>
             </Skeleton>
