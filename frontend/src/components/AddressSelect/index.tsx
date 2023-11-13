@@ -35,8 +35,8 @@ const AddressSelect = (props: IAddressSelectProps) => {
                     fullWidth
                     label={props.selectedAddress?.name || "Endereço"}
                     defaultValue=""
-                    helperText={props.context == "newOrganization" ? 
-                    "Adicione um endereço no botão ao lado do campo" : "Caso o endereço desejado não exista na lista, o adicione."}
+                    helperText={props.context == "newOrganization" ?
+                        "Adicione um endereço no botão ao lado do campo" : "Caso o endereço desejado não exista na lista, o adicione."}
                 >
                     {addresses.map((address: IAddress) => (
                         <MenuItem key={address.id} value={address.id}>
@@ -47,9 +47,13 @@ const AddressSelect = (props: IAddressSelectProps) => {
             </Grid>
             <Grid xs={2} md={2} lg={1}>
                 <IconButton
-                    variant="outlined"
-                    style={{ marginLeft: '10px', marginTop: '2px' }}
-                    color="primary"
+                    variant="plain"
+                    style={{
+                        width: '80%',
+                        height: '40px',
+                        textAlign: 'center'
+                    }}
+                    color="success"
                     onClick={() => setOpenNewAddressModal(true)}
                     aria-label="Adicionar Endereço">
                     <AddCircleOutlineIcon />
