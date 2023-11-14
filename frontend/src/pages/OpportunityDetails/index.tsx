@@ -15,10 +15,10 @@ import { displayDateTime } from '@/utils/dateUtils';
 import { getFullAddress } from '@/utils/addressUtils';
 
 const OpportunityDetails = () => {
-    const { id } = useParams();
-    const { data } = OpportunityService.useGetPublishedOpportunity(id ?? "");
+    const { idInstitution, idOpportunity } = useParams();
+    const { data } = OpportunityService.useGetPublishedOpportunity(idOpportunity ?? "");
     const { mutate: createRegistration } = RegistrationService.usePostRegistration();
-    const { data: registration } = RegistrationService.useGetRegistration(id ?? "");
+    const { data: registration } = RegistrationService.useGetRegistration(idOpportunity ?? "");
     const { mutate: deleteRegistration } = RegistrationService.useDeleteRegistration();
     // const mockedCategories = ["Categoria 1", "Categoria 2", "Categoria 3"]
     const [openRegisterDialog, setOpenRegisterDialog] = useState(false);
@@ -46,7 +46,7 @@ const OpportunityDetails = () => {
 
     return (
         <PageContainer>
-            <BackButton redirectTo="/" />
+            <BackButton redirectTo={"/organizacao/"+idInstitution} />
 
             {data != null ? (
                 <>

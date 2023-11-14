@@ -16,7 +16,7 @@ const usePostRegistration = () => {
             return response.data;
         },
         onSuccess: (data: Registration) => {
-            toast.success('Cadastro realizado');
+            toast.success('Inscrição realizada');
             queryClient.invalidateQueries(['registration-'+data.opportunity_id])
             return data;
         },

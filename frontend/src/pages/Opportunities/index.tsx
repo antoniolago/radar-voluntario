@@ -36,9 +36,9 @@ const Opportunities = () => {
 		navigate("/edicao/oportunidade/" + id)
 	}
 
-	const onView = (id: string) => {
+	const onView = (data: any) => {
 		const urlBase = window.location.origin;
-		window.open(`${urlBase}/oportunidade/${id}`, '_blank');
+		window.open(`${urlBase}/organizacao/${data.institution_id}/oportunidade/${data.id}`, '_blank');
 	}
 
 	const renderPublishedIcon = (params: any) => {

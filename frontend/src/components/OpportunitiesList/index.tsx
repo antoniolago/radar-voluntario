@@ -4,12 +4,14 @@ import { ContainerFilter } from "./styles";
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from "react";
 import { Link, useParams } from 'react-router-dom';
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { Modal, ModalClose, ModalDialog, Skeleton } from "@mui/joy";
 import { OpportunityService } from "@/api/opportunity";
 import DefaultDataGrid from "../DataGrid";
 import { TemaService } from "@/api/tema";
 import OpportunityEdit from "@/pages/OpportunityEdit";
+import { getCityState } from "@/utils/addressUtils";
+import { displayDateOnTable } from "@/utils/dateUtils";
 
 const OpportunitiesList = (props: { institutionId?: number, isUserOwner?: boolean }) => {
     const { id } = useParams();
@@ -30,7 +32,7 @@ const OpportunitiesList = (props: { institutionId?: number, isUserOwner?: boolea
 
     const columns: GridColDef[] = [
         {
-            field: 'title',
+            field: 'name',
             headerName: 'Oportunidade',
             minWidth: 200,
             flex: 0.3
@@ -39,13 +41,38 @@ const OpportunitiesList = (props: { institutionId?: number, isUserOwner?: boolea
             field: 'address',
             headerName: 'Endereço',
             minWidth: 200,
-            flex: 0.2
+            flex: 0.2,
+            renderCell: (params: GridRenderCellParams<any>) => (
+				<>
+					{isMobile &&
+						<Typography sx={{ fontSize: "14px", fontWeight: "bold" }}>
+							Endereço:
+						</Typography>
+					}
+					{params.row.online ?
+						'Online'
+						: getCityState(params.row.address)}
+
+				</>
+			),
         },
         {
             field: 'date',
             headerName: 'Data',
             minWidth: 200,
-            flex: 0.2
+            flex: 0.2,
+            renderCell: (params: GridRenderCellParams<any>) => (
+				<>
+					{isMobile &&
+						<Typography sx={{ fontSize: "14px", fontWeight: "bold" }}>
+							Quando:
+						</Typography>
+					}
+					{
+						displayDateOnTable(params.row.start_date, params.row.end_date)
+					}
+				</>
+			),
         },
         {
             field: 'id',
@@ -57,13 +84,6 @@ const OpportunitiesList = (props: { institutionId?: number, isUserOwner?: boolea
             flex: 0.3,
             renderCell: renderDetailsButton
         },
-    ];
-
-    const mockedRows = [
-        { title: 'Oportunidade nome 1', address: 'Cidade/UF', date: "10/12/2023", id: 1 },
-        { title: 'Oportunidade nome 2', address: 'Cidade/UF', date: "10/11/2023", id: 2 },
-        { title: 'Oportunidade nome 3', address: 'Cidade/UF', date: "23/11/2023", id: 3 },
-        { title: 'Oportunidade nome 4', address: 'Cidade/UF', date: "26/11/2023", id: 4 },
     ];
     const isMobile = TemaService.useGetIsMobile();
     const { data, isLoading, isError } = OpportunityService.useGetOpportunityList(id!);

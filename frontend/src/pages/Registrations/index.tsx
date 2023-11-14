@@ -12,27 +12,12 @@ function Registrations() {
 
     const { data } = RegistrationService.useGetRegistrationList();
 
-	const renderActions = (params: any) => {
-		return (
-			<>
-				<Button
-					component={Link}
-					to={"/oportunidade/" + params.row.id}
-					variant="outlined"
-					color="primary"
-					size="small"
-				>
-					Ver mais
-				</Button>
-			</>
-		)
-	}
 
 	const { isMobile } = TemaService.useGetIsMobile();
 
-	const onView = (id: string) => {
+	const onView = (data: any) => {
 		const urlBase = window.location.origin;
-		window.open(`${urlBase}/oportunidade/${id}`, '_blank');
+		window.open(`${urlBase}/organizacao/${data.institution_id}/oportunidade/${data.id}`, '_blank');
 	}
 
 	const columns: GridColDef[] = [
