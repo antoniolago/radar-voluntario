@@ -3,5 +3,4 @@ kind: Kustomization
 resources:
   - deployment.yaml
   - service.yaml
-  - ingress.yaml
   #- front-image-sync.yaml

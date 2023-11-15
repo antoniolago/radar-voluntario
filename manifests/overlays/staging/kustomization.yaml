@@ -10,7 +10,7 @@ replacements:
 - source:
     kind: ConfigMap
     name: radar-voluntario-config
-    fieldPath: data.image-frontend
+    fieldPath: data.frontend-image
   targets:
   - select:
       kind: Deployment
@@ -22,7 +22,7 @@ replacements:
 - source:
     kind: ConfigMap
     name: radar-voluntario-config
-    fieldPath: data.image-backend
+    fieldPath: data.backend-image
   targets:
   - select:
       kind: Deployment
