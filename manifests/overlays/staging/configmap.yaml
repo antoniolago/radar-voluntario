@@ -5,7 +5,7 @@ metadata:
   namespace: radar-voluntario-staging
 data:
   namespace: radar-voluntario-staging
-  environment: development
+  environment: staging
   host: staging.radarvoluntario.com
   backend-port: "7011"
   frontend-image: ghcr.io/antoniolago/radar-voluntario-frontend:dev # {"$imagepolicy": "flux-system:radar-voluntario-frontend-staging-img-policy"}
