@@ -1,7 +1,6 @@
 import { PageContainer } from '@/styles/styles';
-import { Box, Button, Grid, Typography } from '@mui/material';
-import { Link, useNavigate } from "react-router-dom";
-import Table from '@/components/Table';
+import { Box, Grid, Typography } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { getCityState } from '@/utils/addressUtils';
 import { TemaService } from '@/api/tema';
@@ -11,7 +10,7 @@ import DefaultDataGrid from '@/components/DataGrid';
 
 function Volunteers() {
 	const { isMobile } = TemaService.useGetIsMobile();
-	const { data, isLoading } = VolunteerService.useGetVolunteer();
+	const { data, isLoading } = VolunteerService.useGetVolunteersList();
     const navigate = useNavigate()
 
 

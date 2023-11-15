@@ -9,10 +9,13 @@ export const VolunteerImage = styled('img')`
 export const ContactDetails = styled('div')`
     .info { 
         display: flex;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
     }
     .icon {
         margin-right: 3px;
+    }
+    .social-media {
+        padding-top:4px
     }
 
     img {

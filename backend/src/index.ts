@@ -84,6 +84,8 @@ app.delete("/api/registrations/:id?", authMiddleware, registrationsController.de
 const volunteersService = new VolunteersService();
 const volunteersController = new VolunteersController(volunteersService);
 app.get("/api/volunteers", authMiddleware, volunteersController.index);
+app.get("/api/volunteers/:id", authMiddleware, volunteersController.get);
+app.get("/api/volunteers/:id/opportunities", authMiddleware, volunteersController.getOpportunities);
 
 
 const appSettingsService = new AppSettingsService();

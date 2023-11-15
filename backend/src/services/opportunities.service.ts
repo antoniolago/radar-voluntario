@@ -50,7 +50,15 @@ export class OpportunitiesService {
       include: {
         institution: true,
         address: true,
-        users: { include: { user: true } },
+        users: {
+          select: {
+            user: {
+              select: {
+                id: true,
+              },
+            },
+          },
+        },
       },
     });
 
