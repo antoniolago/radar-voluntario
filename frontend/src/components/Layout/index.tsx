@@ -39,7 +39,7 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import { GoogleButton } from '../GoogleButton';
 import { TemaService } from '@/api/tema';
 import { Toaster } from 'sonner';
-import { getToken, setToken } from '@/api';
+import { getToken, isLogado, setToken } from '@/api';
 import ProfileMenu from '../ProfileMenu';
 import Diversity2Icon from '@mui/icons-material/Diversity2';
 
@@ -48,13 +48,17 @@ export const menuItems = [
         id: 'home',
         text: 'Início',
         icon: <ExploreIcon />,
-        path: '/'
+        path: '/',
+        authentication: false,
+
     },
     {
         id: 'organizacoes',
         text: 'Organizações',
         icon: <Diversity2Icon />,
-        path: '/organizacoes'
+        path: '/organizacoes',
+        authentication: false,
+
     },
     // {
     //     id: 'institutionProfile',
@@ -66,19 +70,23 @@ export const menuItems = [
         id: 'opportunity',
         text: 'Oportunidades',
         icon: <FormatListBulletedIcon />,
-        path: '/oportunidades'
+        path: '/oportunidades',
+        authentication: false,
     },
     {
         id: 'volunteersList',
         text: 'Voluntários',
         icon: <PeopleIcon />,
-        path: '/voluntarios'
+        path: '/voluntarios',
+        authentication: true,
     },
     {
         id: 'registers',
         text: 'Inscrições',
         icon: <ChecklistIcon />,
-        path: '/inscricoes'
+        path: '/inscricoes',
+        authentication: true,
+
     },
     // {
     //     id: 'financeiro',
@@ -201,7 +209,7 @@ const Layout = (props: any) => {
                     <Drawer sx={{
                         // display: !open && isMobile ? 'none' : '', 
                         position: isMobile ? "absolute" : "relative",
-                        width: isMobile ? '250px':'100%',
+                        width: isMobile ? '250px' : '100%',
                         // marginTop: isMobile ? '80px' : '0',
                         ".MuiPaper-root": {
                             width: '100%',
@@ -229,32 +237,37 @@ const Layout = (props: any) => {
                         <List>
                             {menuItems.map((item) => (
                                 <div key={item.id}>
-                                    <ListItem
-                                        key={item.id}
-                                        disablePadding
-                                        sx={{ display: 'block' }}
-                                        onClick={() => navigate(item.path)}
-                                    >
-                                        <ListItemButton
-                                            sx={{
-                                                minHeight: 48,
-                                                justifyContent: open ? 'initial' : 'center',
-                                                px: 2.5,
-                                            }}
-                                            selected={matchPath(item.path + "/*" as string, pathname) !== null}
+
+                                    {(item.authentication === false || isLogado()) &&
+
+                                        <ListItem
+                                            key={item.id}
+                                            disablePadding
+                                            sx={{ display: 'block' }}
+                                            onClick={() => navigate(item.path)}
                                         >
-                                            <ListItemIcon
+                                            <ListItemButton
                                                 sx={{
-                                                    minWidth: 0,
-                                                    mr: open ? 3 : 'auto',
-                                                    justifyContent: 'center',
+                                                    minHeight: 48,
+                                                    justifyContent: open ? 'initial' : 'center',
+                                                    px: 2.5,
                                                 }}
+                                                selected={matchPath(item.path + "/*" as string, pathname) !== null}
                                             >
-                                                {item?.icon}
-                                            </ListItemIcon>
-                                            {open && <ListItemText primary={item.text} />}
-                                        </ListItemButton>
-                                    </ListItem>
+                                                <ListItemIcon
+                                                    sx={{
+                                                        minWidth: 0,
+                                                        mr: open ? 3 : 'auto',
+                                                        justifyContent: 'center',
+                                                    }}
+                                                >
+                                                    {item?.icon}
+                                                </ListItemIcon>
+                                                {open && <ListItemText primary={item.text} />}
+                                            </ListItemButton>
+                                        </ListItem>
+                                    }
+
                                 </div>
                             ))}
                         </List>
@@ -293,13 +306,13 @@ const Layout = (props: any) => {
                     </Drawer>
 
                 </Grid>
-                <Grid item 
+                <Grid item
                     xs sx={{
-                    position: 'relative',
-                    top: isMobile ? '60px' : '0',
-                    height: '100%',
-                    padding: isMapPage ? 0 : '10px'
-                }}>{props.children}</Grid>
+                        position: 'relative',
+                        top: isMobile ? '60px' : '0',
+                        height: '100%',
+                        padding: isMapPage ? 0 : '10px'
+                    }}>{props.children}</Grid>
             </Grid>
         </>
     );

@@ -17,6 +17,7 @@ const useLogin = (credentialResponse: CredentialResponse) => {
         setToken(res.data.token);
         toast.success('Bem-vindo ' + res.data.user.name);
         queryClient.invalidateQueries(["user"])
+        window.location.reload();
       }).catch((err: AxiosError) => {
         toast.error("Houve algum erro no login, por favor tente novamente. " + err.message);
       })
@@ -60,14 +61,13 @@ const useUpdateUser = () => {
 
 const useDeleteUser = () => {
   const api = useApi();
-  const queryClient = useQueryClient();
-
  return useMutation({
     mutationFn: async () => {
       const response = await api.delete('accounts');
       return response.data;
     },
     onSuccess: (data: User) => {
+      setToken("");
       toast.success('Perfil excluído');
       setTimeout(() => {
         window.location.href = '/';
