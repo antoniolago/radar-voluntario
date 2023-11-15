@@ -1,8 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-api-deployment
-  namespace: radar-voluntario
+  name: radar-voluntario-backend-deployment
 spec:
   replicas: 1
   # strategy:
@@ -17,16 +16,16 @@ spec:
         app: node-api
     spec:
       containers:
-        - name: node-api-container
+        - name: radar-voluntario-backend-container
           imagePullPolicy: Always
-          image: ghcr.io/antoniolago/radar-voluntario-backend:dev-1700009476 # {"$imagepolicy": "flux-system:radar-voluntario-back-img-policy"}
+          image: placeholder
           ports:
             - containerPort: 3333 # Adjust the port if your Node.js app listens on a different port
           env:
             - name: GOOGLE_OAUTH_CLIENT_ID
               valueFrom:
                 configMapKeyRef:
-                  key: google_oauth_client_id
+                  key: google-oauth-client-id
                   name: radar-voluntario-config
             - name: DATABASE_URL
               valueFrom:
@@ -36,7 +35,7 @@ spec:
             - name: BACKEND_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  key: jwt_secret
+                  key: jwt-secret
                   name: oracle-vault-radar-voluntario
           resources:
             limits:

@@ -2,14 +2,14 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: radar-voluntario-config
-  namespace: radar-voluntario-dev
+  namespace: radar-voluntario-development
 data:
-  namespace: radar-voluntario-dev
+  namespace: radar-voluntario-development
   environment: development
-  host: radarvoluntario.duckdns.com
-  backend_port: "7010"
-  frontend_image: ghcr.io/antoniolago/radar-voluntario-frontend:dev
-  backend_image: ghcr.io/antoniolago/radar-voluntario-backend:dev
+  host: dev.radarvoluntario.com
+  backend_port: "7013"
+  frontend_image: ghcr.io/antoniolago/radar-voluntario-frontend:dev # {"$imagepolicy": "flux-system:radar-voluntario-frontend-development-img-policy"}
+  backend_image: ghcr.io/antoniolago/radar-voluntario-backend:dev # {"$imagepolicy": "flux-system:radar-voluntario-frontend-development-img-policy"}
   postgres-db: radar-voluntario
   postgres-user: postgres
   google_oauth_client_id: 910904119481-m5o3q6n66b1l9bamtgh854t4c31r6kj9.apps.googleusercontent.com

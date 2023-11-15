@@ -1,5 +1,3 @@
 resources:
   - ./deployment.yaml
   - ./service.yaml
-  #- ./back-image-sync.yaml
-  # - ./ingress.yaml

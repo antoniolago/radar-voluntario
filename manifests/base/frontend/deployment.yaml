@@ -1,8 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: react-app-deployment
-  namespace: radar-voluntario
+  name: radar-voluntario-frontend-deployment
 spec:
   replicas: 1
   strategy:
@@ -17,9 +16,9 @@ spec:
         app: react-app
     spec:
       containers:
-        - name: react-app-container
+        - name: radar-voluntario-frontend-container
           imagePullPolicy: Always
-          image: ghcr.io/antoniolago/radar-voluntario-frontend:dev-1700009476 # {"$imagepolicy": "flux-system:radar-voluntario-front-img-policy"}      
+          image: placeholder
           ports:
             - containerPort: 80
               hostPort: 80
