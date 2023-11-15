@@ -7,9 +7,9 @@ data:
   namespace: radar-voluntario
   environment: production
   host: https://radarvoluntario.duckdns.com
-  backend_port: "8010"
-  frontend_image: ghcr.io/antoniolago/radar-voluntario-frontend # {"$imagepolicy": "flux-system:radar-voluntario-frontend-img-policy"}
-  backend_image: ghcr.io/antoniolago/radar-voluntario-backend # {"$imagepolicy": "flux-system:radar-voluntario-backend-img-policy"}
+  backend-port: "8010"
+  frontend-image: ghcr.io/antoniolago/radar-voluntario-frontend # {"$imagepolicy": "flux-system:radar-voluntario-frontend-img-policy"}
+  backend-image: ghcr.io/antoniolago/radar-voluntario-backend # {"$imagepolicy": "flux-system:radar-voluntario-backend-img-policy"}
   postgres-db: testdb
   postgres-user: testuser
   postgres-password: testpass
