@@ -6,6 +6,8 @@ resources:
   - ../../base/backend
   - ../../base/postgres
   - configmap.yaml
+  - ingress.yaml
+  
 replacements:
 - source:
     kind: ConfigMap
