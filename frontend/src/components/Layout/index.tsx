@@ -76,7 +76,7 @@ export const menuItems = [
     },
     {
         id: 'registers',
-        text: 'Cadastros',
+        text: 'Inscrições',
         icon: <ChecklistIcon />,
         path: '/inscricoes'
     },

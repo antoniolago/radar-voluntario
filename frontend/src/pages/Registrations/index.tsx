@@ -7,10 +7,11 @@ import DefaultDataGrid from '@/components/DataGrid';
 import { RegistrationService } from '@/api/registration';
 import { getCityState } from '@/utils/addressUtils';
 import { displayDateOnTable } from '@/utils/dateUtils';
+import Loading from '@/components/Loading';
 
 function Registrations() {
 
-    const { data } = RegistrationService.useGetRegistrationList();
+	const { data, isLoading } = RegistrationService.useGetRegistrationList();
 
 
 	const { isMobile } = TemaService.useGetIsMobile();
@@ -81,43 +82,47 @@ function Registrations() {
 
 	return (
 		<PageContainer>
-			<Typography mb={4} variant="h5" component="h2"> Suas inscrições em oportunidades </Typography>
-			
+			<Typography mb={4} variant="h5" component="h2"> Suas inscrições </Typography>
+
 			<Box sx={{
 				'.MuiDataGrid-root': {
 					height: '75dvh'
 				}
 			}}>
+				{isLoading ? (
+					<Loading />
+				) : (data == undefined || data.length === 0 &&
+					<div>Você não se inscreveu como voluntário para nenhuma oportunidade</div>
+					)
+				}
+
 
 				{
-					data !== undefined && data.length > 0 ?
+					data !== undefined && data.length > 0 &&
 
-						<DefaultDataGrid
-							enablePagination={true}
-							canView={true}
-							onView={onView}
-							toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
-							datagridProps={{
-								className: isMobile ? "vertical-grid" : "",
-								columns: columns,
-								density: isMobile ? "compact" : "standard",
-								rows: data as any,
-								rowCount: data?.length,
-								disableVirtualization: true,
-								disableRowSelectionOnClick: true,
-								pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
-								initialState: {
-									pagination: {
-										paginationModel: {
-											pageSize: isMobile ? 5 : 25
-										}
+					<DefaultDataGrid
+						enablePagination={true}
+						canView={true}
+						onView={onView}
+						toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
+						datagridProps={{
+							className: isMobile ? "vertical-grid" : "",
+							columns: columns,
+							density: isMobile ? "compact" : "standard",
+							rows: data as any,
+							rowCount: data?.length,
+							disableVirtualization: true,
+							disableRowSelectionOnClick: true,
+							pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
+							initialState: {
+								pagination: {
+									paginationModel: {
+										pageSize: isMobile ? 5 : 25
 									}
 								}
-							}}
-						/>
-						: (
-							<div>Você não se inscreveu como voluntário para nenhuma oportunidade</div>
-						)}
+							}
+						}}
+					/>}
 
 			</Box >
 

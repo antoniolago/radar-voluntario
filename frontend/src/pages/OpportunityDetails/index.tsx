@@ -13,18 +13,18 @@ import { AuthService } from '@/api/auth';
 import { getToken } from '@/api';
 import { displayDateTime } from '@/utils/dateUtils';
 import { getFullAddress } from '@/utils/addressUtils';
+import Loading from '@/components/Loading';
 
 const OpportunityDetails = () => {
     const { idInstitution, idOpportunity } = useParams();
-    const { data } = OpportunityService.useGetPublishedOpportunity(idOpportunity ?? "");
-    const { mutate: createRegistration } = RegistrationService.usePostRegistration();
+    const { data: user, isLoading: isLoadingUser } = AuthService.useGetUser();
+    const { data, isLoading } = OpportunityService.useGetPublishedOpportunity(idOpportunity ?? "");
     const { data: registration } = RegistrationService.useGetRegistration(idOpportunity ?? "");
+    const { mutate: createRegistration } = RegistrationService.usePostRegistration();
     const { mutate: deleteRegistration } = RegistrationService.useDeleteRegistration();
-    // const mockedCategories = ["Categoria 1", "Categoria 2", "Categoria 3"]
     const [openRegisterDialog, setOpenRegisterDialog] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [openRegisterLoginDialog, setOpenRegisterLoginDialog] = useState(false);
-    const { data: user, isLoading: isLoadingUser } = AuthService.useGetUser();
 
     const onRegistrationClick = () => {
         setOpenRegisterDialog(false);
@@ -41,14 +41,29 @@ const OpportunityDetails = () => {
     }
 
     const isDisabled = () => {
-        return false;
+        return data.institution.owner_id !== user?.id;
+    }
+
+    const getVacanciesLeft = () => {
+        if (data.users != undefined) {
+            return data.vacancies - data.users.length
+        } else {
+            return data.vacancies
+        }
     }
 
     return (
         <PageContainer>
-            <BackButton redirectTo={"/organizacao/"+idInstitution} />
+            <BackButton redirectTo={"/organizacao/" + idInstitution} />
 
-            {data != null ? (
+            {isLoading || isLoadingUser ? (
+                <Loading />
+            ) : (data == null || getVacanciesLeft() < 0 &&
+                "Oportunidade não encontrada." )
+            }
+
+
+            {data != null && getVacanciesLeft() > 0 &&
                 <>
                     <Typography mb={4} variant="h5" component="h2"> {data.name} </Typography>
 
@@ -71,30 +86,32 @@ const OpportunityDetails = () => {
                         </Typography>
                     </InfoDetails>
 
-                    Vagas: 2 disponíveis
 
-                    {/* <Stack direction="row" spacing={1}>
-                        {mockedCategories.map((category) =>
-                            <Chip label={category} />
-                        )}
-                    </Stack> */}
+                    <InfoDetails>
+                        <Typography className="subtitle" variant="subtitle1">
+                            Vagas
+                        </Typography>
+
+                        <Typography variant="body1">
+                            {getVacanciesLeft() > 1 ? getVacanciesLeft() + ' disponíveis' : getVacanciesLeft() + ' disponível'}
+                        </Typography>
+                    </InfoDetails>
 
                     <LocationDetails>
                         <div className="info">
-                            <LocationOnIcon className="icon" /> <div><b> Local: </b> 
-                            { data.online ?
-                                'Online'
-                                :
-                                getFullAddress(data.address)
-                            }
-                        </div>
+                            <LocationOnIcon className="icon" /> <div><b> Local: </b>
+                                {data.online ?
+                                    'Online'
+                                    :
+                                    getFullAddress(data.address)
+                                }
+                            </div>
                         </div>
                         <div className="info">
                             <CalendarTodayIcon className="icon" /> <div><b>Inicio: </b>  {displayDateTime(data.start_date)} </div>
                         </div>
                         <div className="info">
                             <CalendarTodayIcon className="icon" /> <div><b>Fim: </b> {displayDateTime(data.start_date)} </div>
-                            {/* <WatchLaterIcon className="icon" /> <div><b>Hora: </b> 18:00 - 21:00</div> */}
                         </div>
                     </LocationDetails>
 
@@ -120,16 +137,14 @@ const OpportunityDetails = () => {
                                     )}
                                 </>)
                                 :
-                               ( <Button onClick={() => setOpenRegisterLoginDialog(true)} size="large" color="primary" variant="contained">
+                                (<Button onClick={() => setOpenRegisterLoginDialog(true)} size="large" color="primary" variant="contained">
                                     Voluntariar para oportunidade
                                 </Button>)
                         }
                     </div>
 
                 </>
-            ) : (
-                "Oportunidade não encontrada"
-            )}
+            }
 
             <ConfirmDialog
                 title={"Atenção!"}
@@ -138,7 +153,7 @@ const OpportunityDetails = () => {
                 open={openRegisterLoginDialog}
                 setOpen={setOpenRegisterLoginDialog}
                 hideCancelBtn={true}
-                handleClick={()=>{setOpenRegisterLoginDialog(false)}} />
+                handleClick={() => { setOpenRegisterLoginDialog(false) }} />
 
             <ConfirmDialog
                 title={"Voluntariar para oportunidade"}

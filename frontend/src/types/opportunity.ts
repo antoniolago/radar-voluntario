@@ -13,4 +13,5 @@ export interface Opportunity {
     end_date: Date,
     institution?: any,
     address?: IAddress,
+    users?: any,
 }
