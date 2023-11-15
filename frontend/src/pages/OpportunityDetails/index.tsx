@@ -58,10 +58,11 @@ const OpportunityDetails = () => {
 
             {isLoading || isLoadingUser ? (
                 <Loading />
-            ) : (data == null || getVacanciesLeft() < 0 &&
-                "Oportunidade não encontrada." )
-            }
-
+            ) : (
+                (data == null || getVacanciesLeft() < 0) && (
+                    "Oportunidade não encontrada."
+                )
+            )}
 
             {data != null && getVacanciesLeft() > 0 &&
                 <>

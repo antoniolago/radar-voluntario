@@ -161,7 +161,7 @@ const NewInstitutionForm = (props: any) => {
 
 			<Grid>
 				{/* <pre>{JSON.stringify(getValues(), null, 4)}</pre> */}
-				<Grid md={12} style={{ textAlign: "right" }}>
+				<Grid item md={12} style={{ textAlign: "right" }}>
 					<Button
 						color="primary"
 						variant='outlined'

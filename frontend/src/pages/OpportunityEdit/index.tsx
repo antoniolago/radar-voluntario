@@ -24,13 +24,13 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
     const [startDate, setStartDate] = useState<Dayjs | null>(null);
     const [endDate, setEndDate] = useState<Dayjs | null>(null);
 
-    const [opportunity, setOpportunity] = useState<Opportunity>({} as Opportunity);
+    const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
 
     const { data: institutionData } = InstitutionService.useGetInstitution(id);
     const { mutateAsync: createOpportunity } = OpportunityService.usePostOpportunity();
     const { mutate: updateOpportunity } = OpportunityService.usePutOpportunity();
     const { data: opportunityData } = OpportunityService.useGetOpportunity(id!);
-
+    
     useEffect(() => {
         if (opportunity != null) {
             reset(opportunity);
@@ -43,8 +43,8 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
             // setValue('online', opportunity.online);
             // setValue('published', opportunity.published);
 
-            setStartDate(dayjs(opportunity.start_date));
-            setEndDate(dayjs(opportunity.end_date));
+            // setStartDate(dayjs(opportunity.start_date));
+            // setEndDate(dayjs(opportunity.end_date));
         } 
     }, [opportunity])
 
@@ -54,7 +54,7 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
         }
     }, [institutionData])
     useEffect(() => {
-        var debug = true;
+        var debug = false;
         if(debug){
             reset(
                 {
@@ -79,12 +79,11 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
     };
 
     const onSubmit = (data: Opportunity) => {
-        alert()
         if (data.id) {
             updateOpportunity(data);
         } else {
-            const newData = createOpportunity(data);
-            // setOpportunity(newData);
+            createOpportunity(data);
+            props?.setShowModal(false)
         }
     }
 
@@ -117,7 +116,7 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid container spacing={2.5} >
                     {opportunity != null && <input {...register("id", { value: '' })} type="hidden" />}
-                    <input {...register("institution_id", { value: '' })} type="hidden" />
+                    <input {...register("institution_id", { value: id })} type="hidden" />
                     {/* <input {...register("address_id", {value: '1'})} type="hidden" /> */}
 
                     <Grid item xs={8}>
@@ -175,14 +174,6 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                             sx={{width: '100%'}}
                             onChange={(newDate) => handleDateChange('end_date', newDate)}
                         />
-                        {/* <TextField
-                            {...register("end_date")}
-                            name="end_date"
-                            required
-                            label="Date e horário fim"
-                            InputLabelProps={{ shrink: true }}
-                            variant="outlined" /> */}
-
                     </Grid>
 
                     <Grid item xs={6} sm={6} md={6}>
@@ -225,8 +216,9 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                         <Button 
                             variant='solid' 
                             type="submit"
-                            form="form-new-activity"
-                            id="form-new-activity-btn">
+                            // form="form-new-activity"
+                            // id="form-new-activity-btn"
+                            >
                             SALVAR
                         </Button>
                     </Grid>
