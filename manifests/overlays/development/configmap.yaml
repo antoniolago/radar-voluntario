@@ -9,7 +9,7 @@ data:
   host: dev.radarvoluntario.com
   backend-port: "7013"
   frontend-image: ghcr.io/antoniolago/radar-voluntario-frontend:dev # {"$imagepolicy": "flux-system:radar-voluntario-frontend-development-img-policy"}
-  backend-image: ghcr.io/antoniolago/radar-voluntario-backend:dev # {"$imagepolicy": "flux-system:radar-voluntario-frontend-development-img-policy"}
+  backend-image: ghcr.io/antoniolago/radar-voluntario-backend:dev # {"$imagepolicy": "flux-system:radar-voluntario-backend-development-img-policy"}
   postgres-db: radar-voluntario
   postgres-user: postgres
   google-oauth-client-id: 910904119481-m5o3q6n66b1l9bamtgh854t4c31r6kj9.apps.googleusercontent.com
