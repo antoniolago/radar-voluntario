@@ -41,7 +41,7 @@ const OpportunityDetails = () => {
     }
 
     const isDisabled = () => {
-        return data.institution.owner_id !== user?.id;
+        return data.institution.owner_id === user?.id;
     }
 
     const getVacanciesLeft = () => {

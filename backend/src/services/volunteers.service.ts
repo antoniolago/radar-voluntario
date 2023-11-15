@@ -8,37 +8,21 @@ type SaveCommand = Omit<Prisma.UserCreateManyInput, OptionalFields>;
 
 export class VolunteersService {
     public index = async (userId: string) => {
-
-        const institutions = await prisma.institutionUser.findMany({
-            select: {
-                id: true
-            },
-            where: {
-                user_id: userId,
-            },
-        });
-        
-        if (!institutions) {
-            throw new AppError("No data found", 400);
-        }
-
-        const institutionsIds = institutions.map((institution) => institution.id);
-
-        const usersByInstitution = await prisma.user.findMany({
+          
+          const usersByInstitution = await prisma.user.findMany({
             where: {
                 opportunities: {
                 some: {
-                    opportunity: {
-                        institution_id: {
-                            in: institutionsIds,
-                        },
+                  opportunity: {
+                    institution: {
+                      owner_id: userId,
+                    },
                   },
                 },
               },
             },
             include: { opportunities: true }
           });
-          
 
         return usersByInstitution;
     };
