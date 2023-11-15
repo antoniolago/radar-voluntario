@@ -37,6 +37,7 @@ const institutionsController = new InstitutionsController(institutionsService);
 app.get("/api/institution/:id", institutionsController.get);
 app.post("/api/institutions", authMiddleware, institutionsController.save);
 app.put("/api/institution/:id", authMiddleware, institutionsController.update);
+app.delete("/api/institution/:id", authMiddleware, institutionsController.delete);
 app.get("/api/institutions", institutionsController.index);
 app.get("/api/institutions/me", authMiddleware, institutionsController.me);
 app.get(

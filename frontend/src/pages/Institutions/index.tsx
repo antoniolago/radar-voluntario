@@ -180,69 +180,69 @@ function Institutions() {
             <CustomTabPanel value={value} index={1}>
                 <Grid container>
                     <Grid item sx={{ width: '100%' }}>
-                        <Skeleton
+                        {/* <Skeleton
                             loading={isLoadingUserInstitutions || isUserInstitutionsError}
                             height={gridHeight}
                             sx={{
-                                height: "70vh",
+                                height: gridHeight,
                                 '.MuiDataGrid-root': {
                                     height: gridHeight,
                                 },
                             }}
-                            variant="rectangular">
-                            {userInstitutions  != undefined &&
+                            variant="rectangular"> */}
+                        {userInstitutions != undefined &&
 
-                                <Box sx={{
-                                    '.MuiDataGrid-root': {
-                                        height: gridHeight
-                                    },
-                                }}>
-                                    <DefaultDataGrid
-                                        enablePagination={true}
-                                        canView={true}
-                                        onView={onView}
-                                        onInsert={() => setOpenAddOrganizationModal(true)}
-                                        canInsert={true}
-                                        toolbarProps={{
-                                            showQuickFilter: true,
-                                            showFilterButton: true,
-                                            addNewRowLabel: "Adicionar Organização"
-                                        }}
-                                        datagridProps={{
-                                            className: isMobile ? "vertical-grid" : "",
-                                            columns: columns,
-                                            density: isMobile ? "compact" : "standard",
-                                            rows: userInstitutions as any,
-                                            rowCount: userInstitutions?.length,
-                                            disableVirtualization: true,
-                                            disableRowSelectionOnClick: true,
-                                            pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
-                                            initialState: {
-                                                pagination: {
-                                                    paginationModel: {
-                                                        pageSize: isMobile ? 5 : 25
-                                                    }
+                            <Box sx={{
+                                '.MuiDataGrid-root': {
+                                    height: gridHeight
+                                },
+                            }}>
+                                <DefaultDataGrid
+                                    enablePagination={true}
+                                    canView={true}
+                                    onView={onView}
+                                    onInsert={() => setOpenAddOrganizationModal(true)}
+                                    canInsert={true}
+                                    toolbarProps={{
+                                        showQuickFilter: true,
+                                        showFilterButton: true,
+                                        addNewRowLabel: "Adicionar Organização"
+                                    }}
+                                    datagridProps={{
+                                        className: isMobile ? "vertical-grid" : "",
+                                        columns: columns,
+                                        density: isMobile ? "compact" : "standard",
+                                        rows: userInstitutions as any,
+                                        rowCount: userInstitutions?.length,
+                                        disableVirtualization: true,
+                                        disableRowSelectionOnClick: true,
+                                        pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
+                                        initialState: {
+                                            pagination: {
+                                                paginationModel: {
+                                                    pageSize: isMobile ? 5 : 25
                                                 }
                                             }
-                                        }}
-                                    />
-                                </Box>
-                            }
+                                        }
+                                    }}
+                                />
+                            </Box>
+                        }
 
-                            <Modal
-                                open={openAddOrganizationModal}
-                                onClose={() => setOpenAddOrganizationModal(false)}
-                                aria-labelledby="modal-modal-title"
-                                aria-describedby="modal-modal-description"
-                            >
-                                <ModalDialog sx={{ overflowY: 'auto' }}>
-                                    <ModalClose />
-                                    <Typography> Nova Organização:</Typography>
-                                    <br />
-                                    <NewInstitutionForm setShowModal={setOpenAddOrganizationModal} />
-                                </ModalDialog>
-                            </Modal>
-                        </Skeleton>
+                        <Modal
+                            open={openAddOrganizationModal}
+                            onClose={() => setOpenAddOrganizationModal(false)}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                        >
+                            <ModalDialog sx={{ overflowY: 'auto' }}>
+                                <ModalClose />
+                                <Typography> Nova Organização:</Typography>
+                                <br />
+                                <NewInstitutionForm setShowModal={setOpenAddOrganizationModal} />
+                            </ModalDialog>
+                        </Modal>
+                        {/* </Skeleton> */}
                     </Grid>
                 </Grid>
             </CustomTabPanel>

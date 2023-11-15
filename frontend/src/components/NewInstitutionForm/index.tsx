@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import AxiosResponse from 'axios';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { ImageContainer, PreviewImage } from './styles';
@@ -19,6 +19,8 @@ import { IAddress } from '@/types/address';
 import { apiRoutes } from '@/routes';
 import { useApi } from '@/api';
 import { useNavigate } from 'react-router-dom';
+import { LoadingButton } from "@mui/lab";
+import { InstitutionService } from '@/api/institution';
 // import { Grid } from '@mui/joy';
 
 const NewInstitutionForm = (props: any) => {
@@ -31,8 +33,7 @@ const NewInstitutionForm = (props: any) => {
 		const file = event.target.files[0]
 		setImage(file);
 	}
-
-
+	const { mutate, isLoading, isSuccess, isError, data } = InstitutionService.usePostNewInstitution();
 	const {
 		register,
 		setError,
@@ -50,9 +51,9 @@ const NewInstitutionForm = (props: any) => {
 		shouldFocusError: true,
 		// resolver: yupResolver(validationSchema) as Resolver<AtualizacaoCadastralType, object>
 	});
-	React.useEffect(() => {
+	useEffect(() => {
 		const debug = false;
-		if(debug)
+		if (debug)
 			reset({
 				about: 'About........................',
 				facebook: '',
@@ -62,40 +63,21 @@ const NewInstitutionForm = (props: any) => {
 				telephone: '00 00000-0000',
 			})
 	}, [])
-	const { isDirty, dirtyFields } = formState;
-	var form = {
-		register,
-		setError,
-		clearErrors,
-		errors,
-		handleSubmit,
-		control,
-		setValue,
-		watch,
-		getValues,
-		isDirty,
-		// dirtyFields
-	};
 	const onSubmitt = (data: Institution, e: any) => {
 		e.preventDefault();
 		e.stopPropagation();
-        if (e.target.id != "new-organization-form") return;
-		if(address != undefined) {
+		if (e.target.id != "new-organization-form") return;
+		if (address != undefined) {
 			data.address = address;
-		} else{
-			toast.error("Insira um endereço");
-			return;
 		}
-		// else {
-		// 	toast.error("Insira um endereço.")
-		// }
-		api.post("institutions", data)
-		.then((res: any) => {
-			toast.success('Instituição criada com sucesso.');
-			props.setShowModal(false);
-			console.log(res);
-		});
+		mutate(data);
 	}
+
+	useEffect(() => {
+		if (data?.data.id != undefined)
+			props.setShowModal(false);
+	}, [data])
+
 	return (
 		<FormContainer onSubmit={handleSubmit(onSubmitt)} id="new-organization-form">
 			<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
@@ -128,7 +110,7 @@ const NewInstitutionForm = (props: any) => {
 						{...register("telephone")}
 						size="small"
 						label="Telefone"
-						required={true}
+						// required
 						defaultValue=""
 						placeholder="(00) 00000-0000"
 						mask="(00) 00000-0000"
@@ -184,7 +166,7 @@ const NewInstitutionForm = (props: any) => {
 						color="primary"
 						variant='outlined'
 						onClick={() => {
-							if(props?.setShowModal != undefined)
+							if (props?.setShowModal != undefined)
 								props.setShowModal(false)
 							else
 								navigate(-1);
@@ -194,14 +176,20 @@ const NewInstitutionForm = (props: any) => {
 					>
 						CANCELAR
 					</Button>
-					<Button
+
+					<LoadingButton
+						color="primary"
+						// onClick={handleSubmit}
+						type="submit"
 						variant='contained'
 						form="new-organization-form"
-						type="submit"
 						// size="large"
-						id="new-organization-form-btn">
-						SALVAR
-					</Button>
+						id="new-organization-form-btn"
+						loading={isLoading}
+						loadingPosition="center"
+					>
+						Confirmar
+					</LoadingButton>
 				</Grid>
 			</Grid>
 			{/* <FooterButton>

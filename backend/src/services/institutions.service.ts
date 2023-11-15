@@ -70,10 +70,9 @@ export class InstitutionsService {
 
   public save = async (command: SaveCommand, owner_id: string) => {
     const { address, ...rest } = command;
-    console.log(command)
-    if (!address) {
-      throw new AppError("Address is required", 400);
-    }
+    // if (!address) {
+    //   throw new AppError("Address is required", 400);
+    // }
 
     const institution = await prisma.institution.create({
       data: {
@@ -82,13 +81,21 @@ export class InstitutionsService {
       },
     });
 
-    const institutionAddress = await prisma.institutionAddress.create({
+
+    // const institutionAddress = await prisma.institutionAddress.create({
+    //   data: {
+    //     ...address,
+    //     primary: true,
+    //     institution_id: institution.id,
+    //   },
+    // }) ;
+    const institutionAddress = address != undefined ? await prisma.institutionAddress.create({
       data: {
         ...address,
         primary: true,
         institution_id: institution.id,
       },
-    });
+    }) : undefined;
 
     await prisma.institutionUser.create({
       data: {
@@ -140,6 +147,17 @@ export class InstitutionsService {
         ...command.address,
       },
     };
+  };
+
+
+  public delete = async (institutionId: string) => {
+    await prisma.institution.delete({
+      where: {
+        id: institutionId,
+      },
+    });
+
+    return;
   };
 
   public getAddresses = async (institutionId: string) => {

@@ -45,7 +45,7 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
 
             setStartDate(dayjs(opportunity.start_date));
             setEndDate(dayjs(opportunity.end_date));
-        }
+        } 
     }, [opportunity])
 
     useEffect(() => {
@@ -53,7 +53,21 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
             setValue('institution_id', institutionData?.id);
         }
     }, [institutionData])
-
+    useEffect(() => {
+        var debug = true;
+        if(debug){
+            reset(
+                {
+                    name: 'test',
+                    description: '123',
+                    id: undefined,
+                    online: false,
+                    published: true,
+                    vacancies: 10
+                }
+            )
+        }
+    }, [])
     useEffect(() => {
         if (opportunityData != null) {
             setOpportunity(opportunityData);
@@ -64,12 +78,13 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
         setOnlineOpportunity(event.target.checked);
     };
 
-    const onSubmit = async (data: Opportunity) => {
+    const onSubmit = (data: Opportunity) => {
+        alert()
         if (data.id) {
             updateOpportunity(data);
         } else {
-            const newData = await createOpportunity(data);
-            setOpportunity(newData);
+            const newData = createOpportunity(data);
+            // setOpportunity(newData);
         }
     }
 
@@ -93,26 +108,14 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
         shouldFocusError: true,
     });
     const { isDirty, dirtyFields } = formState;
-    var form = {
-        register,
-        setError,
-        clearErrors,
-        errors,
-        handleSubmit,
-        control,
-        setValue,
-        watch,
-        getValues,
-        isDirty,
-    };
 
     return (
         <Box>
             {/* <Typography mb={5} variant="h5">
                 {id ? 'Editar' : 'Cadastrar'} atividade
             </Typography> */}
-            <FormContainer onSubmit={handleSubmit(onSubmit)}>
-                <Grid container spacing={1} >
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Grid container spacing={2.5} >
                     {opportunity != null && <input {...register("id", { value: '' })} type="hidden" />}
                     <input {...register("institution_id", { value: '' })} type="hidden" />
                     {/* <input {...register("address_id", {value: '1'})} type="hidden" /> */}
@@ -160,6 +163,7 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                         <DateTimePicker
                             label="Date e horário de inicio"
                             value={startDate}
+                            sx={{width: '100%'}}
                             onChange={(newDate) => handleDateChange('start_date', newDate)}
                         />
 
@@ -168,6 +172,7 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                         <DateTimePicker
                             label="Date e horário de fim"
                             value={endDate}
+                            sx={{width: '100%'}}
                             onChange={(newDate) => handleDateChange('end_date', newDate)}
                         />
                         {/* <TextField
@@ -217,14 +222,16 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                         >
                             CANCELAR
                         </Button>
-                        <Button variant='solid' type="submit"
-                            form="form-new-address"
-                            id="form-new-address-btn">
+                        <Button 
+                            variant='solid' 
+                            type="submit"
+                            form="form-new-activity"
+                            id="form-new-activity-btn">
                             SALVAR
                         </Button>
                     </Grid>
                 </Grid>
-            </FormContainer>
+            </form>
         </Box >
     );
 }

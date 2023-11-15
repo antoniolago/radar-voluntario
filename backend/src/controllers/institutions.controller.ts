@@ -40,6 +40,13 @@ export class InstitutionsController {
 
     return response.status(200).json(institution);
   };
+  public delete = async (request: Request, response: Response) => {
+    const { id } = request.params;
+
+    await this.institutionsService.delete(id);
+
+    return response.status(200);
+  };
 
   public getAddresses = async (request: Request, response: Response) => {
     const addresses = await this.institutionsService.getAddresses(
