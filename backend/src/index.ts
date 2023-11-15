@@ -96,6 +96,7 @@ const accountsController = new AccountsController(accountsService);
 
 app.get("/api/accounts", authMiddleware, accountsController.getAccount);
 app.put("/api/accounts", authMiddleware, accountsController.updateAccount);
+app.delete("/api/accounts", authMiddleware, accountsController.deleteAccount);
 app.post("/api/accounts/login", accountsController.login);
 app.post("/api/accounts/login-google", accountsController.loginGoogle);
 

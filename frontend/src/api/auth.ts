@@ -58,8 +58,30 @@ const useUpdateUser = () => {
   });
 }
 
+const useDeleteUser = () => {
+  const api = useApi();
+  const queryClient = useQueryClient();
+
+ return useMutation({
+    mutationFn: async () => {
+      const response = await api.delete('accounts');
+      return response.data;
+    },
+    onSuccess: (data: User) => {
+      toast.success('Perfil excluído');
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 2000);
+    },
+    onError: (error) => {
+      toast.error("Houve algum erro ao excluir a conta, por favor tente novamente.");
+    },
+  });
+}
+
 export const AuthService = {
   useLogin,
   useGetUser,
-  useUpdateUser
+  useUpdateUser,
+  useDeleteUser
 }

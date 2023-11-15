@@ -82,7 +82,7 @@ const VolunteerForm = () => {
                         InputLabelProps={{ shrink: true }} />
                 </Grid>
                 <Grid sx={{ display: "flex", flexDirection: "column" }} item xs={6} sm={12} md={6}>
-                    <Typography fontWeight={600} variant="subtitle1">Redes sociais</Typography>
+                    <Typography mb={1} fontWeight={600} variant="subtitle1">Redes sociais</Typography>
                     <TextField
                         label="Facebook"
                         variant="outlined"
