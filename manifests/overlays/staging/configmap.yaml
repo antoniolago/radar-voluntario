@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: radar-voluntario-config
+  namespace: radar-voluntario-staging
+data:
+  namespace: radar-voluntario-staging
+  environment: development
+  host: staging.radarvoluntario.com
+  backend-port: "7011"
+  frontend-image: ghcr.io/antoniolago/radar-voluntario-frontend:dev # {"$imagepolicy": "flux-system:radar-voluntario-frontend-staging-img-policy"}
+  backend-image: ghcr.io/antoniolago/radar-voluntario-backend:dev # {"$imagepolicy": "flux-system:radar-voluntario-backend-staging-img-policy"}
+  postgres-db: radar-voluntario
+  postgres-user: postgres
+  google-oauth-client-id: 910904119481-m5o3q6n66b1l9bamtgh854t4c31r6kj9.apps.googleusercontent.com

@@ -8,5 +8,5 @@ export class AppSettingsController {
     const settings = this.appSettingsService.getSettings();
 
     return response.json(settings);
-  }
+  };
 }

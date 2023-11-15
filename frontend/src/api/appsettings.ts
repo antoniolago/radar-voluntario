@@ -3,16 +3,17 @@ import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useEffect } from 'react';
 import AlertaReconectando from '@/components/AlertaReconectando';
-import { api } from '.';
+import { useApi } from '.';
 import { AxiosResponse } from 'axios';
 
 export const useGetAppSettings = () => {
+  const api = useApi();
   const queryOptions: UseQueryOptions<AxiosResponse<AppSettings>, Error, AxiosResponse<AppSettings>, string[]> = {
     queryKey: ["appsettings"],
     queryFn: () => api.get("appSettings"),
     retry: true,
     staleTime: Infinity,
-    // cacheTime: 3000000,
+    // cacheTime: 300000,
     enabled: true,
     retryDelay: 3000,
   };

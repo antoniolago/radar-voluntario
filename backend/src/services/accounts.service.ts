@@ -4,8 +4,17 @@ import jsonwebtoken from "jsonwebtoken";
 import { prisma } from "../database/prisma";
 import AppError from "../errors/app-error";
 
-export class AccountsService {
+interface UpdateAccountParams {
+  about?: string;
+  phone?: string;
+}
 
+export class AccountsService {
+  public async getUser(email: string){
+    return await prisma.user.findUnique({
+      where: { email },
+    });
+  }
   /**
    * Método sem necessidade de senha apenas para testes
    */
@@ -37,7 +46,7 @@ export class AccountsService {
 
     const payload = ticket.getPayload();
 
-    if (!payload?.email) {
+    if (!payload?.email || !payload?.name) {
       throw new Error("Invalid credential");
     }
 
@@ -45,11 +54,20 @@ export class AccountsService {
       where: { email: payload?.email },
     });
 
-    if (!user) {
+    if (user) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          name: payload.name,
+          picture: payload.picture
+        },
+      });
+    } else {
       user = await prisma.user.create({
         data: {
-          name: payload?.name as string,
-          email: payload?.email,
+          name: payload?.name,
+          email: payload.email,
+          picture: payload.picture
         },
       });
     }
@@ -61,5 +79,26 @@ export class AccountsService {
     );
 
     return { user, token };
+  }
+
+  public async updateUser(data: UpdateAccountParams, userId: string) {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data,
+    });
+
+    if (!user) {
+      throw new AppError("User not found", 404);
+    }
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        about: data.about,
+        phone: data.phone,
+      },
+    })
+
+    return user;
   }
 }

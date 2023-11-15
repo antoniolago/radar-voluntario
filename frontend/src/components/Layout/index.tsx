@@ -17,28 +17,68 @@ import 'react-toastify/dist/ReactToastify.css';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import BusinessIcon from '@mui/icons-material/Business';
 import { useContext, useEffect, useState } from 'react';
-import { AppBar, EnvironmentBadge, Drawer, DrawerHeader } from './styles';
-import { Collapse } from '@mui/material';
+import { AppBar, BadgeAmbiente, DrawerHeader, closedMixin, openedMixin } from './styles';
+import { Collapse, Grid, Paper } from '@mui/material';
+import MuiDrawer from '@mui/material/Drawer';
 import { useLocation, useNavigate } from 'react-router';
 import { TemaContext } from '@/contexts/Tema';
 import { matchPath } from 'react-router';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import { useGetAppSettings } from '@/api/appsettings';
-import { useGetUser } from '@/api/auth';
+import { AuthService } from '@/api/auth';
 import Loading from '../Loading';
 import ThemeSelector from '../ThemeSelector';
 import MapIcon from '@mui/icons-material/Map';
 import ExploreIcon from '@mui/icons-material/Explore';
+import PeopleIcon from '@mui/icons-material/People';
+import ChecklistIcon from '@mui/icons-material/Checklist';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import { GoogleButton } from '../GoogleButton';
-import { ToastContainer } from 'react-toastify';
+import { TemaService } from '@/api/tema';
+import { Toaster } from 'sonner';
+import { getToken, setToken } from '@/api';
+import ProfileMenu from '../ProfileMenu';
+import Diversity2Icon from '@mui/icons-material/Diversity2';
 
 export const menuItems = [
     {
         id: 'home',
         text: 'Início',
         icon: <ExploreIcon />,
-        path: '/home'
+        path: '/'
+    },
+    {
+        id: 'organizacoes',
+        text: 'Organizações',
+        icon: <Diversity2Icon />,
+        path: '/organizacoes'
+    },
+    // {
+    //     id: 'institutionProfile',
+    //     text: 'Perfil Organização',
+    //     icon: <BusinessIcon />,
+    //     path: '/perfilInstituicao'
+    // },
+    {
+        id: 'opportunity',
+        text: 'Oportunidades',
+        icon: <FormatListBulletedIcon />,
+        path: '/oportunidades'
+    },
+    {
+        id: 'volunteersList',
+        text: 'Voluntários',
+        icon: <PeopleIcon />,
+        path: '/voluntarios'
+    },
+    {
+        id: 'registers',
+        text: 'Inscrições',
+        icon: <ChecklistIcon />,
+        path: '/inscricoes'
     },
     // {
     //     id: 'financeiro',
@@ -63,6 +103,7 @@ export const menuItems = [
 ];
 const Layout = (props: any) => {
     const { isDarkTheme, setIsDarkTheme } = useContext(TemaContext);
+    const { isMobile } = TemaService.useGetIsMobile();
     // const { data: user } = useGetUser();
     const [collapseStates, setCollapseStates] = useState<any>(
         {
@@ -70,11 +111,29 @@ const Layout = (props: any) => {
             'financeiro': false
         }
     );
+
+    const Drawer = styled(MuiDrawer, {
+        shouldForwardProp: (prop: any): boolean => {
+            return prop !== 'open' || isMobile!;
+        }
+    })(
+        ({ theme, open }: any) => ({
+            width: 224,
+            // flexShrink: 0,
+            whiteSpace: 'nowrap',
+            boxSizing: 'border-box',
+            ...(open && {
+                ...openedMixin(theme),
+                '& .MuiDrawer-paper': openedMixin(theme),
+            }),
+            ...(!open && {
+                ...closedMixin(theme),
+                '& .MuiDrawer-paper': closedMixin(theme),
+            }),
+        }),
+    );
     const navigate = useNavigate()
     const { pathname } = useLocation();
-    const { data: appSettings } = useGetAppSettings();
-    const { data: user, isLoading: isLoadingUser, refetch: refetchUser } = useGetUser();
-
     const toggleCollapseState = (id: string) => {
         setCollapseStates((prevCollapseStates: any) => ({
             ...prevCollapseStates,
@@ -103,202 +162,145 @@ const Layout = (props: any) => {
         paddingTop: '5px',
         paddingLeft: open ? '30px' : '15px'
     }));
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
 
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
-    const handleLogout = () => {
-        navigate("/");
-    }
-
+    var isMapPage = pathname == "/";
     return (
         <>
-            <Box sx={{ display: 'flex' }}>
-                <CssBaseline />
-                <AppBar position="fixed" open={open}>
-                    <Toolbar sx={{ justifyContent: "space-between", paddingRight: "0" }}>
-                        <IconButton
-                            color="inherit"
-                            aria-label="Abrir menu"
-                            onClick={toggleDrawer}
-                            edge="start"
-                            sx={{
-                                marginRight: 5,
-                                ...(open && { display: 'none' }),
-                            }}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography className="mr-4" component="div" sx={{ flex: 'auto', display: 'grid' }}>
-                            {/* {user?.firstName} */}
-                            {/* <div style={{ height: '20px' }}>
-                                <SituacaoIcon sx={{ width: '10px', color: "green" }} />
-                                <span style={{ fontSize: "15px", top: '-1px', position: 'relative', color: 'green' }}>{usuario?.situacao}</span>
-                            </div> */}
-                        </Typography>
-                        {isLoadingUser ?
-                            <Loading color="warning" />
-                            : user?.IsVerified ?
+            <Toaster richColors position="top-center" expand visibleToasts={9} />
+            <Grid container sx={{ display: 'flex', flexWrap: 'wrap', height: '100%' }}>
+                <Grid item xs={isMobile ? 0 : 12} md={isMobile ? 0 : 12}>
+                    <div style={{ position: "relative", width: '100%', height: '60px' }}>
+                        <AppBar position="fixed" open={open} sx={{ height: '60px' }}>
+                            <Toolbar sx={{
+                                justifyContent: "space-between",
+                                paddingRight: "0",
+                                height: '60px'
+                            }}>
                                 <IconButton
                                     color="inherit"
-                                    aria-label="logout"
-                                    onClick={handleLogout}
-                                >
-                                    <Logout />
-                                </IconButton>
-                                :
-                                <GoogleButton />
-                            // <Button
-                            //     variant="contained"
-                            //     color="success"
-                            //     onClick={() => navigate("/login")}>
-                            //     Logue-se
-                            // </Button>
-                        }
-                    </Toolbar>
-                </AppBar>
-                <Drawer variant="permanent" open={open} elevation={14}>
-                    <DrawerHeader>
-                        <Typography variant="h6" noWrap sx={{ flex: 'auto' }}>
-                            <Typography sx={{ cursor: "pointer" }} onClick={() => navigate('/home')}>
-                                Radar Voluntário
-                                {appSettings?.ENVIRONMENT != "main" &&
-                                    <EnvironmentBadge component="span">
-                                        {appSettings?.ENVIRONMENT}
-                                    </EnvironmentBadge>
-                                }
-                            </Typography>
-                        </Typography>
-                        <IconButton onClick={toggleDrawer}>
-                            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                        </IconButton>
-                    </DrawerHeader>
-                    <Divider />
-                    <List>
-                        {menuItems.map((item: any) => (
-                            <div key={item.id}>
-                                <ListItem
-                                    key={item.id}
-                                    disablePadding
-                                    sx={{ display: 'block' }}
-                                    onClick={
-                                        item.subItems
-                                            ? () => toggleCollapseState(item.id)
-                                            : () => navigate(item.path)
-                                    }
-                                >
-                                    <ListItemButton
-                                        sx={{
-                                            minHeight: 48,
-                                            justifyContent: open ? 'initial' : 'center',
-                                            px: 2.5,
-                                        }}
-                                        selected={matchPath(item.path + "/*" as string, pathname) !== null}
-                                    >
-                                        <ListItemIcon
-                                            sx={{
-                                                minWidth: 0,
-                                                mr: open ? 3 : 'auto',
-                                                justifyContent: 'center',
-                                            }}
-                                        >
-                                            {item.icon}
-                                        </ListItemIcon>
-                                        {open && <ListItemText primary={item.text} />}
-                                        {item.subItems ? (
-                                            collapseStates[item.id] ? (
-                                                <ExpandLess sx={{ width: '18px' }} />
-                                            ) : (
-                                                <ExpandMore sx={{ width: '18px' }} />
-                                            )
-                                        ) : null}
-                                    </ListItemButton>
-                                </ListItem>
-                                {item.subItems ? (
-                                    <Collapse
-                                        in={collapseStates[item.id]}
-                                        timeout="auto"
-                                        unmountOnExit
-                                    >
-                                        <List component="div" disablePadding>
-                                            {item.subItems?.map((subItem: any) => (
-                                                <ListItem
-                                                    key={subItem.path}
-                                                    sx={{ padding: 0 }}
-                                                >
-                                                    <InnerListItemButton
-                                                        onClick={() => navigate(subItem.path)}
-                                                        selected={matchPath(subItem.path, pathname) !== null}>
-                                                        <ListItemIcon>
-                                                            <SubdirectoryArrowRightIcon sx={{ width: '10px' }} />
-                                                            {subItem.icon}
-                                                        </ListItemIcon>
-                                                        {open && <ListItemText primary={subItem.text} />}
-                                                    </InnerListItemButton>
-                                                </ListItem>
-                                            ))}
-                                        </List>
-                                        <Divider />
-                                    </Collapse>
-                                ) : null}
-                            </div>
-                        ))}
-                    </List>
-                    <List sx={{
-                        flex: 'auto',
-                        display: 'flex',
-                        placeItems: 'self-end',
-                        paddingBottom: '0'
-                    }}>
-                        <ListItem key="4" disablePadding sx={{ display: 'block' }}>
-                            <Divider />
-                            <ListItemButton
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: open ? 'initial' : 'center',
-                                    px: 2.5,
-                                    // padding: 0,
-                                }}
-                                onClick={() => setIsDarkTheme(!isDarkTheme)}
-                            >
-                                <ListItemIcon
+                                    aria-label="Abrir menu"
+                                    onClick={toggleDrawer}
+                                    edge="start"
                                     sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : 'auto',
-                                        justifyContent: 'center',
+                                        marginRight: 5,
                                     }}
                                 >
-                                    <ThemeSelector size={40} />
+                                    <MenuIcon />
+                                </ IconButton>
+                                <Typography className="mr-4" component="div" sx={{ flex: 'auto', display: 'flex' }}>
+                                    Radar Voluntário
+                                    <div>
+                                    </div>
+                                </Typography>
+                                <ProfileMenu />
+                            </Toolbar>
+                        </AppBar>
+                    </div>
+                </Grid>
+                <Grid item xs="auto" sx={{ display: 'flex' }}>
+                    <Drawer sx={{
+                        // display: !open && isMobile ? 'none' : '', 
+                        position: isMobile ? "absolute" : "relative",
+                        width: isMobile ? '250px':'100%',
+                        // marginTop: isMobile ? '80px' : '0',
+                        ".MuiPaper-root": {
+                            width: '100%',
+                            position: isMobile ? "absolute" : 'relative',
+                            marginTop: isMobile ? '60px' : '0px',
+                            height: isMobile ? 'calc(100dvh - 60px)' : '100%'
+                        }
+                    }}
+                        variant={isMobile ? "temporary" : "permanent"}
+                        onClose={toggleDrawer}
+                        open={open}
+                        elevation={14}
+                    >
+                        {/* <DrawerHeader>
+                            <Typography variant="h6" noWrap sx={{ flex: 'auto' }}>
+                                <Typography sx={{ cursor: "pointer" }} onClick={() => navigate('/home')}>
+                                    Radar Voluntário
+                                </Typography>
+                            </Typography>
+                            <IconButton onClick={toggleDrawer}>
+                                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                            </IconButton>
+                        </DrawerHeader>
+                        <Divider /> */}
+                        <List>
+                            {menuItems.map((item) => (
+                                <div key={item.id}>
+                                    <ListItem
+                                        key={item.id}
+                                        disablePadding
+                                        sx={{ display: 'block' }}
+                                        onClick={() => navigate(item.path)}
+                                    >
+                                        <ListItemButton
+                                            sx={{
+                                                minHeight: 48,
+                                                justifyContent: open ? 'initial' : 'center',
+                                                px: 2.5,
+                                            }}
+                                            selected={matchPath(item.path + "/*" as string, pathname) !== null}
+                                        >
+                                            <ListItemIcon
+                                                sx={{
+                                                    minWidth: 0,
+                                                    mr: open ? 3 : 'auto',
+                                                    justifyContent: 'center',
+                                                }}
+                                            >
+                                                {item?.icon}
+                                            </ListItemIcon>
+                                            {open && <ListItemText primary={item.text} />}
+                                        </ListItemButton>
+                                    </ListItem>
+                                </div>
+                            ))}
+                        </List>
+                        <List sx={{
+                            flex: 'auto',
+                            display: 'flex',
+                            placeItems: 'self-end',
+                            paddingBottom: '0'
+                        }}>
+                            <ListItem key="4" disablePadding sx={{ display: 'block' }}>
+                                <Divider />
+                                <ListItemButton
+                                    sx={{
+                                        minHeight: 48,
+                                        justifyContent: open ? 'initial' : 'center',
+                                        px: 2.5,
+                                        // padding: 0,
+                                    }}
+                                    onClick={() => setIsDarkTheme(!isDarkTheme)}
+                                >
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 0,
+                                            mr: open ? 3 : 'auto',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <ThemeSelector size={40} />
+                                    </ListItemIcon>
+                                    {open &&
+                                        <ListItemText primary={"Seletor de Tema"} sx={{ opacity: open ? 1 : 0 }} />
+                                    }
+                                </ListItemButton>
+                            </ListItem>
+                        </List>
+                    </Drawer>
 
-                                </ListItemIcon>
-                                {open &&
-                                    <ListItemText primary={"Seletor de Tema"} sx={{ opacity: open ? 1 : 0 }} />
-                                }
-                            </ListItemButton>
-                        </ListItem>
-                    </List>
-                </Drawer>
-                <Box component="main" sx={{ flexGrow: 1, margin: '15px' }}>
-                    <DrawerHeader />
-                    {props.children}
-                    {/* <Footer /> */}
-                    <ToastContainer
-                        position="bottom-right"
-                        autoClose={5000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme="light" />
-                </Box>
-            </Box >
+                </Grid>
+                <Grid item 
+                    xs sx={{
+                    position: 'relative',
+                    top: isMobile ? '60px' : '0',
+                    height: '100%',
+                    padding: isMapPage ? 0 : '10px'
+                }}>{props.children}</Grid>
+            </Grid>
         </>
     );
 }

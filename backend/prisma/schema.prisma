@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
 }
 
@@ -15,21 +15,61 @@ model User {
   id            String            @id @default(uuid())
   name          String
   email         String            @unique
+  picture       String?
+  about         String?
+  phone         String?
   institutions  InstitutionUser[]
   opportunities OpportunityUser[]
+  Institution   Institution[]
 
   @@map("users")
 }
 
 model Institution {
-  id            String            @id @default(uuid())
+  id            String                @id @default(uuid())
   name          String
-  latitude      Float
-  longitude     Float
+  about         String
+  telephone     String?
+  owner_id      String
+  owner         User                  @relation(fields: [owner_id], references: [id])
+  facebook      String?
+  instagram     String?
   users         InstitutionUser[]
   opportunities Opportunity[]
+  adresses      InstitutionAddress[]
+  categories    InstitutionCategory[]
 
   @@map("institutions")
+}
+
+model InstitutionAddress {
+  id             String        @id @default(uuid())
+  name           String
+  primary        Boolean       @default(false)
+  street         String
+  number         String
+  complement     String
+  city           String
+  state          String
+  neighborhood   String
+  zip_code       String
+  latitude       Float
+  longitude      Float
+  opportunities  Opportunity[]
+  institution    Institution   @relation(fields: [institution_id], references: [id])
+  institution_id String
+
+  @@map("institutions_addresses")
+}
+
+model InstitutionCategory {
+  id             String                @id @default(uuid())
+  name           String
+  institution    Institution           @relation(fields: [institution_id], references: [id])
+  institution_id String
+  opportunities  OpportunityCategory[]
+
+  @@map("institutions_categories")
 }
 
 model InstitutionUser {
@@ -43,13 +83,20 @@ model InstitutionUser {
 }
 
 model Opportunity {
-  id             String            @id @default(uuid())
+  id             String                @id @default(uuid())
   name           String
   description    String
-  institution    Institution       @relation(fields: [institution_id], references: [id])
-  institution_id String
   vacancies      Int
+  published      Boolean               @default(false)
+  online         Boolean               @default(false)
+  start_date     DateTime
+  end_date       DateTime
   users          OpportunityUser[]
+  institution    Institution           @relation(fields: [institution_id], references: [id])
+  institution_id String
+  address        InstitutionAddress?   @relation(fields: [address_id], references: [id])
+  address_id     String?
+  categories     OpportunityCategory[]
 
   @@map("opportunities")
 }
@@ -62,4 +109,14 @@ model OpportunityUser {
   user_id        String
 
   @@map("opportunities_users")
+}
+
+model OpportunityCategory {
+  id             String              @id @default(uuid())
+  category       InstitutionCategory @relation(fields: [category_id], references: [id])
+  category_id    String
+  opportunity    Opportunity         @relation(fields: [opportunity_id], references: [id])
+  opportunity_id String
+
+  @@map("opportunities_categories")
 }

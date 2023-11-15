@@ -1,6 +1,6 @@
 @base_url = https://localhost:9091/api
 @content_type = application/json
-@authorization = Bearer eyJh.eM30.bunTw
+@authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjMDNkOTNkLThjYmQtNGNiOC1hMzRmLTZhNjEwMzRjZjAwMiIsImVtYWlsIjoiZ3VzdGF2by5oYXJmZkBnbWFpbC5jb20iLCJpYXQiOjE2OTk0MDc0MzksImV4cCI6MTcwMDYxNzAzOX0.B5xKVDiYFU0ou0flXiBFM8-FG2hB0ZDuNbWbQnYfpCw
 
 ###
 # @prompt email
@@ -22,6 +22,17 @@ Content-Type: {{content_type}}
 
 ###
 
+PUT {{base_url}}/accounts HTTP/1.1
+Content-Type: {{content_type}}
+Authorization: {{authorization}}
+
+{
+  "about": "Example about",
+  "phone": "(00) 00000-0000"
+}
+
+###
+
 GET {{base_url}}/appSettings HTTP/1.1
 
 ###
@@ -32,8 +43,46 @@ Authorization: {{authorization}}
 
 {
   "name": "Example",
-  "latitude": -29.887551,
-  "longitude": -51.159981
+  "about": "Example about",
+  "responsible_name": "Example responsible name",
+  "responsible_phone": "(00) 00000-0000",
+  "facebook": "https://www.facebook.com/example",
+  "instagram": "https://www.instagram.com/example",
+  "address": {
+    "street": "Av. Farroupilha",
+    "number": "8001",
+    "city": "Canoas",
+    "state": "RS",
+    "neighborhood": "São José",
+    "zip_code": "92425-900",
+    "latitude": -29.917,
+    "longitude": -51.183
+  }
+}
+
+###
+
+PUT {{base_url}}/institutions/c06dd7ac-d98f-4e09-8e02-163ba63004b5 HTTP/1.1
+Content-Type: {{content_type}}
+Authorization: {{authorization}}
+
+{
+  "name": "Example update",
+  "about": "Example about update",
+  "responsible_name": "Example responsible name update",
+  "responsible_phone": "(00) 00000-0000",
+  "facebook": "https://www.facebook.com/example-update",
+  "instagram": "https://www.instagram.com/example-update",
+  "address": {
+    "street": "Av. Farroupilha update",
+    "number": "8001 update",
+    "city": "Canoas update",
+    "state": "RS update",
+    "neighborhood": "São José update",
+    "zip_code": "92425-900 update",
+    "latitude": -29.917,
+    "longitude": -51.183
+  }
 }
 
 ###
@@ -45,3 +94,57 @@ GET {{base_url}}/institutions HTTP/1.1
 GET {{base_url}}/institutions/me HTTP/1.1
 Authorization: {{authorization}}
 
+###
+
+POST {{base_url}}/institutions/c06dd7ac-d98f-4e09-8e02-163ba63004b5/addresses HTTP/1.1
+Content-Type: {{content_type}}
+Authorization: {{authorization}}
+
+{
+  "street": "Av. Farroupilha",
+  "number": "8001",
+  "city": "Canoas",
+  "state": "RS",
+  "neighborhood": "São José",
+  "zip_code": "92425-900",
+  "latitude": -29.917,
+  "longitude": -51.183
+}
+
+###
+
+GET {{base_url}}/institutions/c06dd7ac-d98f-4e09-8e02-163ba63004b5/addresses HTTP/1.1
+Authorization: {{authorization}}
+
+###
+
+GET {{base_url}}/opportunities/c06dd7ac-d98f-4e09-8e02-163ba63004b5 HTTP/1.1
+Authorization: {{authorization}}
+
+###
+
+POST {{base_url}}/opportunities HTTP/1.1
+Content-Type: {{content_type}}
+Authorization: {{authorization}}
+
+{
+  "institution_id": "c06dd7ac-d98f-4e09-8e02-163ba63004b5",
+  "name": "Example",
+  "description": "Example description",
+  "vacancies": 10,
+  "address_id": "c3a45a96-0b6d-4d76-a983-8d5591463370"
+}
+
+###
+
+PUT {{base_url}}/opportunities/c7203dbc-3440-4ff7-bd5d-38e5ab92f3b5 HTTP/1.1
+Content-Type: {{content_type}}
+Authorization: {{authorization}}
+
+{
+  "institution_id": "c06dd7ac-d98f-4e09-8e02-163ba63004b5",
+  "name": "Example update",
+  "description": "Example description",
+  "vacancies": 10,
+  "address_id": "c3a45a96-0b6d-4d76-a983-8d5591463370"
+}

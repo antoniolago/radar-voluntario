@@ -17,4 +17,4 @@ WORKDIR /src/app
 COPY --from=node_cache /cache/ .
 # Copy source files, and possibily invalidate so we have to rebuild
 COPY . ./
-CMD [ "yarn", "start" ]
+CMD [ "yarn", "run", "start:prod" ]
