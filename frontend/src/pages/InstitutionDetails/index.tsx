@@ -133,7 +133,7 @@ function InstitutionDetails() {
                                 DELETAR
                                 <DeleteForeverIcon sx={{ml: 1}}/>
                             </LoadingButton>
-                            <Button color="neutral" variant='outlined' onClick={() => setOpenConfirmDeletionAlert(false)}>Cancelar</Button>
+                            <Button color="neutral" variant='outlined' onClick={() => setOpenConfirmDeletionAlert(false)}>CANCELAR</Button>
                         </DialogActions>
                     </ModalDialog>
                 </Modal>

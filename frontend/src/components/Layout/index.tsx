@@ -166,7 +166,7 @@ const Layout = (props: any) => {
     var isMapPage = pathname == "/";
     return (
         <>
-            <Toaster position="top-center" expand visibleToasts={9} />
+            <Toaster richColors position="top-center" expand visibleToasts={9} />
             <Grid container sx={{ display: 'flex', flexWrap: 'wrap', height: '100%' }}>
                 <Grid item xs={isMobile ? 0 : 12} md={isMobile ? 0 : 12}>
                     <div style={{ position: "relative", width: '100%', height: '60px' }}>
