@@ -16,6 +16,9 @@ import { displayDateOnTable } from "@/utils/dateUtils";
 const OpportunitiesList = (props: { institutionId?: number, isUserOwner?: boolean }) => {
     const { id } = useParams();
     const [openAddActivityModal, setOpenAddActivityModal] = useState(false);
+	const { mutateAsync: deleteOpportunity  } = OpportunityService.useDeleteOpportunity();
+    const [opportunityId, setOpportunityId] = useState<string>('');
+
     const renderDetailsButton = (params: any) => {
         return (
             <Button
@@ -30,6 +33,21 @@ const OpportunitiesList = (props: { institutionId?: number, isUserOwner?: boolea
         )
     }
 
+    const onDelete = async (id: string, callback: any) => {
+		const response = await deleteOpportunity(id);
+		callback(response);
+	}
+	const onView = (data: any) => {
+		const urlBase = window.location.origin;
+		window.open(`${urlBase}/organizacao/${data.institution_id}/oportunidade/${data.id}`, '_blank');
+	}
+
+	const onEdit = (id: string) => {
+        setOpenAddActivityModal(true);
+        setOpportunityId(id)
+	}
+
+    
     const columns: GridColDef[] = [
         {
             field: 'name',
@@ -102,8 +120,12 @@ const OpportunitiesList = (props: { institutionId?: number, isUserOwner?: boolea
                     }}>
                         <DefaultDataGrid
                             enablePagination={true}
-                            // canView={true}
-                            // onView={onView}
+                            canView={true}
+                            canUpdate={true}
+                            canDelete={true}
+                            onView={onView}
+                            onDelete={onDelete}
+                            onEdit={onEdit}
                             toolbarProps={{
                                 showQuickFilter: true,
                                 showFilterButton: true,
@@ -141,7 +163,7 @@ const OpportunitiesList = (props: { institutionId?: number, isUserOwner?: boolea
                         <ModalClose />
                         <Typography> Nova Oportunidade:</Typography>
                         <br />
-                        <OpportunityEdit setShowModal={() => setOpenAddActivityModal(false)} />
+                        <OpportunityEdit opportunityId={opportunityId} institutionId={id!} setShowModal={() => setOpenAddActivityModal(false)} />
                     </ModalDialog>
                 </Modal>
             </Skeleton>

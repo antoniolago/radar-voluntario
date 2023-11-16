@@ -66,13 +66,13 @@ export const menuItems = [
     //     icon: <BusinessIcon />,
     //     path: '/perfilInstituicao'
     // },
-    {
-        id: 'opportunity',
-        text: 'Oportunidades',
-        icon: <FormatListBulletedIcon />,
-        path: '/oportunidades',
-        authentication: false,
-    },
+    // {
+    //     id: 'opportunity',
+    //     text: 'Oportunidades',
+    //     icon: <FormatListBulletedIcon />,
+    //     path: '/oportunidades',
+    //     authentication: false,
+    // },
     {
         id: 'volunteersList',
         text: 'Voluntários',
