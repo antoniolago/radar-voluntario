@@ -50,6 +50,9 @@ export class InstitutionsService {
   public index = async () => {
     const institutions = await prisma.institution.findMany({
       include: { adresses: true },
+      orderBy: {
+        name: "asc",
+      }
     });
 
     return institutions.map((institution) => ({
@@ -67,6 +70,11 @@ export class InstitutionsService {
       include: {
         institution: true,
       },
+      orderBy: {
+        institution: {
+          name: "asc",
+        },
+      }
     });
 
     return institutionsUser.map(
