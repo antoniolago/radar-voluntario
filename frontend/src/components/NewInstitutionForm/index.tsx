@@ -136,6 +136,7 @@ const NewInstitutionForm = (props: any) => {
 					{/* <Typography fontWeight={600} variant="subtitle1">Redes sociais</Typography> */}
 					<InputGroup>
 						<TextField
+							{...register("facebook")}
 							label="Facebook"
 							size={"small"}
 							variant="outlined"
@@ -143,6 +144,7 @@ const NewInstitutionForm = (props: any) => {
 							InputLabelProps={{ shrink: true }} />
 
 						<TextField
+							{...register("instagram")}
 							label="Instagram"
 							size={"small"}
 							variant="outlined"
