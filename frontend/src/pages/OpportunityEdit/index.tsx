@@ -89,7 +89,16 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
 
     const handleDateChange = (field: 'start_date' | 'end_date', date?: any) => {
         setValue(field, date.format())
+
+        if (dayjs(getValues('start_date')).isAfter(dayjs(getValues('end_date')))) {
+            setError('start_date', { type: 'custom', message: 'Insira um período válido' });
+            setError('end_date', { type: 'custom', message: 'Insira um período válido' });
+        }else{
+            clearErrors(['end_date', 'start_date']);
+        }
+
     }
+
 
     const {
         register,
@@ -110,9 +119,6 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
 
     return (
         <Box>
-            {/* <Typography mb={5} variant="h5">
-                {id ? 'Editar' : 'Cadastrar'} atividade
-            </Typography> */}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid container spacing={2.5} >
                     {opportunity != null && <input {...register("id", { value: '' })} type="hidden" />}
@@ -158,20 +164,41 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                             inputProps={{ maxLength: 1024 }} />
 
                     </Grid>
-                    <Grid item md={6}>
+
+                        <Grid item md={6} sx={{
+							'.MuiFormHelperText-root': {
+								color: "red"
+							}
+						}}>
+
                         <DateTimePicker
                             label="Date e horário de inicio"
                             value={startDate}
                             sx={{width: '100%'}}
+                            slotProps={{
+                                textField: {
+                                  helperText: formState.errors.start_date?.message,
+                                  required: true,
+                                },
+                              }}
                             onChange={(newDate) => handleDateChange('start_date', newDate)}
                         />
 
                     </Grid>
-                    <Grid item md={6}>
-                        <DateTimePicker
+                    <Grid item md={6} sx={{
+							'.MuiFormHelperText-root': {
+								color: "red"
+							}
+						}}>                        <DateTimePicker
                             label="Date e horário de fim"
                             value={endDate}
                             sx={{width: '100%'}}
+                            slotProps={{
+                                textField: {
+                                  helperText: formState.errors.end_date?.message,
+                                  required: true,
+                                },
+                              }}
                             onChange={(newDate) => handleDateChange('end_date', newDate)}
                         />
                     </Grid>
@@ -202,13 +229,11 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                 </Grid>
 
                 <Grid>
-                    {/* <pre>{JSON.stringify(getValues(), null, 4)}</pre> */}
                     <Grid style={{ textAlign: "right" }}>
                         <Button
                             color="primary"
                             variant='outlined'
                             onClick={() => props?.setShowModal(false)}
-                            // onClick={() => reset({})} 
                             style={{ marginRight: "10px" }}
                         >
                             CANCELAR
@@ -216,8 +241,6 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                         <Button 
                             variant='solid' 
                             type="submit"
-                            // form="form-new-activity"
-                            // id="form-new-activity-btn"
                             >
                             SALVAR
                         </Button>
