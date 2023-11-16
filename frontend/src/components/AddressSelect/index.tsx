@@ -11,7 +11,7 @@ import { InstitutionService } from '@/api/institution';
 import { useParams } from 'react-router-dom';
 import MapComponent from '../MapComponent';
 interface IAddressSelectProps {
-    context: "newOrganization" | "newActivity";
+    context: "newOrganization" | "newActivity" | "editOrganization";
     addreses?: IAddress[];
     setAddress?: any;
     selectedAddress?: IAddress;

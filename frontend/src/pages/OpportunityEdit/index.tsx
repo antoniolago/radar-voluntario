@@ -97,9 +97,7 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
         }else{
             clearErrors(['end_date', 'start_date']);
         }
-
     }
-
 
     const {
         register,
@@ -124,7 +122,6 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                 <Grid container spacing={2.5} >
                     {opportunity != null && <input {...register("id", { value: '' })} type="hidden" />}
                     <input {...register("institution_id", { value: id })} type="hidden" />
-                    {/* <input {...register("address_id", {value: '1'})} type="hidden" /> */}
 
                     <Grid item xs={8}>
                         <TextField

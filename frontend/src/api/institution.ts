@@ -50,6 +50,23 @@ const usePostNewInstitution = () => {
     },
   });
 }
+const usePutInstitution = (id: any) => {
+  const api = useApi();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (institution: Institution) => {
+      const response = await api.put<Institution>('/institution/'+id, institution)
+        .then((res: AxiosResponse<Institution>) => {
+          toast.success('Instituição editada com sucesso.');
+          queryClient.invalidateQueries(['institutions', 'user-institutions', ['institution', id]])
+          return res;
+        }).catch(() => {
+          toast.error("Houve algum erro ao salvar, por favor tente novamente.");
+        });
+      return response;
+    },
+  });
+}
 const useDeleteInstitution = () => {
   const api = useApi();
   const queryClient = useQueryClient();
@@ -101,5 +118,6 @@ export const InstitutionService = {
   useGetUserInstitutions,
   useGetInstitutionAddresses,
   usePostNewInstitution,
-  useDeleteInstitution
+  useDeleteInstitution,
+  usePutInstitution
 }
