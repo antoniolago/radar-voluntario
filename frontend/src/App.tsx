@@ -16,7 +16,6 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useGetAppSettings } from './api/appsettings';
 import ProfileEdit from './pages/ProfileEdit';
 import Opportunities from './pages/Opportunities';
-import OpportunityEdit from './pages/OpportunityEdit';
 import OpportunityDetails from './pages/OpportunityDetails';
 import InstitutionDetails from './pages/InstitutionDetails';
 import VolunteerDetails from './pages/VolunteerDetails';
@@ -44,7 +43,6 @@ function App() {
             <Route path="/perfilInstituicao" element={<ProfileEdit profile={'institution'}/>} />
             <Route path="/perfil" element={<ProfileEdit profile={'volunteer'}/>} />
             <Route path="/oportunidades" element={<Opportunities/>} />
-            <Route path="/edicao/oportunidade/:id?" element={<OpportunityEdit/>} />
             <Route path="/voluntario/:id" element={<VolunteerDetails/>} />
             <Route path="/voluntarios" element={<Volunteers/>} />
             <Route path="/inscricoes" element={<Registrations/>} />
