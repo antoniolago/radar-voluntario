@@ -1,10 +1,24 @@
-import { Prisma } from "@prisma/client";
+import { InstitutionAddress, Prisma } from "@prisma/client";
 import { prisma } from "../database/prisma";
 import AppError from "../errors/app-error";
 
 type OptionalFields = "id";
 
-type SaveCommand = Omit<Prisma.OpportunityCreateManyInput, OptionalFields>;
+type SaveCommand = Omit<Prisma.OpportunityCreateManyInput, OptionalFields> & {
+  address: Omit<
+    Prisma.InstitutionAddressCreateManyInput,
+    OptionalAddressFields
+  >;
+};
+
+type UpdateCommand = Omit<SaveCommand, "address"> & {
+  address: Omit<
+    Prisma.InstitutionAddressCreateManyInput,
+    "institution" | "institution_id"
+  >;
+};
+
+type OptionalAddressFields = "id" | "institution" | "institution_id";
 
 export class OpportunitiesService {
   public index = async (institutionId: string) => {
@@ -66,9 +80,11 @@ export class OpportunitiesService {
   };
 
   public save = async (command: SaveCommand, userId: string) => {
+    const { address, ...rest } = command;
+
     const institution = await prisma.institution.findUnique({
       where: {
-        id: command.institution_id,
+        id: rest.institution_id,
       },
     });
 
@@ -89,7 +105,7 @@ export class OpportunitiesService {
 
     const opportunity = await prisma.opportunity.create({
       data: {
-        ...command,
+        ...rest,
         institution_id: institution.id,
       },
     });
@@ -97,14 +113,16 @@ export class OpportunitiesService {
     return {
       ...opportunity,
       users: [],
-    }
+    };
   };
 
   public update = async (
     opportunityId: string,
-    command: SaveCommand,
+    command: UpdateCommand,
     userId: string
   ) => {
+    const { address, ...rest } = command;
+
     const opportunity = await prisma.opportunity.findUnique({
       where: {
         id: opportunityId,
@@ -125,6 +143,36 @@ export class OpportunitiesService {
       throw new AppError("Institution not found", 400);
     }
 
+    let institutionAddress: InstitutionAddress | null = null;
+
+    if (address) {
+      if (address.id) {
+        institutionAddress = await prisma.institutionAddress.update({
+          where: {
+            id: address.id,
+          },
+          data: {
+            ...address,
+          },
+        });
+      } else {
+        const primaryAddress = await prisma.institutionAddress.findFirst({
+          where: {
+            institution_id: institution.id,
+            primary: true,
+          },
+        });
+
+        institutionAddress = await prisma.institutionAddress.create({
+          data: {
+            ...address,
+            primary: !primaryAddress,
+            institution_id: institution.id,
+          },
+        });
+      }
+    }
+
     const institutionUser = await prisma.institutionUser.findFirst({
       where: {
         institution_id: institution.id,
@@ -141,19 +189,20 @@ export class OpportunitiesService {
         id: opportunity.id,
       },
       data: {
-        ...command,
+        ...rest,
+        address_id: institutionAddress ? institutionAddress.id : undefined,
       },
       include: {
         institution: true,
         address: true,
         users: { include: { user: true } },
-      }
+      },
     });
 
     return {
       ...updatedOpportunity,
       users: updatedOpportunity.users.map((user) => user),
-    }
+    };
   };
 
   public delete = async (opportunityId: string, userId: string) => {
