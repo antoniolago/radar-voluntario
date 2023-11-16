@@ -438,8 +438,8 @@ export default function DefaultDataGrid(props: DataTableProps) {
                     sx={{ color: 'error.main' }}
                 />);
             var canView = false;
-            if(params.row.published != undefined){
-                canView = props?.canView && params.row.published;
+            if(params?.row?.published != undefined){
+                canView = props?.canView && params?.row?.published;
             } else {
                 canView = props?.canView ?? false;
             }

@@ -85,7 +85,7 @@ const OpportunitiesList = (props: { institutionId?: number, isUserOwner?: boolea
             renderCell: renderDetailsButton
         },
     ];
-    const isMobile = TemaService.useGetIsMobile();
+    const { isMobile } = TemaService.useGetIsMobile();
     const { data, isLoading, isError } = OpportunityService.useGetOpportunityList(id!);
     const gridHeight = "50dvh";
     return (

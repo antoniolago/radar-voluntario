@@ -54,7 +54,7 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
         }
     }, [institutionData])
     useEffect(() => {
-        var debug = false;
+        var debug = true;
         if(debug){
             reset(
                 {
@@ -78,7 +78,8 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
         setOnlineOpportunity(event.target.checked);
     };
 
-    const onSubmit = (data: Opportunity) => {
+    const onSubmit = (data: Opportunity, e: any) => {
+        if (e.target.id != "opportunity-form") return;
         if (data.id) {
             updateOpportunity(data);
         } else {
@@ -119,7 +120,7 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
 
     return (
         <Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} id="opportunity-form">
                 <Grid container spacing={2.5} >
                     {opportunity != null && <input {...register("id", { value: '' })} type="hidden" />}
                     <input {...register("institution_id", { value: id })} type="hidden" />
