@@ -18,6 +18,8 @@ model User {
   picture       String?
   about         String?
   phone         String?
+  facebook      String?
+  instagram     String?
   institutions  InstitutionUser[]
   opportunities OpportunityUser[]
   Institution   Institution[]

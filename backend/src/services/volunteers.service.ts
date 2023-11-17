@@ -1,46 +1,55 @@
-import { Prisma } from "@prisma/client";
 import { prisma } from "../database/prisma";
-import AppError from "../errors/app-error";
 
-type OptionalFields = "id";
-
-type SaveCommand = Omit<Prisma.UserCreateManyInput, OptionalFields>;
 
 export class VolunteersService {
-    public index = async (userId: string) => {
+  public index = async (userId: string) => {
 
-        const institutions = await prisma.institutionUser.findMany({
-            select: {
-                id: true
-            },
-            where: {
-                user_id: userId,
-            },
-        });
-        
-        if (!institutions) {
-            throw new AppError("No data found", 400);
-        }
-
-        const institutionsIds = institutions.map((institution) => institution.id);
-
-        const usersByInstitution = await prisma.user.findMany({
-            where: {
-                opportunities: {
-                some: {
-                    opportunity: {
-                        institution_id: {
-                            in: institutionsIds,
-                        },
-                  },
-                },
+    const usersByInstitution = await prisma.user.findMany({
+      where: {
+        opportunities: {
+          some: {
+            opportunity: {
+              institution: {
+                owner_id: userId,
               },
             },
-            include: { opportunities: true }
-          });
-          
+          },
+        },
+      },
+      include: { opportunities: true }
+    });
 
-        return usersByInstitution;
-    };
+    return usersByInstitution;
+  };
+
+
+  public get = async (volunteerId: string) => {
+    const volunteer = await prisma.user.findUnique({
+      where: {
+        id: volunteerId,
+      },
+    });
+
+    return volunteer;
+  };
+
+
+  public getOpportunities = async (volunteerId: string) => {
+    const opportunities = await prisma.opportunity.findMany({
+      where: {
+        users: {
+          some: {
+            user: {
+                id: volunteerId,
+            },
+          },
+        },
+      },
+      include: { institution: true }
+    });
+    return opportunities;
+  };
+
+  
 
 }

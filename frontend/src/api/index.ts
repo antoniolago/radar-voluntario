@@ -50,10 +50,10 @@ const logout = () => {
   Cookies.remove(AuthCookieName);
   // window.location.href = "/login";
 }
-const isLogado = () => {
-  const token = getDecodedToken();
+export const isLogado = () => {
+  const token = getToken();
   // return token?.usuarioProfessor != undefined;
-  return token != undefined;
+  return token != undefined && token != "";
   // return api.get("auth/validar")
   // .then((res: AxiosResponse<ApiResponse>) => {
   //   return res.data.type == ResponseType.Success;

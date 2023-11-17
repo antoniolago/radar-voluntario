@@ -22,6 +22,7 @@ const ProfileMenu = (props: any) => {
     };
 
     const handleLogout = () => {
+        handleCloseMenu();
         setToken("");
         navigate("/");
     }
@@ -82,12 +83,11 @@ const ProfileMenu = (props: any) => {
                         Configurações
                     </Typography>
                 </MenuItem>
-                <MenuItem onClick={handleCloseMenu}>
+                <MenuItem onClick={handleLogout}>
                     <LogoutIcon />
                     <Typography
                         variant="body2"
-                        sx={{ marginLeft: '5px' }}
-                        onClick={handleLogout}>
+                        sx={{ marginLeft: '5px' }}>
                         Sair
                     </Typography>
                 </MenuItem>

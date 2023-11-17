@@ -33,4 +33,11 @@ export class AccountsController {
 
     return response.json(user);
   };
+
+
+  public deleteAccount = async (request: Request, response: Response) => {
+    await this.accountsService.deleteAccount(request.user.id);
+    return response.status(204).send();
+  };
+
 }

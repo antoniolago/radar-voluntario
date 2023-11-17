@@ -70,6 +70,7 @@ app.delete(
   opportunitiesController.delete
 );
 app.get("/api/opportunity/published/:id?", opportunitiesController.getPublished);
+app.get("/api/opportunities/published/:id?", opportunitiesController.getPublishedList);
 
 
 const registrationsService = new RegistrationsService();
@@ -84,6 +85,8 @@ app.delete("/api/registrations/:id?", authMiddleware, registrationsController.de
 const volunteersService = new VolunteersService();
 const volunteersController = new VolunteersController(volunteersService);
 app.get("/api/volunteers", authMiddleware, volunteersController.index);
+app.get("/api/volunteers/:id", authMiddleware, volunteersController.get);
+app.get("/api/volunteers/:id/opportunities", authMiddleware, volunteersController.getOpportunities);
 
 
 const appSettingsService = new AppSettingsService();
@@ -96,6 +99,7 @@ const accountsController = new AccountsController(accountsService);
 
 app.get("/api/accounts", authMiddleware, accountsController.getAccount);
 app.put("/api/accounts", authMiddleware, accountsController.updateAccount);
+app.delete("/api/accounts", authMiddleware, accountsController.deleteAccount);
 app.post("/api/accounts/login", accountsController.login);
 app.post("/api/accounts/login-google", accountsController.loginGoogle);
 

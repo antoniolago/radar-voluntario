@@ -3,4 +3,8 @@ export interface User {
     email: string;
     name: string;
     picture: string;
+    phone: string;
+    facebook: string;
+    instagram: string;
+    about: string;
 }

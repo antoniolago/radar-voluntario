@@ -6,7 +6,9 @@ import AppError from "../errors/app-error";
 
 interface UpdateAccountParams {
   about?: string;
+  facebook?: string;
   phone?: string;
+  instagram?: string;
 }
 
 export class AccountsService {
@@ -82,11 +84,9 @@ export class AccountsService {
   }
 
   public async updateUser(data: UpdateAccountParams, userId: string) {
-    const user = await prisma.user.update({
+    let user = await prisma.user.findUnique({
       where: { id: userId },
-      data,
     });
-
     if (!user) {
       throw new AppError("User not found", 404);
     }
@@ -96,9 +96,23 @@ export class AccountsService {
       data: {
         about: data.about,
         phone: data.phone,
+        instagram: data.instagram,
+        facebook: data.facebook,
       },
     })
 
     return user;
   }
+
+  public deleteAccount = async (userId: string) => {
+    await prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    });
+
+    return;
+  };
+
+
 }

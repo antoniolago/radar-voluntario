@@ -18,12 +18,14 @@ import { createPortal } from 'react-dom';
 import { IAddress } from '@/types/address';
 import { apiRoutes } from '@/routes';
 import { useApi } from '@/api';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { LoadingButton } from "@mui/lab";
 import { InstitutionService } from '@/api/institution';
 // import { Grid } from '@mui/joy';
 
 const NewInstitutionForm = (props: any) => {
+    const { id } = useParams();
+
 	const [image, setImage] = useState();
 	const api = useApi();
 	const [address, setAddress] = useState<IAddress | undefined>();
@@ -33,7 +35,11 @@ const NewInstitutionForm = (props: any) => {
 		const file = event.target.files[0]
 		setImage(file);
 	}
-	const { mutate, isLoading, isSuccess, isError, data } = InstitutionService.usePostNewInstitution();
+	const { mutate: create, isLoading, isSuccess, isError, data } = InstitutionService.usePostNewInstitution();
+	const { mutate: update } = InstitutionService.usePutInstitution(id);
+	const { data: institution, isLoading: isLoadingInstitution } = InstitutionService.useGetInstitution(id);
+	
+	
 	const {
 		register,
 		setError,
@@ -52,34 +58,44 @@ const NewInstitutionForm = (props: any) => {
 		// resolver: yupResolver(validationSchema) as Resolver<AtualizacaoCadastralType, object>
 	});
 	useEffect(() => {
-		const debug = false;
-		if (debug)
+		if (institution != undefined && id!= undefined)
 			reset({
-				about: 'About........................',
-				facebook: '',
-				instagram: '',
-				owner_id: '',
-				name: 'Teste123',
-				telephone: '00 00000-0000',
+				id: institution.id,
+				about: institution.about,
+				facebook: institution.facebook,
+				instagram: institution.instagram,
+				owner_id: institution.owner_id,
+				name: institution.name,
+				telephone: institution.telephone,
+				picture: institution.picture,
 			})
-	}, [])
-	const onSubmitt = (data: Institution, e: any) => {
+			if(institution?.address){
+				setAddress(institution?.address)
+			}
+	}, [institution])
+	const onSubmit = (data: Institution, e: any) => {
 		e.preventDefault();
 		e.stopPropagation();
 		if (e.target.id != "new-organization-form") return;
 		if (address != undefined) {
 			data.address = address;
 		}
-		mutate(data);
+		if(data.id){
+			update(data)
+			props.setShowModal(false);
+		}else{
+			create(data);
+			props.setShowModal(false);
+		}
 	}
 
-	useEffect(() => {
-		if (data?.data.id != undefined)
-			props.setShowModal(false);
-	}, [data])
+	// useEffect(() => {
+	// 	if (data?.data.id != undefined)
+	// 		props.setShowModal(false);
+	// }, [data])
 
 	return (
-		<FormContainer onSubmit={handleSubmit(onSubmitt)} id="new-organization-form">
+		<FormContainer onSubmit={handleSubmit(onSubmit)} id="new-organization-form">
 			<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
 				<Grid item sx={{ display: "flex", flexDirection: "column" }} xs={6} sm={12} md={6} >
 					<TextField
@@ -89,7 +105,8 @@ const NewInstitutionForm = (props: any) => {
 						name="name"
 						size={"small"}
 						variant="outlined"
-						inputProps={{ maxLength: 255 }} />
+						inputProps={{ maxLength: 255 }} 
+						InputLabelProps={{ shrink: true }}/>
 					<TextField
 						label="Sobre"
 						{...register("about")}
@@ -97,7 +114,8 @@ const NewInstitutionForm = (props: any) => {
 						// required
 						rows={5}
 						defaultValue=""
-						inputProps={{ maxLength: 1024 }} />
+						inputProps={{ maxLength: 1024 }} 
+						InputLabelProps={{ shrink: true }}/>
 
 					{/* <TextField
 						required
@@ -114,20 +132,25 @@ const NewInstitutionForm = (props: any) => {
 						defaultValue=""
 						placeholder="(00) 00000-0000"
 						mask="(00) 00000-0000"
-						variant="outlined" />
+						variant="outlined"
+						InputLabelProps={{ shrink: true }} />
 					{/* <Typography fontWeight={600} variant="subtitle1">Redes sociais</Typography> */}
 					<InputGroup>
 						<TextField
+							{...register("facebook")}
 							label="Facebook"
 							size={"small"}
 							variant="outlined"
-							inputProps={{ maxLength: 255 }} />
+							inputProps={{ maxLength: 255 }}
+							InputLabelProps={{ shrink: true }} />
 
 						<TextField
+							{...register("instagram")}
 							label="Instagram"
 							size={"small"}
 							variant="outlined"
-							inputProps={{ maxLength: 255 }} />
+							inputProps={{ maxLength: 255 }} 
+							InputLabelProps={{ shrink: true }}/>
 
 					</InputGroup>
 				</Grid>
@@ -152,7 +175,7 @@ const NewInstitutionForm = (props: any) => {
 						</CardContent>
 					</Card>
 					<AddressSelect
-						context="newOrganization"
+						context={institution != undefined ? "editOrganization" :"newOrganization"}
 						setAddress={setAddress}
 						selectedAddress={address}
 					/>
@@ -161,7 +184,7 @@ const NewInstitutionForm = (props: any) => {
 
 			<Grid>
 				{/* <pre>{JSON.stringify(getValues(), null, 4)}</pre> */}
-				<Grid md={12} style={{ textAlign: "right" }}>
+				<Grid item md={12} style={{ textAlign: "right" }}>
 					<Button
 						color="primary"
 						variant='outlined'
@@ -174,7 +197,7 @@ const NewInstitutionForm = (props: any) => {
 						// onClick={() => reset({})} 
 						style={{ marginRight: "10px" }}
 					>
-						CANCELAR
+						VOLTAR
 					</Button>
 
 					<LoadingButton
