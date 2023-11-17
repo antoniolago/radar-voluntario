@@ -32,6 +32,8 @@ const OpportunityDetails = (props: OpportunityDetailsProps) => {
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [openRegisterLoginDialog, setOpenRegisterLoginDialog] = useState(false);
 
+    const { data: curUser } = AuthService.useGetUser();
+    const isUserOwner = data?.institution?.owner_id == curUser?.id
     const onRegistrationClick = () => {
         setOpenRegisterDialog(false);
         createRegistration({ opportunity_id: data.id })
