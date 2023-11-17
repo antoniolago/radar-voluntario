@@ -122,12 +122,9 @@ const OpportunityDetails = (props: OpportunityDetailsProps) => {
                     </LocationDetails>
 
                     <div style={{ marginTop: "2em", textAlign: "right" }}>
-                        <Button component={Link} to={"/instituicao/" + 1} sx={{ marginRight: "1em" }} type="submit" size="large" color="primary" variant="outlined">
+                        {/* <Button component={Link} to={"/instituicao/" + 1} sx={{ marginRight: "1em" }} type="submit" size="large" color="primary" variant="outlined">
                             Sobre a Organização
-                        </Button>
-                        {/* TODO:
-                            - Verificar se usuário não é dono da instituição, nesse caso não permitir o cadastro 
-                        */}
+                        </Button> */}
                         {
 
                             user?.name != undefined && getToken() != "" ?
