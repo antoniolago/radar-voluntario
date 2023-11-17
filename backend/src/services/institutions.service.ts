@@ -7,7 +7,7 @@ type OptionalFields = "id";
 type SaveCommand = Omit<Prisma.InstitutionCreateManyInput, OptionalFields> & {
   address: Omit<
     Prisma.InstitutionAddressCreateManyInput,
-    OptionalAddressFields
+    "institution" | "institution_id"
   >;
 };
 
@@ -52,7 +52,7 @@ export class InstitutionsService {
       include: { adresses: true },
       orderBy: {
         name: "asc",
-      }
+      },
     });
 
     return institutions.map((institution) => ({
@@ -74,7 +74,7 @@ export class InstitutionsService {
         institution: {
           name: "asc",
         },
-      }
+      },
     });
 
     return institutionsUser.map(
@@ -95,13 +95,31 @@ export class InstitutionsService {
     let institutionAddress: InstitutionAddress | null = null;
 
     if (address !== undefined) {
-      institutionAddress = await prisma.institutionAddress.create({
-        data: {
-          ...address,
-          primary: true,
-          institution_id: institution.id,
-        },
-      });
+      if (address.id) {
+        institutionAddress = await prisma.institutionAddress.update({
+          where: {
+            id: address.id,
+          },
+          data: {
+            ...address,
+          },
+        });
+      } else {
+        const primaryAddress = await prisma.institutionAddress.findFirst({
+          where: {
+            institution_id: institution.id,
+            primary: true,
+          },
+        });
+
+        institutionAddress = await prisma.institutionAddress.create({
+          data: {
+            ...address,
+            primary: !primaryAddress,
+            institution_id: institution.id,
+          },
+        });
+      }
     }
 
     await prisma.institutionUser.create({
