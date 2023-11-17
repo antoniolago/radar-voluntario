@@ -142,6 +142,9 @@ export class OpportunitiesService {
         institution_id: institution.id,
         address_id: institutionAddress ? institutionAddress.id : undefined,
       },
+      include: {
+        address: true
+      }
     });
 
     return {
