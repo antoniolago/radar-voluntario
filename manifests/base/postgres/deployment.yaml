@@ -36,8 +36,9 @@ spec:
           ports:
             - containerPort: 5432
           volumeMounts:
-            - name: postgres-storage
+            - name: postgres-pv
               mountPath: /var/lib/postgresql/data
+              subPath: placeholder
           # resources:
           #   limits:
           #     cpu: "1"
@@ -45,7 +46,12 @@ spec:
           #   requests:
           #     cpu: "0.25"
           #     memory: "256Mi"
+      
       volumes:
-        - name: postgres-storage
+        - name: postgres-pv
           persistentVolumeClaim:
             claimName: postgres-pvc
+      # volumes:
+      #   - name: postgres-storage
+      #     persistentVolumeClaim:
+      #       claimName: postgres-pvc

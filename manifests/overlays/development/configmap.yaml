@@ -13,3 +13,4 @@ data:
   postgres-db: radar-voluntario
   postgres-user: postgres
   google-oauth-client-id: 910904119481-m5o3q6n66b1l9bamtgh854t4c31r6kj9.apps.googleusercontent.com
+  postgres-pv-subpath: radar-voluntario-development
