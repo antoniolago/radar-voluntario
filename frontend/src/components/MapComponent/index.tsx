@@ -20,7 +20,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import MapSpeedDial from './MapSpeedDial';
 import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import { IconButton } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, matchRoutes, useLocation } from 'react-router-dom';
 import ReactDOMServer, { renderToStaticMarkup } from "react-dom/server";
 import { Coordenates } from '@/types/coords';
 import { useColorScheme as useMaterialColorScheme } from '@mui/material/styles';
@@ -46,6 +46,10 @@ function MapComponent(props: MapProps) {
   const mapRef = useRef<Map>();
   const markerRef = useRef<Marker>();
   const position: any = [-30.03306, -51.23];
+  const location = useLocation()
+  const route = matchRoutes([{path: "/"}], location)
+  var isHome = route != undefined ? route[0].route.path == "/" : false;
+  console.log(isHome)
   const MarkerIcon = <LocationOnIcon
     sx={{
       fontSize: '40px',
@@ -58,7 +62,7 @@ function MapComponent(props: MapProps) {
   useEffect(() => {
     if (opportunities != undefined) {
       opportunities.forEach((opp: Opportunity) => {
-        if (opp.address != undefined && opp.published) {
+        if (opp.address != undefined && opp.published && isHome) {
           var pinRef = createPin({ lat: opp.address.latitude, lng: opp.address.longitude } as LatLngExpression);
           pinRef.on("click", function (ev: any) {
             setSelectedOpportunity(opp)

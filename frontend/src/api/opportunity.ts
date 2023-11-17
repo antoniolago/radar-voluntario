@@ -63,7 +63,7 @@ const useGetOpportunityPublishedList = (institution_id: string) => {
 };
 //TODO ADJUST QUERIES KEYS
 
-const usePostOpportunity = () => {
+const usePostOpportunity = (callback: any) => {
   const api = useApi();
   const queryClient = useQueryClient();
 
@@ -76,6 +76,7 @@ const usePostOpportunity = () => {
       toast.success('Oportunidade cadastrada');
       queryClient.invalidateQueries(['opportunities-'+data.institution_id, 'opportunities'])
       queryClient.invalidateQueries(['opportunities-published-'+data.institution_id])
+      callback != undefined ? callback() : () => {}
       return data;
     },
     onError: (error) => {
@@ -84,7 +85,7 @@ const usePostOpportunity = () => {
   });
 }
 
-const usePutOpportunity = () => {
+const usePutOpportunity = (callback: any) => {
   const api = useApi();
   const queryClient = useQueryClient();
 
@@ -96,7 +97,7 @@ const usePutOpportunity = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries(['opportunities-'+data.institution_id])
       queryClient.invalidateQueries(['opportunity-'+data.id])
-      toast.success('Oportunidade atualizada');
+      callback != undefined ? callback() : () => {}
       return data;
     },
     onError: (error) => {

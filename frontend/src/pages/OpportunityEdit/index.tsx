@@ -21,8 +21,8 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
     const [endDate, setEndDate] = useState<Dayjs | null>(null);
 
 	const [address, setAddress] = useState<IAddress | undefined>();
-    const { mutateAsync: createOpportunity } = OpportunityService.usePostOpportunity();
-    const { mutate: updateOpportunity } = OpportunityService.usePutOpportunity();
+    const { mutateAsync: createOpportunity } = OpportunityService.usePostOpportunity(() => props?.setShowModal(false));
+    const { mutate: updateOpportunity } = OpportunityService.usePutOpportunity(() => props?.setShowModal(false));
     const { data: opportunity } = OpportunityService.useGetOpportunity(props.opportunityId ?? "0");
     
     useEffect(() => {
@@ -54,10 +54,8 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
 		}
         if (data.id) {
             updateOpportunity(data);
-            props?.setShowModal(false)
         } else {
             createOpportunity(data);
-            props?.setShowModal(false)
         }
     }
 
