@@ -5,10 +5,7 @@ import AppError from "../errors/app-error";
 type OptionalFields = "id";
 
 type SaveCommand = Omit<Prisma.OpportunityCreateManyInput, OptionalFields> & {
-  address: Omit<
-    Prisma.InstitutionAddressCreateManyInput,
-    OptionalAddressFields
-  >;
+  address: Prisma.InstitutionAddressCreateManyInput
 };
 
 type UpdateCommand = Omit<SaveCommand, "address"> & {
@@ -113,9 +110,14 @@ export class OpportunitiesService {
       throw new AppError("Institution not found", 400);
     }
 
+    let addressId = null;
+    if(address && address.id) {
+      addressId = address.id;
+    }
+
     let institutionAddress: InstitutionAddress | null = null;
 
-    if (address !== undefined) {
+    if (address !== undefined && address.id == undefined) {
       institutionAddress = await prisma.institutionAddress.create({
         data: {
           ...address,
@@ -123,6 +125,7 @@ export class OpportunitiesService {
           institution_id: institution.id,
         },
       });
+      addressId = institutionAddress.id;
     }
 
     const institutionUser = await prisma.institutionUser.findFirst({
@@ -140,7 +143,7 @@ export class OpportunitiesService {
       data: {
         ...rest,
         institution_id: institution.id,
-        address_id: institutionAddress ? institutionAddress.id : undefined,
+        address_id: addressId,
       },
       include: {
         address: true
