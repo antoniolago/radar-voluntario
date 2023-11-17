@@ -98,12 +98,6 @@ function Volunteers() {
 								enablePagination={true}
 								canView={true}
 								onView={onView}
-								canInsert={true}
-								toolbarProps={{
-									showQuickFilter: true,
-									showFilterButton: true,
-									addNewRowLabel: "Adicionar Organização"
-								}}
 								datagridProps={{
 									className: isMobile ? "vertical-grid" : "",
 									columns: columns,
