@@ -14,7 +14,8 @@ import { Coordenates } from "@/types/coords";
 
 interface IAddressFormProps {
     setShowModal: (x: any) => void;
-    context: "newOrganization" | "newActivity";
+    addNewAddress: (x: any) => void;
+    context: "newOrganization" | "newActivity" | "editOrganization";
     setAddress?: any;
 }
 const AddressForm = (props: IAddressFormProps) => {
@@ -104,12 +105,15 @@ const AddressForm = (props: IAddressFormProps) => {
                 .finally(() => {
                     apiBrasilApi.get(`api/cep/v2/${zip_code}`)
                         .then((res: AxiosResponse<BrasilApiAddress>) => {
-                            setPosition(
-                                {
-                                    lat: +res.data.location.coordinates.latitude,
-                                    lng: +res.data.location.coordinates.longitude
+                            if(res.data.location.coordinates.latitude && res.data.location.coordinates.longitude){
+
+                                setPosition(
+                                    {
+                                        lat: +res.data.location.coordinates.latitude,
+                                        lng: +res.data.location.coordinates.longitude
+                                    }
+                                    );
                                 }
-                            );
                             setShowMap(true);
                         })
                 });
@@ -125,6 +129,7 @@ const AddressForm = (props: IAddressFormProps) => {
         if (e.target.id != "form-new-address") return;
         const api = useApi();
         var request: IAddress = data;
+        console.log(selectedCoordenate, 'selectedCoordenate')
         if (selectedCoordenate == undefined) {
             //TODO ADICIONAR MELHOR SINALIZACAO DE QUE É NECESSARIO CLICAR NO MAPA
             toast.error("Por favor marque no mapa a localização precisa do local");
@@ -132,30 +137,29 @@ const AddressForm = (props: IAddressFormProps) => {
         }
         request.latitude = selectedCoordenate.latitude;
         request.longitude = selectedCoordenate.longitude;
-        if (props.context == "newActivity") {
-            api.post("address").then(
-                (res: AxiosResponse) => {
-                    toast.success("Endereço adicionado com sucesso")
-                    props.setShowModal(false);
-                }
-            )
-        } else {
-            props.setAddress(request);
-
+        // if (props.context == "newActivity") {
+        //     api.post("address").then(
+        //         (res: AxiosResponse) => {
+        //             toast.success("Endereço adicionado com sucesso")
+        //             props.setShowModal(false);
+        //         }
+        //     )
+        // } else {
+            props.addNewAddress(request);
             toast.success("Endereço adicionado com sucesso")
             props.setShowModal(false);
-        }
+        // }
     }
     return (
         <Box
             id="form-new-address"
             component="form"
+            onSubmit={handleSubmit(onSubmit)}
+            autoComplete="off"
             sx={{
                 '& .MuiTextField-root': { m: 1, width: '25ch' },
             }}
             // noValidate
-            onSubmit={handleSubmit(onSubmit)}
-            autoComplete="off"
         >
             {carregando ? (
                 <Loading />

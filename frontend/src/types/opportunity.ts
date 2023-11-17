@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs";
 import { IAddress } from "./address";
 
 export interface Opportunity {
@@ -8,9 +9,8 @@ export interface Opportunity {
     vacancies: number,
     published: boolean,
     online: boolean,
-    address_id: string
-    start_date: Date,
-    end_date: Date,
+    start_date: Dayjs,
+    end_date: Dayjs,
     institution?: any,
     address?: IAddress,
     users?: any,

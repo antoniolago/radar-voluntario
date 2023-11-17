@@ -41,7 +41,7 @@ const OpportunityDetails = () => {
     }
 
     const isDisabled = () => {
-        return data.institution.owner_id !== user?.id;
+        return data.institution.owner_id === user?.id;
     }
 
     const getVacanciesLeft = () => {
@@ -58,10 +58,11 @@ const OpportunityDetails = () => {
 
             {isLoading || isLoadingUser ? (
                 <Loading />
-            ) : (data == null || getVacanciesLeft() < 0 &&
-                "Oportunidade não encontrada." )
-            }
-
+            ) : (
+                (data == null || getVacanciesLeft() < 0) && (
+                    "Oportunidade não encontrada."
+                )
+            )}
 
             {data != null && getVacanciesLeft() > 0 &&
                 <>

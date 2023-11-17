@@ -27,12 +27,13 @@ function Registrations() {
 			headerName: 'Oportunidade',
 			minWidth: 200,
 			align: "center",
+			flex: 0.3,
 			headerAlign: "center",
 		},
 		{
 			field: 'institution.name',
 			headerName: 'Instituição',
-			// flex: 0.1,
+			flex: 0.2,
 			minWidth: 200,
 			align: "center",
 			headerAlign: "center",
@@ -57,13 +58,14 @@ function Registrations() {
 			),
 			minWidth: 100,
 			headerName: 'Endereço',
-			// flex: 0.2,
+			flex: 0.2,
 			align: "center",
 			headerAlign: "center"
 		},
 		{
 			field: 'date',
 			minWidth: 180,
+			flex: 0.2,
 			renderCell: (params: GridRenderCellParams<any>) => (
 				<>
 					{isMobile &&
@@ -97,8 +99,7 @@ function Registrations() {
 				}
 
 
-				{
-					data !== undefined && data.length > 0 &&
+				{data !== undefined && data.length > 0 &&
 
 					<DefaultDataGrid
 						enablePagination={true}

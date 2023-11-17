@@ -16,7 +16,6 @@ import { AuthService } from '@/api/auth';
 
 function Institutions() {
     const [value, setValue] = useState(0);
-    const { id } = useParams();
     const [openAddOrganizationModal, setOpenAddOrganizationModal] = useState(false);
 
     interface TabPanelProps {
@@ -62,6 +61,22 @@ function Institutions() {
             minWidth: 200,
             align: "left",
             headerAlign: "left"
+        },
+        {
+            field: 'opportunities',
+            headerName: 'Oportunidades',
+            flex: 0.1,
+            minWidth: 200,
+            align: "left",
+            headerAlign: "left",
+            renderCell: (params: GridRenderCellParams<any>) => (
+				<>
+					{
+                        params.row.opportunities.length
+                    }
+				</>
+			),
+            sortComparator: (opportunity1, opportunity2) => (opportunity1.length - opportunity2.length)
         }
     ];
 
@@ -100,13 +115,16 @@ function Institutions() {
     const {
         data: allInstitutions,
         isLoading: isLoadingAllInstitutions,
-        isError: isAllInstitutionsError
+        isError: isAllInstitutionsError,
+        isRefetching: isRefetchingAllInstitutions
     } = InstitutionService.useGetInstitutions();
     const {
         data: userInstitutions,
         isLoading: isLoadingUserInstitutions,
-        isError: isUserInstitutionsError
+        isError: isUserInstitutionsError,
+        isRefetching: isRefetchingInstitutions,
     } = InstitutionService.useGetUserInstitutions();
+
     var gridHeight = '65dvh';
     return (
         <Paper elevation={4}>
@@ -131,7 +149,7 @@ function Institutions() {
                     <Grid item sx={{ width: '100%' }}>
                         {allInstitutions != undefined &&
                             <Skeleton
-                                loading={isLoadingAllInstitutions || isAllInstitutionsError}
+                                loading={isLoadingAllInstitutions || isAllInstitutionsError || isRefetchingInstitutions || isRefetchingAllInstitutions}
                                 height={gridHeight}
                                 sx={{
                                     height: gridHeight,

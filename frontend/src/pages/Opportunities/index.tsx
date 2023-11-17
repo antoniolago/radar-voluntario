@@ -101,7 +101,7 @@ const Opportunities = () => {
 			// flex: 0.2
 		},
 		{
-			field: 'volunteers',
+			field: 'vacancies',
 			minWidth: 100,
 			align: 'center',
 			// renderHeader(params: any) {
@@ -114,7 +114,7 @@ const Opportunities = () => {
 							Voluntários inscritos:
 						</Typography>
 					}
-					{params.formattedValue}
+					{params.row.users.length} / {params.row.vacancies}
 				</>
 			),
 			headerName: 'Voluntários inscritos',

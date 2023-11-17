@@ -1,10 +1,10 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import { Button, DialogActions, DialogContent, DialogTitle, Modal, ModalClose, ModalDialog } from '@mui/joy';
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { LoadingButton } from '@mui/lab';
 
 export type DataGridDeleteDialogProps = {
   onDelete?: any;
@@ -27,27 +27,41 @@ export default function DeleteDialog(props: DataGridDeleteDialogProps) {
 
   return (
     <div>
-      <Dialog
+      <Modal
         open={props.open}
         onClose={handleClose}
         aria-labelledby="dialogo-confirma-delete-titulo"
         aria-describedby="dialogo-confirma-delete-descricao"
       >
-        <DialogTitle id="dialogo-confirma-delete-titulo">
-          {props.titulo}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="dialogo-confirma-delete-descricao">
+        <ModalDialog variant="outlined" role="alertdialog">
+          <ModalClose />
+          <DialogTitle id="dialogo-confirma-delete-titulo" sx={{ mb: 2 }}>
+            <WarningRoundedIcon />
+            {props.titulo}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContent id="dialogo-confirma-delete-descricao">
             {props.texto}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button color="error" variant="contained" onClick={handleClose}>Cancelar</Button>
-          <Button color="success" variant="contained" onClick={handleDelete} autoFocus>
+            </DialogContent>
+          </DialogContent>
+          <DialogActions>
+            <LoadingButton
+              color='error'
+              onClick={() => handleDelete()}
+              autoFocus
+              variant='contained'
+              form="new-organization-form"
+              id="new-organization-form-btn"
+              loadingPosition="center"
+            >
             {props.textoBotaoConfirma}
-          </Button>
-        </DialogActions>
-      </Dialog>
+              <DeleteForeverIcon sx={{ ml: 1 }} />
+            </LoadingButton>
+            <Button color="neutral" variant='outlined' onClick={() => handleClose()}>CANCELAR</Button>
+          </DialogActions>
+        </ModalDialog>
+      </Modal>
+
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { Coordenates } from "./coords"
 
 export interface IAddress {
-    id: number;
+    id: string;
     name: string;
     zip_code: string;
     street: string;

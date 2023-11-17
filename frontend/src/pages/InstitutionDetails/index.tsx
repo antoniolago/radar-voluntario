@@ -1,4 +1,4 @@
-import OportunitiesList from '@/components/OpportunitiesList';
+import OpportunitiesList from '@/components/OpportunitiesList';
 import { Breadcrumbs, Grid, Link, Paper, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { InsitutionImage, SocialMedialList } from './styles';
@@ -75,16 +75,22 @@ function InstitutionDetails() {
                         <Typography sx={{ textAlign: "justify" }} variant="body1" component="p"> {institution.about} </Typography>
 
                         <SocialMedialList>
-                            {institution.facebook &&
-                                <a href={institution.facebook} target="_blank">
-                                    <img src={facebookLogo} />
-                                </a>
+                            {institution.instagram != '' && institution.instagram != null && institution.instagram != undefined &&
+                                <div className="info">
+                                    <img src={instagramLogo} />
+                                    <div className='social-media'>
+                                        {institution.instagram}
+                                    </div>
+                                </div>
                             }
 
-                            {institution.instagram &&
-                                <a href={institution.instagram} target="_blank">
-                                    <img src={instagramLogo} />
-                                </a>
+                            {institution.facebook != '' && institution.facebook != null && institution.facebook != undefined &&
+                                <div className="info">
+                                    <img src={facebookLogo} />
+                                    <div className='social-media'>
+                                        {institution.facebook}
+                                    </div>
+                                </div>
                             }
                         </SocialMedialList>
                         {/* TEMPORARY DISABLE!!! */}
@@ -92,7 +98,7 @@ function InstitutionDetails() {
                         <InsitutionImage src="/preview-image.png" />
                     </Grid> */}
 
-                        <OportunitiesList isUserOwner={isUserOwner} institutionId={1} />
+                        <OpportunitiesList isUserOwner={isUserOwner} institutionId={id} />
 
                     </>
 
