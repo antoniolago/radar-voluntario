@@ -136,30 +136,30 @@ const AddressForm = (props: IAddressFormProps) => {
         }
         request.latitude = selectedCoordenate.latitude;
         request.longitude = selectedCoordenate.longitude;
-        if (props.context == "newActivity") {
-            api.post("address").then(
-                (res: AxiosResponse) => {
-                    toast.success("Endereço adicionado com sucesso")
-                    props.setShowModal(false);
-                }
-            )
-        } else {
+        // if (props.context == "newActivity") {
+        //     api.post("address").then(
+        //         (res: AxiosResponse) => {
+        //             toast.success("Endereço adicionado com sucesso")
+        //             props.setShowModal(false);
+        //         }
+        //     )
+        // } else {
             props.setAddress(request);
 
             toast.success("Endereço adicionado com sucesso")
             props.setShowModal(false);
-        }
+        // }
     }
     return (
         <Box
             id="form-new-address"
             component="form"
+            onSubmit={handleSubmit(onSubmit)}
+            autoComplete="off"
             sx={{
                 '& .MuiTextField-root': { m: 1, width: '25ch' },
             }}
             // noValidate
-            onSubmit={handleSubmit(onSubmit)}
-            autoComplete="off"
         >
             {carregando ? (
                 <Loading />

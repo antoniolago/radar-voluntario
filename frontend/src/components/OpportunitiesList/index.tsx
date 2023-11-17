@@ -1,9 +1,6 @@
 import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
-import Table from "../Table";
-import { ContainerFilter } from "./styles";
-import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from "react";
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { Modal, ModalClose, ModalDialog, Skeleton } from "@mui/joy";
 import { OpportunityService } from "@/api/opportunity";
@@ -16,7 +13,7 @@ import { displayDateOnTable } from "@/utils/dateUtils";
 const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolean }) => {
     const [openAddActivityModal, setOpenAddActivityModal] = useState(false);
 	const { mutateAsync: deleteOpportunity  } = OpportunityService.useDeleteOpportunity();
-    const [opportunityId, setOpportunityId] = useState<string>('');
+    const [opportunityId, setOpportunityId] = useState<string>("0");
 
     const renderDetailsButton = (params: any) => {
         return (
@@ -46,6 +43,13 @@ const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolea
         setOpportunityId(id)
 	}
 
+    useEffect(() => {
+        if(!openAddActivityModal){
+            setOpportunityId("0")
+        }
+    }, [openAddActivityModal])
+
+    
     
     const columns: GridColDef[] = [
         {

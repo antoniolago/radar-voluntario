@@ -23,10 +23,10 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
 	const [address, setAddress] = useState<IAddress | undefined>();
     const { mutateAsync: createOpportunity } = OpportunityService.usePostOpportunity();
     const { mutate: updateOpportunity } = OpportunityService.usePutOpportunity();
-    const { data: opportunity } = OpportunityService.useGetOpportunity(props.opportunityId ?? "");
+    const { data: opportunity } = OpportunityService.useGetOpportunity(props.opportunityId ?? "0");
     
     useEffect(() => {
-        if (opportunity != null && props.opportunityId !== undefined && props.opportunityId !== "") {
+        if (props.opportunityId !== undefined && props.opportunityId !== "0") {
             reset({
                 id: opportunity.id,
                 name: opportunity.name,
@@ -44,13 +44,13 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
             if(opportunity?.address){
 				setAddress(opportunity?.address)
 			}
-        } 
+        }
     }, [opportunity])
 
 
 
     const onSubmit = (data: Opportunity, e: any) => {
-        if (e.target.id != "opportunity-form") return;
+        if (e.target.id != "form-new-opportunity") return;
         if (address != undefined) {
 			data.address = address;
 		}
@@ -97,7 +97,7 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
 
     return (
         <Box>
-            <form onSubmit={handleSubmit(onSubmit)} id="opportunity-form">
+            <form onSubmit={handleSubmit(onSubmit)} id="form-new-opportunity">
                 <input {...register("institution_id", { value: props.institutionId })} type="hidden" />
                 <Grid container spacing={2.5} >
                     <Grid item xs={8}>
@@ -216,10 +216,9 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                         >
                             CANCELAR
                         </Button>
-                        <Button 
-                            variant='solid' 
-                            type="submit"
-                            >
+                        <Button variant='solid' type="submit"
+                            form="form-new-opportunity"
+                            id="form-new-opportunity-btn">
                             SALVAR
                         </Button>
                     </Grid>

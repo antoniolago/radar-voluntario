@@ -44,8 +44,9 @@ const AddressSelect = (props: IAddressSelectProps) => {
                         var address = addresses?.filter(
                             (address) => address.id === e.target.value)[0]
                         setSelectedAddress(address);
+                        props.setAddress(address);
                     }}
-                    label={props.selectedAddress?.name || "Endereço"}
+                    label={"Endereço"}
                     defaultValue=""
                     helperText={props.context == "newOrganization" ?
                         "Adicione um endereço no botão ao lado do campo" : "Caso o endereço desejado não exista na lista, o adicione."}
@@ -80,11 +81,13 @@ const AddressSelect = (props: IAddressSelectProps) => {
                         <ModalDialog sx={{ overflowY: 'auto' }}>
                             <ModalClose />
                             <Typography> Novo endereço:</Typography>
-                            <AddressForm
+                            {openNewAddressModal &&
+                                <AddressForm
                                 context={props.context}
                                 setAddress={props.setAddress}
                                 setShowModal={setOpenNewAddressModal}
-                            />
+                                />
+                            }
                         </ModalDialog>
                     </Modal>,
                     document.body
