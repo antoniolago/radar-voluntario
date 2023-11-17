@@ -6,7 +6,7 @@ import { UseMutationOptions, UseQueryOptions, useMutation, useQuery, useQueryCli
 import { Opportunity } from '@/types/opportunity';
 import { toast } from 'sonner';
 
-const useGetOpportunityList = (institution_id: string) => {
+const useGetOpportunityList = (institution_id: string = "") => {
   const api = useApi();
 
   const enabled = institution_id == '0' ? false : true;

@@ -24,6 +24,8 @@ import { Link } from 'react-router-dom';
 import ReactDOMServer, { renderToStaticMarkup } from "react-dom/server";
 import { Coordenates } from '@/types/coords';
 import { useColorScheme as useMaterialColorScheme } from '@mui/material/styles';
+import { OpportunityService } from '@/api/opportunity';
+import { Opportunity } from '@/types/opportunity';
 
 interface MapProps {
   selectionMode?: boolean;
@@ -36,6 +38,7 @@ function MapComponent(props: MapProps) {
   const [selectionPinRef, setSelectionPinRef] = useState<Marker<any>>();
   const zoom = 14;
   const { isMobile } = TemaService.useGetIsMobile();
+  const { data: opportunities, isLoading: isLoadingOpportunities } = OpportunityService.useGetOpportunityList();
   const { data: coordenadasAtuais } = GeoLocationService.useGetCurrentLocation();
   const mapRef = useRef<Map>();
   const markerRef = useRef<Marker>();
@@ -49,22 +52,32 @@ function MapComponent(props: MapProps) {
       }
     }}
   />
-
+  useEffect(() => {
+    if (opportunities) {
+      opportunities.forEach((opp: Opportunity) => {
+        if (opp.address != undefined && opp.published) {
+          createPin({lat: opp.address.latitude, lng: opp.address.longitude} as LatLngExpression);
+        }
+      })
+    }
+  }, [opportunities])
+  const createPin = (position: LatLngExpression) => {
+    var t = L.marker(position, {
+      riseOnHover: true, draggable: false,
+      icon: L.divIcon(
+        {
+          html: renderToStaticMarkup(MarkerIcon) as any,
+          className: 'custom-marker',
+          iconSize: [40, 40]
+        }
+      ),
+    })
+    t.addTo(mapRef?.current as any);
+  }
   useEffect(() => {
     if (props.previewMode && props.position != undefined &&
       mapRef?.current != undefined) {
-      var t = L.marker(props.position, {
-        riseOnHover: true, draggable: false,
-        icon: L.divIcon(
-          {
-            html: renderToStaticMarkup(MarkerIcon) as any,
-            className: 'custom-marker',
-            iconSize: [40, 40]
-          }
-        ),
-      })
-      t.addTo(mapRef?.current as any);
-      mapRef.current.flyTo(props.position, 18)
+      createPin(props.position);
     }
   }, [mapRef?.current, position])
   useEffect(() => {
