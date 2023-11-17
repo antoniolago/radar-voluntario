@@ -15,11 +15,15 @@ import { displayDateTime } from '@/utils/dateUtils';
 import { getFullAddress } from '@/utils/addressUtils';
 import Loading from '@/components/Loading';
 
-const OpportunityDetails = () => {
+interface OpportunityDetailsProps {
+    id: string | undefined;
+}
+const OpportunityDetails = (props: OpportunityDetailsProps) => {
     const { idInstitution, idOpportunity } = useParams();
+    const idOpp = props?.id != undefined ? props.id : idOpportunity;
     const { data: user, isLoading: isLoadingUser } = AuthService.useGetUser();
-    const { data, isLoading } = OpportunityService.useGetPublishedOpportunity(idOpportunity ?? "");
-    const { data: registration } = RegistrationService.useGetRegistration(idOpportunity ?? "");
+    const { data, isLoading } = OpportunityService.useGetPublishedOpportunity(idOpp ?? "");
+    const { data: registration } = RegistrationService.useGetRegistration(idOpp ?? "");
     const { mutate: createRegistration } = RegistrationService.usePostRegistration();
     const { mutate: deleteRegistration } = RegistrationService.useDeleteRegistration();
     const [openRegisterDialog, setOpenRegisterDialog] = useState(false);
@@ -54,8 +58,9 @@ const OpportunityDetails = () => {
 
     return (
         <PageContainer>
-            <BackButton redirectTo={"/organizacao/" + idInstitution} />
-
+            {idInstitution != undefined &&
+                <BackButton redirectTo={"/organizacao/" + idInstitution} />
+            }
             {isLoading || isLoadingUser ? (
                 <Loading />
             ) : (

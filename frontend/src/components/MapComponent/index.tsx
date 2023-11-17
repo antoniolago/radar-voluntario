@@ -26,6 +26,8 @@ import { Coordenates } from '@/types/coords';
 import { useColorScheme as useMaterialColorScheme } from '@mui/material/styles';
 import { OpportunityService } from '@/api/opportunity';
 import { Opportunity } from '@/types/opportunity';
+import { Modal, ModalClose, ModalDialog, Typography } from '@mui/joy';
+import OpportunityDetails from '@/pages/OpportunityDetails';
 
 interface MapProps {
   selectionMode?: boolean;
@@ -34,6 +36,7 @@ interface MapProps {
   previewMode?: boolean;
 }
 function MapComponent(props: MapProps) {
+  const [ selectedOpportunity, setSelectedOpportunity ] = useState<Opportunity | undefined>();
   const { mode } = useMaterialColorScheme();
   const [selectionPinRef, setSelectionPinRef] = useState<Marker<any>>();
   const zoom = 14;
@@ -53,16 +56,19 @@ function MapComponent(props: MapProps) {
     }}
   />
   useEffect(() => {
-    if (opportunities) {
+    if (opportunities != undefined) {
       opportunities.forEach((opp: Opportunity) => {
         if (opp.address != undefined && opp.published) {
-          createPin({lat: opp.address.latitude, lng: opp.address.longitude} as LatLngExpression);
+          var pinRef = createPin({ lat: opp.address.latitude, lng: opp.address.longitude } as LatLngExpression);
+          pinRef.on("click", function (ev: any) {
+            setSelectedOpportunity(opp)
+          });
         }
       })
     }
   }, [opportunities])
   const createPin = (position: LatLngExpression) => {
-    var t = L.marker(position, {
+    var pinRef = L.marker(position, {
       riseOnHover: true, draggable: false,
       icon: L.divIcon(
         {
@@ -72,7 +78,8 @@ function MapComponent(props: MapProps) {
         }
       ),
     })
-    t.addTo(mapRef?.current as any);
+    pinRef.addTo(mapRef?.current as any);
+    return pinRef;
   }
   useEffect(() => {
     if (props.previewMode && props.position != undefined &&
@@ -210,6 +217,19 @@ function MapComponent(props: MapProps) {
           </MarkerLayer>
         </MapContainer>
       </div>
+
+      <Modal
+        open={selectedOpportunity != undefined}
+        onClose={() => setSelectedOpportunity(undefined)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <ModalDialog sx={{ overflowY: 'auto' }}>
+          <ModalClose />
+          <Typography>Oportunidade {selectedOpportunity?.name}</Typography>
+          <OpportunityDetails id={selectedOpportunity?.id}/>
+        </ModalDialog>
+      </Modal>
     </Paper >
   )
 }

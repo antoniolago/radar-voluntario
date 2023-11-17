@@ -9,13 +9,12 @@ import { toast } from 'sonner';
 const useGetOpportunityList = (institution_id: string = "") => {
   const api = useApi();
 
-  const enabled = institution_id == '0' ? false : true;
 
   var queryOptions: UseQueryOptions<AxiosResponse<Opportunity[]>, Error, AxiosResponse<Opportunity[]>, string[]> = {
     queryFn: () => api.get("opportunities/"+institution_id),
     staleTime: Infinity,
-    enabled: enabled,
-    queryKey:  ['opportunities-'+institution_id]
+    enabled: true,
+    queryKey:  ['opportunities-' + institution_id, 'opportunities']
   };
   const context = useQuery(queryOptions)
   return { ...context, data: context.data?.data === undefined ? [] : context.data?.data };
@@ -75,7 +74,7 @@ const usePostOpportunity = () => {
     },
     onSuccess: (data: Opportunity) => {
       toast.success('Oportunidade cadastrada');
-      queryClient.invalidateQueries(['opportunities-'+data.institution_id])
+      queryClient.invalidateQueries(['opportunities-'+data.institution_id, 'opportunities'])
       queryClient.invalidateQueries(['opportunities-published-'+data.institution_id])
       return data;
     },
