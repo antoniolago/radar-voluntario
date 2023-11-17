@@ -7,19 +7,24 @@ resources:
   - ../../base/postgres
   - configmap.yaml
   - ingress.yaml
-replacements:
-- source:
-    kind: ConfigMap
-    name: radar-voluntario-config
-    fieldPath: data.postgres-pv-subpath
-  targets:
-  - select:
+  - pvc.yaml
+patches:
+  - target:
       kind: Deployment
-      name: postgres-deployment
-    fieldPaths: 
-      - spec.template.spec.containers.[name=postgres].volumeMounts[name=postgres-pv].subPath
-    options:
-      create: true
+      name: "postgres-deployment"
+    patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts
+        value:
+          name: radar-voluntario-pv-development
+          mountPath: /var/lib/postgresql/data
+      - op: add
+        path: /spec/template/spec/containers/volumes
+        value: 
+          name: radar-voluntario-pv-development
+          persistentVolumeClaim:
+            claimName: radar-voluntario-pvc
+replacements:
 - source:
     kind: ConfigMap
     name: radar-voluntario-config

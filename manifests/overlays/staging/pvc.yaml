@@ -1,7 +1,8 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgres-pvc
+  name: radar-voluntario-pvc
+  namespace: radar-voluntario-staging
 spec:
   storageClassName: manual
   accessModes:
@@ -13,13 +14,13 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: postgres-pv
+  name: radar-voluntario-pv-staging
   labels:
     type: local
 spec:
   storageClassName: manual
   capacity:
-    storage: 15Gi
+    storage: 5Gi
   accessModes:
     - ReadWriteOnce
   hostPath:

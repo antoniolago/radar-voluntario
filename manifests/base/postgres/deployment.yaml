@@ -35,10 +35,6 @@ spec:
               value: /var/lib/postgresql/data/pgdata
           ports:
             - containerPort: 5432
-          volumeMounts:
-            - name: postgres-pv
-              mountPath: /var/lib/postgresql/data
-              subPath: placeholder
           resources:
             limits:
               cpu: "0.4"
@@ -46,12 +42,3 @@ spec:
             requests:
               cpu: "20m"
               memory: "80Mi"
-      
-      volumes:
-        - name: postgres-pv
-          persistentVolumeClaim:
-            claimName: postgres-pvc
-      # volumes:
-      #   - name: postgres-storage
-      #     persistentVolumeClaim:
-      #       claimName: postgres-pvc
