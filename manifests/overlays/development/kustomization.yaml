@@ -7,6 +7,23 @@ resources:
   - ../../base/postgres
   - configmap.yaml
   - ingress.yaml
+  - pvc.yaml
+patches:
+  - target:
+      kind: Deployment
+      name: "postgres-deployment"
+    patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts
+        value:
+          - name: radar-voluntario-pv-development
+            mountPath: /var/lib/postgresql/data
+      - op: add
+        path: /spec/template/spec/volumes
+        value: 
+          - name: radar-voluntario-pv-development
+            persistentVolumeClaim:
+              claimName: radar-voluntario-pvc
 replacements:
 - source:
     kind: ConfigMap
