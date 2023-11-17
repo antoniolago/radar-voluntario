@@ -15,7 +15,7 @@ const useGetOpportunityList = (institution_id: string) => {
     queryFn: () => api.get("opportunities/"+institution_id),
     staleTime: Infinity,
     enabled: enabled,
-    queryKey:  ['opportunities', institution_id]
+    queryKey:  ['opportunities-'+institution_id]
   };
   const context = useQuery(queryOptions)
   return { ...context, data: context.data?.data === undefined ? [] : context.data?.data };
@@ -75,7 +75,7 @@ const usePostOpportunity = () => {
     },
     onSuccess: (data: Opportunity) => {
       toast.success('Oportunidade cadastrada');
-      queryClient.invalidateQueries(['opportunities'])
+      queryClient.invalidateQueries(['opportunities-'+data.institution_id])
       return data;
     },
     onError: (error) => {
@@ -94,7 +94,7 @@ const usePutOpportunity = () => {
         .then((response) => response.data);
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(['opportunities'])
+      queryClient.invalidateQueries(['opportunities-'+data.institution_id])
       queryClient.invalidateQueries(['opportunity-'+data.id])
       toast.success('Oportunidade atualizada');
       return data;
@@ -115,7 +115,6 @@ const useDeleteOpportunity = () => {
       .then((response) => response);
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(['opportunities'])
       toast.success('Oportunidade excluída');
     },
     onError: (error) => {

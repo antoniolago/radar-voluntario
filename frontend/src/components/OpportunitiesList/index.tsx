@@ -107,15 +107,14 @@ const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolea
         },
     ];
     const { isMobile } = TemaService.useGetIsMobile();
-    const { data, isLoading, isError } =  props.isUserOwner ?
+    const { data, isLoading, isError, isRefetching } =  props.isUserOwner ?
                      OpportunityService.useGetOpportunityList(props.institutionId!) : 
                      OpportunityService.useGetOpportunityPublishedList(props.institutionId!)
-        
     const gridHeight = "50dvh";
     return (
         <>
             <Skeleton
-                loading={isLoading || isError}
+                loading={isLoading || isError || isRefetching}
                 height={gridHeight}
                 variant="rectangular">
                 {data != undefined &&
