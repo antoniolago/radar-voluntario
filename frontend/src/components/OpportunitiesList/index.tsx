@@ -10,10 +10,13 @@ import OpportunityEdit from "@/pages/OpportunityEdit";
 import { getCityState } from "@/utils/addressUtils";
 import { displayDateOnTable } from "@/utils/dateUtils";
 import CheckIcon from '@mui/icons-material/Check';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { NavLink } from "react-router-dom";
+import { VolunteersCellWrapper } from "./styles";
 
 const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolean }) => {
     const [openAddActivityModal, setOpenAddActivityModal] = useState(false);
-	const { mutateAsync: deleteOpportunity  } = OpportunityService.useDeleteOpportunity();
+    const { mutateAsync: deleteOpportunity } = OpportunityService.useDeleteOpportunity();
     const [opportunityId, setOpportunityId] = useState<string>("0");
 
     const renderDetailsButton = (params: any) => {
@@ -31,36 +34,36 @@ const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolea
     }
 
     const onDelete = async (id: string, callback: any) => {
-		const response = await deleteOpportunity(id);
-		callback(response);
-	}
-	const onView = (data: any) => {
-		const urlBase = window.location.origin;
-		window.open(`${urlBase}/organizacao/${data.institution_id}/oportunidade/${data.id}`, '_blank');
-	}
+        const response = await deleteOpportunity(id);
+        callback(response);
+    }
+    const onView = (data: any) => {
+        const urlBase = window.location.origin;
+        window.open(`${urlBase}/organizacao/${data.institution_id}/oportunidade/${data.id}`, '_blank');
+    }
 
-	const onEdit = (id: string) => {
+    const onEdit = (id: string) => {
         setOpenAddActivityModal(true);
         setOpportunityId(id)
-	}
+    }
 
     useEffect(() => {
-        if(!openAddActivityModal){
+        if (!openAddActivityModal) {
             setOpportunityId("0")
         }
     }, [openAddActivityModal])
 
     const renderPublishedIcon = (params: any) => {
 
-		if (params.row.published) {
-			return (
-				<CheckIcon fontSize="small" color="success" />
-			)
-		}
-		return '';
+        if (params.row.published) {
+            return (
+                <CheckIcon fontSize="small" color="success" />
+            )
+        }
+        return '';
 
-	}
-    
+    }
+
     const columns: GridColDef[] = [
         {
             field: 'name',
@@ -74,18 +77,18 @@ const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolea
             minWidth: 200,
             flex: 0.2,
             renderCell: (params: GridRenderCellParams<any>) => (
-				<>
-					{isMobile &&
-						<Typography sx={{ fontSize: "14px", fontWeight: "bold" }}>
-							Endereço:
-						</Typography>
-					}
-					{params.row.online ?
-						'Online'
-						: getCityState(params.row.address)}
+                <>
+                    {isMobile &&
+                        <Typography sx={{ fontSize: "14px", fontWeight: "bold" }}>
+                            Endereço:
+                        </Typography>
+                    }
+                    {params.row.online ?
+                        'Online'
+                        : getCityState(params.row.address)}
 
-				</>
-			),
+                </>
+            ),
         },
         {
             field: 'date',
@@ -93,61 +96,70 @@ const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolea
             minWidth: 200,
             flex: 0.2,
             renderCell: (params: GridRenderCellParams<any>) => (
-				<>
-					{isMobile &&
-						<Typography sx={{ fontSize: "14px", fontWeight: "bold" }}>
-							Quando:
-						</Typography>
-					}
-					{
-						displayDateOnTable(params.row.start_date, params.row.end_date)
-					}
-				</>
-			),
+                <>
+                    {isMobile &&
+                        <Typography sx={{ fontSize: "14px", fontWeight: "bold" }}>
+                            Quando:
+                        </Typography>
+                    }
+                    {
+                        displayDateOnTable(params.row.start_date, params.row.end_date)
+                    }
+                </>
+            ),
         }
     ];
 
-    if(props.isUserOwner === true) {
-        columns.push(        {
-			field: 'vacancies',
-			minWidth: 100,
-			align: 'center',
-			renderCell: (params: GridRenderCellParams<any>) => (
-				<>
-					{isMobile &&
-						<Typography sx={{ fontSize: "14px", fontWeight: "bold" }}>
-							Voluntários:
-						</Typography>
-					}
-					{params.row.users.length} / {params.row.vacancies}
-				</>
-			),
-			headerName: 'Voluntários inscritos',
-			flex: 0.1
-		},
-		{
-			field: 'published',
-			minWidth: 100,
-			headerName: 'Publicado',
-			flex: 0.1,
-			renderCell: renderPublishedIcon
-		},
-        {
-            field: 'id',
-            headerName: 'Ações',
-            sortable: false,
-            headerAlign: 'center',
+    if (props.isUserOwner === true) {
+        columns.push({
+            field: 'vacancies',
+            minWidth: 100,
             align: 'center',
-            minWidth: 150,
-            flex: 0.1,
-            renderCell: renderDetailsButton
-        },)
+            renderCell: (params: GridRenderCellParams<any>) => (
+                <>
+                    {isMobile &&
+                        <Typography sx={{ fontSize: "14px", fontWeight: "bold" }}>
+                            Voluntários:
+                        </Typography>
+                    }
+
+                    {
+                        params.row.users.length > 0 ?
+                            <VolunteersCellWrapper>
+                                <NavLink to={"oportunidade/" + params.row.id + "/voluntarios"}>
+                                    <div>
+                                        {params.row.users.length} / {params.row.vacancies}
+                                    </div>
+                                    <VisibilityIcon sx={{ marginLeft:"5px" }} fontSize="small" color="info" />
+                                </NavLink>
+                            </VolunteersCellWrapper>
+                            :
+                            <>
+                                { params.row.users.length } / { params.row.vacancies }
+                            </>
+
+                    }
+
+
+                </>
+            ),
+            headerName: 'Voluntários',
+            flex: 0.1
+        },
+            {
+                field: 'published',
+                minWidth: 100,
+                headerName: 'Publicado',
+                flex: 0.1,
+                renderCell: renderPublishedIcon
+            },
+        )
     }
 
     const { isMobile } = TemaService.useGetIsMobile();
-    const { data, isLoading, isError, isRefetching } =  props.isUserOwner ?
-                     OpportunityService.useGetOpportunityList(props.institutionId!) : 
-                     OpportunityService.useGetOpportunityPublishedList(props.institutionId!)
+    const { data, isLoading, isError, isRefetching } = props.isUserOwner ?
+        OpportunityService.useGetOpportunityList(props.institutionId!) :
+        OpportunityService.useGetOpportunityPublishedList(props.institutionId!)
     const gridHeight = "50dvh";
     return (
         <>
@@ -197,8 +209,8 @@ const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolea
                             }}
                         />
                     </Box>
-            : "Esta organização não possui nenhuma atividade"    
-            }
+                    : "Esta organização não possui nenhuma atividade"
+                }
                 <Modal
                     open={openAddActivityModal}
                     onClose={() => setOpenAddActivityModal(false)}
