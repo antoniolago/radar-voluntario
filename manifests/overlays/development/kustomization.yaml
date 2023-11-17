@@ -28,18 +28,6 @@ replacements:
 - source:
     kind: ConfigMap
     name: radar-voluntario-config
-    fieldPath: data.postgres-pv-subpath
-  targets:
-  - select:
-      kind: Deployment
-      name: postgres-deployment
-    fieldPaths: 
-      - spec.template.spec.containers.[name=postgres].volumeMounts[name=postgres-pv].subPath
-    options:
-      create: true
-- source:
-    kind: ConfigMap
-    name: radar-voluntario-config
     fieldPath: data.frontend-image
   targets:
   - select:
