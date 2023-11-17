@@ -57,7 +57,7 @@ const useGetOpportunityPublishedList = (institution_id: string) => {
     queryFn: () => api.get("opportunities/published/"+institution_id),
     staleTime: Infinity,
     enabled: enabled,
-    queryKey:  ['opportunities-published',institution_id]
+    queryKey:  ['opportunities-published-'+institution_id]
   };
   const context = useQuery(queryOptions)
   return { ...context, data: context.data?.data === undefined ? [] : context.data?.data };
@@ -76,6 +76,7 @@ const usePostOpportunity = () => {
     onSuccess: (data: Opportunity) => {
       toast.success('Oportunidade cadastrada');
       queryClient.invalidateQueries(['opportunities-'+data.institution_id])
+      queryClient.invalidateQueries(['opportunities-published-'+data.institution_id])
       return data;
     },
     onError: (error) => {

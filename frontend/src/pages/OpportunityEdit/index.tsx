@@ -47,7 +47,6 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
     }, [opportunity])
 
 
-
     const onSubmit = (data: Opportunity, e: any) => {
         if (e.target.id != "form-new-opportunity") return;
         if (address != undefined) {
@@ -213,7 +212,7 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                             onClick={() => props?.setShowModal(false)}
                             style={{ marginRight: "10px" }}
                         >
-                            CANCELAR
+                            VOLTAR
                         </Button>
                         <Button variant='solid' type="submit"
                             form="form-new-opportunity"

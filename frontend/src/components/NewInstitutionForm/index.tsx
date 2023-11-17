@@ -82,16 +82,17 @@ const NewInstitutionForm = (props: any) => {
 		}
 		if(data.id){
 			update(data)
+			props.setShowModal(false);
 		}else{
-			console.log("create", data);
 			create(data);
+			props.setShowModal(false);
 		}
 	}
 
-	useEffect(() => {
-		if (data?.data.id != undefined)
-			props.setShowModal(false);
-	}, [data])
+	// useEffect(() => {
+	// 	if (data?.data.id != undefined)
+	// 		props.setShowModal(false);
+	// }, [data])
 
 	return (
 		<FormContainer onSubmit={handleSubmit(onSubmit)} id="new-organization-form">
@@ -196,7 +197,7 @@ const NewInstitutionForm = (props: any) => {
 						// onClick={() => reset({})} 
 						style={{ marginRight: "10px" }}
 					>
-						CANCELAR
+						VOLTAR
 					</Button>
 
 					<LoadingButton

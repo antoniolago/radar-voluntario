@@ -15,7 +15,7 @@ const useGetInstitution = (id: any) => {
     staleTime: Infinity,
     enabled: true,
     retryOnMount: false,
-    queryKey: ['institution', id]
+    queryKey: ['institution-'+id]
   };
   const context = useQuery(queryOptions)
   return { ...context, data: context.data?.data };
@@ -41,12 +41,14 @@ const usePostNewInstitution = () => {
       const response = await api.post<Institution>('/institutions', institution)
         .then((res: AxiosResponse<Institution>) => {
           toast.success('Instituição criada com sucesso.');
-          queryClient.invalidateQueries(['institutions', 'user-institutions'])
-          return res;
         }).catch(() => {
           toast.error("Houve algum erro ao salvar, por favor tente novamente.");
         });
-      return response;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(['user-institutions'])
+      queryClient.invalidateQueries(['institutions'])
+      return data;
     },
   });
 }
@@ -58,12 +60,17 @@ const usePutInstitution = (id: any) => {
       const response = await api.put<Institution>('/institution/'+id, institution)
         .then((res: AxiosResponse<Institution>) => {
           toast.success('Instituição editada com sucesso.');
-          queryClient.invalidateQueries(['institutions', 'user-institutions', ['institution', id]])
           return res;
         }).catch(() => {
           toast.error("Houve algum erro ao salvar, por favor tente novamente.");
         });
       return response;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(['institution-'+id])
+      queryClient.invalidateQueries(['institutions'])
+      queryClient.invalidateQueries(['user-institutions'])
+      return data;
     },
   });
 }
@@ -75,7 +82,8 @@ const useDeleteInstitution = () => {
       const response = await api.delete('/institution/' + id)
         .then((res: AxiosResponse) => {
           toast.success('Organização deletada com sucesso.');
-          queryClient.invalidateQueries(['institutions', 'user-institutions'])
+          queryClient.invalidateQueries(['institutions'])
+          queryClient.invalidateQueries(['user-institutions'])
           return res;
         }).catch(() => {
           toast.error("Houve algum erro ao deletar a organização, por favor tente novamente.");

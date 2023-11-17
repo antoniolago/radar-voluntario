@@ -43,7 +43,11 @@ export class OpportunitiesService {
       include: {
         institution: true,
         address: true,
-        users: { include: { user: true } },
+        users: {
+          select : {
+            user_id: true
+          }
+        },
       },
     });
 
@@ -65,13 +69,9 @@ export class OpportunitiesService {
         institution: true,
         address: true,
         users: {
-          select: {
-            user: {
-              select: {
-                id: true,
-              },
-            },
-          },
+          select : {
+            user_id: true
+          }
         },
       },
     });

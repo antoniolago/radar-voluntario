@@ -8,9 +8,19 @@ export const InsitutionImage = styled('img')`
 
 export const SocialMedialList = styled('div')`
     display: flex;
-
     img {
-        width: 55px;
+        width: 40px;
     }
-
+    .info { 
+        display: flex;
+        margin-bottom: 10px;
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+    .icon {
+        margin-right: 3px;
+    }
+    .social-media {
+        padding-top:9px
+    }
 `

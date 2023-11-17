@@ -9,6 +9,7 @@ import { TemaService } from "@/api/tema";
 import OpportunityEdit from "@/pages/OpportunityEdit";
 import { getCityState } from "@/utils/addressUtils";
 import { displayDateOnTable } from "@/utils/dateUtils";
+import CheckIcon from '@mui/icons-material/Check';
 
 const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolean }) => {
     const [openAddActivityModal, setOpenAddActivityModal] = useState(false);
@@ -49,7 +50,16 @@ const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolea
         }
     }, [openAddActivityModal])
 
-    
+    const renderPublishedIcon = (params: any) => {
+
+		if (params.row.published) {
+			return (
+				<CheckIcon fontSize="small" color="success" />
+			)
+		}
+		return '';
+
+	}
     
     const columns: GridColDef[] = [
         {
@@ -94,7 +104,34 @@ const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolea
 					}
 				</>
 			),
-        },
+        }
+    ];
+
+    if(props.isUserOwner === true) {
+        columns.push(        {
+			field: 'vacancies',
+			minWidth: 100,
+			align: 'center',
+			renderCell: (params: GridRenderCellParams<any>) => (
+				<>
+					{isMobile &&
+						<Typography sx={{ fontSize: "14px", fontWeight: "bold" }}>
+							Voluntários:
+						</Typography>
+					}
+					{params.row.users.length} / {params.row.vacancies}
+				</>
+			),
+			headerName: 'Voluntários inscritos',
+			flex: 0.1
+		},
+		{
+			field: 'published',
+			minWidth: 100,
+			headerName: 'Publicado',
+			flex: 0.1,
+			renderCell: renderPublishedIcon
+		},
         {
             field: 'id',
             headerName: 'Ações',
@@ -102,10 +139,11 @@ const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolea
             headerAlign: 'center',
             align: 'center',
             minWidth: 150,
-            flex: 0.3,
+            flex: 0.1,
             renderCell: renderDetailsButton
-        },
-    ];
+        },)
+    }
+
     const { isMobile } = TemaService.useGetIsMobile();
     const { data, isLoading, isError, isRefetching } =  props.isUserOwner ?
                      OpportunityService.useGetOpportunityList(props.institutionId!) : 
@@ -117,7 +155,7 @@ const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolea
                 loading={isLoading || isError || isRefetching}
                 height={gridHeight}
                 variant="rectangular">
-                {data != undefined &&
+                {data != undefined && data.length > 0 || props.isUserOwner ?
                     <Box sx={{
                         '.MuiDataGrid-root': {
                             height: gridHeight
@@ -126,11 +164,13 @@ const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolea
                         <DefaultDataGrid
                             enablePagination={true}
                             canView={true}
-                            canUpdate={true}
-                            canDelete={true}
+                            canUpdate={props.isUserOwner === true}
+                            canDelete={props.isUserOwner === true}
                             onView={onView}
                             onDelete={onDelete}
                             onEdit={onEdit}
+                            tituloDeleteDialog="Confirmação de deleção de oportunidade"
+                            textoDeleteDialog="Você tem certeza que deseja deletar esta instituição permanentemente?                            "
                             toolbarProps={{
                                 showQuickFilter: true,
                                 showFilterButton: true,
@@ -157,7 +197,8 @@ const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolea
                             }}
                         />
                     </Box>
-                }
+            : "Esta organização não possui nenhuma atividade"    
+            }
                 <Modal
                     open={openAddActivityModal}
                     onClose={() => setOpenAddActivityModal(false)}
