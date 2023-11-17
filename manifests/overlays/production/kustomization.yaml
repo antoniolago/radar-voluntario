@@ -17,14 +17,14 @@ patches:
       - op: add
         path: /spec/template/spec/containers/0/volumeMounts
         value:
-          name: radar-voluntario-pv
-          mountPath: /var/lib/postgresql/data
+          - name: radar-voluntario-pv
+            mountPath: /var/lib/postgresql/data
       - op: add
         path: /spec/template/spec/volumes
         value: 
-          name: radar-voluntario-pv
-          persistentVolumeClaim:
-            claimName: radar-voluntario-pvc
+          - name: radar-voluntario-pv
+            persistentVolumeClaim:
+              claimName: radar-voluntario-pvc
 replacements:
 - source:
     kind: ConfigMap
