@@ -6,11 +6,11 @@ metadata:
 data:
   namespace: radar-voluntario
   environment: production
-  host: https://radarvoluntario.duckdns.com
+  host: radarvoluntario.com
   backend-port: "7010"
   frontend-image: ghcr.io/antoniolago/radar-voluntario-frontend:v0.0.02 # {"$imagepolicy": "flux-system:radar-voluntario-front-img-policy"}
   backend-image: ghcr.io/antoniolago/radar-voluntario-backend:v0.0.02 # {"$imagepolicy": "flux-system:radar-voluntario-back-img-policy"}
-  postgres-db: testdb
-  postgres-user: testuser
+  postgres-db: radar-voluntario
+  postgres-user: postgres
   google-oauth-client-id: 910904119481-m5o3q6n66b1l9bamtgh854t4c31r6kj9.apps.googleusercontent.com
   postgres-pv-subpath: radar-voluntario-production
