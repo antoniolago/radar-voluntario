@@ -15,7 +15,7 @@ const useGetOpportunityList = (institution_id: string) => {
     queryFn: () => api.get("opportunities/"+institution_id),
     staleTime: Infinity,
     enabled: enabled,
-    queryKey:  ['opportunities']
+    queryKey:  ['opportunities', institution_id]
   };
   const context = useQuery(queryOptions)
   return { ...context, data: context.data?.data === undefined ? [] : context.data?.data };
@@ -47,6 +47,22 @@ const useGetPublishedOpportunity = (id: string) => {
   const context = useQuery(queryOptions)
   return { ...context, data: context.data?.data === undefined ? {} as Opportunity : context.data?.data };
 };
+
+const useGetOpportunityPublishedList = (institution_id: string) => {
+  const api = useApi();
+
+  const enabled = institution_id == '0' ? false : true;
+
+  var queryOptions: UseQueryOptions<AxiosResponse<Opportunity[]>, Error, AxiosResponse<Opportunity[]>, string[]> = {
+    queryFn: () => api.get("opportunities/published/"+institution_id),
+    staleTime: Infinity,
+    enabled: enabled,
+    queryKey:  ['opportunities-published',institution_id]
+  };
+  const context = useQuery(queryOptions)
+  return { ...context, data: context.data?.data === undefined ? [] : context.data?.data };
+};
+//TODO ADJUST QUERIES KEYS
 
 const usePostOpportunity = () => {
   const api = useApi();
@@ -114,5 +130,6 @@ export const OpportunityService = {
   useGetOpportunityList,
   useGetOpportunity,
   useGetPublishedOpportunity,
-  useDeleteOpportunity
+  useDeleteOpportunity,
+  useGetOpportunityPublishedList
 }

@@ -13,8 +13,7 @@ import OpportunityEdit from "@/pages/OpportunityEdit";
 import { getCityState } from "@/utils/addressUtils";
 import { displayDateOnTable } from "@/utils/dateUtils";
 
-const OpportunitiesList = (props: { institutionId?: number, isUserOwner?: boolean }) => {
-    const { id } = useParams();
+const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolean }) => {
     const [openAddActivityModal, setOpenAddActivityModal] = useState(false);
 	const { mutateAsync: deleteOpportunity  } = OpportunityService.useDeleteOpportunity();
     const [opportunityId, setOpportunityId] = useState<string>('');
@@ -104,7 +103,10 @@ const OpportunitiesList = (props: { institutionId?: number, isUserOwner?: boolea
         },
     ];
     const { isMobile } = TemaService.useGetIsMobile();
-    const { data, isLoading, isError } = OpportunityService.useGetOpportunityList(id!);
+    const { data, isLoading, isError } =  props.isUserOwner ?
+                     OpportunityService.useGetOpportunityList(props.institutionId!) : 
+                     OpportunityService.useGetOpportunityPublishedList(props.institutionId!)
+        
     const gridHeight = "50dvh";
     return (
         <>
@@ -163,7 +165,7 @@ const OpportunitiesList = (props: { institutionId?: number, isUserOwner?: boolea
                         <ModalClose />
                         <Typography> Nova Oportunidade:</Typography>
                         <br />
-                        <OpportunityEdit opportunityId={opportunityId} institutionId={id!} setShowModal={() => setOpenAddActivityModal(false)} />
+                        <OpportunityEdit opportunityId={opportunityId} institutionId={props.institutionId!} setShowModal={() => setOpenAddActivityModal(false)} />
                     </ModalDialog>
                 </Modal>
             </Skeleton>

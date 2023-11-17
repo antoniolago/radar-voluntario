@@ -1,4 +1,4 @@
-import OportunitiesList from '@/components/OpportunitiesList';
+import OpportunitiesList from '@/components/OpportunitiesList';
 import { Breadcrumbs, Grid, Link, Paper, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { InsitutionImage, SocialMedialList } from './styles';
@@ -92,7 +92,7 @@ function InstitutionDetails() {
                         <InsitutionImage src="/preview-image.png" />
                     </Grid> */}
 
-                        <OportunitiesList isUserOwner={isUserOwner} institutionId={1} />
+                        <OpportunitiesList isUserOwner={isUserOwner} institutionId={id} />
 
                     </>
 

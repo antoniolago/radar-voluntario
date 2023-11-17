@@ -70,6 +70,7 @@ app.delete(
   opportunitiesController.delete
 );
 app.get("/api/opportunity/published/:id?", opportunitiesController.getPublished);
+app.get("/api/opportunities/published/:id?", opportunitiesController.getPublishedList);
 
 
 const registrationsService = new RegistrationsService();

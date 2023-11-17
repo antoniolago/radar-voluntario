@@ -65,6 +65,28 @@ export class OpportunitiesService {
     return opportunity;
   };
 
+  //TODO Não mostrar oportunidades que ja passaram da data
+  //TODO Não mostrar oportunidades com numero max de voluntários
+  public getPublishedList = async (institutionId: string) => {
+    const opportunities = await prisma.opportunity.findMany({
+      where: {
+        institution_id: institutionId,
+        published: true
+      },
+      include: {
+        institution: true,
+        address: true,
+        users: { include: { user: true } },
+      },
+    });
+
+    return opportunities.map((opportunity) => ({
+      ...opportunity,
+      users: opportunity.users.map((user) => user),
+    }));
+  };
+
+
   public save = async (command: SaveCommand, userId: string) => {
     const institution = await prisma.institution.findUnique({
       where: {
