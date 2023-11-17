@@ -226,7 +226,7 @@ function MapComponent(props: MapProps) {
       >
         <ModalDialog sx={{ overflowY: 'auto' }}>
           <ModalClose />
-          <Typography>Oportunidade {selectedOpportunity?.name}</Typography>
+          <Typography>Oportunidade </Typography>
           <OpportunityDetails id={selectedOpportunity?.id}/>
         </ModalDialog>
       </Modal>
