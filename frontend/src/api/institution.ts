@@ -106,10 +106,11 @@ const useGetInstitutionAddresses = (id: string | undefined) => {
     staleTime: Infinity,
     enabled: false,
     retryOnMount: false,
-    queryKey: ['user-institutions']
+    queryKey: ['institutions-adressess']
   };
   const context = useQuery(queryOptions)
-  return { ...context, data: context.data?.data };
+  return { ...context, data: context.data?.data === undefined ? [] : context.data?.data };
+
 }
 
 export const InstitutionService = {

@@ -40,7 +40,6 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
             });
             setStartDate(dayjs(opportunity.start_date));
             setEndDate(dayjs(opportunity.end_date));
-
             if(opportunity?.address){
 				setAddress(opportunity?.address)
 			}

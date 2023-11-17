@@ -14,6 +14,7 @@ import { Coordenates } from "@/types/coords";
 
 interface IAddressFormProps {
     setShowModal: (x: any) => void;
+    addNewAddress: (x: any) => void;
     context: "newOrganization" | "newActivity" | "editOrganization";
     setAddress?: any;
 }
@@ -144,8 +145,7 @@ const AddressForm = (props: IAddressFormProps) => {
         //         }
         //     )
         // } else {
-            props.setAddress(request);
-
+            props.addNewAddress(request);
             toast.success("Endereço adicionado com sucesso")
             props.setShowModal(false);
         // }

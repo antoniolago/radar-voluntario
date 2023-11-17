@@ -17,7 +17,7 @@ interface IAddressSelectProps {
     selectedAddress?: IAddress;
 }
 const AddressSelect = (props: IAddressSelectProps) => {
-    const [selectedAddress, setSelectedAddress] = React.useState<IAddress>()
+    // const [selectedAddress, setSelectedAddress] = React.useState<IAddress|undefined>()
     const [openNewAddressModal, setOpenNewAddressModal] = React.useState(false);
     // const [addresses, setAddresses] = React.useState<IAddress[]>([]);
     const { id } = useParams();
@@ -29,8 +29,24 @@ const AddressSelect = (props: IAddressSelectProps) => {
     //     if(props.selectedAddress){
     //         setAddresses([props.selectedAddress])
     //     }
-    // }, [props.selectedAddress])
-    React.useEffect
+    // }, [props.selecteedAddress])
+
+    const handleNewAddress = (address: IAddress) => {
+        addresses?.push(address);
+        props.setAddress(address);
+    }
+
+    const generateAddressValue = (address: IAddress) => {
+        return `${address.latitude}-${address.longitude}`;
+    }
+
+    const getValue = () => {
+        if(props.context == "newOrganization")
+            return '';
+        else
+        return props.selectedAddress != undefined ? generateAddressValue(props.selectedAddress) : ''
+    }
+
     return (
         <Grid container>
             <Grid xs={10} md={10} lg={11}>
@@ -40,19 +56,20 @@ const AddressSelect = (props: IAddressSelectProps) => {
                     size="small"
                     disabled={props.context == "newOrganization"}
                     fullWidth
+                    value={getValue()}
                     onChange={(e: any) => {
                         var address = addresses?.filter(
-                            (address) => address.id === e.target.value)[0]
-                        setSelectedAddress(address);
+                            (address) => generateAddressValue(address) === e.target.value)[0]
+                        // setSelectedAddress(address);
                         props.setAddress(address);
                     }}
-                    label={"Endereço"}
+                    label={props.context == "newOrganization" ? props.selectedAddress?.name || "Endereço" : "Endereço"}                    
                     defaultValue=""
                     helperText={props.context == "newOrganization" ?
                         "Adicione um endereço no botão ao lado do campo" : "Caso o endereço desejado não exista na lista, o adicione."}
                 >
                     {addresses?.map((address: IAddress) => (
-                        <MenuItem key={address.id} value={address.id}>
+                        <MenuItem key={address.id} value={generateAddressValue(address)}>
                             {address.name}
                         </MenuItem>
                     ))}
@@ -85,6 +102,7 @@ const AddressSelect = (props: IAddressSelectProps) => {
                                 <AddressForm
                                 context={props.context}
                                 setAddress={props.setAddress}
+                                addNewAddress={handleNewAddress}
                                 setShowModal={setOpenNewAddressModal}
                                 />
                             }
@@ -93,14 +111,14 @@ const AddressSelect = (props: IAddressSelectProps) => {
                     document.body
                 )}
             </Grid>
-            {selectedAddress != undefined &&
+            {props.selectedAddress != undefined &&
                 <Grid xs={12} sx={{ height: '150px', mb: 3 }}>
                     <MapComponent
                         previewMode
                         position={
                             [
-                                selectedAddress?.latitude,
-                                selectedAddress?.longitude
+                                props.selectedAddress?.latitude,
+                                props.selectedAddress?.longitude
                             ]
                         }
                     />
