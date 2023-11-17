@@ -19,7 +19,7 @@ patches:
           - name: radar-voluntario-pv-development
             mountPath: /var/lib/postgresql/data
       - op: add
-        path: /spec/template/spec/containers/volumes
+        path: /spec/template/spec/volumes
         value: 
           - name: radar-voluntario-pv-development
             persistentVolumeClaim:
