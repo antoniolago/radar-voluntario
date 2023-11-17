@@ -44,9 +44,9 @@ export class OpportunitiesService {
         institution: true,
         address: true,
         users: {
-          select : {
-            user_id: true
-          }
+          select: {
+            user_id: true,
+          },
         },
       },
     });
@@ -69,9 +69,9 @@ export class OpportunitiesService {
         institution: true,
         address: true,
         users: {
-          select : {
-            user_id: true
-          }
+          select: {
+            user_id: true,
+          },
         },
       },
     });
@@ -85,7 +85,7 @@ export class OpportunitiesService {
     const opportunities = await prisma.opportunity.findMany({
       where: {
         institution_id: institutionId,
-        published: true
+        published: true,
       },
       include: {
         institution: true,
@@ -100,7 +100,6 @@ export class OpportunitiesService {
     }));
   };
 
-
   public save = async (command: SaveCommand, userId: string) => {
     const { address, ...rest } = command;
 
@@ -112,6 +111,18 @@ export class OpportunitiesService {
 
     if (!institution) {
       throw new AppError("Institution not found", 400);
+    }
+
+    let institutionAddress: InstitutionAddress | null = null;
+
+    if (address !== undefined) {
+      institutionAddress = await prisma.institutionAddress.create({
+        data: {
+          ...address,
+          primary: true,
+          institution_id: institution.id,
+        },
+      });
     }
 
     const institutionUser = await prisma.institutionUser.findFirst({
@@ -129,6 +140,7 @@ export class OpportunitiesService {
       data: {
         ...rest,
         institution_id: institution.id,
+        address_id: institutionAddress ? institutionAddress.id : undefined,
       },
     });
 
