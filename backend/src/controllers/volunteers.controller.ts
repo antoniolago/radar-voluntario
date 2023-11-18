@@ -23,4 +23,12 @@ export class VolunteersController {
     const registrations = await this.volunteersService.getOpportunities(id);
     return response.json(registrations);
   };
+
+  public getByOpportunity = async (request: Request, response: Response) => {
+    const { id } = request.params;
+
+    const registrations = await this.volunteersService.getByOpportunity(id);
+    return response.json(registrations);
+  };
+  
 }

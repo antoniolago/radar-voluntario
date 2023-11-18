@@ -45,7 +45,7 @@ export class InstitutionsController {
 
     await this.institutionsService.delete(id);
 
-    return response.status(200);
+    return response.status(204).send();
   };
 
   public getAddresses = async (request: Request, response: Response) => {

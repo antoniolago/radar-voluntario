@@ -57,9 +57,9 @@ const ProfileEdit = (props: any) => {
         <Paper elevation={3}>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                 <Tab label="Editar Perfil" {...a11yProps(0)} />
-                {props.profile ==! 'institution' &&
+                {props.profile !== 'institution' &&
                     <Tab label="Conta" {...a11yProps(1)} /> 
-                }
+                }[]
             </Tabs>
             <CustomTabPanel value={value} index={0}>
                 {props.profile === 'institution' ? (

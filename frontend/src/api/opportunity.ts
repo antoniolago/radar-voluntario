@@ -6,16 +6,15 @@ import { UseMutationOptions, UseQueryOptions, useMutation, useQuery, useQueryCli
 import { Opportunity } from '@/types/opportunity';
 import { toast } from 'sonner';
 
-const useGetOpportunityList = (institution_id: string) => {
+const useGetOpportunityList = (institution_id: string = "") => {
   const api = useApi();
 
-  const enabled = institution_id == '0' ? false : true;
 
   var queryOptions: UseQueryOptions<AxiosResponse<Opportunity[]>, Error, AxiosResponse<Opportunity[]>, string[]> = {
     queryFn: () => api.get("opportunities/"+institution_id),
     staleTime: Infinity,
-    enabled: enabled,
-    queryKey:  ['opportunities-'+institution_id]
+    enabled: true,
+    queryKey:  ['opportunities-' + institution_id, 'opportunities']
   };
   const context = useQuery(queryOptions)
   return { ...context, data: context.data?.data === undefined ? [] : context.data?.data };
@@ -64,7 +63,7 @@ const useGetOpportunityPublishedList = (institution_id: string) => {
 };
 //TODO ADJUST QUERIES KEYS
 
-const usePostOpportunity = () => {
+const usePostOpportunity = (callback: any) => {
   const api = useApi();
   const queryClient = useQueryClient();
 
@@ -75,8 +74,9 @@ const usePostOpportunity = () => {
     },
     onSuccess: (data: Opportunity) => {
       toast.success('Oportunidade cadastrada');
-      queryClient.invalidateQueries(['opportunities-'+data.institution_id])
+      queryClient.invalidateQueries(['opportunities-'+data.institution_id, 'opportunities'])
       queryClient.invalidateQueries(['opportunities-published-'+data.institution_id])
+      callback != undefined ? callback() : () => {}
       return data;
     },
     onError: (error) => {
@@ -85,7 +85,7 @@ const usePostOpportunity = () => {
   });
 }
 
-const usePutOpportunity = () => {
+const usePutOpportunity = (callback: any) => {
   const api = useApi();
   const queryClient = useQueryClient();
 
@@ -97,7 +97,7 @@ const usePutOpportunity = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries(['opportunities-'+data.institution_id])
       queryClient.invalidateQueries(['opportunity-'+data.id])
-      toast.success('Oportunidade atualizada');
+      callback != undefined ? callback() : () => {}
       return data;
     },
     onError: (error) => {

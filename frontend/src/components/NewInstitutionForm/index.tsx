@@ -156,10 +156,7 @@ const NewInstitutionForm = (props: any) => {
 				</Grid>
 				<Grid item sx={{ display: "flex", flexDirection: "column" }} xs={6} sm={12} md={6}>
 
-					<Card sx={{ mb: 3 }}>
-						{/* <div>
-							<Typography>Foto de perfil da organização</Typography>
-						</div> */}
+					{/* <Card sx={{ mb: 3 }}>
 						<AspectRatio minHeight="120px" maxHeight="200px">
 							{image ? (
 								<PreviewImage src={URL.createObjectURL(image)} />
@@ -173,7 +170,7 @@ const NewInstitutionForm = (props: any) => {
 								<VisuallyHiddenInput required={false} type="file" onChange={handleImageChange} ref={inputRef} />
 							</Button>
 						</CardContent>
-					</Card>
+					</Card> */}
 					<AddressSelect
 						context={institution != undefined ? "editOrganization" :"newOrganization"}
 						setAddress={setAddress}

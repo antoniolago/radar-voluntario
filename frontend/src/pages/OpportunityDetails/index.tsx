@@ -1,7 +1,7 @@
 import BackButton from '@/components/BackButton';
 import { Box, Button, Chip, Dialog, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useNavigation, useParams } from 'react-router-dom';
 import { InfoDetails, LocationDetails } from './styles';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -14,18 +14,26 @@ import { getToken } from '@/api';
 import { displayDateTime } from '@/utils/dateUtils';
 import { getFullAddress } from '@/utils/addressUtils';
 import Loading from '@/components/Loading';
+import { Breadcrumbs, Link } from '@mui/joy';
 
-const OpportunityDetails = () => {
+interface OpportunityDetailsProps {
+    id?: string | undefined;
+}
+const OpportunityDetails = (props: OpportunityDetailsProps) => {
+    const navigate = useNavigate();
     const { idInstitution, idOpportunity } = useParams();
+    const idOpp = props?.id != undefined ? props.id : idOpportunity;
     const { data: user, isLoading: isLoadingUser } = AuthService.useGetUser();
-    const { data, isLoading } = OpportunityService.useGetPublishedOpportunity(idOpportunity ?? "");
-    const { data: registration } = RegistrationService.useGetRegistration(idOpportunity ?? "");
+    const { data, isLoading } = OpportunityService.useGetOpportunity(idOpp ?? "");
+    const { data: registration } = RegistrationService.useGetRegistration(idOpp ?? "");
     const { mutate: createRegistration } = RegistrationService.usePostRegistration();
     const { mutate: deleteRegistration } = RegistrationService.useDeleteRegistration();
     const [openRegisterDialog, setOpenRegisterDialog] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [openRegisterLoginDialog, setOpenRegisterLoginDialog] = useState(false);
 
+    const { data: curUser } = AuthService.useGetUser();
+    const isUserOwner = data?.institution?.owner_id == curUser?.id
     const onRegistrationClick = () => {
         setOpenRegisterDialog(false);
         createRegistration({ opportunity_id: data.id })
@@ -41,7 +49,7 @@ const OpportunityDetails = () => {
     }
 
     const isDisabled = () => {
-        return data.institution.owner_id === user?.id;
+        return data?.institution?.owner_id === user?.id;
     }
 
     const getVacanciesLeft = () => {
@@ -54,8 +62,29 @@ const OpportunityDetails = () => {
 
     return (
         <PageContainer>
-            <BackButton redirectTo={"/organizacao/" + idInstitution} />
-
+            {idInstitution != undefined &&
+                <Breadcrumbs aria-label="breadcrumb">
+                    <Link
+                        underline="hover"
+                        color="primary"
+                        onClick={() => navigate("/organizacoes")}>
+                        Organizações
+                    </Link>
+                    <Link
+                        underline="hover"
+                        color="primary"
+                        onClick={() => navigate("/organizacao/"+data.institution_id)}>
+                        {data.institution?.name}
+                    </Link>
+                    {/* <Link
+                        underline="hover"
+                        color="primary"
+                        onClick={() => navigate("/organizacao/"+data.institution_id+"/opportunities")}>
+                        Atividades
+                    </Link> */}
+                    <Typography>{data?.name}</Typography>
+                </Breadcrumbs>
+            }
             {isLoading || isLoadingUser ? (
                 <Loading />
             ) : (
@@ -117,8 +146,8 @@ const OpportunityDetails = () => {
                     </LocationDetails>
 
                     <div style={{ marginTop: "2em", textAlign: "right" }}>
-                        <Button component={Link} to={"/instituicao/" + 1} sx={{ marginRight: "1em" }} type="submit" size="large" color="primary" variant="outlined">
-                            Sobre a Organização
+                        <Button onClick={() => navigate("/organizacao/" + idInstitution)} sx={{ marginRight: "1em" }} type="submit" size="large" color="primary" variant="outlined">
+                            Perfil da Organização
                         </Button>
                         {/* TODO:
                             - Verificar se usuário não é dono da instituição, nesse caso não permitir o cadastro 

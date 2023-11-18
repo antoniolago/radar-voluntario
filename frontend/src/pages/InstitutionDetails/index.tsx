@@ -126,13 +126,9 @@ function InstitutionDetails() {
                         <DialogActions>
                             <LoadingButton
                                 color='error'
-                                // color="danger"
                                 onClick={() => mutate(institution?.id!)} 
                                 autoFocus
                                 variant='contained'
-                                form="new-organization-form"
-                                // size="large"
-                                id="new-organization-form-btn"
                                 loading={isLoadingDelete}
                                 loadingPosition="center"
                             >

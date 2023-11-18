@@ -2,9 +2,9 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DescriptionIcon from '@mui/icons-material/Description';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -407,7 +407,7 @@ export default function DefaultDataGrid(props: DataTableProps) {
                         <GridActionsCellItem
                             icon={saveIcon(params) as ReactElement<any, string | JSXElementConstructor<any>>}
                             label="Save"
-                            sx={{ color: 'primary.main' }}
+                            sx={{ color: 'warning.main' }}
                             onClick={!saving && !savingJustFinished ? handleSaveClick(params) : () => { }}
                         />
                     </Tooltip >
@@ -428,11 +428,11 @@ export default function DefaultDataGrid(props: DataTableProps) {
                     icon={<EditIcon />}
                     label="Editar"
                     onClick={handleEditClick(params.id)}
-                    sx={{ color: 'primary.main' }} />);
+                    sx={{ color: 'warning.main' }} />);
 
             if (props.canDelete)
                 icones.push(<GridActionsCellItem
-                    icon={<DeleteIcon />}
+                    icon={<DeleteForeverIcon />}
                     label="Excluir"
                     onClick={handleDeleteClick(params.id)}
                     sx={{ color: 'error.main' }}
