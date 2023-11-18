@@ -42,7 +42,7 @@ import { Toaster } from 'sonner';
 import { getToken, isLogado, setToken } from '@/api';
 import ProfileMenu from '../ProfileMenu';
 import Diversity2Icon from '@mui/icons-material/Diversity2';
-
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 export const menuItems = [
     {
         id: 'home',
@@ -51,6 +51,13 @@ export const menuItems = [
         path: '/',
         authentication: false,
 
+    },
+    {
+        id: 'opportunity',
+        text: 'Atividades',
+        icon: <LocationOnIcon />,
+        path: '/oportunidades',
+        authentication: false,
     },
     {
         id: 'organizacoes',
@@ -66,13 +73,6 @@ export const menuItems = [
     //     icon: <BusinessIcon />,
     //     path: '/perfilInstituicao'
     // },
-    // {
-    //     id: 'opportunity',
-    //     text: 'Oportunidades',
-    //     icon: <FormatListBulletedIcon />,
-    //     path: '/oportunidades',
-    //     authentication: false,
-    // },
     {
         id: 'volunteersList',
         text: 'Voluntários',
@@ -80,14 +80,14 @@ export const menuItems = [
         path: '/voluntarios',
         authentication: true,
     },
-    {
-        id: 'registers',
-        text: 'Inscrições',
-        icon: <ChecklistIcon />,
-        path: '/inscricoes',
-        authentication: true,
+    // {
+    //     id: 'registers',
+    //     text: 'Inscrições',
+    //     icon: <ChecklistIcon />,
+    //     path: '/inscricoes',
+    //     authentication: true,
 
-    },
+    // },
     // {
     //     id: 'financeiro',
     //     text: 'Financeiro',

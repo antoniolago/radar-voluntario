@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 function Home() {
 
     return (
-        <MapComponent />
+        <MapComponent isHome/>
     )
 }
 

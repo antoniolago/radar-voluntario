@@ -34,6 +34,7 @@ interface MapProps {
   position?: LatLngExpression | undefined;
   setSelectedCoordenate?: any;
   previewMode?: boolean;
+  isHome?: boolean
 }
 function MapComponent(props: MapProps) {
   const [ selectedOpportunity, setSelectedOpportunity ] = useState<Opportunity | undefined>();
@@ -60,8 +61,9 @@ function MapComponent(props: MapProps) {
     }}
   />
   useEffect(() => {
-    if (opportunities != undefined) {
+    if (opportunities != undefined && mapRef?.current != undefined) {
       opportunities.forEach((opp: Opportunity) => {
+        console.log(opp)
         if (opp.address != undefined && opp.published && isHome) {
           var pinRef = createPin({ lat: opp.address.latitude, lng: opp.address.longitude } as LatLngExpression);
           pinRef.on("click", function (ev: any) {

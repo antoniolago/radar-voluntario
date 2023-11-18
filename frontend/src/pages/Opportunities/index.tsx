@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Paper, Tab, Tabs, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import CheckIcon from '@mui/icons-material/Check';
 import { Link, useNavigate } from "react-router-dom";
@@ -6,26 +6,28 @@ import { PageContainer } from "@/styles/styles";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import DefaultDataGrid from "@/components/DataGrid";
 import { TemaService } from "@/api/tema";
-import { Box } from "@mui/joy";
 import { OpportunityService } from "@/api/opportunity";
 import { InstitutionService } from "@/api/institution";
 import { displayDateOnTable } from "@/utils/dateUtils";
 import { getCityState } from "@/utils/addressUtils";
+import { Box } from "@mui/joy";
+import { AuthService } from "@/api/auth";
 
 const Opportunities = () => {
-    const navigate = useNavigate()
+	const navigate = useNavigate()
 
+	const [value, setValue] = useState(0);
 	const [institutionId, setInstitutionId] = useState('0');
 
-    // const { data: institutionData } = InstitutionService.useGetInstitution();
+	// const { data: institutionData } = InstitutionService.useGetInstitution();
 	const { data } = OpportunityService.useGetOpportunityList(institutionId);
-	const { mutateAsync: deleteOpportunity  } = OpportunityService.useDeleteOpportunity();
+	const { mutateAsync: deleteOpportunity } = OpportunityService.useDeleteOpportunity();
 
-    // useEffect(() => {
-    //     if(institutionData != undefined && institutionData.length > 0){
-    //         setInstitutionId(institutionData[0]!.id!);
-    //     }
-    // }, [institutionData])
+	// useEffect(() => {
+	//     if(institutionData != undefined && institutionData.length > 0){
+	//         setInstitutionId(institutionData[0]!.id!);
+	//     }
+	// }, [institutionData])
 
 	const deleteAccount = async (id: string, callback: any) => {
 		const response = await deleteOpportunity(id);
@@ -129,66 +131,139 @@ const Opportunities = () => {
 		}
 	];
 
+	interface TabPanelProps {
+		children?: React.ReactNode;
+		index: number;
+		value: number;
+	}
+	function CustomTabPanel(props: TabPanelProps) {
+		const { children, value, index, ...other } = props;
+
+		return (
+			<div
+				role="tabpanel"
+				hidden={value !== index}
+				style={{ padding: "0px 13px" }}
+				id={`simple-tabpanel-${index}`}
+				aria-labelledby={`simple-tab-${index}`}
+				{...other}
+			>
+				{value === index && (
+					<Box >
+						{children}
+					</Box>
+				)}
+			</div>
+		);
+	}
 	const { isMobile } = TemaService.useGetIsMobile();
 
+	function a11yProps(index: number) {
+		return {
+			id: `simple-tab-${index}`,
+			'aria-controls': `simple-tabpanel-${index}`,
+		};
+	}
+	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+		setValue(newValue);
+	};
+    const { data: curUser } = AuthService.useGetUser();
 	return (
-		<PageContainer>
+		<Paper elevation={4}>
+			{/* <Grid container spacing={1}>
+                <Grid item xs={4} md={2}>
+                    <BackButton redirectTo='/' />
+                </Grid>
+                <Grid item xs>
+                    <Typography sx={{ textAlign: "left" }} variant="h5" component="h2">
+                        Organizações
+                    </Typography>
+                </Grid>
+            </Grid> */}
 
-			<Box sx={{ display: 'flex' }}>
-				<Typography variant="h5" sx={{ marginRight: '10px' }}>Oportunidades </Typography>
-				<Button
-					component={Link}
-					to="/edicao/oportunidade"
-					variant="outlined"
-					color="primary"
-					sx={{ height: '30px' }}
-				>
-					+ Adicionar
-				</Button>
-			</Box>
-			
-			<Box sx={{
-				'.MuiDataGrid-root': {
-					height: '75dvh'
-				}
-			}}>
+			<Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+				<Tab label="Atividades" {...a11yProps(0)} />
+				<Tab disabled={curUser == undefined} label="atividades inscrito" {...a11yProps(1)} />
+				{/* <Tab label="Conta" {...a11yProps(1)} /> */}
+			</Tabs>
+			<CustomTabPanel value={value} index={0}>
 
-				{
-					data !== undefined && data.length > 0 ?
+				<Box sx={{
+					'.MuiDataGrid-root': {
+						height: '75dvh'
+					}
+				}}>
 
-						<DefaultDataGrid
-							enablePagination={true}
-							canDelete={true}
-							onDelete={deleteAccount}
-							canUpdate={true}
-							onEdit={onEdit}
-							canView={true}
-							onView={onView}
-							toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
-							datagridProps={{
-								className: isMobile ? "vertical-grid" : "",
-								columns: columns,
-								density: isMobile ? "compact" : "standard",
-								rows: data as any,
-								rowCount: data?.length,
-								disableVirtualization: true,
-								disableRowSelectionOnClick: true,
-								pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
-								initialState: {
-									pagination: {
-										paginationModel: {
-											pageSize: isMobile ? 5 : 25
-										}
+					<DefaultDataGrid
+						enablePagination={true}
+						canDelete={true}
+						onDelete={deleteAccount}
+						canUpdate={true}
+						onEdit={onEdit}
+						canView={true}
+						onView={onView}
+						toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
+						datagridProps={{
+							className: isMobile ? "vertical-grid" : "",
+							columns: columns,
+							density: isMobile ? "compact" : "standard",
+							rows: data as any,
+							rowCount: data?.length,
+							disableVirtualization: true,
+							disableRowSelectionOnClick: true,
+							pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
+							initialState: {
+								pagination: {
+									paginationModel: {
+										pageSize: isMobile ? 5 : 25
 									}
 								}
-							}}
-						/>
-						: (
-							<div>Nenhuma oportunidade cadastrada</div>
-						)}
+							}
+						}}
+					/>
 
-			</Box >
-		</PageContainer>
+				</Box >
+			</CustomTabPanel>
+
+			<CustomTabPanel value={value} index={1}>
+
+				<Box sx={{
+					'.MuiDataGrid-root': {
+						height: '75dvh'
+					}
+				}}>
+
+					<DefaultDataGrid
+						enablePagination={true}
+						canDelete={true}
+						onDelete={deleteAccount}
+						canUpdate={true}
+						onEdit={onEdit}
+						canView={true}
+						onView={onView}
+						toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
+						datagridProps={{
+							className: isMobile ? "vertical-grid" : "",
+							columns: columns,
+							density: isMobile ? "compact" : "standard",
+							rows: data as any,
+							rowCount: data?.length,
+							disableVirtualization: true,
+							disableRowSelectionOnClick: true,
+							pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
+							initialState: {
+								pagination: {
+									paginationModel: {
+										pageSize: isMobile ? 5 : 25
+									}
+								}
+							}
+						}}
+					/>
+
+				</Box >
+			</CustomTabPanel>
+		</Paper>
 
 	);
 }
