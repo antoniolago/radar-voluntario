@@ -5,10 +5,7 @@ import AppError from "../errors/app-error";
 type OptionalFields = "id";
 
 type SaveCommand = Omit<Prisma.OpportunityCreateManyInput, OptionalFields> & {
-  address: Omit<
-    Prisma.InstitutionAddressCreateManyInput,
-    OptionalAddressFields
-  >;
+  address: Prisma.InstitutionAddressCreateManyInput
 };
 
 type UpdateCommand = Omit<SaveCommand, "address"> & {
@@ -44,9 +41,9 @@ export class OpportunitiesService {
         institution: true,
         address: true,
         users: {
-          select : {
-            user_id: true
-          }
+          select: {
+            user_id: true,
+          },
         },
       },
     });
@@ -69,9 +66,9 @@ export class OpportunitiesService {
         institution: true,
         address: true,
         users: {
-          select : {
-            user_id: true
-          }
+          select: {
+            user_id: true,
+          },
         },
       },
     });
@@ -85,7 +82,7 @@ export class OpportunitiesService {
     const opportunities = await prisma.opportunity.findMany({
       where: {
         institution_id: institutionId,
-        published: true
+        published: true,
       },
       include: {
         institution: true,
@@ -100,7 +97,6 @@ export class OpportunitiesService {
     }));
   };
 
-
   public save = async (command: SaveCommand, userId: string) => {
     const { address, ...rest } = command;
 
@@ -112,6 +108,24 @@ export class OpportunitiesService {
 
     if (!institution) {
       throw new AppError("Institution not found", 400);
+    }
+
+    let addressId = null;
+    if(address && address.id) {
+      addressId = address.id;
+    }
+
+    let institutionAddress: InstitutionAddress | null = null;
+
+    if (address !== undefined && address.id == undefined) {
+      institutionAddress = await prisma.institutionAddress.create({
+        data: {
+          ...address,
+          primary: true,
+          institution_id: institution.id,
+        },
+      });
+      addressId = institutionAddress.id;
     }
 
     const institutionUser = await prisma.institutionUser.findFirst({
@@ -129,7 +143,11 @@ export class OpportunitiesService {
       data: {
         ...rest,
         institution_id: institution.id,
+        address_id: addressId,
       },
+      include: {
+        address: true
+      }
     });
 
     return {

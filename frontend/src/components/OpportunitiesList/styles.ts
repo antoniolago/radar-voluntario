@@ -11,3 +11,10 @@ export const ContainerFilter = styled('form')`
         width: 25ch 
     }
 `;
+
+
+export const VolunteersCellWrapper = styled('div')`
+    a {
+        display:flex;
+    }
+`

@@ -87,7 +87,7 @@ const volunteersController = new VolunteersController(volunteersService);
 app.get("/api/volunteers", authMiddleware, volunteersController.index);
 app.get("/api/volunteers/:id", authMiddleware, volunteersController.get);
 app.get("/api/volunteers/:id/opportunities", authMiddleware, volunteersController.getOpportunities);
-
+app.get("/api/volunteers/opportunity/:id", authMiddleware, volunteersController.getByOpportunity);
 
 const appSettingsService = new AppSettingsService();
 const appSettingsController = new AppSettingsController(appSettingsService);

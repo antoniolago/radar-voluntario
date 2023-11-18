@@ -26,6 +26,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ptBR } from '@mui/x-date-pickers/locales';
 import 'dayjs/locale/en-gb';
+import VolunteersOpportunity from './pages/VolunteersOpportunity';
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
             <Route path="/organizacao/:id" element={<InstitutionDetails/>} />
             <Route path="/organizacao/:id/edit" element={<ProfileEdit profile={'institution'}/>} />
             <Route path="/organizacao/:idInstitution/oportunidade/:idOpportunity" element={<OpportunityDetails/>} />
+            <Route path="/organizacao/:idInstitution/oportunidade/:idOpportunity/voluntarios" element={<VolunteersOpportunity/>} />
           </Route>
         </Routes>
         </LocalizationProvider>

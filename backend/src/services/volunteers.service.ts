@@ -40,7 +40,7 @@ export class VolunteersService {
         users: {
           some: {
             user: {
-                id: volunteerId,
+              id: volunteerId,
             },
           },
         },
@@ -50,6 +50,19 @@ export class VolunteersService {
     return opportunities;
   };
 
-  
+
+  public getByOpportunity = async (opportunityId: string) => {
+
+    const usersByOpportunity = await prisma.opportunity.findUnique({
+      where: {
+        id: opportunityId
+      },
+      include: {
+        users: {include: {user: true}},
+        institution: true
+      }
+    });
+    return usersByOpportunity;
+  }
 
 }
