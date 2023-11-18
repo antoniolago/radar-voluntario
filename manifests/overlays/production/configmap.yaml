@@ -8,8 +8,8 @@ data:
   environment: production
   host: radarvoluntario.com
   backend-port: "7010"
-  frontend-image: ghcr.io/antoniolago/radar-voluntario-frontend:v0.1.11 # {"$imagepolicy": "flux-system:radar-voluntario-front-img-policy"}
-  backend-image: ghcr.io/antoniolago/radar-voluntario-backend:v0.1.12 # {"$imagepolicy": "flux-system:radar-voluntario-back-img-policy"}
+  frontend-image: ghcr.io/antoniolago/radar-voluntario-frontend:v0.1.13 # {"$imagepolicy": "flux-system:radar-voluntario-front-img-policy"}
+  backend-image: ghcr.io/antoniolago/radar-voluntario-backend:v0.1.13 # {"$imagepolicy": "flux-system:radar-voluntario-back-img-policy"}
   postgres-db: radar-voluntario
   postgres-user: postgres
   google-oauth-client-id: 910904119481-m5o3q6n66b1l9bamtgh854t4c31r6kj9.apps.googleusercontent.com
