@@ -63,7 +63,6 @@ function MapComponent(props: MapProps) {
   useEffect(() => {
     if (opportunities != undefined && mapRef?.current != undefined) {
       opportunities.forEach((opp: Opportunity) => {
-        console.log(opp)
         if (opp.address != undefined && opp.published && isHome) {
           var pinRef = createPin({ lat: opp.address.latitude, lng: opp.address.longitude } as LatLngExpression);
           pinRef.on("click", function (ev: any) {
@@ -72,7 +71,7 @@ function MapComponent(props: MapProps) {
         }
       })
     }
-  }, [opportunities])
+  }, [opportunities, mapRef.current])
   const createPin = (position: LatLngExpression) => {
     var pinRef = L.marker(position, {
       riseOnHover: true, draggable: false,
