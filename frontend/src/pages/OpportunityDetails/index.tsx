@@ -24,7 +24,7 @@ const OpportunityDetails = (props: OpportunityDetailsProps) => {
     const { idInstitution, idOpportunity } = useParams();
     const idOpp = props?.id != undefined ? props.id : idOpportunity;
     const { data: user, isLoading: isLoadingUser } = AuthService.useGetUser();
-    const { data, isLoading } = OpportunityService.useGetPublishedOpportunity(idOpp ?? "");
+    const { data, isLoading } = OpportunityService.useGetOpportunity(idOpp ?? "");
     const { data: registration } = RegistrationService.useGetRegistration(idOpp ?? "");
     const { mutate: createRegistration } = RegistrationService.usePostRegistration();
     const { mutate: deleteRegistration } = RegistrationService.useDeleteRegistration();
@@ -63,7 +63,6 @@ const OpportunityDetails = (props: OpportunityDetailsProps) => {
     return (
         <PageContainer>
             {idInstitution != undefined &&
-
                 <Breadcrumbs aria-label="breadcrumb">
                     <Link
                         underline="hover"
@@ -147,7 +146,7 @@ const OpportunityDetails = (props: OpportunityDetailsProps) => {
                     </LocationDetails>
 
                     <div style={{ marginTop: "2em", textAlign: "right" }}>
-                        <Button onClick={() => navigate("/organizacao/" + idOpp)} sx={{ marginRight: "1em" }} type="submit" size="large" color="primary" variant="outlined">
+                        <Button onClick={() => navigate("/organizacao/" + idInstitution)} sx={{ marginRight: "1em" }} type="submit" size="large" color="primary" variant="outlined">
                             Perfil da Organização
                         </Button>
                         {/* TODO:
