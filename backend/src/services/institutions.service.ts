@@ -53,6 +53,9 @@ export class InstitutionsService {
         opportunities: {
           select : {
             id: true
+          },
+          where: {
+            published: true
           }
         },
       },
