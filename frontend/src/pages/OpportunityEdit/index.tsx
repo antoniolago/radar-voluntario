@@ -20,11 +20,11 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
     const [startDate, setStartDate] = useState<Dayjs | null>(null);
     const [endDate, setEndDate] = useState<Dayjs | null>(null);
 
-	const [address, setAddress] = useState<IAddress | undefined>();
+    const [address, setAddress] = useState<IAddress | undefined>();
     const { mutateAsync: createOpportunity } = OpportunityService.usePostOpportunity(() => props?.setShowModal(false));
     const { mutate: updateOpportunity } = OpportunityService.usePutOpportunity(() => props?.setShowModal(false));
     const { data: opportunity } = OpportunityService.useGetOpportunity(props.opportunityId ?? "0");
-    
+
     useEffect(() => {
         if (props.opportunityId !== undefined && props.opportunityId !== "0") {
             reset({
@@ -40,9 +40,9 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
             });
             setStartDate(dayjs(opportunity.start_date));
             setEndDate(dayjs(opportunity.end_date));
-            if(opportunity?.address){
-				setAddress(opportunity?.address)
-			}
+            if (opportunity?.address) {
+                setAddress(opportunity?.address)
+            }
         }
     }, [opportunity])
 
@@ -50,8 +50,8 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
     const onSubmit = (data: Opportunity, e: any) => {
         if (e.target.id != "form-new-opportunity") return;
         if (address != undefined) {
-			data.address = address;
-		}
+            data.address = address;
+        }
         if (data.id) {
             updateOpportunity(data);
         } else {
@@ -65,10 +65,10 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
         if (dayjs(getValues('start_date')).isAfter(dayjs(getValues('end_date')))) {
             setError('start_date', { type: 'custom', message: 'Insira um período válido' });
             setError('end_date', { type: 'custom', message: 'Insira um período válido' });
-        }else{
+        } else {
             clearErrors(['end_date', 'start_date']);
         }
-        if(field === 'start_date')
+        if (field === 'start_date')
             setStartDate(dayjs(date));
         else
             setEndDate(dayjs(date));
@@ -118,7 +118,7 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                             InputLabelProps={{ shrink: true }}
                             inputProps={{
                                 min: 1,
-                              }}
+                            }}
                             type="number"
                         />
 
@@ -138,40 +138,40 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
 
                     </Grid>
 
-                        <Grid item md={6} sx={{
-							'.MuiFormHelperText-root': {
-								color: "red"
-							}
-						}}>
+                    <Grid item md={6} sx={{
+                        '.MuiFormHelperText-root': {
+                            color: "red"
+                        }
+                    }}>
 
                         <DateTimePicker
                             label="Date e horário de inicio"
                             value={startDate}
-                            sx={{width: '100%'}}
+                            sx={{ width: '100%' }}
                             slotProps={{
                                 textField: {
-                                  helperText: formState.errors.start_date?.message,
-                                  required: true,
+                                    helperText: formState.errors.start_date?.message,
+                                    required: true,
                                 },
-                              }}
+                            }}
                             onChange={(newDate) => handleDateChange('start_date', newDate)}
                         />
 
                     </Grid>
                     <Grid item md={6} sx={{
-							'.MuiFormHelperText-root': {
-								color: "red"
-							}
-						}}>                        <DateTimePicker
+                        '.MuiFormHelperText-root': {
+                            color: "red"
+                        }
+                    }}>                        <DateTimePicker
                             label="Date e horário de fim"
                             value={endDate}
-                            sx={{width: '100%'}}
+                            sx={{ width: '100%' }}
                             slotProps={{
                                 textField: {
-                                  helperText: formState.errors.end_date?.message,
-                                  required: true,
+                                    helperText: formState.errors.end_date?.message,
+                                    required: true,
                                 },
-                              }}
+                            }}
                             onChange={(newDate) => handleDateChange('end_date', newDate)}
                         />
                     </Grid>
@@ -181,22 +181,21 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                             <FormControlLabel
                                 control={<Switch
                                     {...register('online')}
-                                    checked={getValues('online')}
                                 />}
                                 label="Atividade online" />
                         </FormControl>
                     </Grid>
                     <Grid item xs={6}>
                         <FormControl sx={{ padding: "8.5px 14px" }}>
-                            <FormControlLabel control={<Switch checked={getValues('published')}  {...register('published')} />} label="Publicar atividade" />
+                            <FormControlLabel control={<Switch {...register('published')} />} label="Publicar atividade" />
                         </FormControl>
                     </Grid>
                     <Grid item xs={12}>
 
-                        {!getValues('online') &&
-                            <AddressSelect context="newActivity" 
-                            setAddress={setAddress}
-                            selectedAddress={address}
+                        {!watch('online') &&
+                            <AddressSelect context="newActivity"
+                                setAddress={setAddress}
+                                selectedAddress={address}
                             />
                         }
                     </Grid>

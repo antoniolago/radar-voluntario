@@ -134,7 +134,7 @@ function MapComponent(props: MapProps) {
   useEffect(() => {
     if (props.position != undefined)
       mapRef.current?.flyTo(props.position, 16)
-  }, [props.position])
+  }, [props.position, props.previewMode])
 
   const speedDialActions = [
     { icon: <FileCopyIcon />, name: 'Copy' },
