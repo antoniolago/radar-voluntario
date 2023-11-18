@@ -213,6 +213,32 @@ export class InstitutionsService {
   };
 
   public delete = async (institutionId: string) => {
+    await prisma.opportunityUser.deleteMany({
+      where: {
+        opportunity: {
+          institution_id: institutionId,
+        },
+      },
+    });
+
+    await prisma.opportunity.deleteMany({
+      where: {
+        institution_id: institutionId,
+      },
+    });
+
+    await prisma.institutionAddress.deleteMany({
+      where: {
+        institution_id: institutionId,
+      },
+    });
+
+    await prisma.institutionUser.deleteMany({
+      where: {
+        institution_id: institutionId,
+      },
+    });
+
     await prisma.institution.delete({
       where: {
         id: institutionId,
