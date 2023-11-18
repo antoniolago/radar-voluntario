@@ -33,7 +33,7 @@ model Institution {
   about         String
   telephone     String?
   owner_id      String
-  owner         User                  @relation(fields: [owner_id], references: [id])
+  owner         User                  @relation(fields: [owner_id], references: [id], onDelete: Cascade)
   facebook      String?
   instagram     String?
   users         InstitutionUser[]
@@ -58,7 +58,7 @@ model InstitutionAddress {
   latitude       Float
   longitude      Float
   opportunities  Opportunity[]
-  institution    Institution   @relation(fields: [institution_id], references: [id])
+  institution    Institution   @relation(fields: [institution_id], references: [id], onDelete: Cascade)
   institution_id String
 
   @@map("institutions_addresses")
@@ -76,9 +76,9 @@ model InstitutionCategory {
 
 model InstitutionUser {
   id             String      @id @default(uuid())
-  institution    Institution @relation(fields: [institution_id], references: [id])
+  institution    Institution @relation(fields: [institution_id], references: [id], onDelete: Cascade)
   institution_id String
-  user           User        @relation(fields: [user_id], references: [id])
+  user           User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id        String
 
   @@map("institutions_users")
@@ -94,7 +94,7 @@ model Opportunity {
   start_date     DateTime
   end_date       DateTime
   users          OpportunityUser[]
-  institution    Institution           @relation(fields: [institution_id], references: [id])
+  institution    Institution           @relation(fields: [institution_id], references: [id], onDelete: Cascade)
   institution_id String
   address        InstitutionAddress?   @relation(fields: [address_id], references: [id])
   address_id     String?
@@ -105,9 +105,9 @@ model Opportunity {
 
 model OpportunityUser {
   id             String      @id @default(uuid())
-  opportunity    Opportunity @relation(fields: [opportunity_id], references: [id])
+  opportunity    Opportunity @relation(fields: [opportunity_id], references: [id], onDelete: Cascade)
   opportunity_id String
-  user           User        @relation(fields: [user_id], references: [id])
+  user           User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id        String
 
   @@map("opportunities_users")
