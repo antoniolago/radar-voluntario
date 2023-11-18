@@ -12,6 +12,7 @@ import { displayDateOnTable } from "@/utils/dateUtils";
 import { getCityState } from "@/utils/addressUtils";
 import { Box } from "@mui/joy";
 import { AuthService } from "@/api/auth";
+import { RegistrationService } from "@/api/registration";
 
 const Opportunities = () => {
 	const navigate = useNavigate()
@@ -21,6 +22,7 @@ const Opportunities = () => {
 
 	// const { data: institutionData } = InstitutionService.useGetInstitution();
 	const { data } = OpportunityService.useGetOpportunityList(institutionId);
+	const { data: volunteeredOpps } = RegistrationService.useGetRegistrationList();
 	const { mutateAsync: deleteOpportunity } = OpportunityService.useDeleteOpportunity();
 
 	// useEffect(() => {
@@ -80,7 +82,7 @@ const Opportunities = () => {
 			),
 			minWidth: 100,
 			headerName: 'Endereço',
-			// flex: 0.2,
+			flex: 0.2,
 			align: "center",
 			headerAlign: "center"
 		},
@@ -246,8 +248,8 @@ const Opportunities = () => {
 							className: isMobile ? "vertical-grid" : "",
 							columns: columns,
 							density: isMobile ? "compact" : "standard",
-							rows: data as any,
-							rowCount: data?.length,
+							rows: volunteeredOpps as any,
+							rowCount: volunteeredOpps?.length,
 							disableVirtualization: true,
 							disableRowSelectionOnClick: true,
 							pageSizeOptions: isMobile ? [25, 50, 100] : [25, 50, 100],
