@@ -8,7 +8,7 @@ data:
   environment: production
   host: radarvoluntario.com
   backend-port: "7010"
-  frontend-image: ghcr.io/antoniolago/radar-voluntario-frontend:v0.1.02 # {"$imagepolicy": "flux-system:radar-voluntario-front-img-policy"}
+  frontend-image: ghcr.io/antoniolago/radar-voluntario-frontend:v0.1.10 # {"$imagepolicy": "flux-system:radar-voluntario-front-img-policy"}
   backend-image: ghcr.io/antoniolago/radar-voluntario-backend:v0.1.10 # {"$imagepolicy": "flux-system:radar-voluntario-back-img-policy"}
   postgres-db: radar-voluntario
   postgres-user: postgres
