@@ -21,6 +21,15 @@ const Opportunities = () => {
 	const [value, setValue] = useState(0);
 	const [institutionId, setInstitutionId] = useState('0');
 
+	const pathnameValues: { [key: string]: number } = {
+		"/atividades": 0,
+		"/atividades/inscrito": 1,
+		// "/atividades/minhas": 2
+	}
+	const valuesPathname: { [key: string]: string } = {
+		"0": "/atividades",
+		"1": "/atividades/inscrito"
+	}
 	const location = useLocation()
 	// const { data: institutionData } = InstitutionService.useGetInstitution();
 	const { data } = OpportunityService.useGetOpportunityList(institutionId);
@@ -33,11 +42,6 @@ const Opportunities = () => {
 	//     }
 	// }, [institutionData])
 	useEffect(() => {
-		const pathnameValues: { [key: string]: number } = {
-			"/atividades": 0,
-			"/atividades/inscrito": 1,
-			// "/atividades/minhas": 2
-		}
 		setValue(pathnameValues[location.pathname]);
 	}, [location.pathname])
 	const deleteAccount = async (id: string, callback: any) => {
@@ -175,13 +179,11 @@ const Opportunities = () => {
 			'aria-controls': `simple-tabpanel-${index}`,
 		};
 	}
-	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-		const pathnameValues: { [key: string]: string } = {
-			"0": "/atividades",
-			"1": "/atividades/inscrito"
-		}
-		navigate(pathnameValues[newValue.toString()]);
-	};
+	// const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+	// 	setValue(newValue);
+	// 	console.log("123")
+	// 	navigate(pathnameValues[newValue.toString()]);
+	// };
 	const { data: curUser } = AuthService.useGetUser();
 	return (
 		<Paper elevation={4}>
@@ -196,16 +198,14 @@ const Opportunities = () => {
                 </Grid>
             </Grid> */}
 
-			<Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-				<Tab label="Atividades" {...a11yProps(0)} />
-				<Tooltip
-					variant="outlined"
-					arrow
-					title={curUser != undefined ? "" : "Logue na sua conta para usar esta funcionalidade"}>
-					<Box>
-						<Tab disabled={curUser == undefined} label="atividades inscrito" {...a11yProps(1)} />
-					</Box>
-				</Tooltip>
+			<Tabs value={value} aria-label="basic tabs example">
+				<Tab label="Atividades" {...a11yProps(0)}
+				// onClick={() => {
+				// 	setValue(0);
+				// 	navigate(valuesPathname["0"])
+				// }}
+				/>
+				{curUser != undefined && <Tab label="atividades inscrito" {...a11yProps(1)} />}
 				{/* <Tab label="Conta" {...a11yProps(1)} /> */}
 			</Tabs>
 			<CustomTabPanel value={value} index={0}>

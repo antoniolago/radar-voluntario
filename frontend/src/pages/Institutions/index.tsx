@@ -94,13 +94,17 @@ function Institutions() {
         height: '70dvh',
         overflowY: 'auto'
     };
+    const valuesPathname: { [key: string]: string } = {
+        "0": "/organizacoes",
+        "1": "/organizacoes/minhas"
+    }
+    const pathnameValues: { [key: string]: number } = {
+        "/organizacoes": 0,
+        "/organizacoes/minhas": 1
+    }
     const navigate = useNavigate()
     const { isMobile } = TemaService.useGetIsMobile();
     useEffect(() => {
-        const pathnameValues: { [key: string]: number } = {
-            "/organizacoes": 0,
-            "/organizacoes/minhas": 1
-        }
         setValue(pathnameValues[location.pathname]);
     }, [location.pathname])
     const deleteOrganization = () => {
@@ -151,16 +155,13 @@ function Institutions() {
             </Grid> */}
 
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                <Tab label="Organizações" {...a11yProps(0)} />
-                <Tooltip
-                    variant="outlined"
-                    arrow
-                    title={curUser != undefined ? "" : "Logue na sua conta para usar esta funcionalidade"}>
-                    <Box>
-
-                        <Tab disabled={curUser == undefined} label="Minhas Organizações" {...a11yProps(1)} />
-                    </Box>
-                </Tooltip>
+                <Tab label="Organizações" {...a11yProps(0)}
+                // onClick={() => {
+                // 	setValue(0);
+                // 	navigate(valuesPathname["0"])
+                // }}
+                />
+                {curUser != undefined && <Tab label="Minhas Organizações" {...a11yProps(1)} />}
                 {/* <Tab label="Conta" {...a11yProps(1)} /> */}
             </Tabs>
             <CustomTabPanel value={value} index={0}>
