@@ -85,7 +85,7 @@ const AddressSelect = (props: IAddressSelectProps) => {
                     }}
                     color="success"
                     onClick={() => setOpenNewAddressModal(true)}
-                    aria-label="Adicionar Endereço">
+                    aria-label="Novo Endereço">
                     <AddCircleOutlineIcon />
                 </IconButton>
                 {createPortal(

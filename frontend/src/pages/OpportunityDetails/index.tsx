@@ -1,10 +1,12 @@
 import BackButton from '@/components/BackButton';
-import { Box, Button, Chip, Dialog, Stack, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Button, Chip, Dialog, Link, Paper, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate, useNavigation, useParams } from 'react-router-dom';
 import { InfoDetails, LocationDetails } from './styles';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import EditIcon from '@mui/icons-material/Edit';
 import { PageContainer } from '@/styles/styles';
 import { OpportunityService } from '@/api/opportunity';
 import ConfirmDialog from '@/components/ConfirmDialog';
@@ -14,13 +16,16 @@ import { getToken } from '@/api';
 import { displayDateTime } from '@/utils/dateUtils';
 import { getFullAddress } from '@/utils/addressUtils';
 import Loading from '@/components/Loading';
-import { Breadcrumbs, Link } from '@mui/joy';
+import { Grid } from '@mui/joy';
+import MapComponent from '@/components/MapComponent';
+import { LatLngExpression } from 'leaflet';
 
 interface OpportunityDetailsProps {
     id?: string | undefined;
 }
 const OpportunityDetails = (props: OpportunityDetailsProps) => {
     const navigate = useNavigate();
+    const [openConfirmDeletionAlert, setOpenConfirmDeletionAlert] = useState<boolean>(false);
     const { idInstitution, idOpportunity } = useParams();
     const idOpp = props?.id != undefined ? props.id : idOpportunity;
     const { data: user, isLoading: isLoadingUser } = AuthService.useGetUser();
@@ -61,19 +66,19 @@ const OpportunityDetails = (props: OpportunityDetailsProps) => {
     }
 
     return (
-        <PageContainer>
+        <Paper elevation={4} sx={{ p: 2 }}>
             {idInstitution != undefined &&
-                <Breadcrumbs aria-label="breadcrumb">
+                <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
                     <Link
                         underline="hover"
-                        color="primary"
+                        color="inherit"
                         onClick={() => navigate("/organizacoes")}>
                         Organizações
                     </Link>
                     <Link
                         underline="hover"
-                        color="primary"
-                        onClick={() => navigate("/organizacao/"+data.institution_id)}>
+                        color="inherit"
+                        onClick={() => navigate("/organizacao/" + data.institution_id)}>
                         {data.institution?.name}
                     </Link>
                     {/* <Link
@@ -82,7 +87,7 @@ const OpportunityDetails = (props: OpportunityDetailsProps) => {
                         onClick={() => navigate("/organizacao/"+data.institution_id+"/opportunities")}>
                         Atividades
                     </Link> */}
-                    <Typography>{data?.name}</Typography>
+                    <Typography color="text.primary">{data?.name}</Typography>
                 </Breadcrumbs>
             }
             {isLoading || isLoadingUser ? (
@@ -95,60 +100,106 @@ const OpportunityDetails = (props: OpportunityDetailsProps) => {
 
             {data != null && getVacanciesLeft() > 0 &&
                 <>
-                    <Typography mb={4} variant="h5" component="h2"> {data.name} </Typography>
-
-                    <InfoDetails>
-                        <Typography className="subtitle" variant="subtitle1">
-                            Nome da Organização
-                        </Typography>
-                        <Typography variant="body1">
-                            {data.institution && data.institution.name}
-                        </Typography>
-                    </InfoDetails>
-
-                    <InfoDetails>
-                        <Typography className="subtitle" variant="subtitle1">
-                            Descrição
-                        </Typography>
-
-                        <Typography variant="body1">
-                            {data.description}
-                        </Typography>
-                    </InfoDetails>
-
-
-                    <InfoDetails>
-                        <Typography className="subtitle" variant="subtitle1">
-                            Vagas
-                        </Typography>
-
-                        <Typography variant="body1">
-                            {getVacanciesLeft() > 1 ? getVacanciesLeft() + ' disponíveis' : getVacanciesLeft() + ' disponível'}
-                        </Typography>
-                    </InfoDetails>
-
-                    <LocationDetails>
-                        <div className="info">
-                            <LocationOnIcon className="icon" /> <div><b> Local: </b>
+                    <Typography
+                        sx={{ textAlign: "center" }}
+                        m={1}
+                        variant="h5"
+                        component="h2">
+                        {data.name}
+                        {isUserOwner &&
+                            <>
+                                <Button
+                                    variant='text'
+                                    sx={{ ml: 1, p: '0 3px' }}
+                                    size='small'
+                                    color="warning"
+                                    onClick={() => navigate("edit")}>
+                                    <EditIcon />
+                                </Button>
+                                <Button
+                                    variant='text'
+                                    sx={{ ml: 1, p: '0 3px' }}
+                                    size='small'
+                                    color="error"
+                                    onClick={() => setOpenConfirmDeletionAlert(true)}>
+                                    <DeleteForeverIcon />
+                                </Button>
+                            </>
+                        }
+                    </Typography>
+                    <Grid container spacing={2}>
+                        <Grid xs={12}>
+                            <Typography variant="caption">
+                                Organizado por:
+                            </Typography>
+                            <Typography variant="h6">
+                                {data.institution && data.institution.name}
+                            </Typography>
+                        </Grid>
+                        <Grid xs={12}>
+                            <Typography variant="caption">
+                                Descrição:
+                            </Typography>
+                            <Typography variant="h6">
+                                {data.description}
+                            </Typography>
+                        </Grid>
+                        <Grid xs={12}>
+                            <Typography variant="caption">
+                                Vagas
+                            </Typography>
+                            <Typography variant="h6">
+                                {getVacanciesLeft() > 1 ? getVacanciesLeft() + ' disponíveis' : getVacanciesLeft() + ' disponível'}
+                            </Typography>
+                        </Grid>
+                        <Grid xs={12}>
+                            <Box sx={{ display: 'flex' }}>
+                                <CalendarTodayIcon sx={{ fontSize: '15px', mr: 1 }} className="icon" />
+                                <Typography variant="caption">
+                                    Quando
+                                </Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex' }}>
+                                <Typography variant="h6" sx={{ mr: 2 }}>
+                                    {/* <b>Inicio: </b>   */}
+                                    {displayDateTime(data.start_date)}
+                                </Typography>
+                                <Typography variant="h6" sx={{ mr: 2 }}>
+                                    Até
+                                </Typography>
+                                <Typography variant="h6">
+                                    {/* <b>Fim: </b>  */}
+                                    {displayDateTime(data.start_date)}
+                                </Typography>
+                            </Box>
+                        </Grid>
+                        <Grid xs={12}>
+                            <Box sx={{ display: 'flex' }}>
+                                <LocationOnIcon sx={{ fontSize: '15px', mr: 1 }} className="icon" />
+                                <Typography variant="caption">
+                                    Local
+                                </Typography>
+                            </Box>
+                            <Typography variant="h6">
                                 {data.online ?
                                     'Online'
                                     :
                                     getFullAddress(data.address)
                                 }
-                            </div>
-                        </div>
-                        <div className="info">
-                            <CalendarTodayIcon className="icon" /> <div><b>Inicio: </b>  {displayDateTime(data.start_date)} </div>
-                        </div>
-                        <div className="info">
-                            <CalendarTodayIcon className="icon" /> <div><b>Fim: </b> {displayDateTime(data.start_date)} </div>
-                        </div>
-                    </LocationDetails>
+                            </Typography>
+                            <Box sx={{height: '200px'}}>
+                                <MapComponent previewMode position={{ lat: data.address?.latitude, lng: data.address?.longitude } as LatLngExpression} />
 
+                            </Box>
+                        </Grid>
+                    </Grid>
                     <div style={{ marginTop: "2em", textAlign: "right" }}>
-                        <Button onClick={() => navigate("/organizacao/" + idInstitution)} sx={{ marginRight: "1em" }} type="submit" size="large" color="primary" variant="outlined">
+                        {/* <Button onClick={() => navigate("/organizacao/" + idInstitution)} sx={{ marginRight: "1em" }} type="submit" size="large" color="primary" variant="outlined">
                             Perfil da Organização
-                        </Button>
+                        </Button> */}
+                        {/* <Button onClick={() => navigate("/organizacao/" + idInstitution)} sx={{ marginRight: "1em" }} type="submit" size="large" color="primary" variant="outlined">
+                            Fechar
+                        </Button> */}
                         {/* TODO:
                             - Verificar se usuário não é dono da instituição, nesse caso não permitir o cadastro 
                         */}
@@ -202,7 +253,7 @@ const OpportunityDetails = (props: OpportunityDetailsProps) => {
                 setOpen={setOpenDeleteDialog}
                 handleClick={onRemoveRegistrationClick} />
 
-        </PageContainer>
+        </Paper>
     );
 }
 

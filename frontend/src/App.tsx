@@ -43,10 +43,12 @@ function App() {
             {/* <Route path="/login" element={<><Home /><LoginModal /></>} /> */}
             <Route path="/perfilInstituicao" element={<ProfileEdit profile={'institution'}/>} />
             <Route path="/perfil" element={<ProfileEdit profile={'volunteer'}/>} />
-            <Route path="/oportunidades" element={<Opportunities/>} />
+            <Route path="/atividades" element={<Opportunities/>} />
+            <Route path="/atividades/inscrito" element={<Opportunities/>} />
             <Route path="/voluntario/:id" element={<VolunteerDetails/>} />
             <Route path="/voluntarios" element={<Volunteers/>} />
             <Route path="/inscricoes" element={<Registrations/>} />
+            <Route path="/organizacoes/minhas" element={<Institutions/>} />
             <Route path="/organizacoes" element={<Institutions/>} />
             <Route path="/organizacao/:id" element={<InstitutionDetails/>} />
             <Route path="/organizacao/:id/edit" element={<ProfileEdit profile={'institution'}/>} />

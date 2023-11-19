@@ -10,7 +10,7 @@ import { TemaService } from '@/api/tema';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { InstitutionService } from '@/api/institution';
 import { Modal, ModalClose, ModalDialog, Skeleton } from '@mui/joy';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NewInstitutionForm from '@/components/NewInstitutionForm';
 import { AuthService } from '@/api/auth';
 
@@ -96,6 +96,13 @@ function Institutions() {
     };
     const navigate = useNavigate()
     const { isMobile } = TemaService.useGetIsMobile();
+	useEffect(() => {
+		const pathnameValues:  { [key: string]: number } = {
+			"/organizacoes": 0,
+			"/organizacoes/minhas": 1
+		}
+		setValue(pathnameValues[location.pathname]);
+	}, [location.pathname])
     const deleteOrganization = () => {
 
     };
@@ -110,7 +117,11 @@ function Institutions() {
         };
     }
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
+		const pathnameValues:  { [key: string]: string } = {
+			"0": "/organizacoes",
+			"1": "/organizacoes/minhas"
+		}
+        navigate(pathnameValues[newValue.toString()]);
     };
     const {
         data: allInstitutions,
@@ -169,7 +180,9 @@ function Institutions() {
                                             enablePagination={true}
                                             canView={true}
                                             onView={onView}
-                                            toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
+                                            onInsert={() => setOpenAddOrganizationModal(true)}
+                                            canInsert={curUser != undefined}
+                                            toolbarProps={{ showQuickFilter: true, showFilterButton: true, addNewRowLabel: "Nova Organização"}}
                                             datagridProps={{
                                                 className: isMobile ? "vertical-grid" : "",
                                                 columns: columns,
@@ -220,11 +233,11 @@ function Institutions() {
                                     canView={true}
                                     onView={onView}
                                     onInsert={() => setOpenAddOrganizationModal(true)}
-                                    canInsert={true}
+                                    canInsert={curUser != undefined}
                                     toolbarProps={{
                                         showQuickFilter: true,
                                         showFilterButton: true,
-                                        addNewRowLabel: "Adicionar Organização"
+                                        addNewRowLabel: "Nova Organização"
                                     }}
                                     datagridProps={{
                                         className: isMobile ? "vertical-grid" : "",

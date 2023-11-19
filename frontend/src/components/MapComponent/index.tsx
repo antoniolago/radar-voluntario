@@ -34,6 +34,7 @@ interface MapProps {
   position?: LatLngExpression | undefined;
   setSelectedCoordenate?: any;
   previewMode?: boolean;
+  isHome?: boolean
 }
 function MapComponent(props: MapProps) {
   const [ selectedOpportunity, setSelectedOpportunity ] = useState<Opportunity | undefined>();
@@ -60,7 +61,7 @@ function MapComponent(props: MapProps) {
     }}
   />
   useEffect(() => {
-    if (opportunities != undefined) {
+    if (opportunities != undefined && mapRef?.current != undefined) {
       opportunities.forEach((opp: Opportunity) => {
         if (opp.address != undefined && opp.published && isHome) {
           var pinRef = createPin({ lat: opp.address.latitude, lng: opp.address.longitude } as LatLngExpression);
@@ -70,7 +71,7 @@ function MapComponent(props: MapProps) {
         }
       })
     }
-  }, [opportunities])
+  }, [opportunities, mapRef.current])
   const createPin = (position: LatLngExpression) => {
     var pinRef = L.marker(position, {
       riseOnHover: true, draggable: false,
@@ -90,7 +91,7 @@ function MapComponent(props: MapProps) {
       mapRef?.current != undefined) {
       createPin(props.position);
     }
-  }, [mapRef?.current, position])
+  }, [mapRef?.current, props.position, props.previewMode])
   useEffect(() => {
     if (props.selectionMode &&
       markerRef?.current != undefined) {
@@ -128,13 +129,13 @@ function MapComponent(props: MapProps) {
     }
   }, [markerRef?.current, selectionPinRef?.current])
   useEffect(() => {
-    if (coordenadasAtuais != undefined)
+    if (coordenadasAtuais != undefined && mapRef?.current != undefined)
       mapRef.current?.flyTo(coordenadasAtuais, zoom)
-  }, [coordenadasAtuais])
+  }, [coordenadasAtuais, mapRef.current])
   useEffect(() => {
-    if (props.position != undefined)
+    if (props.position != undefined && mapRef?.current)
       mapRef.current?.flyTo(props.position, 16)
-  }, [props.position])
+  }, [props.position, props.previewMode, mapRef?.current])
 
   const speedDialActions = [
     { icon: <FileCopyIcon />, name: 'Copy' },

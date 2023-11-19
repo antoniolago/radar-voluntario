@@ -98,12 +98,12 @@ function VolunteersOpportunity() {
                     enablePagination={true}
                     canView={true}
                     onView={onView}
-                    tituloDeleteDialog="Confirmação de deleção de oportunidade"
-                    textoDeleteDialog="Você tem certeza que deseja deletar esta instituição permanentemente?                            "
+                    tituloDeleteDialog="Confirmação de exclusão"
+                    textoDeleteDialog="Você tem certeza que deseja deletar esta atividade permanentemente?                           "
                     toolbarProps={{
                         showQuickFilter: true,
                         showFilterButton: true,
-                        addNewRowLabel: "Adicionar Atividade"
+                        addNewRowLabel: "Nova Atividade"
                     }}
                     datagridProps={{
                         className: isMobile ? "vertical-grid" : "",

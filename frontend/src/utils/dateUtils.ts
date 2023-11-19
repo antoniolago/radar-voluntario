@@ -15,5 +15,5 @@ export const displayDateOnTable = (startDate: any, endDate: any) => {
 
 export const displayDateTime = (date: any) => {
     const formattedDate = dayjs(date);
-    return formattedDate.format('DD/MM/YYYY - HH:mm')
+    return formattedDate.format('DD/MM/YYYY HH:mm')
 }
