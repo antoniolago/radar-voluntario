@@ -103,7 +103,7 @@ function VolunteersOpportunity() {
                     toolbarProps={{
                         showQuickFilter: true,
                         showFilterButton: true,
-                        addNewRowLabel: "Adicionar Atividade"
+                        addNewRowLabel: "Nova Atividade"
                     }}
                     datagridProps={{
                         className: isMobile ? "vertical-grid" : "",

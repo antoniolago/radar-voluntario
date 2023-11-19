@@ -186,7 +186,7 @@ const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolea
                             toolbarProps={{
                                 showQuickFilter: true,
                                 showFilterButton: true,
-                                addNewRowLabel: "Adicionar Atividade"
+                                addNewRowLabel: "Nova Atividade"
                             }}
                             onInsert={() => setOpenAddActivityModal(true)}
                             canInsert={props.isUserOwner == true}

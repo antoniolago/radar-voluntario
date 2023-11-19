@@ -422,6 +422,19 @@ export default function DefaultDataGrid(props: DataTableProps) {
                 ];
             }
             var icones = [];
+            var canView = false;
+            if(params?.row?.published != undefined){
+                canView = props?.canView && params?.row?.published;
+            } else {
+                canView = props?.canView ?? false;
+            }
+            if (canView)
+                icones.push(<GridActionsCellItem
+                    icon={<DescriptionIcon />}
+                    label="Visualizar"
+                    onClick={handleViewClick(params.id)}
+                    sx={{ color: 'primary.main' }}
+                />);
             if (props.canUpdate)
                 icones.push(<GridActionsCellItem
                     disabled={!props.canUpdate}
@@ -436,19 +449,6 @@ export default function DefaultDataGrid(props: DataTableProps) {
                     label="Excluir"
                     onClick={handleDeleteClick(params.id)}
                     sx={{ color: 'error.main' }}
-                />);
-            var canView = false;
-            if(params?.row?.published != undefined){
-                canView = props?.canView && params?.row?.published;
-            } else {
-                canView = props?.canView ?? false;
-            }
-            if (canView)
-                icones.push(<GridActionsCellItem
-                    icon={<DescriptionIcon />}
-                    label="Visualizar"
-                    onClick={handleViewClick(params.id)}
-                    sx={{ color: 'primary.main' }}
                 />);
             return icones;
         },

@@ -1,7 +1,7 @@
 import { Button, Paper, Tab, Tabs, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import CheckIcon from '@mui/icons-material/Check';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PageContainer } from "@/styles/styles";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import DefaultDataGrid from "@/components/DataGrid";
@@ -13,6 +13,7 @@ import { getCityState } from "@/utils/addressUtils";
 import { Box } from "@mui/joy";
 import { AuthService } from "@/api/auth";
 import { RegistrationService } from "@/api/registration";
+import { toast } from "sonner";
 
 const Opportunities = () => {
 	const navigate = useNavigate()
@@ -20,6 +21,7 @@ const Opportunities = () => {
 	const [value, setValue] = useState(0);
 	const [institutionId, setInstitutionId] = useState('0');
 
+	const location = useLocation()
 	// const { data: institutionData } = InstitutionService.useGetInstitution();
 	const { data } = OpportunityService.useGetOpportunityList(institutionId);
 	const { data: volunteeredOpps } = RegistrationService.useGetRegistrationList();
@@ -30,7 +32,14 @@ const Opportunities = () => {
 	//         setInstitutionId(institutionData[0]!.id!);
 	//     }
 	// }, [institutionData])
-
+	useEffect(() => {
+		const pathnameValues: { [key: string]: number } = {
+			"/atividades": 0,
+			"/atividades/inscrito": 1,
+			// "/atividades/minhas": 2
+		}
+		setValue(pathnameValues[location.pathname]);
+	}, [location.pathname])
 	const deleteAccount = async (id: string, callback: any) => {
 		const response = await deleteOpportunity(id);
 		callback(response);
@@ -167,9 +176,13 @@ const Opportunities = () => {
 		};
 	}
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-		setValue(newValue);
+		const pathnameValues: { [key: string]: string } = {
+			"0": "/atividades",
+			"1": "/atividades/inscrito"
+		}
+		navigate(pathnameValues[newValue.toString()]);
 	};
-    const { data: curUser } = AuthService.useGetUser();
+	const { data: curUser } = AuthService.useGetUser();
 	return (
 		<Paper elevation={4}>
 			{/* <Grid container spacing={1}>
@@ -204,7 +217,12 @@ const Opportunities = () => {
 						onEdit={onEdit}
 						canView={true}
 						onView={onView}
-						toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
+						canInsert={true}
+						onInsert={() => {
+							toast.message("Escolha uma organização para adicionar a nova atividade")
+							navigate("/organizacoes/minhas");
+						}}
+						toolbarProps={{ showQuickFilter: true, showFilterButton: true, addNewRowLabel: "Nova atividade" }}
 						datagridProps={{
 							className: isMobile ? "vertical-grid" : "",
 							columns: columns,
@@ -243,7 +261,9 @@ const Opportunities = () => {
 						onEdit={onEdit}
 						canView={true}
 						onView={onView}
-						toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
+						canInsert={true}
+						onInsert={() => navigate("/organizacoes/minhas")}
+						toolbarProps={{ showQuickFilter: true, showFilterButton: true, addNewRowLabel: "Nova atividade" }}
 						datagridProps={{
 							className: isMobile ? "vertical-grid" : "",
 							columns: columns,

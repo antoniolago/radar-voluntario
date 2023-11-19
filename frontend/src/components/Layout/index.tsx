@@ -56,7 +56,7 @@ export const menuItems = [
         id: 'opportunity',
         text: 'Atividades',
         icon: <LocationOnIcon />,
-        path: '/oportunidades',
+        path: '/atividades',
         authentication: false,
     },
     {
