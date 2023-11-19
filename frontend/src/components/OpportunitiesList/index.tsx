@@ -1,6 +1,6 @@
 import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { Modal, ModalClose, ModalDialog, Skeleton } from "@mui/joy";
 import { OpportunityService } from "@/api/opportunity";
@@ -18,7 +18,7 @@ const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolea
     const [openAddActivityModal, setOpenAddActivityModal] = useState(false);
     const { mutateAsync: deleteOpportunity } = OpportunityService.useDeleteOpportunity();
     const [opportunityId, setOpportunityId] = useState<string>("0");
-
+    const navigate = useNavigate();
     const renderDetailsButton = (params: any) => {
         return (
             <Button
@@ -38,8 +38,7 @@ const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolea
         callback(response);
     }
     const onView = (data: any) => {
-        const urlBase = window.location.origin;
-        window.open(`${urlBase}/organizacao/${data.institution_id}/oportunidade/${data.id}`, '_blank');
+        navigate(`/organizacao/${data.institution_id}/oportunidade/${data.id}`);
     }
 
     const onEdit = (id: string) => {
@@ -181,8 +180,8 @@ const OpportunitiesList = (props: { institutionId?: string, isUserOwner?: boolea
                             onView={onView}
                             onDelete={onDelete}
                             onEdit={onEdit}
-                            tituloDeleteDialog="Confirmação de deleção de oportunidade"
-                            textoDeleteDialog="Você tem certeza que deseja deletar esta instituição permanentemente?                            "
+                            tituloDeleteDialog="Confirmação de exclusão"
+                            textoDeleteDialog="Você tem certeza que deseja deletar esta atividade permanentemente?                            "
                             toolbarProps={{
                                 showQuickFilter: true,
                                 showFilterButton: true,

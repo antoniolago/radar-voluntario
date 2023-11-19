@@ -180,7 +180,9 @@ function Institutions() {
                                             enablePagination={true}
                                             canView={true}
                                             onView={onView}
-                                            toolbarProps={{ showQuickFilter: true, showFilterButton: true }}
+                                            onInsert={() => setOpenAddOrganizationModal(true)}
+                                            canInsert={curUser != undefined}
+                                            toolbarProps={{ showQuickFilter: true, showFilterButton: true, addNewRowLabel: "Nova Organização"}}
                                             datagridProps={{
                                                 className: isMobile ? "vertical-grid" : "",
                                                 columns: columns,
@@ -231,7 +233,7 @@ function Institutions() {
                                     canView={true}
                                     onView={onView}
                                     onInsert={() => setOpenAddOrganizationModal(true)}
-                                    canInsert={true}
+                                    canInsert={curUser != undefined}
                                     toolbarProps={{
                                         showQuickFilter: true,
                                         showFilterButton: true,

@@ -91,7 +91,7 @@ function MapComponent(props: MapProps) {
       mapRef?.current != undefined) {
       createPin(props.position);
     }
-  }, [mapRef?.current, position])
+  }, [mapRef?.current, props.position, props.previewMode])
   useEffect(() => {
     if (props.selectionMode &&
       markerRef?.current != undefined) {
@@ -129,13 +129,13 @@ function MapComponent(props: MapProps) {
     }
   }, [markerRef?.current, selectionPinRef?.current])
   useEffect(() => {
-    if (coordenadasAtuais != undefined)
+    if (coordenadasAtuais != undefined && mapRef?.current != undefined)
       mapRef.current?.flyTo(coordenadasAtuais, zoom)
-  }, [coordenadasAtuais])
+  }, [coordenadasAtuais, mapRef.current])
   useEffect(() => {
-    if (props.position != undefined)
+    if (props.position != undefined && mapRef?.current)
       mapRef.current?.flyTo(props.position, 16)
-  }, [props.position, props.previewMode])
+  }, [props.position, props.previewMode, mapRef?.current])
 
   const speedDialActions = [
     { icon: <FileCopyIcon />, name: 'Copy' },

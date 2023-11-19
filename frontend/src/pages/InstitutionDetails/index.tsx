@@ -116,7 +116,7 @@ function InstitutionDetails() {
                         <ModalClose />
                         <DialogTitle id="dialogo-confirma-delete-titulo" sx={{ mb: 2 }}>
                             <WarningRoundedIcon />
-                            Confirmação de deleção de organização
+                            Confirmação de exclusão
                         </DialogTitle>
                         <DialogContent>
                             <DialogContent id="dialogo-confirma-delete-descricao">
