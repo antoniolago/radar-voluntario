@@ -10,7 +10,7 @@ import { OpportunityService } from "@/api/opportunity";
 import { InstitutionService } from "@/api/institution";
 import { displayDateOnTable } from "@/utils/dateUtils";
 import { getCityState } from "@/utils/addressUtils";
-import { Box } from "@mui/joy";
+import { Box, Tooltip } from "@mui/joy";
 import { AuthService } from "@/api/auth";
 import { RegistrationService } from "@/api/registration";
 import { toast } from "sonner";
@@ -198,7 +198,14 @@ const Opportunities = () => {
 
 			<Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
 				<Tab label="Atividades" {...a11yProps(0)} />
-				<Tab disabled={curUser == undefined} label="atividades inscrito" {...a11yProps(1)} />
+				<Tooltip
+					variant="outlined"
+					arrow
+					title={curUser != undefined ? "" : "Logue na sua conta para usar esta funcionalidade"}>
+					<Box>
+						<Tab disabled={curUser == undefined} label="atividades inscrito" {...a11yProps(1)} />
+					</Box>
+				</Tooltip>
 				{/* <Tab label="Conta" {...a11yProps(1)} /> */}
 			</Tabs>
 			<CustomTabPanel value={value} index={0}>

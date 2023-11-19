@@ -9,7 +9,7 @@ import DefaultDataGrid from '@/components/DataGrid';
 import { TemaService } from '@/api/tema';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { InstitutionService } from '@/api/institution';
-import { Modal, ModalClose, ModalDialog, Skeleton } from '@mui/joy';
+import { Modal, ModalClose, ModalDialog, Skeleton, Tooltip } from '@mui/joy';
 import { useEffect, useState } from 'react';
 import NewInstitutionForm from '@/components/NewInstitutionForm';
 import { AuthService } from '@/api/auth';
@@ -70,12 +70,12 @@ function Institutions() {
             align: "left",
             headerAlign: "left",
             renderCell: (params: GridRenderCellParams<any>) => (
-				<>
-					{
+                <>
+                    {
                         params.row.opportunities.length
                     }
-				</>
-			),
+                </>
+            ),
             sortComparator: (opportunity1, opportunity2) => (opportunity1.length - opportunity2.length)
         }
     ];
@@ -96,13 +96,13 @@ function Institutions() {
     };
     const navigate = useNavigate()
     const { isMobile } = TemaService.useGetIsMobile();
-	useEffect(() => {
-		const pathnameValues:  { [key: string]: number } = {
-			"/organizacoes": 0,
-			"/organizacoes/minhas": 1
-		}
-		setValue(pathnameValues[location.pathname]);
-	}, [location.pathname])
+    useEffect(() => {
+        const pathnameValues: { [key: string]: number } = {
+            "/organizacoes": 0,
+            "/organizacoes/minhas": 1
+        }
+        setValue(pathnameValues[location.pathname]);
+    }, [location.pathname])
     const deleteOrganization = () => {
 
     };
@@ -117,10 +117,10 @@ function Institutions() {
         };
     }
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-		const pathnameValues:  { [key: string]: string } = {
-			"0": "/organizacoes",
-			"1": "/organizacoes/minhas"
-		}
+        const pathnameValues: { [key: string]: string } = {
+            "0": "/organizacoes",
+            "1": "/organizacoes/minhas"
+        }
         navigate(pathnameValues[newValue.toString()]);
     };
     const {
@@ -152,7 +152,15 @@ function Institutions() {
 
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                 <Tab label="Organizações" {...a11yProps(0)} />
-                <Tab disabled={curUser == undefined} label="Minhas Organizações" {...a11yProps(1)} />
+                <Tooltip
+                    variant="outlined"
+                    arrow
+                    title={curUser != undefined ? "" : "Logue na sua conta para usar esta funcionalidade"}>
+                    <Box>
+
+                        <Tab disabled={curUser == undefined} label="Minhas Organizações" {...a11yProps(1)} />
+                    </Box>
+                </Tooltip>
                 {/* <Tab label="Conta" {...a11yProps(1)} /> */}
             </Tabs>
             <CustomTabPanel value={value} index={0}>
@@ -181,8 +189,8 @@ function Institutions() {
                                             canView={true}
                                             onView={onView}
                                             onInsert={() => setOpenAddOrganizationModal(true)}
-                                            canInsert={curUser != undefined}
-                                            toolbarProps={{ showQuickFilter: true, showFilterButton: true, addNewRowLabel: "Nova Organização"}}
+                                            canInsert={true}
+                                            toolbarProps={{ showQuickFilter: true, showFilterButton: true, addNewRowLabel: "Nova Organização" }}
                                             datagridProps={{
                                                 className: isMobile ? "vertical-grid" : "",
                                                 columns: columns,
@@ -233,7 +241,7 @@ function Institutions() {
                                     canView={true}
                                     onView={onView}
                                     onInsert={() => setOpenAddOrganizationModal(true)}
-                                    canInsert={curUser != undefined}
+                                    canInsert={true}
                                     toolbarProps={{
                                         showQuickFilter: true,
                                         showFilterButton: true,
