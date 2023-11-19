@@ -179,11 +179,10 @@ const Opportunities = () => {
 			'aria-controls': `simple-tabpanel-${index}`,
 		};
 	}
-	// const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-	// 	setValue(newValue);
-	// 	console.log("123")
-	// 	navigate(pathnameValues[newValue.toString()]);
-	// };
+	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+		setValue(newValue);
+		navigate(pathnameValues[newValue.toString()]);
+	};
 	const { data: curUser } = AuthService.useGetUser();
 	return (
 		<Paper elevation={4}>
@@ -198,7 +197,7 @@ const Opportunities = () => {
                 </Grid>
             </Grid> */}
 
-			<Tabs value={value} aria-label="basic tabs example">
+			<Tabs onChange={handleChange} value={value} aria-label="basic tabs example">
 				<Tab label="Atividades" {...a11yProps(0)}
 				// onClick={() => {
 				// 	setValue(0);
