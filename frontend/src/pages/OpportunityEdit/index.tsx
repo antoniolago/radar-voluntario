@@ -19,6 +19,8 @@ interface OpportunityEditProps {
 const OpportunityEdit = (props: OpportunityEditProps) => {
     const [startDate, setStartDate] = useState<Dayjs | null>(null);
     const [endDate, setEndDate] = useState<Dayjs | null>(null);
+    const [isPublished, setIsPublished] = useState<boolean>(false);
+    const [isOnline, setIsOnline] = useState<boolean>(false);
 
     const [address, setAddress] = useState<IAddress | undefined>();
     const { mutateAsync: createOpportunity } = OpportunityService.usePostOpportunity(() => props?.setShowModal(false));
@@ -42,6 +44,14 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
             setEndDate(dayjs(opportunity.end_date));
             if (opportunity?.address) {
                 setAddress(opportunity?.address)
+            }
+
+            if(opportunity.published){
+                setIsPublished(true);
+            }
+
+            if(opportunity.online){
+                setIsOnline(true);
             }
         }
     }, [opportunity])
@@ -73,6 +83,16 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
         else
             setEndDate(dayjs(date));
     }
+
+    const handleChangeIsPublished = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValue('published', event.target.checked)
+        setIsPublished(event.target.checked)
+    };
+
+    const handleChangeIsOnline = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValue('online', event.target.checked)
+        setIsOnline(event.target.checked)
+    };
 
     const {
         register,
@@ -180,14 +200,20 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                         <FormControl sx={{ padding: "8.5px 14px" }}>
                             <FormControlLabel
                                 control={<Switch
-                                    {...register('online')}
+                                    onChange={handleChangeIsOnline}
+                                    checked={isOnline}
+                                    // {...register('online')}
                                 />}
                                 label="Atividade online" />
                         </FormControl>
                     </Grid>
                     <Grid item xs={6}>
                         <FormControl sx={{ padding: "8.5px 14px" }}>
-                            <FormControlLabel control={<Switch {...register('published')} />} label="Publicar atividade" />
+                            <FormControlLabel control={<Switch 
+                            onChange={handleChangeIsPublished}
+                            // {...register('published')}
+                            checked={isPublished}
+                            />} label="Publicar atividade" />
                         </FormControl>
                     </Grid>
                     <Grid item xs={12}>
