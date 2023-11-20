@@ -22,32 +22,19 @@ function Volunteers() {
 	const columns: GridColDef[] = [
 		{
 			field: 'name',
-			headerName: 'Oportunidade',
+			headerName: 'Voluntário',
 			minWidth: 200,
             flex: 0.3,
 			align: "center",
 			headerAlign: "center",
 		},
 		{
-			field: 'address',
-			renderCell: (params: GridRenderCellParams<any>) => (
-				<>
-					{isMobile &&
-						<Typography sx={{ fontSize: "14px", fontWeight: "bold" }}>
-							Endereço:
-						</Typography>
-					}
-					{params.row.online ?
-						'Online'
-						: getCityState(params.row.address)}
-
-				</>
-			),
-			minWidth: 100,
-			headerName: 'Endereço',
-			flex: 0.3,
+			field: 'email',
+			headerName: 'Email',
+			flex: 0.2,
+			minWidth: 200,
 			align: "center",
-			headerAlign: "center"
+			headerAlign: "center",
 		},
 		{
 			field: 'phone',
