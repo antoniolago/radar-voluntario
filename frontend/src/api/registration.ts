@@ -65,7 +65,7 @@ const useDeleteRegistration = () => {
         toast.success('Inscrição removida');
       },
       onError: (error) => {
-        toast.error("Houve algum erro ao exclurr, por favor tente novamente.");
+        toast.error("Houve algum erro ao excluir, por favor tente novamente.");
       },
     });
   }

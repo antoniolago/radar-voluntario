@@ -165,7 +165,7 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                     }}>
 
                         <DateTimePicker
-                            label="Date e horário de inicio"
+                            label="Data e horário de inicio"
                             value={startDate}
                             sx={{ width: '100%' }}
                             slotProps={{
@@ -183,7 +183,7 @@ const OpportunityEdit = (props: OpportunityEditProps) => {
                             color: "red"
                         }
                     }}>                        <DateTimePicker
-                            label="Date e horário de fim"
+                            label="Data e horário de fim"
                             value={endDate}
                             sx={{ width: '100%' }}
                             slotProps={{

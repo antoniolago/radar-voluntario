@@ -58,7 +58,7 @@ const OpportunityDetails = (props: OpportunityDetailsProps) => {
     }
 
     const isDisabled = () => {
-        return data?.institution?.owner_id === user?.id;
+        return data?.institution?.owner_id === user?.id || getVacanciesLeft() < 1;
     }
 
     const getVacanciesLeft = () => {
@@ -97,12 +97,12 @@ const OpportunityDetails = (props: OpportunityDetailsProps) => {
             {isLoading || isLoadingUser ? (
                 <Loading />
             ) : (
-                (data == null || getVacanciesLeft() < 0) && (
+                (data == null || data == undefined || data.id == undefined) && (
                     "Oportunidade não encontrada."
                 )
-            )}
 
-            {data != null && getVacanciesLeft() > 0 &&
+            )}
+            {data != null && data != undefined && data.id != undefined &&
                 <>
                     <Typography
                         sx={{ textAlign: "center" }}
@@ -153,7 +153,7 @@ const OpportunityDetails = (props: OpportunityDetailsProps) => {
                                 Vagas
                             </Typography>
                             <Typography variant="h6">
-                                {getVacanciesLeft() > 1 ? getVacanciesLeft() + ' disponíveis' : getVacanciesLeft() + ' disponível'}
+                                {getVacanciesLeft() == 1  ? getVacanciesLeft() + ' disponível' : getVacanciesLeft() + ' disponíveis'}
                             </Typography>
                         </Grid>
                         <Grid xs={12}>
@@ -191,10 +191,11 @@ const OpportunityDetails = (props: OpportunityDetailsProps) => {
                                     getFullAddress(data.address)
                                 }
                             </Typography>
-                            <Box sx={{height: '200px'}}>
-                                <MapComponent previewMode position={{ lat: data.address?.latitude, lng: data.address?.longitude } as LatLngExpression} />
-
-                            </Box>
+                            { !data.online && data.address != null &&
+                                <Box sx={{height: '200px'}}>
+                                    <MapComponent previewMode position={{ lat: data.address?.latitude, lng: data.address?.longitude } as LatLngExpression} />
+                                </Box>
+                            }
                         </Grid>
                     </Grid>
                     <div style={{ marginTop: "2em", textAlign: "right" }}>

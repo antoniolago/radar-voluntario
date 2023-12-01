@@ -52,13 +52,13 @@ export const menuItems = [
         authentication: false,
 
     },
-    {
-        id: 'opportunity',
-        text: 'Atividades',
-        icon: <LocationOnIcon />,
-        path: '/atividades',
-        authentication: false,
-    },
+    // {
+    //     id: 'opportunity',
+    //     text: 'Atividades',
+    //     icon: <LocationOnIcon />,
+    //     path: '/atividades',
+    //     authentication: false,
+    // },
     {
         id: 'organizacoes',
         text: 'Organizações',
@@ -80,14 +80,13 @@ export const menuItems = [
         path: '/voluntarios',
         authentication: true,
     },
-    // {
-    //     id: 'registers',
-    //     text: 'Inscrições',
-    //     icon: <ChecklistIcon />,
-    //     path: '/inscricoes',
-    //     authentication: true,
-
-    // },
+    {
+        id: 'registers',
+        text: 'Inscrições',
+        icon: <ChecklistIcon />,
+        path: '/inscricoes',
+        authentication: true,
+    },
     // {
     //     id: 'financeiro',
     //     text: 'Financeiro',
