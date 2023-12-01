@@ -114,6 +114,10 @@ const AddressForm = (props: IAddressFormProps) => {
                                     }
                                     );
                                 }
+                        }).catch(() => {
+                            toast.error("Houve um erro ao buscar a localização do CEP informado, por favor navegue no mapa para selecionar a localização exata")
+                        })
+                        .finally(() => {
                             setShowMap(true);
                         })
                 });
