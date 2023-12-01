@@ -1,6 +1,6 @@
 import BackButton from '@/components/BackButton';
 import { Box, Breadcrumbs, Button, Chip, Dialog, Link, Paper, Stack, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useNavigation, useParams } from 'react-router-dom';
 import { InfoDetails, LocationDetails } from './styles';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -30,7 +30,7 @@ const OpportunityDetails = (props: OpportunityDetailsProps) => {
     const idOpp = props?.id != undefined ? props.id : idOpportunity;
     const { data: user, isLoading: isLoadingUser } = AuthService.useGetUser();
     const { data, isLoading } = OpportunityService.useGetOpportunity(idOpp ?? "");
-    const { data: registration } = RegistrationService.useGetRegistration(idOpp ?? "");
+    const { data: registration, refetch: refetchRegistrations } = RegistrationService.useGetRegistration(idOpp ?? "");
     const { mutate: createRegistration } = RegistrationService.usePostRegistration();
     const { mutate: deleteRegistration } = RegistrationService.useDeleteRegistration();
     const [openRegisterDialog, setOpenRegisterDialog] = useState(false);
@@ -38,6 +38,10 @@ const OpportunityDetails = (props: OpportunityDetailsProps) => {
     const [openRegisterLoginDialog, setOpenRegisterLoginDialog] = useState(false);
 
     const { data: curUser } = AuthService.useGetUser();
+    useEffect(() => {
+        if(curUser != undefined)
+            refetchRegistrations()
+    }, [curUser])
     const isUserOwner = data?.institution?.owner_id == curUser?.id
     const onRegistrationClick = () => {
         setOpenRegisterDialog(false);
