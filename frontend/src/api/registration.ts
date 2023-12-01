@@ -32,6 +32,7 @@ const useGetRegistration = (id: string) => {
     var queryOptions: UseQueryOptions<AxiosResponse<Registration>, Error, AxiosResponse<Registration>, string[]> = {
         queryFn: () => api.get("registrations/" + id),
         staleTime: Infinity,
+        enabled: false,
         queryKey: ['registration-'+id]
     };
     const context = useQuery(queryOptions)
