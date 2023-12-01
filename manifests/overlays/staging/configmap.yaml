@@ -9,7 +9,7 @@ data:
   host: staging.radarvoluntario.com
   backend-port: "7011"
   frontend-image: ghcr.io/antoniolago/radar-voluntario-frontend:v0.2.04-rc-1701394714 # {"$imagepolicy": "flux-system:radar-voluntario-front-img-policy-staging"}
-  backend-image: ghcr.io/antoniolago/radar-voluntario-backend:v0.2.04-rc-1701394713 # {"$imagepolicy": "flux-system:radar-voluntario-back-img-policy-staging"}
+  backend-image: ghcr.io/antoniolago/radar-voluntario-backend:v0.2.05-rc-1701396387 # {"$imagepolicy": "flux-system:radar-voluntario-back-img-policy-staging"}
   postgres-db: radar-voluntario
   postgres-user: postgres
   google-oauth-client-id: 910904119481-m5o3q6n66b1l9bamtgh854t4c31r6kj9.apps.googleusercontent.com
